@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בודק עמידת ידיים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECEEE8;--ink:#14213D;--mute:#5B6478;--card:#F8F9F5;--line:#D5D9CF;--acc:#2F5BEA;--good:#2E7D5B;--mid:#C98A1B;--bad:#C0392B}
+@media (prefers-color-scheme:dark){:root{--bg:#10151F;--ink:#E8ECF4;--mute:#97A0B5;--card:#18202E;--line:#2A3447;--acc:#7C9BFF;--good:#4FB98B;--mid:#E0AE4A;--bad:#E8695B}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Rubik,system-ui,sans-serif;padding:max(20px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom))}
+main{max-width:560px;margin:0 auto}
+h1{font-size:30px;font-weight:800;margin:8px 0 6px;letter-spacing:-.5px}
+.sub{color:var(--mute);margin:0 0 20px}
+.tips{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:15px}
+.tips b{font-weight:600}
+.pick{display:block;text-align:center;background:var(--acc);color:#fff;font-weight:600;font-size:18px;padding:16px;border-radius:12px;cursor:pointer}
+@media (prefers-color-scheme:dark){.pick{color:#0B1020}}
+.pick:focus-within{outline:3px solid var(--ink);outline-offset:3px}
+.pick input{position:absolute;opacity:0;width:1px;height:1px}
+#status{margin:16px 0;color:var(--mute);min-height:24px}
+progress{width:100%;height:6px;accent-color:var(--acc);display:none}
+#out{display:none}
+.top{display:flex;align-items:baseline;gap:14px;margin:6px 0 14px}
+.score{font-size:64px;font-weight:800;line-height:1}
+.hold{color:var(--mute)}
+.row{margin:12px 0}
+.row div{display:flex;justify-content:space-between;font-size:15px}
+details summary{cursor:pointer;color:var(--mute);font-size:13px;margin-top:4px}
+.why{margin:6px 0 0;font-size:14px;color:var(--mute)}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;border-radius:4px}
+h2{font-size:18px;margin:22px 0 8px}
+ul{padding-inline-start:20px;margin:0}
+li{margin:6px 0}
+canvas{width:100%;border-radius:10px;border:1px solid var(--line);margin-top:8px}
+.note{color:var(--mute);font-size:13px;margin-top:22px}
+video{display:none}
+</style>
+</head>
+<body>
+<main>
+<h1>בודק עמידת ידיים</h1>
+<p class="sub">מעלים סרטון, מקבלים ציון ותיקונים. הכול רץ בטלפון, הסרטון לא נשלח לשום שרת.</p>
+<div class="tips"><b>איך לצלם:</b> מהצד, כל הגוף בפריים, טלפון על הרצפה במרחק 2-3 מטר, החזקה של 5 שניות ומעלה.</div>
+<label class="pick">בחר סרטון<input id="file" type="file" accept="video/*"></label>
+<div id="status" role="status" aria-live="polite"></div>
+<progress id="prog" value="0" max="1"></progress>
+<video id="v" muted playsinline preload="auto"></video>
+<section id="out">
+  <div class="top"><span class="score" id="score"></span><span class="hold" id="hold"></span></div>
+  <p id="sum" style="font-weight:600;margin:0 0 4px"></p>
+  <p id="cons" class="hold" style="margin:0 0 6px"></p>
+  <div id="rows"></div>
+  <h2>מה לעשות בפעם הבאה</h2>
+  <ul id="fix"></ul>
+  <h2>מה עובד לך</h2>
+  <ul id="keep"></ul>
+  <h2>צפה בעצמך</h2>
+  <canvas id="cv"></canvas>
+  <button id="play" class="pick" style="border:0;width:100%;margin-top:10px;font:inherit;font-weight:600">נגן / עצור</button>
+  <p class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
+  <canvas id="tl" style="cursor:pointer"></canvas>
+  <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
+</section>
+</main>
+<script type="module">
+import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
+const $=id=>document.getElementById(id);
+const K={L:{ear:7,shoulder:11,elbow:13,wrist:15,hip:23,ankle:27},R:{ear:8,shoulder:12,elbow:14,wrist:16,hip:24,ankle:28}};
+const TH={banana:[.03,.12],lean:[3,15],shoulder:[8,35],elbow:[8,30],sway:[.01,.05]};
+const WT={banana:.3,lean:.2,shoulder:.2,elbow:.15,sway:.15};
+const NAME={banana:"קו הגוף",lean:"איזון",shoulder:"כתפיים",elbow:"ידיים",sway:"יציבות"};
+const TIP={
+ arch:"האגן בורח קדימה מעבר לקו (גב מקושת). כווץ ישבן, הכנס צלעות פנימה והחזר את האגן מעל הכתפיים.",
+ back:"האגן נשאר מאחורי הקו. הבא את האגן קדימה מעל הכתפיים וכווץ ישבן.",
+ lean:"הגוף נוטה מהאנך. תאזן עם לחץ באצבעות: נופל קדימה = לחץ בקצות האצבעות, נופל אחורה = לחץ בכף היד.",
+ shoulder:"הכתפיים לא פתוחות עד הסוף. דחוף גבוה דרך הכתפיים, אוזניים בין הידיים.",
+ elbow:"המרפקים מתכופפים. נעל את הידיים והמשך לדחוף את הרצפה.",
+ sway:"הרבה התנדנדות. תתרגל החזקות קצרות עם לחץ יציב באצבעות, או החזקות על קיר.",
+ short:"ההחזקה קצרה. נסה להגיע ל-5 שניות ומעלה של קו יציב לפני שמתעסקים בפרטים."};
+const SCALE=1.5;let LAST=null;
+const med=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
+const std=a=>{const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/a.length)};
+const ang=(a,b,c)=>{const u=[a[0]-b[0],a[1]-b[1]],w=[c[0]-b[0],c[1]-b[1]];
+ const cs=(u[0]*w[0]+u[1]*w[1])/(Math.hypot(...u)*Math.hypot(...w)+1e-9);return Math.acos(Math.max(-1,Math.min(1,cs)))*180/Math.PI};
+const band=(v,[g,b])=>v<=g?100:v>=b?0:100*(b-v)/(b-g);
+function longestRun(mask,gapMax){let best=null,s=null,last=null,gap=0;
+ mask.forEach((m,i)=>{if(m){if(s===null)s=i;last=i;gap=0}else if(s!==null){gap++;if(gap>gapMax){if(!best||last-s>best[1]-best[0])best=[s,last];s=null}}});
+ if(s!==null&&(!best||last-s>best[1]-best[0]))best=[s,last];return best}
+function analyze(fr,fps){
+ const vis={L:0,R:0};
+ fr.forEach(f=>{if(f)for(const s of["L","R"])for(const i of Object.values(K[s]))vis[s]+=f[i].v});
+ const side=vis.L>=vis.R?"L":"R",k=K[side];
+ const P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
+ const inv=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.5))return false;
+  const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]&&p.shoulder[1]<p.wrist[1]&&Math.abs(p.ankle[0]-p.wrist[0])<Math.abs(p.ankle[1]-p.wrist[1])};
+ const mask=fr.map(inv),run=longestRun(mask,Math.max(1,Math.round(.3*fps)));
+ if(!run||(run[1]-run[0]+1)/fps<1)return null;
+ const idx=[];for(let i=run[0];i<=run[1];i++)if(mask[i])idx.push(i);
+ const facing=med(idx.map(i=>fr[i][0].x-fr[i][k.ear].x))>=0?1:-1;
+ const metr=f=>{const p=P(f),{shoulder:s,hip:h,ankle:a,wrist:w,elbow:e}=p;
+  const body=Math.hypot(a[0]-s[0],a[1]-s[1])+1e-9,t=(h[1]-s[1])/(a[1]-s[1]),lx=s[0]+t*(a[0]-s[0]);
+  return{banana:facing*(h[0]-lx)/body,lean:Math.atan2(Math.abs(a[0]-w[0]),Math.abs(a[1]-w[1])+1e-9)*180/Math.PI,
+   shoulder:180-ang(h,s,e),elbow:180-ang(s,e,w),hipx:(h[0]-w[0])/body}};
+ const ms=idx.map(i=>metr(fr[i]));
+ const m=n=>med(ms.map(x=>x[n]));
+ const val={banana:m("banana"),lean:m("lean"),shoulder:Math.max(0,m("shoulder")),elbow:Math.max(0,m("elbow")),sway:std(ms.map(x=>x.hipx))};
+ const sc={};let total=0;
+ for(const n in TH){sc[n]=band(n==="banana"?Math.abs(val[n]):val[n],TH[n].map(x=>x*SCALE));total+=sc[n]*WT[n]}
+ const sf=m=>{const q=(n,v)=>band(v,TH[n].map(x=>x*SCALE))*WT[n];return(q("banana",Math.abs(m.banana))+q("lean",m.lean)+q("shoulder",Math.max(0,m.shoulder))+q("elbow",Math.max(0,m.elbow)))/.85};
+ const series=fr.map((f,i)=>mask[i]?sf(metr(f)):null);
+ return{val,sc,total,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1]}}
+async function landmarker(){
+ const fs=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
+ const base="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+ const mk=(m,d)=>PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:m,delegate:d},runningMode:"VIDEO",numPoses:1});
+ let last;
+ for(const m of["pose_landmarker_lite.task",base])for(const d of["GPU","CPU"]){try{return await mk(m,d)}catch(e){last=e}}
+ throw last}
+const seek=(v,t)=>new Promise(r=>{v.addEventListener("seeked",r,{once:true});v.currentTime=t});
+$("file").addEventListener("change",async e=>{
+ const file=e.target.files[0];if(!file)return;
+ const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
+ try{
+  st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
+  const lm=await landmarker();
+  v.src=URL.createObjectURL(file);
+  await new Promise((ok,no)=>{v.onloadeddata=ok;v.onerror=()=>no(new Error("video"))});
+  const w=v.videoWidth,h=v.videoHeight,fps=15,n=Math.floor((v.duration-.1)*fps),fr=[];
+  if(!w||!h||!(n>0))throw new Error("video");
+  const cvs=document.createElement("canvas");cvs.width=w;cvs.height=h;const cx=cvs.getContext("2d");
+  st.textContent="מנתח את הסרטון...";
+  for(let i=0;i<n;i++){
+   await seek(v,.05+i/fps);
+   cx.drawImage(v,0,0,w,h);
+   const r=lm.detectForVideo(cvs,i*67+1),L=r.landmarks&&r.landmarks[0];
+   fr.push(L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null);
+   pg.value=(i+1)/n;if(i%3===0)await new Promise(r=>setTimeout(r));}
+  pg.style.display="none";
+  LAST={fr,fps,v,w,h};const res=analyze(fr,fps);
+  if(!res){st.textContent="לא זוהתה עמידת ידיים. בדוק שהצילום מהצד, כל הגוף בפריים, והגוף הפוך.";return}
+  st.textContent="";show(res,fr,v,w,h);
+ }catch(err){pg.style.display="none";console.error(err);st.textContent="משהו השתבש: "+(err.message==="video"?"הדפדפן לא מצליח לנגן את הסרטון. נסה MP4 בקידוד H.264, או בדוק שהסרטון מתנגן ב-Chrome":"שגיאה: "+(err.message||err)+(/fetch/i.test(String(err.message))?" (נראה קשור לרשת, בדוק חיבור ונסה שוב)":""))}
+});
+const f1=x=>String(Math.round(x*10)/10);
+function why(n,res){const s=res.sc[n],v=res.val,[g,b]=TH[n].map(x=>x*SCALE),vd=s>=80?"בטווח הטוב":s>=50?"סטייה קלה":"סטייה גדולה";
+ if(n==="banana")return`${vd}: האגן סוטה ${f1(Math.abs(v.banana)*100)}% מאורך הגוף מהקו כתף-קרסול ${s<80?` (${v.banana>0?"קדימה, גב מקושת":"אחורה"})`:""}. עד ${f1(g*100)}% נחשב ישר, מ-${f1(b*100)}% הציון 0.`;
+ if(n==="lean")return`${vd}: הגוף נוטה ${f1(v.lean)}° מהאנך. עד ${f1(g)}° נחשב ישר, מ-${f1(b)}° הציון 0.`;
+ if(n==="shoulder")return`${vd}: לכתף חסרות ${f1(v.shoulder)}° כדי להיות פתוחה עד הסוף (180°). עד ${f1(g)}° חסרות נחשב טוב, מ-${f1(b)}° הציון 0.`;
+ if(n==="elbow")return`${vd}: למרפק חסרות ${f1(v.elbow)}° כדי להיות ישר עד הסוף (180°). עד ${f1(g)}° חסרות נחשב טוב, מ-${f1(b)}° הציון 0.`;
+ return`${vd}: האגן זז מצד לצד בסטייה של ${f1(v.sway*100)}% מאורך הגוף מעל הידיים. עד ${f1(g*100)}% נחשב יציב, מ-${f1(b*100)}% הציון 0.`}
+const lab=s=>s>=80?"מצוין":s>=50?"בסדר":"דורש תרגול";
+function plain(n,res){const s=res.sc[n],g=s>=80,b=res.val.banana>0;
+ return({banana:g?"הגוף שלך ישר כמו קו, בלי קשת.":b?"הגב שלך מקושת והאגן בורח קדימה.":"האגן נשאר קצת אחורה והגוף לא ישר.",
+  lean:g?"אתה מאוזן ישר מעל הידיים.":"הגוף נוטה קדימה או אחורה במקום לעמוד אנכי מעל הידיים.",
+  shoulder:g?"הכתפיים פתוחות והזרועות קרובות לאוזניים.":"הכתפיים לא פתוחות עד הסוף.",
+  elbow:g?"הידיים ישרות ונעולות.":"המרפקים מתכופפים.",
+  sway:g?"אתה יציב, כמעט בלי התנדנדות.":"יש התנדנדות, הגוף זז הרבה בזמן ההחזקה."})[n]}
+const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקרסוליים. תמשיך לכווץ ישבן ובטן.",lean:"איזון טוב מעל הידיים. תמשיך עם לחץ עדין באצבעות.",
+ shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
+async function show(res,fr,v,w,h){
+ $("score").textContent=Math.round(res.total);$("sum").textContent=res.total>=85?"עמידת ידיים חזקה. עכשיו מדייקים פרטים.":res.total>=65?"בסיס טוב, יש כמה דברים קטנים לשפר.":"יש הרבה מקום להתקדם. נתחיל מדבר אחד בכל פעם.";$("hold").textContent=`מתוך 100 · החזקה של ${res.hold.toFixed(1)} שניות`;
+ $("rows").innerHTML=Object.keys(TH).map(n=>{const s=res.sc[n],c=s>=80?"good":s>=50?"mid":"bad";
+  return`<div class="row"><div><span>${NAME[n]}</span><span style="color:var(--${c});font-weight:600">${lab(s)}</span></div><div class="bar"><i style="width:${s}%;background:var(--${c})"></i></div><p class="why">${plain(n,res)}</p><details><summary>איך חושב?</summary><p class="why">${why(n,res)}</p></details></div>`}).join("");
+ const fix=[];
+ if(res.sc.banana<80)fix.push([res.sc.banana,res.val.banana>0?TIP.arch:TIP.back]);
+ for(const n of["lean","shoulder","elbow","sway"])if(res.sc[n]<80)fix.push([res.sc[n],TIP[n]]);
+ if(res.hold<5)fix.push([50,TIP.short]);
+ fix.sort((a,b)=>a[0]-b[0]);
+ $("fix").innerHTML=fix.length?fix.map(f=>`<li>${f[1]}</li>`).join(""):"<li>הכול נראה טוב. נסה החזקה ארוכה יותר.</li>";
+ const keep=Object.keys(TH).filter(n=>res.sc[n]>=80).map(n=>KEEP[n]);if(res.hold>=5)keep.push("החזקה ארוכה של "+f1(res.hold)+" שניות. זה בסיס טוב.");
+ $("keep").innerHTML=keep.length?keep.map(t=>`<li>${t}</li>`).join(""):"<li>עדיין אין מדד בטווח הטוב. תתמקד קודם בתיקון הראשון.</li>";
+ const inH=res.series.filter(x=>x!=null),good=inH.filter(x=>x>=80).length;
+ $("cons").textContent=`ב-${Math.round(100*good/inH.length)}% מהזמן הקו שלך היה טוב`;
+ v.pause();const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d");
+ tl.width=600;tl.height=120;
+ const ser=res.series,k=res.k,fps=res.fps,N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;
+ const draw=ix=>{
+  ix=Math.max(0,Math.min(N-1,ix));c.drawImage(v,0,0,w,h);const f=fr[ix];
+  if(f){const pt=n=>[f[k[n]].x,f[k[n]].y],ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
+   const line=(a,b,col)=>{c.strokeStyle=col;c.lineWidth=Math.max(3,w/200);c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
+   line(ch[2],ch[4],"#22c55e");ch.slice(1).forEach((p,q)=>line(ch[q],p,"#facc15"));
+   c.fillStyle="#ef4444";ch.forEach(p=>{c.beginPath();c.arc(p[0],p[1],Math.max(5,w/120),0,7);c.fill()});
+   if(ser[ix]!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(ser[ix]));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}}
+  tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
+  [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
+  tc.strokeStyle="#2F5BEA";tc.lineWidth=2.5;let pen=false;tc.beginPath();
+  ser.forEach((s,q)=>{if(s==null){pen=false;return}pen?tc.lineTo(X(q),Y(s)):tc.moveTo(X(q),Y(s));pen=true});tc.stroke();
+  tc.strokeStyle="#ef4444";tc.lineWidth=2;tc.beginPath();tc.moveTo(X(ix),4);tc.lineTo(X(ix),116);tc.stroke()};
+ const idxOf=()=>Math.round((v.currentTime-.05)*fps);
+ const loop=()=>{draw(idxOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
+ $("play").onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=v.duration-.1)v.currentTime=.05;await v.play();loop()}else v.pause()};
+ tl.onclick=async e=>{const r=tl.getBoundingClientRect(),q=(e.clientX-r.left)/r.width*(N-1);v.pause();await seek(v,.05+q/fps);draw(Math.round(q))};
+ await seek(v,.05+res.mid/fps);draw(res.mid);
+ $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body>
+</html>
