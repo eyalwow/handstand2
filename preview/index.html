@@ -126,6 +126,11 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .gemini-button:disabled{opacity:.6;cursor:wait}
 .gemini-status{font-size:12px;color:var(--mute);margin:10px 0 0;line-height:1.7}
 @media(max-width:600px){.coach-panel{padding:18px 14px;border-radius:16px}.coach-drills{grid-template-columns:1fr}}
+
+/* Personalized coach leads the report; legacy generic prescriptions stay in DOM for JS compatibility but are not shown twice. */
+#holdSec > h2,#holdSec > ul,#holdSec > p.note{display:none}
+#entrySec > h2:nth-of-type(2),#entryDrills{display:none}
+#coachPanel{margin-bottom:16px}
 </style>
 </head>
 <body>
@@ -156,6 +161,16 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 <progress id="prog" value="0" max="1"></progress>
 <video id="v" muted playsinline preload="auto"></video>
 <section id="out">
+<section id="coachPanel" class="coach-panel" aria-label="מאמן חכם" hidden>
+ <div class="coach-topline"><span class="coach-kicker">PERSONAL TECHNIQUE COACH</span><span class="coach-badge" id="coachBadge"></span></div>
+ <h2>משוב ותוכנית שיפור אישית</h2>
+ <p class="coach-summary" id="coachSummary"></p>
+ <div class="coach-observations" id="coachObservations"></div>
+ <h3>תרגילים שמתאימים למדידה שלך</h3>
+ <div class="coach-drills" id="coachDrills"></div>
+ <p class="coach-quality" id="coachQuality"></p>
+ <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ צור משוב עם Gemini AI</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
+</section>
   <div id="entrySec" style="display:none">
     <h2>העלייה לעמידה</h2>
     <p id="entrySum" style="font-weight:600;margin:0 0 4px"></p>
@@ -177,16 +192,7 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <ul id="drills" style="list-style:none;padding:0"></ul>
   <p class="note" style="margin-top:6px">אלה הצעות כלליות. תתאמן ליד קיר ועל משטח רך, ואם יש כאב, עצור.</p>
 </div>
-<section id="coachPanel" class="coach-panel" aria-label="מאמן חכם" hidden>
- <div class="coach-topline"><span class="coach-kicker">PERSONAL TECHNIQUE COACH</span><span class="coach-badge" id="coachBadge"></span></div>
- <h2>משוב ותוכנית שיפור אישית</h2>
- <p class="coach-summary" id="coachSummary"></p>
- <div class="coach-observations" id="coachObservations"></div>
- <h3>תרגילים שמתאימים למדידה שלך</h3>
- <div class="coach-drills" id="coachDrills"></div>
- <p class="coach-quality" id="coachQuality"></p>
- <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ צור משוב עם Gemini AI</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
-</section>
+
   <div id="replaySec">
   <h2>צפה בעצמך</h2>
   <canvas id="cv"></canvas>
