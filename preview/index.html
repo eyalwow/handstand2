@@ -260,8 +260,8 @@ function analyze(fr,fps){
  const series=fr.map((f,i)=>mask[i]?sf(metr(f)):null);
  const thirds=[0,1,2].map(j=>{
   const a=Math.floor(j*ms.length/3),b=Math.floor((j+1)*ms.length/3),subset=ms.slice(a,b);
-  const metric=k=>subset.length?Math.round(med(subset.map(x=>x[k]))*10)/10:null;
-  return{phase:["start","middle","end"][j],pelvisOffsetPercent:subset.length?metric("banana")*100:null,leanDegrees:metric("lean"),shoulderDeficitDegrees:metric("shoulder"),elbowDeficitDegrees:metric("elbow")};
+  const metric=k=>{const scale=k==="banana"?1000:10;return subset.length?Math.round(med(subset.map(x=>x[k]))*scale)/scale:null};
+  return{phase:["start","middle","end"][j],pelvisOffsetPercent:subset.length?Math.round(metric("banana")*1000)/10:null,leanDegrees:metric("lean"),shoulderDeficitDegrees:metric("shoulder"),elbowDeficitDegrees:metric("elbow")};
  });
  const visibilityPercent=Math.round(100*med(idx.map(i=>Math.min(...["shoulder","elbow","wrist","hip","ankle"].map(n=>fr[i][k[n]].v)))));
  return{val,sc,total,swayOk,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1],
