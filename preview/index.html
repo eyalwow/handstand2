@@ -147,15 +147,7 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 </div>
 <div class="section-head"><h2>נתח את העמידה שלך</h2><span class="step">01 / UPLOAD</span></div>
 <div class="tips"><b>איך לצלם:</b> מהצד, כל הגוף בפריים, טלפון על הרצפה במרחק 2-3 מטר, מומלץ 5 שניות ומעלה, אבל גם 2-3 שניות מספיקות. אפשר גם לצלם רק את העלייה לעמידה, בלי החזקה.</div>
-<details class="gemini-setup" id="geminiSetup">
-  <summary>✨ משוב אישי עם Gemini — חיבור מפתח אישי</summary>
-  <div class="gemini-setup-content">
-    <label for="geminiKey">מפתח Gemini API אישי</label>
-    <input class="gemini-key" id="geminiKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste API key here" aria-describedby="keyPrivacy">
-    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">יצירת מפתח API ב־Google AI Studio</a>
-    <p id="keyPrivacy">המפתח משמש לבקשה ישירה ל־Gemini ונשאר רק בלשונית הנוכחית; הוא לא נשמר באתר או ב־GitHub. רק מדדי תנועת גוף נשלחים ל־Google, לא הסרטון. זו גרסת ניסוי בדפדפן — מפתחות חשופים לקוד שרץ בדפדפן, ולכן אל תשתמש במפתח שמחובר לחיוב כספי. שימוש חינמי כפוף למגבלות Google.</p>
-  </div>
-</details>
+
 <label class="pick"><span aria-hidden="true">↑</span> העלאת סרטון לניתוח<input id="file" type="file" accept="video/*"></label>
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
@@ -169,7 +161,7 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
  <h3>תרגילים שמתאימים למדידה שלך</h3>
  <div class="coach-drills" id="coachDrills"></div>
  <p class="coach-quality" id="coachQuality"></p>
- <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ צור משוב עם Gemini AI</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
+ <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ Gemini AI מנתח אוטומטית</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
 </section>
   <div id="entrySec" style="display:none">
     <h2>העלייה לעמידה</h2>
@@ -208,7 +200,7 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
   </div>
 </section>
-<p class="footer">HANDSTAND LAB <span class="footer-dot" aria-hidden="true"></span> גרסת ממשק 1.1 · AI Coach</p>
+<p class="footer">HANDSTAND LAB <span class="footer-dot" aria-hidden="true"></span> גרסת ממשק 1.2 · Shared Gemini AI</p>
 </main>
 <script type="module">
 import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
