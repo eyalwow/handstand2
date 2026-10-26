@@ -29,6 +29,7 @@ progress{width:100%;height:6px;accent-color:var(--acc);display:none}
 .row{margin:12px 0}
 .row div{display:flex;justify-content:space-between;font-size:15px}
 details summary{cursor:pointer;color:var(--mute);font-size:13px;margin-top:4px}
+.ctl{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600;font-size:14px;padding:12px 4px;border-radius:10px;cursor:pointer}
 .why{margin:6px 0 0;font-size:14px;color:var(--mute)}
 .bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:4px}
 .bar i{display:block;height:100%;border-radius:4px}
@@ -74,13 +75,19 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <div id="replaySec">
   <h2>צפה בעצמך</h2>
   <canvas id="cv"></canvas>
-  <button id="play" class="pick" style="border:0;width:100%;margin-top:10px;font:inherit;font-weight:600">נגן / עצור</button>
+  <div dir="ltr" style="margin-top:12px"><input id="scrub" type="range" min="0" max="1" step="0.01" value="0" style="width:100%;accent-color:var(--acc)" aria-label="מיקום בסרטון"></div>
+  <div style="display:flex;gap:8px;margin-top:8px">
+   <button id="prev" class="ctl">פריים קודם</button>
+   <button id="play" class="ctl" style="background:var(--acc);color:#fff;border-color:var(--acc)">נגן</button>
+   <button id="next" class="ctl">פריים הבא</button>
+   <button id="spd" class="ctl">מהירות ×1</button>
+  </div>
   <p id="tlLabel" class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
   <canvas id="tl" style="cursor:pointer"></canvas>
   <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
   </div>
 </section>
-<p class="note" style="text-align:center">גרסה 11</p>
+<p class="note" style="text-align:center">גרסה 12</p>
 </main>
 <script type="module">
 import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
@@ -182,7 +189,7 @@ function scanPlay(v,n,fps,cx,cvs,det,pg){return new Promise(res=>{
   if(k>=n)fin(true);else v.requestVideoFrameCallback(cb)};
  v.onended=()=>fin(true);v.playbackRate=rate;v.currentTime=0;
  v.play().then(()=>v.requestVideoFrameCallback(cb)).catch(()=>fin(false))})}
-const seek=(v,t)=>new Promise(r=>{v.addEventListener("seeked",r,{once:true});v.currentTime=t});
+const seek=(v,t)=>new Promise(r=>{if(Math.abs(v.currentTime-t)<.001)return r();const d=()=>{clearTimeout(to);r()},to=setTimeout(()=>{v.removeEventListener("seeked",d);r()},1500);v.addEventListener("seeked",d,{once:true});v.currentTime=t});
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
  const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
@@ -246,25 +253,37 @@ const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקר�
  shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
 async function replay(fr,v,w,h,k,ser,fps,mid){
  ser=ser||fr.map(()=>null);
- v.pause();const has=ser.some(x=>x!=null);$("tl").style.display=has?"block":"none";$("tlLabel").style.display=has?"block":"none";const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d");
+ v.pause();const has=ser.some(x=>x!=null);$("tl").style.display=has?"block":"none";$("tlLabel").style.display=has?"block":"none";
+ const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d"),sl=$("scrub");
  tl.width=600;tl.height=120;
- const N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;
- const draw=ix=>{
-  ix=Math.max(0,Math.min(N-1,ix));c.drawImage(v,0,0,w,h);const f=fr[ix];
-  if(f){const pt=n=>[f[k[n]].x,f[k[n]].y],ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
+ const N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;sl.min=0;sl.max=N-1;sl.step=.01;
+ const draw=p=>{
+  p=Math.max(0,Math.min(N-1,p));c.drawImage(v,0,0,w,h);
+  const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
+  if(f0||f1){const A=f0||f1,B=f1||f0,pt=n=>{const q=k[n];return[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]},ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
    const line=(a,b,col)=>{c.strokeStyle=col;c.lineWidth=Math.max(3,w/200);c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
    line(ch[2],ch[4],"#22c55e");ch.slice(1).forEach((p,q)=>line(ch[q],p,"#facc15"));
    c.fillStyle="#ef4444";ch.forEach(p=>{c.beginPath();c.arc(p[0],p[1],Math.max(5,w/120),0,7);c.fill()});
-   if(ser[ix]!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(ser[ix]));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}}
+   const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}}
   tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
   [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
   tc.strokeStyle="#2F5BEA";tc.lineWidth=2.5;let pen=false;tc.beginPath();
   ser.forEach((s,q)=>{if(s==null){pen=false;return}pen?tc.lineTo(X(q),Y(s)):tc.moveTo(X(q),Y(s));pen=true});tc.stroke();
-  tc.strokeStyle="#ef4444";tc.lineWidth=2;tc.beginPath();tc.moveTo(X(ix),4);tc.lineTo(X(ix),116);tc.stroke()};
- const idxOf=()=>Math.round((v.currentTime-.05)*fps);
- const loop=()=>{draw(idxOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
- $("play").onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=v.duration-.1)v.currentTime=.05;await v.play();loop()}else v.pause()};
- tl.onclick=async e=>{const r=tl.getBoundingClientRect(),q=(e.clientX-r.left)/r.width*(N-1);v.pause();await seek(v,.05+q/fps);draw(Math.round(q))};
+  tc.strokeStyle="#ef4444";tc.lineWidth=2;tc.beginPath();tc.moveTo(X(p),4);tc.lineTo(X(p),116);tc.stroke();
+  sl.value=p};
+ let rate=1,busy=false,pend=null;
+ const posOf=()=>(v.currentTime-.05)*fps;
+ const loop=()=>{draw(posOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
+ const goTo=async p=>{pend=p;if(busy)return;busy=true;while(pend!=null){const q=Math.max(0,Math.min(N-1,pend));pend=null;await seek(v,.05+q/fps);draw(q)}busy=false};
+ const pb=$("play");
+ pb.onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=v.duration-.1)v.currentTime=.05;v.playbackRate=rate;await v.play();pb.textContent="עצור";loop()}else v.pause()};
+ v.onpause=()=>{pb.textContent="נגן"};
+ $("prev").onclick=()=>{v.pause();goTo(Math.round(posOf())-1)};
+ $("next").onclick=()=>{v.pause();goTo(Math.round(posOf())+1)};
+ $("spd").onclick=()=>{rate=rate===1?.5:rate===.5?.25:1;v.playbackRate=rate;$("spd").textContent="מהירות ×"+rate};
+ sl.oninput=()=>{v.pause();goTo(+sl.value)};
+ tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo((e.clientX-r.left)/r.width*(N-1))};
+ pb.textContent="נגן";$("spd").textContent="מהירות ×1";
  await seek(v,.05+mid/fps);draw(mid);
 }
 async function show(res,fr,v,w,h){
