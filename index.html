@@ -70,15 +70,17 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <h2>תרגילים לשיפור</h2>
   <ul id="drills" style="list-style:none;padding:0"></ul>
   <p class="note" style="margin-top:6px">אלה הצעות כלליות. תתאמן ליד קיר ועל משטח רך, ואם יש כאב, עצור.</p>
+</div>
+  <div id="replaySec">
   <h2>צפה בעצמך</h2>
   <canvas id="cv"></canvas>
   <button id="play" class="pick" style="border:0;width:100%;margin-top:10px;font:inherit;font-weight:600">נגן / עצור</button>
-  <p class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
+  <p id="tlLabel" class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
   <canvas id="tl" style="cursor:pointer"></canvas>
   <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
-</div>
+  </div>
 </section>
-<p class="note" style="text-align:center">גרסה 9</p>
+<p class="note" style="text-align:center">גרסה 11</p>
 </main>
 <script type="module">
 import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
@@ -111,8 +113,12 @@ function analyze(fr,fps){
  const P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
  const inv=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.5))return false;
   const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]&&p.shoulder[1]<p.wrist[1]&&Math.abs(p.ankle[0]-p.wrist[0])<Math.abs(p.ankle[1]-p.wrist[1])};
- const mask=fr.map(inv),run=longestRun(mask,Math.max(1,Math.round(.3*fps)));
- if(!run||(run[1]-run[0]+1)/fps<.5)return null;
+ const gap=Math.max(1,Math.round(.3*fps));
+ let mask=fr.map(inv),run=longestRun(mask,gap);
+ if(!run||run[1]-run[0]+1<3){
+  const loose=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.3))return false;const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]};
+  mask=fr.map(loose);run=longestRun(mask,gap)}
+ if(!run||run[1]-run[0]+1<3)return null;
  const idx=[];for(let i=run[0];i<=run[1];i++)if(mask[i])idx.push(i);
  const facing=med(idx.map(i=>fr[i][0].x-fr[i][k.ear].x))>=0?1:-1;
  const metr=f=>{const p=P(f),{shoulder:s,hip:h,ankle:a,wrist:w,elbow:e}=p;
@@ -122,11 +128,13 @@ function analyze(fr,fps){
  const ms=idx.map(i=>metr(fr[i]));
  const m=n=>med(ms.map(x=>x[n]));
  const val={banana:m("banana"),lean:m("lean"),shoulder:Math.max(0,m("shoulder")),elbow:Math.max(0,m("elbow")),sway:std(ms.map(x=>x.hipx))};
+ const swayOk=idx.length>=5;
  const sc={};let total=0;
- for(const n in TH){sc[n]=band(n==="banana"?Math.abs(val[n]):val[n],TH[n].map(x=>x*SCALE));total+=sc[n]*WT[n]}
+ for(const n in TH){sc[n]=band(n==="banana"?Math.abs(val[n]):val[n],TH[n].map(x=>x*SCALE));if(n!=="sway"||swayOk)total+=sc[n]*WT[n]}
+ if(!swayOk)total/=1-WT.sway;
  const sf=m=>{const q=(n,v)=>band(v,TH[n].map(x=>x*SCALE))*WT[n];return(q("banana",Math.abs(m.banana))+q("lean",m.lean)+q("shoulder",Math.max(0,m.shoulder))+q("elbow",Math.max(0,m.elbow)))/.85};
  const series=fr.map((f,i)=>mask[i]?sf(metr(f)):null);
- return{val,sc,total,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1]}}
+ return{val,sc,total,swayOk,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1]}}
 const sideOf=fr=>{const v={L:0,R:0};fr.forEach(f=>{if(f)for(const sd of["L","R"])for(const i of Object.values(K[sd]))v[sd]+=f[i].v});return v.L>=v.R?"L":"R"};
 function analyzeEntry(fr,fps){
  const k=K[sideOf(fr)],P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
@@ -211,7 +219,7 @@ $("file").addEventListener("change",async e=>{
   st.textContent="";
   $("entrySec").style.display=ent?"block":"none";if(ent)showEntry(ent);
   $("holdSec").style.display=res?"block":"none";
-  if(res)await show(res,fr,v,w,h);else{$("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"})}
+  if(res)await show(res,fr,v,w,h);else{const nn=fr.map((f,i)=>f?i:-1).filter(i=>i>=0);await replay(fr,v,w,h,K[sideOf(fr)],null,fps,nn[nn.length>>1]);$("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"})}
  }catch(err){pg.style.display="none";console.error(err);st.textContent="משהו השתבש: "+(String(err.message).startsWith("video")?"הדפדפן לא מצליח לנגן את הסרטון. נסה MP4 בקידוד H.264, או בדוק שהסרטון מתנגן ב-Chrome ["+String(err.message).slice(6)+"]":"שגיאה: "+(err.message||err)+(/fetch/i.test(String(err.message))?" (נראה קשור לרשת, בדוק חיבור ונסה שוב)":""))}
 });
 const f1=x=>String(Math.round(x*10)/10);
@@ -236,25 +244,11 @@ const DRILLS={
  sway:["החזקות קצרות בקיר: 8 x 10 שניות עם מנוחה בין סט לסט","תרגול יציאה בטוחה (גלגול קדימה) כדי לא לפחד ולהתמקד באיזון"]};
 const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקרסוליים. תמשיך לכווץ ישבן ובטן.",lean:"איזון טוב מעל הידיים. תמשיך עם לחץ עדין באצבעות.",
  shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
-async function show(res,fr,v,w,h){
- $("score").textContent=Math.round(res.total);$("sum").textContent=res.total>=85?"עמידת ידיים חזקה. עכשיו מדייקים פרטים.":res.total>=65?"בסיס טוב, יש כמה דברים קטנים לשפר.":"יש הרבה מקום להתקדם. נתחיל מדבר אחד בכל פעם.";$("hold").textContent=`מתוך 100 · החזקה של ${res.hold.toFixed(1)} שניות`;
- $("rows").innerHTML=Object.keys(TH).map(n=>{const s=res.sc[n],c=s>=80?"good":s>=50?"mid":"bad";
-  return`<div class="row"><div><span>${NAME[n]}</span><span style="color:var(--${c});font-weight:600">${lab(s)}</span></div><div class="bar"><i style="width:${s}%;background:var(--${c})"></i></div><p class="why">${plain(n,res)}</p><details><summary>איך חושב?</summary><p class="why">${why(n,res)}</p></details></div>`}).join("");
- const fix=[];
- if(res.sc.banana<80)fix.push([res.sc.banana,res.val.banana>0?TIP.arch:TIP.back]);
- for(const n of["lean","shoulder","elbow","sway"])if(res.sc[n]<80)fix.push([res.sc[n],TIP[n]]);
- if(res.hold<5)fix.push([50,TIP.short]);
- fix.sort((a,b)=>a[0]-b[0]);
- $("fix").innerHTML=fix.length?fix.map(f=>`<li>${f[1]}</li>`).join(""):"<li>הכול נראה טוב. נסה החזקה ארוכה יותר.</li>";
- const keep=Object.keys(TH).filter(n=>res.sc[n]>=80).map(n=>KEEP[n]);if(res.hold>=5)keep.push("החזקה ארוכה של "+f1(res.hold)+" שניות. זה בסיס טוב.");
- $("keep").innerHTML=keep.length?keep.map(t=>`<li>${t}</li>`).join(""):"<li>עדיין אין מדד בטווח הטוב. תתמקד קודם בתיקון הראשון.</li>";
- const inH=res.series.filter(x=>x!=null),good=inH.filter(x=>x>=80).length;
- $("cons").textContent=`ב-${Math.round(100*good/inH.length)}% מהזמן הקו שלך היה טוב`;
- const weak=Object.keys(TH).filter(n=>res.sc[n]<80).sort((a,b)=>res.sc[a]-res.sc[b]).slice(0,2);
- $("drills").innerHTML=weak.length?weak.map(n=>`<li style="margin:10px 0"><b>${NAME[n]}</b><br>${DRILLS[n].map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>הכול בטווח הטוב. נסה להאריך את ההחזקה ב-5 שניות בכל שבוע.</li>";
- v.pause();const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d");
+async function replay(fr,v,w,h,k,ser,fps,mid){
+ ser=ser||fr.map(()=>null);
+ v.pause();const has=ser.some(x=>x!=null);$("tl").style.display=has?"block":"none";$("tlLabel").style.display=has?"block":"none";const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d");
  tl.width=600;tl.height=120;
- const ser=res.series,k=res.k,fps=res.fps,N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;
+ const N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;
  const draw=ix=>{
   ix=Math.max(0,Math.min(N-1,ix));c.drawImage(v,0,0,w,h);const f=fr[ix];
   if(f){const pt=n=>[f[k[n]].x,f[k[n]].y],ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
@@ -271,7 +265,25 @@ async function show(res,fr,v,w,h){
  const loop=()=>{draw(idxOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
  $("play").onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=v.duration-.1)v.currentTime=.05;await v.play();loop()}else v.pause()};
  tl.onclick=async e=>{const r=tl.getBoundingClientRect(),q=(e.clientX-r.left)/r.width*(N-1);v.pause();await seek(v,.05+q/fps);draw(Math.round(q))};
- await seek(v,.05+res.mid/fps);draw(res.mid);
+ await seek(v,.05+mid/fps);draw(mid);
+}
+async function show(res,fr,v,w,h){
+ $("score").textContent=Math.round(res.total);$("sum").textContent=res.total>=85?"עמידת ידיים חזקה. עכשיו מדייקים פרטים.":res.total>=65?"בסיס טוב, יש כמה דברים קטנים לשפר.":"יש הרבה מקום להתקדם. נתחיל מדבר אחד בכל פעם.";$("hold").textContent=`מתוך 100 · החזקה של ${res.hold.toFixed(1)} שניות`;
+ $("rows").innerHTML=Object.keys(TH).map(n=>{const s=res.sc[n],c=s>=80?"good":s>=50?"mid":"bad";
+  return`<div class="row"><div><span>${NAME[n]}</span><span style="color:var(--${c});font-weight:600">${n==="sway"&&!res.swayOk?"לא נמדד":lab(s)}</span></div><div class="bar"><i style="width:${s}%;background:var(--${c})"></i></div><p class="why">${n==="sway"&&!res.swayOk?"ההחזקה קצרה מדי כדי למדוד יציבות.":plain(n,res)}</p><details><summary>איך חושב?</summary><p class="why">${why(n,res)}</p></details></div>`}).join("");
+ const fix=[];
+ if(res.sc.banana<80)fix.push([res.sc.banana,res.val.banana>0?TIP.arch:TIP.back]);
+ for(const n of["lean","shoulder","elbow","sway"])if(res.sc[n]<80&&(n!=="sway"||res.swayOk))fix.push([res.sc[n],TIP[n]]);
+ if(res.hold<5)fix.push([50,TIP.short]);
+ fix.sort((a,b)=>a[0]-b[0]);
+ $("fix").innerHTML=fix.length?fix.map(f=>`<li>${f[1]}</li>`).join(""):"<li>הכול נראה טוב. נסה החזקה ארוכה יותר.</li>";
+ const keep=Object.keys(TH).filter(n=>res.sc[n]>=80&&(n!=="sway"||res.swayOk)).map(n=>KEEP[n]);if(res.hold>=5)keep.push("החזקה ארוכה של "+f1(res.hold)+" שניות. זה בסיס טוב.");
+ $("keep").innerHTML=keep.length?keep.map(t=>`<li>${t}</li>`).join(""):"<li>עדיין אין מדד בטווח הטוב. תתמקד קודם בתיקון הראשון.</li>";
+ const inH=res.series.filter(x=>x!=null),good=inH.filter(x=>x>=80).length;
+ $("cons").textContent=`ב-${Math.round(100*good/inH.length)}% מהזמן הקו שלך היה טוב`;
+ const weak=Object.keys(TH).filter(n=>res.sc[n]<80&&(n!=="sway"||res.swayOk)).sort((a,b)=>res.sc[a]-res.sc[b]).slice(0,2);
+ $("drills").innerHTML=weak.length?weak.map(n=>`<li style="margin:10px 0"><b>${NAME[n]}</b><br>${DRILLS[n].map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>הכול בטווח הטוב. נסה להאריך את ההחזקה ב-5 שניות בכל שבוע.</li>";
+ await replay(fr,v,w,h,res.k,res.series,res.fps,res.mid);
  $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
 }
 </script>
