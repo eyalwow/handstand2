@@ -88,6 +88,44 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+[hidden]{display:none!important}
+.gemini-setup{background:#111812;border:1px solid #35432D;border-radius:15px;margin:0 0 16px;overflow:hidden}
+.gemini-setup>summary{list-style:none;cursor:pointer;padding:14px 17px;font-weight:700;font-size:14px;color:var(--ink)}
+.gemini-setup>summary::-webkit-details-marker{display:none}
+.gemini-setup>summary:after{content:"⌄";float:left;color:var(--acc)}
+.gemini-setup[open]>summary:after{content:"⌃"}
+.gemini-setup-content{border-top:1px solid var(--line);padding:15px 17px 18px}
+.gemini-setup-content label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+.gemini-key{display:block;width:100%;border:1px solid #495346;border-radius:10px;background:#0A100B;color:var(--ink);padding:12px 13px;font:inherit;direction:ltr;text-align:left;margin-bottom:10px}
+.gemini-setup-content a{color:var(--acc);font-size:13px;font-weight:700;text-underline-offset:4px}
+.gemini-setup-content p{margin:12px 0 0;font-size:12px;line-height:1.6;color:var(--mute)}
+.coach-panel{background:linear-gradient(155deg,#192218,#121814 65%);border:1px solid #4B6135;border-radius:20px;padding:24px;margin-top:16px}
+.coach-topline{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.coach-kicker{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--acc)}
+.coach-badge{padding:4px 9px;border-radius:999px;background:#2B3B24;color:#D5F8BC;font-size:11px;font-weight:700}
+.coach-panel h2{font-size:23px;margin:12px 0 8px}
+.coach-summary{font-size:15px;line-height:1.8;margin:0 0 15px;color:var(--ink)}
+.coach-panel h3{font-size:16px;margin:22px 0 10px}
+.coach-observations{display:grid;gap:10px}
+.coach-observation{border:1px solid #35432E;background:#141B15;border-radius:12px;padding:14px}
+.coach-observation p,.coach-drill p{margin:0}
+.coach-observation-title{color:var(--acc);font-weight:800;font-size:13px;margin-bottom:6px!important}
+.coach-observation-finding{font-size:13px;color:#DCE7D8;line-height:1.65;margin-bottom:6px!important}
+.coach-observation-cue{font-size:13px;color:var(--mute);line-height:1.7}
+.coach-drills{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:10px}
+.coach-drill{background:#121A13;border:1px solid #344332;border-radius:14px;padding:15px}
+.coach-drill-name{font-weight:800;font-size:14px;color:var(--ink);margin-bottom:9px!important}
+.coach-dose{display:inline-block!important;color:var(--acc);font-weight:800;font-size:12px;margin-bottom:9px!important}
+.coach-drill-focus,.coach-drill-reason{font-size:12px;line-height:1.65;color:var(--mute)}
+.coach-drill-reason{margin-top:8px!important;color:#C3D8B6}
+.coach-quality{font-size:12px;color:#A9B6A2;line-height:1.7;margin:18px 0 0}
+.coach-ai-action{padding-top:16px;margin-top:18px;border-top:1px solid #344332}
+.gemini-button{font:inherit;font-weight:800;font-size:14px;border:1px solid var(--acc);background:transparent;color:var(--acc);padding:12px 18px;border-radius:11px;cursor:pointer}
+.gemini-button:hover:not(:disabled){background:rgba(182,255,74,.08)}
+.gemini-button:disabled{opacity:.6;cursor:wait}
+.gemini-status{font-size:12px;color:var(--mute);margin:10px 0 0;line-height:1.7}
+@media(max-width:600px){.coach-panel{padding:18px 14px;border-radius:16px}.coach-drills{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -104,6 +142,15 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 </div>
 <div class="section-head"><h2>נתח את העמידה שלך</h2><span class="step">01 / UPLOAD</span></div>
 <div class="tips"><b>איך לצלם:</b> מהצד, כל הגוף בפריים, טלפון על הרצפה במרחק 2-3 מטר, מומלץ 5 שניות ומעלה, אבל גם 2-3 שניות מספיקות. אפשר גם לצלם רק את העלייה לעמידה, בלי החזקה.</div>
+<details class="gemini-setup" id="geminiSetup">
+  <summary>✨ משוב אישי עם Gemini — חיבור מפתח אישי</summary>
+  <div class="gemini-setup-content">
+    <label for="geminiKey">מפתח Gemini API אישי</label>
+    <input class="gemini-key" id="geminiKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste API key here" aria-describedby="keyPrivacy">
+    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">יצירת מפתח API ב־Google AI Studio</a>
+    <p id="keyPrivacy">המפתח משמש לבקשה ישירה ל־Gemini ונשאר רק בלשונית הנוכחית; הוא לא נשמר באתר או ב־GitHub. רק מדדי תנועת גוף נשלחים ל־Google, לא הסרטון. זו גרסת ניסוי בדפדפן — מפתחות חשופים לקוד שרץ בדפדפן, ולכן אל תשתמש במפתח שמחובר לחיוב כספי. שימוש חינמי כפוף למגבלות Google.</p>
+  </div>
+</details>
 <label class="pick"><span aria-hidden="true">↑</span> העלאת סרטון לניתוח<input id="file" type="file" accept="video/*"></label>
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
@@ -130,6 +177,16 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <ul id="drills" style="list-style:none;padding:0"></ul>
   <p class="note" style="margin-top:6px">אלה הצעות כלליות. תתאמן ליד קיר ועל משטח רך, ואם יש כאב, עצור.</p>
 </div>
+<section id="coachPanel" class="coach-panel" aria-label="מאמן חכם" hidden>
+ <div class="coach-topline"><span class="coach-kicker">PERSONAL TECHNIQUE COACH</span><span class="coach-badge" id="coachBadge"></span></div>
+ <h2>משוב ותוכנית שיפור אישית</h2>
+ <p class="coach-summary" id="coachSummary"></p>
+ <div class="coach-observations" id="coachObservations"></div>
+ <h3>תרגילים שמתאימים למדידה שלך</h3>
+ <div class="coach-drills" id="coachDrills"></div>
+ <p class="coach-quality" id="coachQuality"></p>
+ <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ צור משוב עם Gemini AI</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
+</section>
   <div id="replaySec">
   <h2>צפה בעצמך</h2>
   <canvas id="cv"></canvas>
@@ -145,11 +202,13 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
   </div>
 </section>
-<p class="footer">HANDSTAND LAB <span class="footer-dot" aria-hidden="true"></span> גרסת ממשק 1.0</p>
+<p class="footer">HANDSTAND LAB <span class="footer-dot" aria-hidden="true"></span> גרסת ממשק 1.1 · AI Coach</p>
 </main>
 <script type="module">
+import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
 import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
 const $=id=>document.getElementById(id);
+setupCoach();
 const K={L:{ear:7,shoulder:11,elbow:13,wrist:15,hip:23,ankle:27},R:{ear:8,shoulder:12,elbow:14,wrist:16,hip:24,ankle:28}};
 const TH={banana:[.03,.12],lean:[3,15],shoulder:[8,35],elbow:[8,30],sway:[.01,.05]};
 const WT={banana:.3,lean:.2,shoulder:.2,elbow:.15,sway:.15};
@@ -199,7 +258,14 @@ function analyze(fr,fps){
  if(!swayOk)total/=1-WT.sway;
  const sf=m=>{const q=(n,v)=>band(v,TH[n].map(x=>x*SCALE))*WT[n];return(q("banana",Math.abs(m.banana))+q("lean",m.lean)+q("shoulder",Math.max(0,m.shoulder))+q("elbow",Math.max(0,m.elbow)))/.85};
  const series=fr.map((f,i)=>mask[i]?sf(metr(f)):null);
- return{val,sc,total,swayOk,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1]}}
+ const thirds=[0,1,2].map(j=>{
+  const a=Math.floor(j*ms.length/3),b=Math.floor((j+1)*ms.length/3),subset=ms.slice(a,b);
+  const metric=k=>subset.length?Math.round(med(subset.map(x=>x[k]))*10)/10:null;
+  return{phase:["start","middle","end"][j],pelvisOffsetPercent:subset.length?metric("banana")*100:null,leanDegrees:metric("lean"),shoulderDeficitDegrees:metric("shoulder"),elbowDeficitDegrees:metric("elbow")};
+ });
+ const visibilityPercent=Math.round(100*med(idx.map(i=>Math.min(...["shoulder","elbow","wrist","hip","ankle"].map(n=>fr[i][k[n]].v)))));
+ return{val,sc,total,swayOk,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1],
+  diagnostics:{validFrames:idx.length,visibilityPercent,thirds}}}
 const sideOf=fr=>{const v={L:0,R:0};fr.forEach(f=>{if(f)for(const sd of["L","R"])for(const i of Object.values(K[sd]))v[sd]+=f[i].v});return v.L>=v.R?"L":"R"};
 function analyzeEntry(fr,fps){
  const k=K[sideOf(fr)],P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
@@ -250,6 +316,7 @@ function scanPlay(v,n,fps,cx,cvs,det,pg){return new Promise(res=>{
 const seek=(v,t)=>new Promise(r=>{if(Math.abs(v.currentTime-t)<.001)return r();const d=()=>{clearTimeout(to);r()},to=setTimeout(()=>{v.removeEventListener("seeked",d);r()},1500);v.addEventListener("seeked",d,{once:true});v.currentTime=t});
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
+  resetCoachFeedback();
  const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
  try{
   st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
@@ -285,6 +352,7 @@ $("file").addEventListener("change",async e=>{
   $("entrySec").style.display=ent?"block":"none";if(ent)showEntry(ent);
   $("holdSec").style.display=res?"block":"none";
   if(res)await show(res,fr,v,w,h);else{const nn=fr.map((f,i)=>f?i:-1).filter(i=>i>=0);await replay(fr,v,w,h,K[sideOf(fr)],null,fps,nn[nn.length>>1]);$("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"})}
+   showCoachFeedback(res,ent);
  }catch(err){pg.style.display="none";console.error(err);st.textContent="משהו השתבש: "+(String(err.message).startsWith("video")?"הדפדפן לא מצליח לנגן את הסרטון. נסה MP4 בקידוד H.264, או בדוק שהסרטון מתנגן ב-Chrome ["+String(err.message).slice(6)+"]":"שגיאה: "+(err.message||err)+(/fetch/i.test(String(err.message))?" (נראה קשור לרשת, בדוק חיבור ונסה שוב)":""))}
 });
 const f1=x=>String(Math.round(x*10)/10);
