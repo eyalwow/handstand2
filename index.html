@@ -116,17 +116,14 @@ function analyze(fr,fps){
 async function landmarker(){
  const fs=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
  const base="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
- const mk=(m,d)=>PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:m,delegate:d},runningMode:"VIDEO",numPoses:1});
- let last;
- for(const m of["pose_landmarker_lite.task",base])for(const d of["GPU","CPU"]){try{return await mk(m,d)}catch(e){last=e}}
- throw last}
+ return PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:base,delegate:"CPU"},runningMode:"VIDEO",numPoses:1})}
 const seek=(v,t)=>new Promise(r=>{v.addEventListener("seeked",r,{once:true});v.currentTime=t});
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
  const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
  try{
   st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
-  const lm=await landmarker();
+  const lm=await Promise.race([landmarker(),new Promise((_,no)=>setTimeout(()=>no(new Error("טעינת המודל לוקחת יותר מדי זמן. בדוק חיבור ונסה שוב")),45000))]);
   v.src=URL.createObjectURL(file);
   await new Promise((ok,no)=>{v.onloadeddata=ok;v.onerror=()=>no(new Error("video"))});
   const w=v.videoWidth,h=v.videoHeight,fps=15,n=Math.floor((v.duration-.1)*fps),fr=[];
