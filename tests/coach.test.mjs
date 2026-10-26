@@ -4,8 +4,18 @@ import {analyzeCoachIssues,buildCoachEvidence,buildCoachLocalPlan,validateCoachR
 
 const html=readFileSync(new URL("../preview/index.html",import.meta.url),"utf8");
 const js=readFileSync(new URL("../preview/ai-feedback.js",import.meta.url),"utf8");
-assert.ok(js.includes('const model="gemini-3.8-flash"'),"Use a current Gemini model accessible to new API projects");
-for (const id of ["geminiSetup","geminiKey","coachPanel","geminiBtn","coachBadge","coachObservations","coachDrills","geminiStatus","file","out"]){
+assert.match(js,/import \{getSharedGemini,geminiReady\}/,"Use shared Firebase bridge");
+assert.ok(!js.includes("geminiKey")&&!js.includes("x-goog-api-key"),"No user-provided API key");
+assert.ok(!html.includes('id="geminiKey"'),"No key box visible to users");
+const bridge=readFileSync(new URL("../preview/firebase-gemini.js",import.meta.url),"utf8");
+const config=readFileSync(new URL("../preview/firebase-config.js",import.meta.url),"utf8");
+assert.match(bridge,/initializeAppCheck/);
+assert.match(bridge,/ReCaptchaEnterpriseProvider/);
+assert.match(bridge,/GoogleAIBackend/);
+assert.match(bridge,/gemini-3.8-flash/);
+assert.match(config,/firebaseConfig = null/);
+assert.ok(!/AIza[A-Za-z0-9_-]{20,}/.test(bridge+config),"No Gemini service secret is exposed");
+for (const id of ["coachPanel","geminiBtn","coachBadge","coachObservations","coachDrills","geminiStatus","file","out"]){
   assert.ok(html.includes('id="'+id+'"'),"Missing HTML ID: "+id);
 }
 assert.match(html,/showCoachFeedback\(res,ent\)/);
