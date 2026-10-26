@@ -44,12 +44,21 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 <main>
 <h1>בודק עמידת ידיים</h1>
 <p class="sub">מעלים סרטון, מקבלים ציון ותיקונים. הכול רץ בטלפון, הסרטון לא נשלח לשום שרת.</p>
-<div class="tips"><b>איך לצלם:</b> מהצד, כל הגוף בפריים, טלפון על הרצפה במרחק 2-3 מטר, החזקה של 5 שניות ומעלה.</div>
+<div class="tips"><b>איך לצלם:</b> מהצד, כל הגוף בפריים, טלפון על הרצפה במרחק 2-3 מטר, מומלץ 5 שניות ומעלה, אבל גם 2-3 שניות מספיקות. אפשר גם לצלם רק את העלייה לעמידה, בלי החזקה.</div>
 <label class="pick">בחר סרטון<input id="file" type="file" accept="video/*"></label>
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
 <video id="v" muted playsinline preload="auto"></video>
 <section id="out">
+  <div id="entrySec" style="display:none">
+    <h2>העלייה לעמידה</h2>
+    <p id="entrySum" style="font-weight:600;margin:0 0 4px"></p>
+    <ul id="entryList" style="list-style:none;padding:0"></ul>
+    <h2>איך לעלות טוב יותר</h2>
+    <ul id="entryDrills" style="list-style:none;padding:0"></ul>
+    <p class="note">מצד אחד של הגוף לא רואים את עמוד השדרה בדיוק, אז זיהוי הגב הוא הערכה.</p>
+  </div>
+  <div id="holdSec">
   <div class="top"><span class="score" id="score"></span><span class="hold" id="hold"></span></div>
   <p id="sum" style="font-weight:600;margin:0 0 4px"></p>
   <p id="cons" class="hold" style="margin:0 0 6px"></p>
@@ -58,14 +67,18 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <ul id="fix"></ul>
   <h2>מה עובד לך</h2>
   <ul id="keep"></ul>
+  <h2>תרגילים לשיפור</h2>
+  <ul id="drills" style="list-style:none;padding:0"></ul>
+  <p class="note" style="margin-top:6px">אלה הצעות כלליות. תתאמן ליד קיר ועל משטח רך, ואם יש כאב, עצור.</p>
   <h2>צפה בעצמך</h2>
   <canvas id="cv"></canvas>
   <button id="play" class="pick" style="border:0;width:100%;margin-top:10px;font:inherit;font-weight:600">נגן / עצור</button>
   <p class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
   <canvas id="tl" style="cursor:pointer"></canvas>
   <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
+</div>
 </section>
-<p class="note" style="text-align:center">גרסה 5</p>
+<p class="note" style="text-align:center">גרסה 9</p>
 </main>
 <script type="module">
 import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
@@ -81,7 +94,7 @@ const TIP={
  shoulder:"הכתפיים לא פתוחות עד הסוף. דחוף גבוה דרך הכתפיים, אוזניים בין הידיים.",
  elbow:"המרפקים מתכופפים. נעל את הידיים והמשך לדחוף את הרצפה.",
  sway:"הרבה התנדנדות. תתרגל החזקות קצרות עם לחץ יציב באצבעות, או החזקות על קיר.",
- short:"ההחזקה קצרה. נסה להגיע ל-5 שניות ומעלה של קו יציב לפני שמתעסקים בפרטים."};
+ short:"ההחזקה קצרה (פחות מ-5 שניות), אז הציון פחות מדויק. נסה להחזיק 5 שניות ומעלה כדי לקבל תמונה מלאה."};
 const SCALE=1.5;let LAST=null;
 const med=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
 const std=a=>{const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/a.length)};
@@ -99,7 +112,7 @@ function analyze(fr,fps){
  const inv=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.5))return false;
   const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]&&p.shoulder[1]<p.wrist[1]&&Math.abs(p.ankle[0]-p.wrist[0])<Math.abs(p.ankle[1]-p.wrist[1])};
  const mask=fr.map(inv),run=longestRun(mask,Math.max(1,Math.round(.3*fps)));
- if(!run||(run[1]-run[0]+1)/fps<1)return null;
+ if(!run||(run[1]-run[0]+1)/fps<.5)return null;
  const idx=[];for(let i=run[0];i<=run[1];i++)if(mask[i])idx.push(i);
  const facing=med(idx.map(i=>fr[i][0].x-fr[i][k.ear].x))>=0?1:-1;
  const metr=f=>{const p=P(f),{shoulder:s,hip:h,ankle:a,wrist:w,elbow:e}=p;
@@ -114,11 +127,53 @@ function analyze(fr,fps){
  const sf=m=>{const q=(n,v)=>band(v,TH[n].map(x=>x*SCALE))*WT[n];return(q("banana",Math.abs(m.banana))+q("lean",m.lean)+q("shoulder",Math.max(0,m.shoulder))+q("elbow",Math.max(0,m.elbow)))/.85};
  const series=fr.map((f,i)=>mask[i]?sf(metr(f)):null);
  return{val,sc,total,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1]}}
+const sideOf=fr=>{const v={L:0,R:0};fr.forEach(f=>{if(f)for(const sd of["L","R"])for(const i of Object.values(K[sd]))v[sd]+=f[i].v});return v.L>=v.R?"L":"R"};
+function analyzeEntry(fr,fps){
+ const k=K[sideOf(fr)],P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
+ const up=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.5))return false;const p=P(f);return p.hip[1]<p.shoulder[1]&&p.wrist[1]>p.shoulder[1]};
+ const mask=fr.map(up),run=longestRun(mask,Math.max(1,Math.round(.3*fps)));
+ if(!run||run[1]-run[0]+1<3)return null;
+ const idx=[];for(let i=run[0];i<=run[1];i++)if(mask[i])idx.push(i);
+ const facing=med(idx.map(i=>fr[i][0].x-fr[i][k.ear].x))>=0?1:-1;
+ const ms=idx.map(i=>{const p=P(fr[i]),s=p.shoulder,h=p.hip,a=p.ankle,w=p.wrist,e=p.elbow,body=Math.hypot(a[0]-s[0],a[1]-s[1])+1e-9,t=(h[1]-s[1])/(a[1]-s[1]||1e-9),lx=s[0]+t*(a[0]-s[0]);
+  return{up:a[1]<h[1],hi:a[1]<s[1],ay:a[1],a:Math.atan2(Math.abs(a[0]-w[0]),Math.abs(a[1]-w[1])+1e-9)*180/Math.PI,side:facing*(a[0]-w[0]),
+   ban:facing*(h[0]-lx)/body,sh:Math.max(0,180-ang(h,s,e)),el:Math.max(0,180-ang(s,e,w))}});
+ const ups=ms.filter(m=>m.up),best=(ups.length?ups:ms).reduce((x,y)=>y.ay<x.ay?y:x);
+ const hiF=ms.filter(m=>m.hi&&m.a<12),arch=hiF.length>=2?med(hiF.map(m=>m.ban)):null;
+ const sc={reach:ups.length?band(best.a,[8,40]):0,arch:arch==null?100:band(Math.max(0,arch),[.04,.15]),shoulder:band(med(ms.map(m=>m.sh)),[10,40]),elbow:band(med(ms.map(m=>m.el)),[10,35])};
+ return{sc,total:sc.reach*.4+sc.arch*.25+sc.shoulder*.2+sc.elbow*.15,minAng:best.a,over:best.side<0,reached:ups.length>0&&best.a<=10,arch}}
+const ENAME={reach:"גובה הבעיטה",arch:"קו הגוף",shoulder:"כתפיים",elbow:"ידיים"};
+const ENTRYD={reach:["בעיטות לקיר: 5 x 5, מתמקדים בכוח הבעיטה ובכתפיים מעל הידיים","בעיטה בפעימה אחת עם רגל מובילה ישרה, ולא קפיצה על שתי הרגליים"],
+ arch:["הולו בודי: 3 סטים של 20-30 שניות","בעיטות לקיר עם צלעות פנימה וישבן מכווץ כבר מההתחלה, גם אם הבעיטה קצרה יותר"]};
+function showEntry(e){
+ const T={reach:e.reached?"הרגליים הגיעו עד הקו האנכי מעל הידיים.":e.over?"עברת את הקו האנכי עם הרגליים. האט את הבעיטה ושמור על הגוף ישר כשאתה מגיע.":"הרגליים לא הגיעו עד הקו האנכי (עצרו בערך "+f1(e.minAng)+"° ממנו). בעט חזק יותר, והבא את הכתפיים מעל הידיים לפני הבעיטה.",
+  arch:e.sc.arch>=80?"הגוף נשאר ישר בעלייה, בלי קשת.":"הגב מתקשת בעלייה. התחל כבר בהתחלה עם צלעות פנימה, ישבן מכווץ וגב קעור (הולו), ורק אז בעט.",
+  shoulder:e.sc.shoulder>=80?"הכתפיים נשארות פתוחות בעלייה.":"הכתפיים נסגרות בעלייה. דחוף את הרצפה והרם את הכתפיים לכיוון האוזניים כבר בבעיטה.",
+  elbow:e.sc.elbow>=80?"הידיים נשארות ישרות בעלייה.":"המרפקים מתכופפים בעלייה. נעל את הידיים לפני שאתה בועט."};
+ const col=x=>x>=80?"good":x>=50?"mid":"bad";
+ $("entrySum").textContent="ציון עלייה: "+Math.round(e.total)+" מתוך 100";
+ $("entryList").innerHTML=Object.keys(T).map(n=>`<li><b>${ENAME[n]}</b> · <span style="color:var(--${col(e.sc[n])})">${lab(e.sc[n])}</span><br>${T[n]}</li>`).join("");
+ const wk=Object.keys(T).filter(n=>e.sc[n]<80).sort((a,b)=>e.sc[a]-e.sc[b]).slice(0,2);
+ $("entryDrills").innerHTML=wk.length?wk.map(n=>`<li style="margin:10px 0"><b>${ENAME[n]}</b><br>${(ENTRYD[n]||DRILLS[n]).map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>עלייה טובה. נסה להאריך את ההחזקה אחרי העלייה.</li>"}
 async function landmarker(){
  const fs=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
  const base="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
- return PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:base,delegate:"CPU"},runningMode:"VIDEO",numPoses:1})}
+ const mk=d=>PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:base,delegate:d},runningMode:"VIDEO",numPoses:1});
+ try{return await Promise.race([mk("GPU"),new Promise((_,no)=>setTimeout(()=>no(new Error("gpu")),12000))])}catch{return await mk("CPU")}}
 let LM=null;const getLM=()=>LM||(LM=landmarker().catch(e=>{LM=null;throw e}));getLM().catch(()=>{});
+function scanPlay(v,n,fps,cx,cvs,det,pg){return new Promise(res=>{
+ const fr=new Array(n).fill(null);let k=0,rate=2,got=0,done=false,last=Date.now();
+ const fin=ok=>{if(done)return;done=true;clearInterval(iv);v.onended=null;v.pause();v.playbackRate=1;res(ok?fr:null)};
+ const iv=setInterval(()=>{if(Date.now()-last>5000)fin(false)},1000);
+ const cb=(_,md)=>{if(done)return;got++;last=Date.now();
+  try{const idx=Math.round((md.mediaTime-.05)*fps);
+   if(idx>=n){fin(true);return}
+   if(idx>=k){cx.drawImage(v,0,0,cvs.width,cvs.height);fr[idx]=det();
+    rate=idx>k?Math.max(.25,rate*.8):Math.min(3,rate*1.05);v.playbackRate=rate;k=idx+1;pg.value=Math.min(1,k/n)}
+  }catch(e){fin(false);return}
+  if(k>=n)fin(true);else v.requestVideoFrameCallback(cb)};
+ v.onended=()=>fin(true);v.playbackRate=rate;v.currentTime=0;
+ v.play().then(()=>v.requestVideoFrameCallback(cb)).catch(()=>fin(false))})}
 const seek=(v,t)=>new Promise(r=>{v.addEventListener("seeked",r,{once:true});v.currentTime=t});
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
@@ -130,20 +185,33 @@ $("file").addEventListener("change",async e=>{
   const dg=()=>`סוג=${file.type||"לא ידוע"} גודל=${Math.round(file.size/1e5)/10}MB אורך=${v.duration} רזולוציה=${v.videoWidth}x${v.videoHeight} קוד=${v.error?v.error.code:"-"}`;
   await new Promise((ok,no)=>{v.onloadedmetadata=ok;v.onerror=()=>no(new Error("video "+dg()));setTimeout(()=>no(new Error("video "+dg())),20000)});
   if(!isFinite(v.duration)){v.currentTime=1e7;await new Promise(r=>setTimeout(r,1500));v.currentTime=0}
-  const w=v.videoWidth,h=v.videoHeight,fps=10,n=Math.floor((v.duration-.1)*fps),fr=[];
+  const w=v.videoWidth,h=v.videoHeight,fps=10,n=Math.floor((v.duration-.1)*fps);
   if(!w||!h||!(n>0))throw new Error("video "+dg());
   const cvs=document.createElement("canvas");const sc=Math.min(1,480/Math.max(w,h));cvs.width=Math.round(w*sc);cvs.height=Math.round(h*sc);const cx=cvs.getContext("2d");
+  let ts=1,fr=null;
+  const det=()=>{ts+=100;const r=lm.detectForVideo(cvs,ts),L=r.landmarks&&r.landmarks[0];return L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null};
   st.textContent="מנתח את הסרטון...";
-  for(let i=0;i<n;i++){
-   await seek(v,.05+i/fps);
-   cx.drawImage(v,0,0,cvs.width,cvs.height);
-   const r=lm.detectForVideo(cvs,i*100+1),L=r.landmarks&&r.landmarks[0];
-   fr.push(L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null);
-   pg.value=(i+1)/n;if(i%3===0)await new Promise(r=>setTimeout(r));}
+  if(v.requestVideoFrameCallback)fr=await scanPlay(v,n,fps,cx,cvs,det,pg);
+  if(!fr){
+   fr=[];pg.value=0;
+   const grab=async t=>{await seek(v,t);cx.drawImage(v,0,0,cvs.width,cvs.height);return det()};
+   const upAny=f=>f&&["L","R"].some(sd=>{const k=K[sd];return["shoulder","elbow","wrist","hip","ankle"].every(q=>f[k[q]].v>=.5)&&f[k.hip].y<f[k.shoulder].y&&f[k.wrist].y>f[k.shoulder].y});
+   const hits=[],cs=Math.max(1,Math.round(fps*.4));
+   for(let i=0;i<n;i+=cs){if(upAny(await grab(.05+i/fps)))hits.push(i);pg.value=.3*Math.min(1,(i+1)/n)}
+   let lo=0,hi=n-1;
+   if(hits.length){lo=Math.max(0,hits[0]-cs*2);hi=Math.min(n-1,hits[hits.length-1]+cs*2)}
+   for(let i=0;i<n;i++){
+    if(i<lo||i>hi){fr.push(null);continue}
+    fr.push(await grab(.05+i/fps));
+    pg.value=.3+.7*(i-lo+1)/(hi-lo+1);if(i%3===0)await new Promise(r=>setTimeout(r));}
+  }
   pg.style.display="none";
-  LAST={fr,fps,v,w,h};const res=analyze(fr,fps);
-  if(!res){st.textContent="לא זוהתה עמידת ידיים. בדוק שהצילום מהצד, כל הגוף בפריים, והגוף הפוך.";return}
-  st.textContent="";show(res,fr,v,w,h);
+  LAST={fr,fps,v,w,h};const res=analyze(fr,fps),ent=analyzeEntry(fr,fps);
+  if(!res&&!ent){st.textContent="לא זוהתה עלייה או עמידת ידיים. בדוק שהצילום מהצד, כל הגוף בפריים, והידיים על הרצפה.";return}
+  st.textContent="";
+  $("entrySec").style.display=ent?"block":"none";if(ent)showEntry(ent);
+  $("holdSec").style.display=res?"block":"none";
+  if(res)await show(res,fr,v,w,h);else{$("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"})}
  }catch(err){pg.style.display="none";console.error(err);st.textContent="משהו השתבש: "+(String(err.message).startsWith("video")?"הדפדפן לא מצליח לנגן את הסרטון. נסה MP4 בקידוד H.264, או בדוק שהסרטון מתנגן ב-Chrome ["+String(err.message).slice(6)+"]":"שגיאה: "+(err.message||err)+(/fetch/i.test(String(err.message))?" (נראה קשור לרשת, בדוק חיבור ונסה שוב)":""))}
 });
 const f1=x=>String(Math.round(x*10)/10);
@@ -160,6 +228,12 @@ function plain(n,res){const s=res.sc[n],g=s>=80,b=res.val.banana>0;
   shoulder:g?"הכתפיים פתוחות והזרועות קרובות לאוזניים.":"הכתפיים לא פתוחות עד הסוף.",
   elbow:g?"הידיים ישרות ונעולות.":"המרפקים מתכופפים.",
   sway:g?"אתה יציב, כמעט בלי התנדנדות.":"יש התנדנדות, הגוף זז הרבה בזמן ההחזקה."})[n]}
+const DRILLS={
+ banana:["הולו בודי: 3 סטים של 20-30 שניות","עמידת ידיים בקיר עם הפנים לקיר: 3 סטים של 20 שניות, מחזיקים קו ישר"],
+ lean:["משיכות עקב מהקיר: מרימים את הרגליים מהקיר לשנייה-שתיים ומאזנים עם האצבעות","עמידת ידיים בקיר: 5 החזקות של 10 שניות, מתמקדים בלחץ באצבעות"],
+ shoulder:["מתיחת כתפיים בקיר: ידיים על הקיר וחזה למטה, 3 x 30 שניות","הרמת כתפיים בעמידת ידיים בקיר: דוחפים את הכתפיים לכיוון האוזניים, 3 x 10 חזרות"],
+ elbow:["פלאנק עם ידיים נעולות לגמרי: 3 x 30 שניות","עמידת ידיים בקיר עם דגש על נעילת הידיים: 3 x 20 שניות"],
+ sway:["החזקות קצרות בקיר: 8 x 10 שניות עם מנוחה בין סט לסט","תרגול יציאה בטוחה (גלגול קדימה) כדי לא לפחד ולהתמקד באיזון"]};
 const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקרסוליים. תמשיך לכווץ ישבן ובטן.",lean:"איזון טוב מעל הידיים. תמשיך עם לחץ עדין באצבעות.",
  shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
 async function show(res,fr,v,w,h){
@@ -176,6 +250,8 @@ async function show(res,fr,v,w,h){
  $("keep").innerHTML=keep.length?keep.map(t=>`<li>${t}</li>`).join(""):"<li>עדיין אין מדד בטווח הטוב. תתמקד קודם בתיקון הראשון.</li>";
  const inH=res.series.filter(x=>x!=null),good=inH.filter(x=>x>=80).length;
  $("cons").textContent=`ב-${Math.round(100*good/inH.length)}% מהזמן הקו שלך היה טוב`;
+ const weak=Object.keys(TH).filter(n=>res.sc[n]<80).sort((a,b)=>res.sc[a]-res.sc[b]).slice(0,2);
+ $("drills").innerHTML=weak.length?weak.map(n=>`<li style="margin:10px 0"><b>${NAME[n]}</b><br>${DRILLS[n].map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>הכול בטווח הטוב. נסה להאריך את ההחזקה ב-5 שניות בכל שבוע.</li>";
  v.pause();const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d");
  tl.width=600;tl.height=120;
  const ser=res.series,k=res.k,fps=res.fps,N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;
