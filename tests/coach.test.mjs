@@ -4,6 +4,7 @@ import {analyzeCoachIssues,buildCoachEvidence,buildCoachLocalPlan,validateCoachR
 
 const html=readFileSync(new URL("../preview/index.html",import.meta.url),"utf8");
 const js=readFileSync(new URL("../preview/ai-feedback.js",import.meta.url),"utf8");
+assert.ok(js.includes('const model="gemini-3.8-flash"'),"Use a current Gemini model accessible to new API projects");
 for (const id of ["geminiSetup","geminiKey","coachPanel","geminiBtn","coachBadge","coachObservations","coachDrills","geminiStatus","file","out"]){
   assert.ok(html.includes('id="'+id+'"'),"Missing HTML ID: "+id);
 }
