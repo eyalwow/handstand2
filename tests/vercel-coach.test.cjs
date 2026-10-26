@@ -23,7 +23,7 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.ok(!js.includes("x-goog-api-key"));
  assert.ok(!bridge.includes("generativelanguage.googleapis.com"));
  assert.match(bridge,/fetch\("\/api\/coach"/);
- assert.match(html,/showCoachFeedback\(res,ent\)/);
+ assert.match(html,/showCoachFeedback\(res,(?:ent|null)\)/);
  assert.match(html,/<video id="v"/);
 });
 test("API publicly reports its configuration state without leaking key",async()=>{
@@ -48,6 +48,7 @@ test("API validates input and only returns grounded findings and allowed exercis
   assert.match(url,/generativelanguage.googleapis.com/);
   assert.equal(options.headers["x-goog-api-key"],"TEST_NO_REAL_KEY");
   assert.ok(!JSON.stringify(options.body).includes("data:video"));
+  assert.ok(!options.body.includes("SENSITIVE_SENTINEL"), "unexpected user fields must never reach Google");
   return{ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({
    summary:"כדאי לתרגל קו גוף יציב",
    observations:[{key:"hold_banana",finding:"מומצא 90 מעלות",correction:"אסוף בטן"}],
@@ -55,7 +56,7 @@ test("API validates input and only returns grounded findings and allowed exercis
   })}]}}]})};
  };
  try{
-  const r=makeRes();await handler(req("POST",{evidence:measure}),r);
+  const r=makeRes();await handler(req("POST",{evidence:{...measure,hold:{...measure.hold,unexpected:"SENSITIVE_SENTINEL"},groundedProblems:measure.groundedProblems.map(p=>({...p,extra:"SENSITIVE_SENTINEL"})),extra:"SENSITIVE_SENTINEL"}}),r);
   assert.equal(r.code,200);
   assert.equal(r.body.observations[0].finding,measure.groundedProblems[0].finding);
   assert.deepEqual(r.body.drills.map(d=>d.id),["hollow"]);
@@ -69,5 +70,27 @@ test("API validates input and only returns grounded findings and allowed exercis
  }finally{
   global.fetch=originalFetch;
   if(prevKey===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=prevKey;
+ }
+});
+
+test("upstream quota failures and unsafe generated claims fail closed",async()=>{
+ const previous=process.env.GEMINI_API_KEY, original=global.fetch;
+ process.env.GEMINI_API_KEY="TEST_NO_REAL_KEY";
+ const request=()=>({...req("POST",{evidence:measure}),headers:{...req("POST").headers,"x-real-ip":"198.51.100.58"}});
+ try{
+  global.fetch=async()=>({ok:false,status:429});
+  let response=makeRes();await handler(request(),response);
+  assert.equal(response.code,429);
+  assert.ok(!JSON.stringify(response.body).includes(process.env.GEMINI_API_KEY));
+  global.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({
+   summary:"הגוף בזווית 16.7 מעלות",
+   observations:[{key:"hold_banana",correction:"אסוף בטן"}],
+   drills:[{id:"hollow",reason:"שליטה טובה"}]
+  })}]}}]})});
+  response=makeRes();await handler(request(),response);
+  assert.equal(response.code,502);
+ }finally{
+  global.fetch=original;
+  if(previous===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=previous;
  }
 });

@@ -137,54 +137,44 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 <main>
 <header class="brand" aria-label="Handstand Lab">
   <div class="brand-name"><span class="brand-mark" aria-hidden="true">↗</span><span>HANDSTAND LAB</span></div>
-  <span class="brand-status">ANALYSIS STUDIO</span>
+  <nav aria-label="ניווט ראשי"><a href="./training.html" style="color:var(--acc);font-weight:700;text-decoration:none">אימונים והתקדמות ←</a></nav>
 </header>
 <div class="hero">
   <span class="eyebrow">TRAIN SMARTER · MOVE BETTER</span>
   <h1>עמידת ידיים.<br>דיוק בכל תנועה.</h1>
-  <p class="sub">מעלים סרטון, מנתחים את הטכניקה ומקבלים ציון ותיקונים מדויקים. הניתוח מתבצע במכשיר שלך — הסרטון לא נשלח לשרת.</p>
+  <p class="sub">מעלים סרטון ומקבלים משוב אישי שיעזור לכם להתקדם. הניתוח מתבצע במכשיר שלך — הסרטון לא נשלח לשרת.</p>
   <div class="hero-tags"><span>ניתוח תנועה</span><span>משוב אישי</span><span>שמירה על פרטיות</span></div>
 </div>
 <div class="section-head"><h2>נתח את העמידה שלך</h2><span class="step">01 / UPLOAD</span></div>
-<div class="tips"><b>איך לצלם:</b> מהצד, כל הגוף בפריים, טלפון על הרצפה במרחק 2-3 מטר, מומלץ 5 שניות ומעלה, אבל גם 2-3 שניות מספיקות. אפשר גם לצלם רק את העלייה לעמידה, בלי החזקה.</div>
+<div class="tips"><b>איך לצלם:</b> צלמו מהצד, כשכל הגוף והידיים בפריים. סרטון ברור עם כמה שניות של החזקה ייתן את התוצאה הטובה ביותר. אורך מרבי: שתי דקות.</div>
 
+<details class="gemini-setup">
+ <summary>פרטיות ומשוב AI</summary>
+ <div class="gemini-setup-content">
+  <label><input id="aiConsent" type="checkbox"> אני מסכים/ה לשלוח ל־Google נתוני תנועה מצומצמים כדי לקבל משוב AI.</label>
+  <p>הסרטון נשאר במכשיר. Google עשויה להשתמש בנתונים ובמשוב לשיפור שירותיה. אפשר לבטל את ההסכמה כאן בכל עת; גם בלעדיה תקבלו משוב מקומי.</p>
+ </div>
+</details>
 <label class="pick"><span aria-hidden="true">↑</span> העלאת סרטון לניתוח<input id="file" type="file" accept="video/*"></label>
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
 <video id="v" muted playsinline preload="auto"></video>
-<section id="out">
-<section id="coachPanel" class="coach-panel" aria-label="מאמן חכם" hidden>
- <div class="coach-topline"><span class="coach-kicker">PERSONAL TECHNIQUE COACH</span><span class="coach-badge" id="coachBadge"></span></div>
- <h2>משוב ותוכנית שיפור אישית</h2>
- <p class="coach-summary" id="coachSummary"></p>
- <div class="coach-observations" id="coachObservations"></div>
- <h3>תרגילים שמתאימים למדידה שלך</h3>
- <div class="coach-drills" id="coachDrills"></div>
- <p class="coach-quality" id="coachQuality"></p>
- <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ Gemini AI מנתח אוטומטית</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
-</section>
-  <div id="entrySec" style="display:none">
-    <h2>העלייה לעמידה</h2>
-    <p id="entrySum" style="font-weight:600;margin:0 0 4px"></p>
-    <ul id="entryList" style="list-style:none;padding:0"></ul>
-    <h2>איך לעלות טוב יותר</h2>
-    <ul id="entryDrills" style="list-style:none;padding:0"></ul>
-    <p class="note">מצד אחד של הגוף לא רואים את עמוד השדרה בדיוק, אז זיהוי הגב הוא הערכה.</p>
+<section id="out" aria-label="תוצאות הניתוח">
+  <div id="holdSec" style="display:none">
+   <div class="top"><span class="score" id="score"></span><span class="hold" id="hold"></span></div>
   </div>
-  <div id="holdSec">
-  <div class="top"><span class="score" id="score"></span><span class="hold" id="hold"></span></div>
-  <p id="sum" style="font-weight:600;margin:0 0 4px"></p>
-  <p id="cons" class="hold" style="margin:0 0 6px"></p>
-  <div id="rows"></div>
-  <h2>מה לעשות בפעם הבאה</h2>
-  <ul id="fix"></ul>
-  <h2>מה עובד לך</h2>
-  <ul id="keep"></ul>
-  <h2>תרגילים לשיפור</h2>
-  <ul id="drills" style="list-style:none;padding:0"></ul>
-  <p class="note" style="margin-top:6px">אלה הצעות כלליות. תתאמן ליד קיר ועל משטח רך, ואם יש כאב, עצור.</p>
-</div>
-
+  <p id="measurementNotice" class="tips" hidden></p>
+  <section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
+   <div class="coach-topline"><span class="coach-kicker">המשוב שלך</span><span class="coach-badge" id="coachBadge"></span></div>
+   <h2>על מה כדאי לעבוד</h2>
+   <p class="coach-summary" id="coachSummary"></p>
+   <div class="coach-observations" id="coachObservations"></div>
+   <h3>תרגילים להמשך</h3>
+   <div class="coach-drills" id="coachDrills"></div>
+   <p class="note">תרגלו לצד קיר ובמרחב פנוי. אם מופיע כאב, הפסיקו את התרגיל.</p>
+   <p class="coach-quality" id="coachQuality"></p>
+   <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ רענון משוב AI</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
+  </section>
   <div id="replaySec">
   <h2>צפה בעצמך</h2>
   <canvas id="cv"></canvas>
@@ -197,7 +187,7 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   </div>
   <p id="tlLabel" class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
   <canvas id="tl" style="cursor:pointer"></canvas>
-  <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
+  <p class="note">הסימון מציג הערכה של מנח הגוף. אם הזיהוי חלקי, כדאי לנסות צילום ברור יותר.</p>
   </div>
 </section>
 <p class="footer">HANDSTAND LAB <span class="footer-dot" aria-hidden="true"></span> גרסת ממשק 1.3 · Gemini Cloud</p>
@@ -236,10 +226,10 @@ function analyze(fr,fps){
  const inv=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.5))return false;
   const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]&&p.shoulder[1]<p.wrist[1]&&Math.abs(p.ankle[0]-p.wrist[0])<Math.abs(p.ankle[1]-p.wrist[1])};
  const gap=Math.max(1,Math.round(.3*fps));
- let mask=fr.map(inv),run=longestRun(mask,gap);
+ let mask=fr.map(inv),run=longestRun(mask,gap),relaxed=false;
  if(!run||run[1]-run[0]+1<3){
   const loose=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.3))return false;const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]};
-  mask=fr.map(loose);run=longestRun(mask,gap)}
+  mask=fr.map(loose);run=longestRun(mask,gap);relaxed=true}
  if(!run||run[1]-run[0]+1<3)return null;
  const idx=[];for(let i=run[0];i<=run[1];i++)if(mask[i])idx.push(i);
  const facing=med(idx.map(i=>fr[i][0].x-fr[i][k.ear].x))>=0?1:-1;
@@ -262,8 +252,20 @@ function analyze(fr,fps){
   return{phase:["start","middle","end"][j],pelvisOffsetPercent:subset.length?Math.round(metric("banana")*1000)/10:null,leanDegrees:metric("lean"),shoulderDeficitDegrees:metric("shoulder"),elbowDeficitDegrees:metric("elbow")};
  });
  const visibilityPercent=Math.round(100*med(idx.map(i=>Math.min(...["shoulder","elbow","wrist","hip","ankle"].map(n=>fr[i][k[n]].v)))));
+ // A single ankle cannot describe the body's central line when the legs are apart.
+ const legGaps=idx.map(i=>{
+  const f=fr[i],left=f[K.L.ankle],right=f[K.R.ankle],shoulder=f[k.shoulder];
+  if(left.v<.5||right.v<.5)return null;
+  const body=Math.hypot(f[k.ankle].x-shoulder.x,f[k.ankle].y-shoulder.y);
+  return body>0?Math.hypot(left.x-right.x,left.y-right.y)/body:null;
+ }).filter(x=>x!==null);
+ const legsApart=legGaps.length>=Math.max(5,idx.length*.4)&&med(legGaps)>.35;
  return{val,sc,total,swayOk,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1],
-  diagnostics:{validFrames:idx.length,visibilityPercent,thirds}}}
+  diagnostics:{validFrames:idx.length,visibilityPercent,thirds,relaxed,legsApart}}}
+function reliableResult(res,fps){
+ return !!(res&&!res.diagnostics.relaxed&&!res.diagnostics.legsApart&&res.hold>=1.5&&res.diagnostics.validFrames>=10&&
+  res.diagnostics.visibilityPercent>=65&&res.diagnostics.validFrames/(res.hold*fps)>=.7);
+}
 const sideOf=fr=>{const v={L:0,R:0};fr.forEach(f=>{if(f)for(const sd of["L","R"])for(const i of Object.values(K[sd]))v[sd]+=f[i].v});return v.L>=v.R?"L":"R"};
 function analyzeEntry(fr,fps){
  const k=K[sideOf(fr)],P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
@@ -298,6 +300,18 @@ async function landmarker(){
  const mk=d=>PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:base,delegate:d},runningMode:"VIDEO",numPoses:1});
  try{return await Promise.race([mk("GPU"),new Promise((_,no)=>setTimeout(()=>no(new Error("gpu")),12000))])}catch{return await mk("CPU")}}
 let LM=null;const getLM=()=>LM||(LM=landmarker().catch(e=>{LM=null;throw e}));getLM().catch(()=>{});
+// MediaPipe's VIDEO mode requires a strictly increasing timestamp for the lifetime
+// of the shared landmarker, even when a different video is selected.
+let poseTimestamp=0;
+function detectPoseFrame(lm,canvas){
+ poseTimestamp+=100;
+ try{return lm.detectForVideo(canvas,poseTimestamp)}
+ catch(err){
+  // A failed graph can be unusable. Recreate it on the next upload.
+  LM=null;try{lm.close()}catch{}
+  throw err;
+ }
+}
 function scanPlay(v,n,fps,cx,cvs,det,pg){return new Promise(res=>{
  const fr=new Array(n).fill(null);let k=0,rate=2,got=0,done=false,last=Date.now();
  const fin=ok=>{if(done)return;done=true;clearInterval(iv);v.onended=null;v.pause();v.playbackRate=1;res(ok?fr:null)};
@@ -312,22 +326,25 @@ function scanPlay(v,n,fps,cx,cvs,det,pg){return new Promise(res=>{
  v.onended=()=>fin(true);v.playbackRate=rate;v.currentTime=0;
  v.play().then(()=>v.requestVideoFrameCallback(cb)).catch(()=>fin(false))})}
 const seek=(v,t)=>new Promise(r=>{if(Math.abs(v.currentTime-t)<.001)return r();const d=()=>{clearTimeout(to);r()},to=setTimeout(()=>{v.removeEventListener("seeked",d);r()},1500);v.addEventListener("seeked",d,{once:true});v.currentTime=t});
+let videoObjectUrl=null;
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
+ e.target.disabled=true;
   resetCoachFeedback();
  const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
  try{
   st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
   const lm=await Promise.race([getLM(),new Promise((_,no)=>setTimeout(()=>no(new Error("טעינת המודל לוקחת יותר מדי זמן. בדוק חיבור ונסה שוב")),45000))]);
-  v.muted=true;v.src=URL.createObjectURL(file);v.load();
+  v.muted=true;if(videoObjectUrl)URL.revokeObjectURL(videoObjectUrl);videoObjectUrl=URL.createObjectURL(file);v.src=videoObjectUrl;v.load();
   const dg=()=>`סוג=${file.type||"לא ידוע"} גודל=${Math.round(file.size/1e5)/10}MB אורך=${v.duration} רזולוציה=${v.videoWidth}x${v.videoHeight} קוד=${v.error?v.error.code:"-"}`;
   await new Promise((ok,no)=>{v.onloadedmetadata=ok;v.onerror=()=>no(new Error("video "+dg()));setTimeout(()=>no(new Error("video "+dg())),20000)});
   if(!isFinite(v.duration)){v.currentTime=1e7;await new Promise(r=>setTimeout(r,1500));v.currentTime=0}
+  if(v.duration>120){pg.style.display="none";st.textContent="הסרטון ארוך מדי לניתוח. נסו לבחור סרטון של עד שתי דקות.";return}
   const w=v.videoWidth,h=v.videoHeight,fps=10,n=Math.floor((v.duration-.1)*fps);
   if(!w||!h||!(n>0))throw new Error("video "+dg());
   const cvs=document.createElement("canvas");const sc=Math.min(1,480/Math.max(w,h));cvs.width=Math.round(w*sc);cvs.height=Math.round(h*sc);const cx=cvs.getContext("2d");
-  let ts=1,fr=null;
-  const det=()=>{ts+=100;const r=lm.detectForVideo(cvs,ts),L=r.landmarks&&r.landmarks[0];return L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null};
+  let fr=null;
+  const det=()=>{const r=detectPoseFrame(lm,cvs),L=r.landmarks&&r.landmarks[0];return L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null};
   st.textContent="מנתח את הסרטון...";
   if(v.requestVideoFrameCallback)fr=await scanPlay(v,n,fps,cx,cvs,det,pg);
   if(!fr){
@@ -344,14 +361,30 @@ $("file").addEventListener("change",async e=>{
     pg.value=.3+.7*(i-lo+1)/(hi-lo+1);if(i%3===0)await new Promise(r=>setTimeout(r));}
   }
   pg.style.display="none";
-  LAST={fr,fps,v,w,h};const res=analyze(fr,fps),ent=analyzeEntry(fr,fps);
-  if(!res&&!ent){st.textContent="לא זוהתה עלייה או עמידת ידיים. בדוק שהצילום מהצד, כל הגוף בפריים, והידיים על הרצפה.";return}
+  LAST={fr,fps,v,w,h};const res=analyze(fr,fps);
+  const reliable=reliableResult(res,fps);
+  const seen=fr.map((f,i)=>f?i:-1).filter(i=>i>=0);
+  if(!seen.length){st.textContent="לא הצלחנו לזהות גוף בסרטון. נסו לצלם מהצד כשכל הגוף מופיע בפריים.";return}
   st.textContent="";
-  $("entrySec").style.display=ent?"block":"none";if(ent)showEntry(ent);
-  $("holdSec").style.display=res?"block":"none";
-  if(res)await show(res,fr,v,w,h);else{const nn=fr.map((f,i)=>f?i:-1).filter(i=>i>=0);await replay(fr,v,w,h,K[sideOf(fr)],null,fps,nn[nn.length>>1]);$("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"})}
-   showCoachFeedback(res,ent);
- }catch(err){pg.style.display="none";console.error(err);st.textContent="משהו השתבש: "+(String(err.message).startsWith("video")?"הדפדפן לא מצליח לנגן את הסרטון. נסה MP4 בקידוד H.264, או בדוק שהסרטון מתנגן ב-Chrome ["+String(err.message).slice(6)+"]":"שגיאה: "+(err.message||err)+(/fetch/i.test(String(err.message))?" (נראה קשור לרשת, בדוק חיבור ונסה שוב)":""))}
+  $("measurementNotice").hidden=reliable;
+  $("holdSec").style.display=reliable?"block":"none";
+  if(reliable){
+   await show(res,fr,v,w,h);
+   showCoachFeedback(res,null);
+   if(res.hold>=2){
+    try{const key="handstand-lab-analyses-v1",old=JSON.parse(localStorage.getItem(key)||"[]");
+     if(Array.isArray(old)){old.push({date:new Date().toISOString(),score:Math.round(res.total),model:"v1"});localStorage.setItem(key,JSON.stringify(old.slice(-100)));}
+    }catch{}
+   }
+  }else{
+   $("measurementNotice").textContent=res?.diagnostics.legsApart
+    ?"בפיסוק הרגליים קשה לנו להעריך את קו הגוף בצורה הוגנת. נסו סרטון נוסף עם רגליים קרובות, כשהגוף כולו בפריים."
+    :"לא הצלחנו למדוד את העמידה בביטחון. נסו לצלם מהצד, עם כל הגוף בפריים והחזקה ברורה של כמה שניות.";
+   await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1]);
+   $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
+  }
+ }catch(err){pg.style.display="none";console.error(err);st.textContent="לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."}
+ finally{e.target.disabled=false;e.target.value=""}
 });
 const f1=x=>String(Math.round(x*10)/10);
 function why(n,res){const s=res.sc[n],v=res.val,[g,b]=TH[n].map(x=>x*SCALE),vd=s>=80?"בטווח הטוב":s>=50?"סטייה קלה":"סטייה גדולה";
@@ -376,7 +409,7 @@ const DRILLS={
 const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקרסוליים. תמשיך לכווץ ישבן ובטן.",lean:"איזון טוב מעל הידיים. תמשיך עם לחץ עדין באצבעות.",
  shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
 async function replay(fr,v,w,h,k,ser,fps,mid){
- ser=ser||fr.map(()=>null);
+ ser=fr.map(()=>null);
  v.pause();const has=ser.some(x=>x!=null);$("tl").style.display=has?"block":"none";$("tlLabel").style.display=has?"block":"none";
  const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d"),sl=$("scrub");
  tl.width=600;tl.height=120;
@@ -411,24 +444,12 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
  await seek(v,.05+mid/fps);draw(mid);
 }
 async function show(res,fr,v,w,h){
- $("score").textContent=Math.round(res.total);$("sum").textContent=res.total>=85?"עמידת ידיים חזקה. עכשיו מדייקים פרטים.":res.total>=65?"בסיס טוב, יש כמה דברים קטנים לשפר.":"יש הרבה מקום להתקדם. נתחיל מדבר אחד בכל פעם.";$("hold").textContent=`מתוך 100 · החזקה של ${res.hold.toFixed(1)} שניות`;
- $("rows").innerHTML=Object.keys(TH).map(n=>{const s=res.sc[n],c=s>=80?"good":s>=50?"mid":"bad";
-  return`<div class="row"><div><span>${NAME[n]}</span><span style="color:var(--${c});font-weight:600">${n==="sway"&&!res.swayOk?"לא נמדד":lab(s)}</span></div><div class="bar"><i style="width:${s}%;background:var(--${c})"></i></div><p class="why">${n==="sway"&&!res.swayOk?"ההחזקה קצרה מדי כדי למדוד יציבות.":plain(n,res)}</p><details><summary>איך חושב?</summary><p class="why">${why(n,res)}</p></details></div>`}).join("");
- const fix=[];
- if(res.sc.banana<80)fix.push([res.sc.banana,res.val.banana>0?TIP.arch:TIP.back]);
- for(const n of["lean","shoulder","elbow","sway"])if(res.sc[n]<80&&(n!=="sway"||res.swayOk))fix.push([res.sc[n],TIP[n]]);
- if(res.hold<5)fix.push([50,TIP.short]);
- fix.sort((a,b)=>a[0]-b[0]);
- $("fix").innerHTML=fix.length?fix.map(f=>`<li>${f[1]}</li>`).join(""):"<li>הכול נראה טוב. נסה החזקה ארוכה יותר.</li>";
- const keep=Object.keys(TH).filter(n=>res.sc[n]>=80&&(n!=="sway"||res.swayOk)).map(n=>KEEP[n]);if(res.hold>=5)keep.push("החזקה ארוכה של "+f1(res.hold)+" שניות. זה בסיס טוב.");
- $("keep").innerHTML=keep.length?keep.map(t=>`<li>${t}</li>`).join(""):"<li>עדיין אין מדד בטווח הטוב. תתמקד קודם בתיקון הראשון.</li>";
- const inH=res.series.filter(x=>x!=null),good=inH.filter(x=>x>=80).length;
- $("cons").textContent=`ב-${Math.round(100*good/inH.length)}% מהזמן הקו שלך היה טוב`;
- const weak=Object.keys(TH).filter(n=>res.sc[n]<80&&(n!=="sway"||res.swayOk)).sort((a,b)=>res.sc[a]-res.sc[b]).slice(0,2);
- $("drills").innerHTML=weak.length?weak.map(n=>`<li style="margin:10px 0"><b>${NAME[n]}</b><br>${DRILLS[n].map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>הכול בטווח הטוב. נסה להאריך את ההחזקה ב-5 שניות בכל שבוע.</li>";
- await replay(fr,v,w,h,res.k,res.series,res.fps,res.mid);
+ $("score").textContent=Math.round(res.total);
+ $("hold").textContent="מתוך 100";
+ await replay(fr,v,w,h,res.k,null,res.fps,res.mid);
  $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
 }
+
 </script>
 </body>
 </html>

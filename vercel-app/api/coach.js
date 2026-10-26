@@ -20,7 +20,8 @@ const RULES=[
  "You are a careful calisthenics handstand coach. Write fluent Hebrew for the trainee.",
  "You have ONLY 2D pose estimates, not video footage; never claim to have watched it.",
  "Never invent measurements, diagnosis, injury, anatomy, exact root causes, finger pressure, or direction not measured.",
- "Select up to 3 key observations from groundedProblems, with concrete measured evidence. Return at most 3 drills.",
+ "Select up to 3 key observations from groundedProblems; lower scores indicate greater concern. Return at most 3 drills.",
+ "Write simple, concise, encouraging Hebrew. Do not include numeric values, angles, percentages, scores or medical claims.",
  "Exercise IDs MUST belong to allowedExerciseIds. Do not prescribe unlisted exercises or set/repetition counts.",
  "If no grounded problems, observations must be empty; recommend safe maintenance and good habits.",
  "Advise a stable wall and clear surface; stop if painful. Return valid JSON ONLY.",
@@ -34,7 +35,10 @@ module.exports=async function handler(req,res){
  if(origin){try{if(new URL(origin).host!==req.headers.host)return send(res,403,{message:"Origin not allowed"})}catch{return send(res,403,{message:"Origin not allowed"})}}
  const ip=String(req.headers["x-real-ip"]||req.headers["x-forwarded-for"]||"unknown").split(",")[0].slice(0,100);
  const now=Date.now();
- if(hits.size>500)for(const[k,v]of hits)if(v.until<now)hits.delete(k);
+ if(hits.size>=500){
+  for(const[k,v]of hits)if(v.until<now)hits.delete(k);
+  if(hits.size>=500&&!hits.has(ip))return send(res,429,{message:"השירות עמוס כרגע. אפשר לנסות שוב בעוד כמה דקות."});
+ }
  let hit=hits.get(ip)||{n:0,until:now+300000};
  if(hit.until<now)hit={n:0,until:now+300000};
  hit.n++;hits.set(ip,hit);
@@ -43,8 +47,14 @@ module.exports=async function handler(req,res){
  const e=req.body.evidence;
  const allowed=new Set(e.allowedExerciseIds);
  const permit=new Set(e.groundedProblems.map(p=>p.key));
- const safe={hold:e.hold??null,entry:e.entry??null,groundedProblems:e.groundedProblems,
-  allowedExerciseIds:e.allowedExerciseIds,note:"Single 2D view; these are estimates."};
+ // Explicit allowlist: never forward extra fields, free text, raw video, images or landmark arrays.
+ const safe={
+  hold:e.hold?{durationSeconds:e.hold.durationSeconds,score:e.hold.score}:null,
+  entry:e.entry?{score:e.entry.score}:null,
+  groundedProblems:e.groundedProblems.map(({key,score})=>({key,score})),
+  allowedExerciseIds:[...new Set(e.allowedExerciseIds)],
+  note:"Single 2D view; these are estimates."
+ };
  const model=String(process.env.GEMINI_MODEL||"gemini-3.5-flash-lite");
  if(!["gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.8-flash"].includes(model))return send(res,500,{message:"Invalid model"});
  const controller=new AbortController();
@@ -58,7 +68,7 @@ module.exports=async function handler(req,res){
     generationConfig:{responseMimeType:"application/json",temperature:0.25,maxOutputTokens:2000}})
   });
   if(!response.ok)return send(res,response.status===429?429:503,{
-   message:response.status===429?"המכסה החינמית של Gemini הסתיימה. נסה מאוחר יותר.":"Gemini לא זמין כרגע. המשוב המקומי עדיין עובד."
+   message:response.status===429?"השירות הגיע למגבלת שימוש זמנית. נסה מאוחר יותר.":"Gemini לא זמין כרגע. המשוב המקומי עדיין עובד."
   });
   const responseJson=await response.json();
   const raw=responseJson?.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("");
@@ -66,11 +76,15 @@ module.exports=async function handler(req,res){
   let parsed;try{parsed=JSON.parse(raw)}catch{return send(res,502,{message:"Gemini החזיר תשובה לא תקינה."})}
   if(typeof parsed?.summary!=="string"||!Array.isArray(parsed?.drills)||!Array.isArray(parsed?.observations))return send(res,502,{message:"מבנה תשובת Gemini לא תקין."});
   const short=x=>typeof x==="string"?x.trim().slice(0,330):"";
-  const observations=parsed.observations.filter(o=>o&&permit.has(o.key)&&short(o.correction)).slice(0,3)
+  // Generative claims with numbers or medical diagnoses are unsupported; prefer local fallback.
+  const safeText=x=>{const t=short(x);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת/.test(t)?t:""};
+  const seen=new Set();
+  const observations=parsed.observations.filter(o=>o&&permit.has(o.key)&&!seen.has(o.key)&&safeText(o.correction)&&seen.add(o.key)).slice(0,3)
    .map(o=>({key:o.key,finding:e.groundedProblems.find(p=>p.key===o.key).finding,correction:short(o.correction)}));
-  const drills=parsed.drills.filter(o=>o&&allowed.has(o.id)&&short(o.reason)).slice(0,3)
+  const seenDrills=new Set();
+  const drills=parsed.drills.filter(o=>o&&allowed.has(o.id)&&!seenDrills.has(o.id)&&safeText(o.reason)&&seenDrills.add(o.id)).slice(0,3)
    .map(o=>({id:o.id,reason:short(o.reason)}));
-  if(!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
+  if(!safeText(parsed.summary)||!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
   return send(res,200,{summary:short(parsed.summary),observations,drills});
  }catch{return send(res,503,{message:"Gemini לא זמין כרגע. המשוב המקומי נשאר זמין."})}
  finally{clearTimeout(timer)}

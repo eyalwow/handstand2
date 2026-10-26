@@ -62,8 +62,16 @@ export function generatePlan(goal="handstand",level="beginner"){
   let list=day.list.map(x=>({...x}));
   if(goal==="strength"){
    list=list.filter(x=>x.id!=="wallKick"&&x.id!=="toePull");
-   if(index===0)list=[ex("push",level==="beginner"?2:3,level==="beginner"?"5–8":"8–12"),...list.filter(x=>x.id!=="wall")];
-   if(index===2)list=[ex(level==="beginner"?"negativePull":"pull",3,level==="beginner"?"3–5":"5–8",120),...list.filter(x=>x.id!=="wall")];
+   if(index===0){
+    const main=level==="beginner"?"inclinePush":"push";
+    const warm=list.filter(x=>LIBRARY[x.id].focus==="mobility");
+    list=[...warm,ex(main,level==="beginner"?2:3,level==="beginner"?"6–10":"8–12"),...list.filter(x=>x.id!=="wall"&&x.id!==main&&LIBRARY[x.id].focus!=="mobility")];
+   }
+   if(index===2){
+    const main=level==="beginner"?"negativePull":"pull";
+    const warm=list.filter(x=>LIBRARY[x.id].focus==="mobility");
+    list=[...warm,ex(main,level==="beginner"?2:3,level==="beginner"?"3–5":"5–8",120),...list.filter(x=>x.id!=="wall"&&x.id!==main&&LIBRARY[x.id].focus!=="mobility")];
+   }
   }
   if(goal==="general"){
    list=list.filter(x=>!["wallKick","toePull","wall"].includes(x.id));
@@ -71,6 +79,7 @@ export function generatePlan(goal="handstand",level="beginner"){
    if(index===2)list.unshift(ex("calf",3,"15–20"));
   }
   return{...day,name:goal==="handstand"?day.name:goal==="strength"?["דחיפה וכוח","משיכה ורגליים","כוח וטכניקה"][index]:["אימון גוף מלא A","אימון גוף מלא B","אימון גוף מלא C"][index],
+   focus:goal==="handstand"?day.focus:goal==="strength"?["דחיפה ורגליים","משיכה ויציבות","כוח בשליטה"][index]:["דחיפה ורגליים","משיכה וליבה","רגליים ויציבות"][index],
    list};
  });
 }

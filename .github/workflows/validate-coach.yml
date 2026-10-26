@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'preview/**'
+      - 'vercel-app/**'
       - 'tests/**'
       - '.github/workflows/validate-coach.yml'
   workflow_dispatch:
@@ -20,7 +21,12 @@ jobs:
           node-version: '22'
       - name: Check AI module syntax
         run: node --check preview/ai-feedback.js
-      - name: Test personalized and safe feedback
-        run: node --test tests/coach.test.mjs
-      - name: Test Vercel Gemini endpoint and privacy
-        run: node --test tests/vercel-coach.test.cjs
+      - name: Check Vercel modules
+        run: |
+          node --check vercel-app/ai-feedback.js
+          node --check vercel-app/server-gemini.js
+          node --check vercel-app/training-core.js
+          node --check vercel-app/training-ui.js
+          node --check vercel-app/api/coach.js
+      - name: Run analyzer, privacy, API, and training tests
+        run: node --test tests/*.test.*
