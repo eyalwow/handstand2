@@ -2,7 +2,7 @@
 // Prototype BYOK: the key stays in the password field for this page session, not in GitHub or storage.
 // For production, use a secure server proxy instead of direct browser API requests.
 const $=id=>document.getElementById(id);
-const model="gemini-2.5-flash";
+const model="gemini-3.8-flash";
 const url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent";
 const n=(x,p=1)=>Number(Number(x).toFixed(p));
 const catalog={
@@ -171,7 +171,7 @@ async function runGemini(){
    headers:{"Content-Type":"application/json","x-goog-api-key":key},
    body:JSON.stringify({systemInstruction:{parts:[{text:system}]},
      contents:[{role:"user",parts:[{text:JSON.stringify(measure)}]}],
-     generationConfig:{responseMimeType:"application/json",responseSchema:schema,temperature:0.25,maxOutputTokens:1400}})
+     generationConfig:{responseMimeType:"application/json",responseSchema:schema,temperature:0.25,maxOutputTokens:2400}})
   });
   let body;try{body=await response.json()}catch{throw Error("לא התקבלה תשובה תקינה מ־Gemini.")}
   if(!response.ok){
