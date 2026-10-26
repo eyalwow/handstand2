@@ -1,9 +1,8 @@
+import {getSharedGemini,geminiReady} from "./firebase-gemini.js";
 // Handstand AI Coach: only numeric pose measurements go to Gemini, never photos/video.
-// Prototype BYOK: the key stays in the password field for this page session, not in GitHub or storage.
-// For production, use a secure server proxy instead of direct browser API requests.
+// Google Firebase AI Logic handles shared access and App Check; end users never enter secrets.
+// When Firebase is not configured or quota is exhausted, local measurements still work.
 const $=id=>document.getElementById(id);
-const model="gemini-3.8-flash";
-const url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent";
 const n=(x,p=1)=>Number(Number(x).toFixed(p));
 const catalog={
  hollow:{name:"הולו בודי",dose:"3 × 15–25 שניות",cue:"לשמור בטן אסופה וצלעות פנימה בלי להקשת גב"},
@@ -124,32 +123,38 @@ function render(plan,ai){
  $("coachQuality").textContent=plan.quality;
  $("coachPanel").hidden=false;
 }
-let current=null,serial=0,controller=null;
-function cancel(){serial++;if(controller){controller.abort();controller=null}$("geminiBtn").disabled=false}
-export function resetCoachFeedback(){cancel();current=null;$("coachPanel").hidden=true;$("geminiStatus").textContent=""}
+let current=null,serial=0;
+function cancel(){
+ serial++;
+ $("geminiBtn").disabled=!geminiReady();
+}
+export function resetCoachFeedback(){
+ cancel();current=null;$("coachPanel").hidden=true;$("geminiStatus").textContent="";
+}
 export function setupCoach(){
- $("geminiBtn").addEventListener("click",()=>runGemini());
- $("geminiKey").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();if(current)void runGemini()}});
+ const btn=$("geminiBtn");
+ btn.addEventListener("click",()=>void runGemini());
+ btn.disabled=!geminiReady();
+ btn.textContent=geminiReady()?"✦ נסה שוב עם Gemini":"Gemini יחובר בקרוב";
 }
 export function showCoachFeedback(res,ent){
  cancel();
  const issues=identify(res,ent),measure=evidence(res,ent,issues);
  current={issues,measure};
  render(local(issues,measure),false);
- $("geminiStatus").textContent=$("geminiKey").value.trim()
-  ?"מכין משוב באמצעות Gemini…"
-  :"המשוב שמוצג מבוסס על המדדים שלך. למשוב עם Gemini פתח את הגדרות Gemini והכנס מפתח.";
- if($("geminiKey").value.trim())void runGemini();
+ if(geminiReady()){
+  $("geminiStatus").textContent="מכין משוב אישי עם Gemini…";
+  void runGemini();
+ }else{
+  $("geminiStatus").textContent="המשוב המבוסס על מדידות פעיל. חיבור Gemini המשותף יופעל אחרי הגדרת Firebase על ידי בעל האפליקציה.";
+ }
 }
 async function runGemini(){
- if(!current)return;
- const key=$("geminiKey").value.trim(),status=$("geminiStatus");
- if(!key){$("geminiSetup").open=true;status.textContent="צריך להזין מפתח API אישי של Gemini. הוא לא נשמר באתר.";$("geminiKey").focus();return}
- cancel();const id=++serial,ac=new AbortController();controller=ac;
- const button=$("geminiBtn");button.disabled=true;
+ if(!current||!geminiReady())return;
+ const id=++serial,button=$("geminiBtn"),status=$("geminiStatus");
+ button.disabled=true;
  const {issues,measure}=current;
- const timer=setTimeout(()=>ac.abort(),30000);
- status.textContent="Gemini מנתח את מדדי הגוף שלך…";
+ status.textContent="Gemini מנתח את נתוני התנועה שלך…";
  try{
   const system="You are an expert but cautious handstand coach. Write in clear natural Hebrew, second person. "+
    "You have only numeric 2D pose measurements, not actual video. Never claim to have seen video or measured finger pressure, grip, spine, pain, injury, breathing, or forward/backward lean direction not in evidence. "+
@@ -158,40 +163,23 @@ async function runGemini(){
    "Prioritize 1-3 important technique issues and give SPECIFIC one-step cues for each rather than generic praise. "+
    "If no groundedProblems, return zero observations and positive maintenance advice. If measurement is brief or noisy, signal uncertainty in summary. "+
    "Do not infer root causes from one 2D view. Work near a wall and stop if pain. Return JSON.";
-  const schema={type:"OBJECT",properties:{
-    summary:{type:"STRING"},observations:{type:"ARRAY",maxItems:3,items:{type:"OBJECT",properties:{
-      key:{type:"STRING"},finding:{type:"STRING"},correction:{type:"STRING"}
-    },required:["key","finding","correction"]}},
-    drills:{type:"ARRAY",minItems:1,maxItems:3,items:{type:"OBJECT",properties:{
-      id:{type:"STRING"},reason:{type:"STRING"}
-    },required:["id","reason"]}}
-  },required:["summary","observations","drills"]};
-  const response=await fetch(url,{
-   method:"POST",signal:ac.signal,
-   headers:{"Content-Type":"application/json","x-goog-api-key":key},
-   body:JSON.stringify({systemInstruction:{parts:[{text:system}]},
-     contents:[{role:"user",parts:[{text:JSON.stringify(measure)}]}],
-     generationConfig:{responseMimeType:"application/json",responseSchema:schema,temperature:0.25,maxOutputTokens:2400}})
-  });
-  let body;try{body=await response.json()}catch{throw Error("לא התקבלה תשובה תקינה מ־Gemini.")}
-  if(!response.ok){
-   if(response.status===429)throw Error("הגעת למגבלת השימוש של Gemini. נסה מאוחר יותר.");
-   if([400,401,403].includes(response.status))throw Error("המפתח לא אושר או שהמודל לא זמין בחשבון שלך. בדוק את המפתח ב־Google AI Studio.");
-   throw Error("שגיאת שרת Gemini ("+response.status+").");
-  }
-  const raw=body?.candidates?.[0]?.content?.parts?.map(x=>x.text||"").join("");
-  if(!raw)throw Error("Gemini לא החזיר משוב.");
-  const plan=validate(JSON.parse(raw),measure,issues);
+  const response=await Promise.race([
+   getSharedGemini(system+"\nMeasurements (JSON): "+JSON.stringify(measure)),
+   new Promise((_,reject)=>setTimeout(()=>reject(new Error("השירות לא השיב בזמן. נסה שוב.")),35000))
+  ]);
   if(id!==serial)return;
+  const plan=validate(response,measure,issues);
   render(plan,true);
-  status.textContent="המשוב נוצר ב־Gemini ממדדי תנועה בלבד; הסרטון נשאר במכשיר.";
+  status.textContent="המשוב נוצר ב־Gemini ממדדי תנועה בלבד. הסרטון עצמו נשאר במכשיר.";
  }catch(err){
   if(id!==serial)return;
-  const message=err.name==="AbortError"?"הבקשה ארכה יותר מדי זמן.":err instanceof TypeError?"בעיה בחיבור ל־Gemini מהדפדפן.":err.message;
+  const msg=String(err?.message||"שגיאה בחיבור");
+  const isQuota=/429|quota|resource.exhausted|rate.limit/i.test(msg);
   render(local(issues,measure),false);
-  status.textContent="Gemini לא הצליח להשלים: "+message+" המשוב המקומי עדיין זמין.";
+  status.textContent=(isQuota?"המכסה החינמית של Gemini התמלאה. ":"Gemini לא הצליח להשלים את הניתוח. ")+
+   "המשוב המקומי נשאר זמין."+(isQuota?" נסה שוב מאוחר יותר.":"");
  }finally{
-  clearTimeout(timer);if(id===serial){controller=null;button.disabled=false}
+  if(id===serial)button.disabled=!geminiReady();
  }
 }
 
