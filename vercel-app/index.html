@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handstand Lab — AI Coach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#090B0A;--ink:#F3F7F2;--mute:#ABB5AD;--card:#171B19;--line:#303A32;
+  --acc:#B6FF4A;--good:#8CE49E;--mid:#FFD476;--bad:#FF8585;
+  --soft:#111612;--acc-ink:#111807;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;margin:0;color:var(--ink);
+  background:radial-gradient(ellipse 65% 30% at 50% 0%,rgba(182,255,74,.10),transparent 75%),var(--bg);
+  font:400 16px/1.6 Rubik,system-ui,-apple-system,sans-serif;
+  padding:max(28px,env(safe-area-inset-top)) 18px max(40px,env(safe-area-inset-bottom));
+}
+main{max-width:760px;margin:0 auto}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:36px}
+.brand-name{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;letter-spacing:.06em}
+.brand-mark{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;color:var(--acc-ink);background:var(--acc);font-size:19px}
+.brand-status{display:flex;align-items:center;gap:7px;color:var(--mute);font-size:12px;white-space:nowrap}
+.brand-status:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px rgba(182,255,74,.65)}
+.hero{position:relative;padding:34px 30px 30px;overflow:hidden;background:linear-gradient(125deg,#202B1C,#151B16 58%,#101411);border:1px solid #35452C;border-radius:24px;margin-bottom:22px}
+.hero:after{content:"";position:absolute;inset:auto -55px -95px auto;width:270px;height:270px;border:1px solid rgba(182,255,74,.12);border-radius:50%;box-shadow:0 0 0 55px rgba(182,255,74,.028),0 0 0 112px rgba(182,255,74,.018);pointer-events:none}
+.eyebrow{display:inline-block;color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.12em;margin-bottom:8px}
+h1{position:relative;z-index:1;font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.18;letter-spacing:-.9px;margin:0 0 12px}
+.sub{position:relative;z-index:1;max-width:520px;font-size:15px;color:#C0CBC0;margin:0}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.hero-tags span{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid #45523B;border-radius:999px;color:#DBE8D4;font-size:12px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 12px}
+.section-head h2{margin:0}
+.step{font-size:12px;color:var(--acc);font-weight:800}
+.tips{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px 20px;margin-bottom:16px;font-size:14px;color:var(--mute)}
+.tips b{color:var(--ink);font-weight:800}
+.pick{display:flex;align-items:center;justify-content:center;gap:10px;min-height:62px;text-align:center;background:var(--acc);color:var(--acc-ink);font-weight:800;font-size:17px;padding:16px;border-radius:15px;cursor:pointer;box-shadow:0 7px 24px rgba(182,255,74,.13);transition:transform .15s ease,filter .15s ease}
+.pick:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.pick:active{transform:translateY(0)}
+.pick:focus-within{outline:3px solid white;outline-offset:4px}
+.pick input{position:absolute;opacity:0;width:1px;height:1px}
+#status{margin:14px 0;color:var(--mute);min-height:26px;font-size:14px}
+progress{width:100%;height:8px;accent-color:var(--acc);display:none;border-radius:999px}
+progress::-webkit-progress-bar{background:var(--line);border-radius:999px}
+progress::-webkit-progress-value{background:var(--acc);border-radius:999px}
+#out{display:none;animation:rise .25s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+#entrySec,#holdSec,#replaySec{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin-top:16px}
+#entrySec h2:first-child,#replaySec h2:first-child{margin-top:0}
+.top{display:flex;align-items:center;gap:18px;margin:8px 0 20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.score{font-size:clamp(64px,12vw,88px);font-weight:800;line-height:1;letter-spacing:-4px;color:var(--acc);font-variant-numeric:tabular-nums}
+.hold{color:var(--mute)}
+.row{margin:16px 0}
+.row div:first-child{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+details summary{cursor:pointer;color:var(--mute);font-size:13px;margin-top:6px}
+.ctl{flex:1;min-width:0;border:1px solid var(--line);background:#212822;color:var(--ink);font:inherit;font-weight:600;font-size:13px;padding:13px 5px;border-radius:11px;cursor:pointer;transition:border-color .15s,background .15s}
+.ctl:hover{border-color:var(--acc);background:#273124}
+.ctl:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+#play{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+#play:hover{background:#C8FF7C}
+.why{margin:6px 0 0;font-size:13px;color:var(--mute)}
+.bar{height:9px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:7px}
+.bar i{display:block;height:100%;border-radius:999px}
+h2{font-size:19px;line-height:1.4;margin:25px 0 10px;font-weight:800}
+ul{padding-inline-start:20px;margin:0}
+li{margin:8px 0}
+canvas{display:block;width:100%;border-radius:12px;border:1px solid var(--line);margin-top:10px;background:#0C100D}
+#scrub{cursor:pointer}
+.note{color:var(--mute);font-size:12px;margin-top:20px}
+.footer{display:flex;align-items:center;justify-content:center;gap:8px;margin:27px 0 0;color:#758176;font-size:12px}
+.footer-dot{width:5px;height:5px;border-radius:50%;background:#607360}
+video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+@media(max-width:600px){
+  body{padding:max(15px,env(safe-area-inset-top)) 12px max(30px,env(safe-area-inset-bottom))}
+  .brand{margin:7px 6px 20px}
+  .hero{padding:27px 20px 25px;border-radius:19px}
+  .hero:after{width:190px;height:190px;right:-75px;bottom:-80px}
+  .tips{padding:15px}
+  #entrySec,#holdSec,#replaySec{padding:17px 14px;border-radius:16px}
+  #replaySec .ctl{font-size:12px;padding:12px 2px}
+  .top{gap:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+[hidden]{display:none!important}
+.gemini-setup{background:#111812;border:1px solid #35432D;border-radius:15px;margin:0 0 16px;overflow:hidden}
+.gemini-setup>summary{list-style:none;cursor:pointer;padding:14px 17px;font-weight:700;font-size:14px;color:var(--ink)}
+.gemini-setup>summary::-webkit-details-marker{display:none}
+.gemini-setup>summary:after{content:"⌄";float:left;color:var(--acc)}
+.gemini-setup[open]>summary:after{content:"⌃"}
+.gemini-setup-content{border-top:1px solid var(--line);padding:15px 17px 18px}
+.gemini-setup-content label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+.gemini-key{display:block;width:100%;border:1px solid #495346;border-radius:10px;background:#0A100B;color:var(--ink);padding:12px 13px;font:inherit;direction:ltr;text-align:left;margin-bottom:10px}
+.gemini-setup-content a{color:var(--acc);font-size:13px;font-weight:700;text-underline-offset:4px}
+.gemini-setup-content p{margin:12px 0 0;font-size:12px;line-height:1.6;color:var(--mute)}
+.coach-panel{background:linear-gradient(155deg,#192218,#121814 65%);border:1px solid #4B6135;border-radius:20px;padding:24px;margin-top:16px}
+.coach-topline{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.coach-kicker{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--acc)}
+.coach-badge{padding:4px 9px;border-radius:999px;background:#2B3B24;color:#D5F8BC;font-size:11px;font-weight:700}
+.coach-panel h2{font-size:23px;margin:12px 0 8px}
+.coach-summary{font-size:15px;line-height:1.8;margin:0 0 15px;color:var(--ink)}
+.coach-panel h3{font-size:16px;margin:22px 0 10px}
+.coach-observations{display:grid;gap:10px}
+.coach-observation{border:1px solid #35432E;background:#141B15;border-radius:12px;padding:14px}
+.coach-observation p,.coach-drill p{margin:0}
+.coach-observation-title{color:var(--acc);font-weight:800;font-size:13px;margin-bottom:6px!important}
+.coach-observation-finding{font-size:13px;color:#DCE7D8;line-height:1.65;margin-bottom:6px!important}
+.coach-observation-cue{font-size:13px;color:var(--mute);line-height:1.7}
+.coach-drills{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:10px}
+.coach-drill{background:#121A13;border:1px solid #344332;border-radius:14px;padding:15px}
+.coach-drill-name{font-weight:800;font-size:14px;color:var(--ink);margin-bottom:9px!important}
+.coach-dose{display:inline-block!important;color:var(--acc);font-weight:800;font-size:12px;margin-bottom:9px!important}
+.coach-drill-focus,.coach-drill-reason{font-size:12px;line-height:1.65;color:var(--mute)}
+.coach-drill-reason{margin-top:8px!important;color:#C3D8B6}
+.coach-quality{font-size:12px;color:#A9B6A2;line-height:1.7;margin:18px 0 0}
+.coach-ai-action{padding-top:16px;margin-top:18px;border-top:1px solid #344332}
+.gemini-button{font:inherit;font-weight:800;font-size:14px;border:1px solid var(--acc);background:transparent;color:var(--acc);padding:12px 18px;border-radius:11px;cursor:pointer}
+.gemini-button:hover:not(:disabled){background:rgba(182,255,74,.08)}
+.gemini-button:disabled{opacity:.6;cursor:wait}
+.gemini-status{font-size:12px;color:var(--mute);margin:10px 0 0;line-height:1.7}
+@media(max-width:600px){.coach-panel{padding:18px 14px;border-radius:16px}.coach-drills{grid-template-columns:1fr}}
+
+/* Personalized coach leads the report; legacy generic prescriptions stay in DOM for JS compatibility but are not shown twice. */
+#holdSec > h2,#holdSec > ul,#holdSec > p.note{display:none}
+#entrySec > h2:nth-of-type(2),#entryDrills{display:none}
+#coachPanel{margin-bottom:16px}
+</style>
+</head>
+<body>
+<main>
+<header class="brand" aria-label="Handstand Lab">
+  <div class="brand-name"><span class="brand-mark" aria-hidden="true">↗</span><span>HANDSTAND LAB</span></div>
+  <span class="brand-status">ANALYSIS STUDIO</span>
+</header>
+<div class="hero">
+  <span class="eyebrow">TRAIN SMARTER · MOVE BETTER</span>
+  <h1>עמידת ידיים.<br>דיוק בכל תנועה.</h1>
+  <p class="sub">מעלים סרטון, מנתחים את הטכניקה ומקבלים ציון ותיקונים מדויקים. הניתוח מתבצע במכשיר שלך — הסרטון לא נשלח לשרת.</p>
+  <div class="hero-tags"><span>ניתוח תנועה</span><span>משוב אישי</span><span>שמירה על פרטיות</span></div>
+</div>
+<div class="section-head"><h2>נתח את העמידה שלך</h2><span class="step">01 / UPLOAD</span></div>
+<div class="tips"><b>איך לצלם:</b> מהצד, כל הגוף בפריים, טלפון על הרצפה במרחק 2-3 מטר, מומלץ 5 שניות ומעלה, אבל גם 2-3 שניות מספיקות. אפשר גם לצלם רק את העלייה לעמידה, בלי החזקה.</div>
+
+<label class="pick"><span aria-hidden="true">↑</span> העלאת סרטון לניתוח<input id="file" type="file" accept="video/*"></label>
+<div id="status" role="status" aria-live="polite"></div>
+<progress id="prog" value="0" max="1"></progress>
+<video id="v" muted playsinline preload="auto"></video>
+<section id="out">
+<section id="coachPanel" class="coach-panel" aria-label="מאמן חכם" hidden>
+ <div class="coach-topline"><span class="coach-kicker">PERSONAL TECHNIQUE COACH</span><span class="coach-badge" id="coachBadge"></span></div>
+ <h2>משוב ותוכנית שיפור אישית</h2>
+ <p class="coach-summary" id="coachSummary"></p>
+ <div class="coach-observations" id="coachObservations"></div>
+ <h3>תרגילים שמתאימים למדידה שלך</h3>
+ <div class="coach-drills" id="coachDrills"></div>
+ <p class="coach-quality" id="coachQuality"></p>
+ <div class="coach-ai-action"><button id="geminiBtn" class="gemini-button" type="button">✦ Gemini AI מנתח אוטומטית</button><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
+</section>
+  <div id="entrySec" style="display:none">
+    <h2>העלייה לעמידה</h2>
+    <p id="entrySum" style="font-weight:600;margin:0 0 4px"></p>
+    <ul id="entryList" style="list-style:none;padding:0"></ul>
+    <h2>איך לעלות טוב יותר</h2>
+    <ul id="entryDrills" style="list-style:none;padding:0"></ul>
+    <p class="note">מצד אחד של הגוף לא רואים את עמוד השדרה בדיוק, אז זיהוי הגב הוא הערכה.</p>
+  </div>
+  <div id="holdSec">
+  <div class="top"><span class="score" id="score"></span><span class="hold" id="hold"></span></div>
+  <p id="sum" style="font-weight:600;margin:0 0 4px"></p>
+  <p id="cons" class="hold" style="margin:0 0 6px"></p>
+  <div id="rows"></div>
+  <h2>מה לעשות בפעם הבאה</h2>
+  <ul id="fix"></ul>
+  <h2>מה עובד לך</h2>
+  <ul id="keep"></ul>
+  <h2>תרגילים לשיפור</h2>
+  <ul id="drills" style="list-style:none;padding:0"></ul>
+  <p class="note" style="margin-top:6px">אלה הצעות כלליות. תתאמן ליד קיר ועל משטח רך, ואם יש כאב, עצור.</p>
+</div>
+
+  <div id="replaySec">
+  <h2>צפה בעצמך</h2>
+  <canvas id="cv"></canvas>
+  <div dir="ltr" style="margin-top:12px"><input id="scrub" type="range" min="0" max="1" step="0.01" value="0" style="width:100%;accent-color:var(--acc)" aria-label="מיקום בסרטון"></div>
+  <div style="display:flex;gap:8px;margin-top:8px">
+   <button id="prev" class="ctl">פריים קודם</button>
+   <button id="play" class="ctl">נגן</button>
+   <button id="next" class="ctl">פריים הבא</button>
+   <button id="spd" class="ctl">מהירות ×1</button>
+  </div>
+  <p id="tlLabel" class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
+  <canvas id="tl" style="cursor:pointer"></canvas>
+  <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
+  </div>
+</section>
+<p class="footer">HANDSTAND LAB <span class="footer-dot" aria-hidden="true"></span> גרסת ממשק 1.3 · Gemini Cloud</p>
+</main>
+<script type="module">
+import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
+import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
+const $=id=>document.getElementById(id);
+setupCoach();
+const K={L:{ear:7,shoulder:11,elbow:13,wrist:15,hip:23,ankle:27},R:{ear:8,shoulder:12,elbow:14,wrist:16,hip:24,ankle:28}};
+const TH={banana:[.03,.12],lean:[3,15],shoulder:[8,35],elbow:[8,30],sway:[.01,.05]};
+const WT={banana:.3,lean:.2,shoulder:.2,elbow:.15,sway:.15};
+const NAME={banana:"קו הגוף",lean:"איזון",shoulder:"כתפיים",elbow:"ידיים",sway:"יציבות"};
+const TIP={
+ arch:"האגן בורח קדימה מעבר לקו (גב מקושת). כווץ ישבן, הכנס צלעות פנימה והחזר את האגן מעל הכתפיים.",
+ back:"האגן נשאר מאחורי הקו. הבא את האגן קדימה מעל הכתפיים וכווץ ישבן.",
+ lean:"הגוף נוטה מהאנך. תאזן עם לחץ באצבעות: נופל קדימה = לחץ בקצות האצבעות, נופל אחורה = לחץ בכף היד.",
+ shoulder:"הכתפיים לא פתוחות עד הסוף. דחוף גבוה דרך הכתפיים, אוזניים בין הידיים.",
+ elbow:"המרפקים מתכופפים. נעל את הידיים והמשך לדחוף את הרצפה.",
+ sway:"הרבה התנדנדות. תתרגל החזקות קצרות עם לחץ יציב באצבעות, או החזקות על קיר.",
+ short:"ההחזקה קצרה (פחות מ-5 שניות), אז הציון פחות מדויק. נסה להחזיק 5 שניות ומעלה כדי לקבל תמונה מלאה."};
+const SCALE=1.5;let LAST=null;
+const med=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
+const std=a=>{const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/a.length)};
+const ang=(a,b,c)=>{const u=[a[0]-b[0],a[1]-b[1]],w=[c[0]-b[0],c[1]-b[1]];
+ const cs=(u[0]*w[0]+u[1]*w[1])/(Math.hypot(...u)*Math.hypot(...w)+1e-9);return Math.acos(Math.max(-1,Math.min(1,cs)))*180/Math.PI};
+const band=(v,[g,b])=>v<=g?100:v>=b?0:100*(b-v)/(b-g);
+function longestRun(mask,gapMax){let best=null,s=null,last=null,gap=0;
+ mask.forEach((m,i)=>{if(m){if(s===null)s=i;last=i;gap=0}else if(s!==null){gap++;if(gap>gapMax){if(!best||last-s>best[1]-best[0])best=[s,last];s=null}}});
+ if(s!==null&&(!best||last-s>best[1]-best[0]))best=[s,last];return best}
+function analyze(fr,fps){
+ const vis={L:0,R:0};
+ fr.forEach(f=>{if(f)for(const s of["L","R"])for(const i of Object.values(K[s]))vis[s]+=f[i].v});
+ const side=vis.L>=vis.R?"L":"R",k=K[side];
+ const P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
+ const inv=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.5))return false;
+  const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]&&p.shoulder[1]<p.wrist[1]&&Math.abs(p.ankle[0]-p.wrist[0])<Math.abs(p.ankle[1]-p.wrist[1])};
+ const gap=Math.max(1,Math.round(.3*fps));
+ let mask=fr.map(inv),run=longestRun(mask,gap);
+ if(!run||run[1]-run[0]+1<3){
+  const loose=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.3))return false;const p=P(f);return p.ankle[1]<p.hip[1]&&p.hip[1]<p.shoulder[1]};
+  mask=fr.map(loose);run=longestRun(mask,gap)}
+ if(!run||run[1]-run[0]+1<3)return null;
+ const idx=[];for(let i=run[0];i<=run[1];i++)if(mask[i])idx.push(i);
+ const facing=med(idx.map(i=>fr[i][0].x-fr[i][k.ear].x))>=0?1:-1;
+ const metr=f=>{const p=P(f),{shoulder:s,hip:h,ankle:a,wrist:w,elbow:e}=p;
+  const body=Math.hypot(a[0]-s[0],a[1]-s[1])+1e-9,t=(h[1]-s[1])/(a[1]-s[1]),lx=s[0]+t*(a[0]-s[0]);
+  return{banana:facing*(h[0]-lx)/body,lean:Math.atan2(Math.abs(a[0]-w[0]),Math.abs(a[1]-w[1])+1e-9)*180/Math.PI,
+   shoulder:180-ang(h,s,e),elbow:180-ang(s,e,w),hipx:(h[0]-w[0])/body}};
+ const ms=idx.map(i=>metr(fr[i]));
+ const m=n=>med(ms.map(x=>x[n]));
+ const val={banana:m("banana"),lean:m("lean"),shoulder:Math.max(0,m("shoulder")),elbow:Math.max(0,m("elbow")),sway:std(ms.map(x=>x.hipx))};
+ const swayOk=idx.length>=5;
+ const sc={};let total=0;
+ for(const n in TH){sc[n]=band(n==="banana"?Math.abs(val[n]):val[n],TH[n].map(x=>x*SCALE));if(n!=="sway"||swayOk)total+=sc[n]*WT[n]}
+ if(!swayOk)total/=1-WT.sway;
+ const sf=m=>{const q=(n,v)=>band(v,TH[n].map(x=>x*SCALE))*WT[n];return(q("banana",Math.abs(m.banana))+q("lean",m.lean)+q("shoulder",Math.max(0,m.shoulder))+q("elbow",Math.max(0,m.elbow)))/.85};
+ const series=fr.map((f,i)=>mask[i]?sf(metr(f)):null);
+ const thirds=[0,1,2].map(j=>{
+  const a=Math.floor(j*ms.length/3),b=Math.floor((j+1)*ms.length/3),subset=ms.slice(a,b);
+  const metric=k=>{const scale=k==="banana"?1000:10;return subset.length?Math.round(med(subset.map(x=>x[k]))*scale)/scale:null};
+  return{phase:["start","middle","end"][j],pelvisOffsetPercent:subset.length?Math.round(metric("banana")*1000)/10:null,leanDegrees:metric("lean"),shoulderDeficitDegrees:metric("shoulder"),elbowDeficitDegrees:metric("elbow")};
+ });
+ const visibilityPercent=Math.round(100*med(idx.map(i=>Math.min(...["shoulder","elbow","wrist","hip","ankle"].map(n=>fr[i][k[n]].v)))));
+ return{val,sc,total,swayOk,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1],
+  diagnostics:{validFrames:idx.length,visibilityPercent,thirds}}}
+const sideOf=fr=>{const v={L:0,R:0};fr.forEach(f=>{if(f)for(const sd of["L","R"])for(const i of Object.values(K[sd]))v[sd]+=f[i].v});return v.L>=v.R?"L":"R"};
+function analyzeEntry(fr,fps){
+ const k=K[sideOf(fr)],P=f=>Object.fromEntries(Object.entries(k).map(([n,i])=>[n,[f[i].x,f[i].y]]));
+ const up=f=>{if(!f||!["shoulder","elbow","wrist","hip","ankle"].every(n=>f[k[n]].v>=.5))return false;const p=P(f);return p.hip[1]<p.shoulder[1]&&p.wrist[1]>p.shoulder[1]};
+ const mask=fr.map(up),run=longestRun(mask,Math.max(1,Math.round(.3*fps)));
+ if(!run||run[1]-run[0]+1<3)return null;
+ const idx=[];for(let i=run[0];i<=run[1];i++)if(mask[i])idx.push(i);
+ const facing=med(idx.map(i=>fr[i][0].x-fr[i][k.ear].x))>=0?1:-1;
+ const ms=idx.map(i=>{const p=P(fr[i]),s=p.shoulder,h=p.hip,a=p.ankle,w=p.wrist,e=p.elbow,body=Math.hypot(a[0]-s[0],a[1]-s[1])+1e-9,t=(h[1]-s[1])/(a[1]-s[1]||1e-9),lx=s[0]+t*(a[0]-s[0]);
+  return{up:a[1]<h[1],hi:a[1]<s[1],ay:a[1],a:Math.atan2(Math.abs(a[0]-w[0]),Math.abs(a[1]-w[1])+1e-9)*180/Math.PI,side:facing*(a[0]-w[0]),
+   ban:facing*(h[0]-lx)/body,sh:Math.max(0,180-ang(h,s,e)),el:Math.max(0,180-ang(s,e,w))}});
+ const ups=ms.filter(m=>m.up),best=(ups.length?ups:ms).reduce((x,y)=>y.ay<x.ay?y:x);
+ const hiF=ms.filter(m=>m.hi&&m.a<12),arch=hiF.length>=2?med(hiF.map(m=>m.ban)):null;
+ const sc={reach:ups.length?band(best.a,[8,40]):0,arch:arch==null?100:band(Math.max(0,arch),[.04,.15]),shoulder:band(med(ms.map(m=>m.sh)),[10,40]),elbow:band(med(ms.map(m=>m.el)),[10,35])};
+ return{sc,total:sc.reach*.4+sc.arch*.25+sc.shoulder*.2+sc.elbow*.15,minAng:best.a,over:best.side<0,reached:ups.length>0&&best.a<=10,arch}}
+const ENAME={reach:"גובה הבעיטה",arch:"קו הגוף",shoulder:"כתפיים",elbow:"ידיים"};
+const ENTRYD={reach:["בעיטות לקיר: 5 x 5, מתמקדים בכוח הבעיטה ובכתפיים מעל הידיים","בעיטה בפעימה אחת עם רגל מובילה ישרה, ולא קפיצה על שתי הרגליים"],
+ arch:["הולו בודי: 3 סטים של 20-30 שניות","בעיטות לקיר עם צלעות פנימה וישבן מכווץ כבר מההתחלה, גם אם הבעיטה קצרה יותר"]};
+function showEntry(e){
+ const T={reach:e.reached?"הרגליים הגיעו עד הקו האנכי מעל הידיים.":e.over?"עברת את הקו האנכי עם הרגליים. האט את הבעיטה ושמור על הגוף ישר כשאתה מגיע.":"הרגליים לא הגיעו עד הקו האנכי (עצרו בערך "+f1(e.minAng)+"° ממנו). בעט חזק יותר, והבא את הכתפיים מעל הידיים לפני הבעיטה.",
+  arch:e.sc.arch>=80?"הגוף נשאר ישר בעלייה, בלי קשת.":"הגב מתקשת בעלייה. התחל כבר בהתחלה עם צלעות פנימה, ישבן מכווץ וגב קעור (הולו), ורק אז בעט.",
+  shoulder:e.sc.shoulder>=80?"הכתפיים נשארות פתוחות בעלייה.":"הכתפיים נסגרות בעלייה. דחוף את הרצפה והרם את הכתפיים לכיוון האוזניים כבר בבעיטה.",
+  elbow:e.sc.elbow>=80?"הידיים נשארות ישרות בעלייה.":"המרפקים מתכופפים בעלייה. נעל את הידיים לפני שאתה בועט."};
+ const col=x=>x>=80?"good":x>=50?"mid":"bad";
+ $("entrySum").textContent="ציון עלייה: "+Math.round(e.total)+" מתוך 100";
+ $("entryList").innerHTML=Object.keys(T).map(n=>`<li><b>${ENAME[n]}</b> · <span style="color:var(--${col(e.sc[n])})">${lab(e.sc[n])}</span><br>${T[n]}</li>`).join("");
+ const wk=Object.keys(T).filter(n=>e.sc[n]<80).sort((a,b)=>e.sc[a]-e.sc[b]).slice(0,2);
+ $("entryDrills").innerHTML=wk.length?wk.map(n=>`<li style="margin:10px 0"><b>${ENAME[n]}</b><br>${(ENTRYD[n]||DRILLS[n]).map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>עלייה טובה. נסה להאריך את ההחזקה אחרי העלייה.</li>"}
+async function landmarker(){
+ const fs=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
+ const base="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+ const mk=d=>PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:base,delegate:d},runningMode:"VIDEO",numPoses:1});
+ try{return await Promise.race([mk("GPU"),new Promise((_,no)=>setTimeout(()=>no(new Error("gpu")),12000))])}catch{return await mk("CPU")}}
+let LM=null;const getLM=()=>LM||(LM=landmarker().catch(e=>{LM=null;throw e}));getLM().catch(()=>{});
+function scanPlay(v,n,fps,cx,cvs,det,pg){return new Promise(res=>{
+ const fr=new Array(n).fill(null);let k=0,rate=2,got=0,done=false,last=Date.now();
+ const fin=ok=>{if(done)return;done=true;clearInterval(iv);v.onended=null;v.pause();v.playbackRate=1;res(ok?fr:null)};
+ const iv=setInterval(()=>{if(Date.now()-last>5000)fin(false)},1000);
+ const cb=(_,md)=>{if(done)return;got++;last=Date.now();
+  try{const idx=Math.round((md.mediaTime-.05)*fps);
+   if(idx>=n){fin(true);return}
+   if(idx>=k){cx.drawImage(v,0,0,cvs.width,cvs.height);fr[idx]=det();
+    rate=idx>k?Math.max(.25,rate*.8):Math.min(3,rate*1.05);v.playbackRate=rate;k=idx+1;pg.value=Math.min(1,k/n)}
+  }catch(e){fin(false);return}
+  if(k>=n)fin(true);else v.requestVideoFrameCallback(cb)};
+ v.onended=()=>fin(true);v.playbackRate=rate;v.currentTime=0;
+ v.play().then(()=>v.requestVideoFrameCallback(cb)).catch(()=>fin(false))})}
+const seek=(v,t)=>new Promise(r=>{if(Math.abs(v.currentTime-t)<.001)return r();const d=()=>{clearTimeout(to);r()},to=setTimeout(()=>{v.removeEventListener("seeked",d);r()},1500);v.addEventListener("seeked",d,{once:true});v.currentTime=t});
+$("file").addEventListener("change",async e=>{
+ const file=e.target.files[0];if(!file)return;
+  resetCoachFeedback();
+ const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
+ try{
+  st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
+  const lm=await Promise.race([getLM(),new Promise((_,no)=>setTimeout(()=>no(new Error("טעינת המודל לוקחת יותר מדי זמן. בדוק חיבור ונסה שוב")),45000))]);
+  v.muted=true;v.src=URL.createObjectURL(file);v.load();
+  const dg=()=>`סוג=${file.type||"לא ידוע"} גודל=${Math.round(file.size/1e5)/10}MB אורך=${v.duration} רזולוציה=${v.videoWidth}x${v.videoHeight} קוד=${v.error?v.error.code:"-"}`;
+  await new Promise((ok,no)=>{v.onloadedmetadata=ok;v.onerror=()=>no(new Error("video "+dg()));setTimeout(()=>no(new Error("video "+dg())),20000)});
+  if(!isFinite(v.duration)){v.currentTime=1e7;await new Promise(r=>setTimeout(r,1500));v.currentTime=0}
+  const w=v.videoWidth,h=v.videoHeight,fps=10,n=Math.floor((v.duration-.1)*fps);
+  if(!w||!h||!(n>0))throw new Error("video "+dg());
+  const cvs=document.createElement("canvas");const sc=Math.min(1,480/Math.max(w,h));cvs.width=Math.round(w*sc);cvs.height=Math.round(h*sc);const cx=cvs.getContext("2d");
+  let ts=1,fr=null;
+  const det=()=>{ts+=100;const r=lm.detectForVideo(cvs,ts),L=r.landmarks&&r.landmarks[0];return L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null};
+  st.textContent="מנתח את הסרטון...";
+  if(v.requestVideoFrameCallback)fr=await scanPlay(v,n,fps,cx,cvs,det,pg);
+  if(!fr){
+   fr=[];pg.value=0;
+   const grab=async t=>{await seek(v,t);cx.drawImage(v,0,0,cvs.width,cvs.height);return det()};
+   const upAny=f=>f&&["L","R"].some(sd=>{const k=K[sd];return["shoulder","elbow","wrist","hip","ankle"].every(q=>f[k[q]].v>=.5)&&f[k.hip].y<f[k.shoulder].y&&f[k.wrist].y>f[k.shoulder].y});
+   const hits=[],cs=Math.max(1,Math.round(fps*.4));
+   for(let i=0;i<n;i+=cs){if(upAny(await grab(.05+i/fps)))hits.push(i);pg.value=.3*Math.min(1,(i+1)/n)}
+   let lo=0,hi=n-1;
+   if(hits.length){lo=Math.max(0,hits[0]-cs*2);hi=Math.min(n-1,hits[hits.length-1]+cs*2)}
+   for(let i=0;i<n;i++){
+    if(i<lo||i>hi){fr.push(null);continue}
+    fr.push(await grab(.05+i/fps));
+    pg.value=.3+.7*(i-lo+1)/(hi-lo+1);if(i%3===0)await new Promise(r=>setTimeout(r));}
+  }
+  pg.style.display="none";
+  LAST={fr,fps,v,w,h};const res=analyze(fr,fps),ent=analyzeEntry(fr,fps);
+  if(!res&&!ent){st.textContent="לא זוהתה עלייה או עמידת ידיים. בדוק שהצילום מהצד, כל הגוף בפריים, והידיים על הרצפה.";return}
+  st.textContent="";
+  $("entrySec").style.display=ent?"block":"none";if(ent)showEntry(ent);
+  $("holdSec").style.display=res?"block":"none";
+  if(res)await show(res,fr,v,w,h);else{const nn=fr.map((f,i)=>f?i:-1).filter(i=>i>=0);await replay(fr,v,w,h,K[sideOf(fr)],null,fps,nn[nn.length>>1]);$("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"})}
+   showCoachFeedback(res,ent);
+ }catch(err){pg.style.display="none";console.error(err);st.textContent="משהו השתבש: "+(String(err.message).startsWith("video")?"הדפדפן לא מצליח לנגן את הסרטון. נסה MP4 בקידוד H.264, או בדוק שהסרטון מתנגן ב-Chrome ["+String(err.message).slice(6)+"]":"שגיאה: "+(err.message||err)+(/fetch/i.test(String(err.message))?" (נראה קשור לרשת, בדוק חיבור ונסה שוב)":""))}
+});
+const f1=x=>String(Math.round(x*10)/10);
+function why(n,res){const s=res.sc[n],v=res.val,[g,b]=TH[n].map(x=>x*SCALE),vd=s>=80?"בטווח הטוב":s>=50?"סטייה קלה":"סטייה גדולה";
+ if(n==="banana")return`${vd}: האגן סוטה ${f1(Math.abs(v.banana)*100)}% מאורך הגוף מהקו כתף-קרסול ${s<80?` (${v.banana>0?"קדימה, גב מקושת":"אחורה"})`:""}. עד ${f1(g*100)}% נחשב ישר, מ-${f1(b*100)}% הציון 0.`;
+ if(n==="lean")return`${vd}: הגוף נוטה ${f1(v.lean)}° מהאנך. עד ${f1(g)}° נחשב ישר, מ-${f1(b)}° הציון 0.`;
+ if(n==="shoulder")return`${vd}: לכתף חסרות ${f1(v.shoulder)}° כדי להיות פתוחה עד הסוף (180°). עד ${f1(g)}° חסרות נחשב טוב, מ-${f1(b)}° הציון 0.`;
+ if(n==="elbow")return`${vd}: למרפק חסרות ${f1(v.elbow)}° כדי להיות ישר עד הסוף (180°). עד ${f1(g)}° חסרות נחשב טוב, מ-${f1(b)}° הציון 0.`;
+ return`${vd}: האגן זז מצד לצד בסטייה של ${f1(v.sway*100)}% מאורך הגוף מעל הידיים. עד ${f1(g*100)}% נחשב יציב, מ-${f1(b*100)}% הציון 0.`}
+const lab=s=>s>=80?"מצוין":s>=50?"בסדר":"דורש תרגול";
+function plain(n,res){const s=res.sc[n],g=s>=80,b=res.val.banana>0;
+ return({banana:g?"הגוף שלך ישר כמו קו, בלי קשת.":b?"הגב שלך מקושת והאגן בורח קדימה.":"האגן נשאר קצת אחורה והגוף לא ישר.",
+  lean:g?"אתה מאוזן ישר מעל הידיים.":"הגוף נוטה קדימה או אחורה במקום לעמוד אנכי מעל הידיים.",
+  shoulder:g?"הכתפיים פתוחות והזרועות קרובות לאוזניים.":"הכתפיים לא פתוחות עד הסוף.",
+  elbow:g?"הידיים ישרות ונעולות.":"המרפקים מתכופפים.",
+  sway:g?"אתה יציב, כמעט בלי התנדנדות.":"יש התנדנדות, הגוף זז הרבה בזמן ההחזקה."})[n]}
+const DRILLS={
+ banana:["הולו בודי: 3 סטים של 20-30 שניות","עמידת ידיים בקיר עם הפנים לקיר: 3 סטים של 20 שניות, מחזיקים קו ישר"],
+ lean:["משיכות עקב מהקיר: מרימים את הרגליים מהקיר לשנייה-שתיים ומאזנים עם האצבעות","עמידת ידיים בקיר: 5 החזקות של 10 שניות, מתמקדים בלחץ באצבעות"],
+ shoulder:["מתיחת כתפיים בקיר: ידיים על הקיר וחזה למטה, 3 x 30 שניות","הרמת כתפיים בעמידת ידיים בקיר: דוחפים את הכתפיים לכיוון האוזניים, 3 x 10 חזרות"],
+ elbow:["פלאנק עם ידיים נעולות לגמרי: 3 x 30 שניות","עמידת ידיים בקיר עם דגש על נעילת הידיים: 3 x 20 שניות"],
+ sway:["החזקות קצרות בקיר: 8 x 10 שניות עם מנוחה בין סט לסט","תרגול יציאה בטוחה (גלגול קדימה) כדי לא לפחד ולהתמקד באיזון"]};
+const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקרסוליים. תמשיך לכווץ ישבן ובטן.",lean:"איזון טוב מעל הידיים. תמשיך עם לחץ עדין באצבעות.",
+ shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
+async function replay(fr,v,w,h,k,ser,fps,mid){
+ ser=ser||fr.map(()=>null);
+ v.pause();const has=ser.some(x=>x!=null);$("tl").style.display=has?"block":"none";$("tlLabel").style.display=has?"block":"none";
+ const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d"),sl=$("scrub");
+ tl.width=600;tl.height=120;
+ const N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;sl.min=0;sl.max=N-1;sl.step=.01;
+ const draw=p=>{
+  p=Math.max(0,Math.min(N-1,p));c.drawImage(v,0,0,w,h);
+  const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
+  if(f0||f1){const A=f0||f1,B=f1||f0,pt=n=>{const q=k[n];return[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]},ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
+   const line=(a,b,col)=>{c.strokeStyle=col;c.lineWidth=Math.max(3,w/200);c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
+   line(ch[2],ch[4],"#22c55e");ch.slice(1).forEach((p,q)=>line(ch[q],p,"#facc15"));
+   c.fillStyle="#ef4444";ch.forEach(p=>{c.beginPath();c.arc(p[0],p[1],Math.max(5,w/120),0,7);c.fill()});
+   const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}}
+  tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
+  [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
+  tc.strokeStyle="#B6FF4A";tc.lineWidth=2.5;let pen=false;tc.beginPath();
+  ser.forEach((s,q)=>{if(s==null){pen=false;return}pen?tc.lineTo(X(q),Y(s)):tc.moveTo(X(q),Y(s));pen=true});tc.stroke();
+  tc.strokeStyle="#ef4444";tc.lineWidth=2;tc.beginPath();tc.moveTo(X(p),4);tc.lineTo(X(p),116);tc.stroke();
+  sl.value=p};
+ let rate=1,busy=false,pend=null;
+ const posOf=()=>(v.currentTime-.05)*fps;
+ const loop=()=>{draw(posOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
+ const goTo=async p=>{pend=p;if(busy)return;busy=true;while(pend!=null){const q=Math.max(0,Math.min(N-1,pend));pend=null;await seek(v,.05+q/fps);draw(q)}busy=false};
+ const pb=$("play");
+ pb.onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=v.duration-.1)v.currentTime=.05;v.playbackRate=rate;await v.play();pb.textContent="עצור";loop()}else v.pause()};
+ v.onpause=()=>{pb.textContent="נגן"};
+ $("prev").onclick=()=>{v.pause();goTo(Math.round(posOf())-1)};
+ $("next").onclick=()=>{v.pause();goTo(Math.round(posOf())+1)};
+ $("spd").onclick=()=>{rate=rate===1?.5:rate===.5?.25:1;v.playbackRate=rate;$("spd").textContent="מהירות ×"+rate};
+ sl.oninput=()=>{v.pause();goTo(+sl.value)};
+ tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo((e.clientX-r.left)/r.width*(N-1))};
+ pb.textContent="נגן";$("spd").textContent="מהירות ×1";
+ await seek(v,.05+mid/fps);draw(mid);
+}
+async function show(res,fr,v,w,h){
+ $("score").textContent=Math.round(res.total);$("sum").textContent=res.total>=85?"עמידת ידיים חזקה. עכשיו מדייקים פרטים.":res.total>=65?"בסיס טוב, יש כמה דברים קטנים לשפר.":"יש הרבה מקום להתקדם. נתחיל מדבר אחד בכל פעם.";$("hold").textContent=`מתוך 100 · החזקה של ${res.hold.toFixed(1)} שניות`;
+ $("rows").innerHTML=Object.keys(TH).map(n=>{const s=res.sc[n],c=s>=80?"good":s>=50?"mid":"bad";
+  return`<div class="row"><div><span>${NAME[n]}</span><span style="color:var(--${c});font-weight:600">${n==="sway"&&!res.swayOk?"לא נמדד":lab(s)}</span></div><div class="bar"><i style="width:${s}%;background:var(--${c})"></i></div><p class="why">${n==="sway"&&!res.swayOk?"ההחזקה קצרה מדי כדי למדוד יציבות.":plain(n,res)}</p><details><summary>איך חושב?</summary><p class="why">${why(n,res)}</p></details></div>`}).join("");
+ const fix=[];
+ if(res.sc.banana<80)fix.push([res.sc.banana,res.val.banana>0?TIP.arch:TIP.back]);
+ for(const n of["lean","shoulder","elbow","sway"])if(res.sc[n]<80&&(n!=="sway"||res.swayOk))fix.push([res.sc[n],TIP[n]]);
+ if(res.hold<5)fix.push([50,TIP.short]);
+ fix.sort((a,b)=>a[0]-b[0]);
+ $("fix").innerHTML=fix.length?fix.map(f=>`<li>${f[1]}</li>`).join(""):"<li>הכול נראה טוב. נסה החזקה ארוכה יותר.</li>";
+ const keep=Object.keys(TH).filter(n=>res.sc[n]>=80&&(n!=="sway"||res.swayOk)).map(n=>KEEP[n]);if(res.hold>=5)keep.push("החזקה ארוכה של "+f1(res.hold)+" שניות. זה בסיס טוב.");
+ $("keep").innerHTML=keep.length?keep.map(t=>`<li>${t}</li>`).join(""):"<li>עדיין אין מדד בטווח הטוב. תתמקד קודם בתיקון הראשון.</li>";
+ const inH=res.series.filter(x=>x!=null),good=inH.filter(x=>x>=80).length;
+ $("cons").textContent=`ב-${Math.round(100*good/inH.length)}% מהזמן הקו שלך היה טוב`;
+ const weak=Object.keys(TH).filter(n=>res.sc[n]<80&&(n!=="sway"||res.swayOk)).sort((a,b)=>res.sc[a]-res.sc[b]).slice(0,2);
+ $("drills").innerHTML=weak.length?weak.map(n=>`<li style="margin:10px 0"><b>${NAME[n]}</b><br>${DRILLS[n].map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>הכול בטווח הטוב. נסה להאריך את ההחזקה ב-5 שניות בכל שבוע.</li>";
+ await replay(fr,v,w,h,res.k,res.series,res.fps,res.mid);
+ $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body>
+</html>
