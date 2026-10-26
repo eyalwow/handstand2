@@ -89,10 +89,11 @@ function local(issues,measure){
 function validate(raw,measure,issues){
  if(!raw||typeof raw.summary!=="string")throw Error("Gemini לא החזיר תשובה בפורמט הנדרש.");
  const clean=v=>typeof v==="string"?v.trim().slice(0,350):"";
- const metrics=new Set(issues.map(i=>i.key)),allowed=new Set(measure.allowedExerciseIds);
+ const metrics=new Set(issues.slice(0,6).map(i=>i.key)),allowed=new Set(measure.allowedExerciseIds);
+ const byKey=new Map(issues.map(i=>[i.key,i]));
  const observations=(Array.isArray(raw.observations)?raw.observations:[])
   .filter(o=>o&&metrics.has(o.key)&&clean(o.finding)&&clean(o.correction))
-  .slice(0,3).map(o=>({key:o.key,finding:clean(o.finding),correction:clean(o.correction)}));
+  .slice(0,3).map(o=>({key:o.key,finding:byKey.get(o.key).finding,correction:clean(o.correction)}));
  const drills=(Array.isArray(raw.drills)?raw.drills:[])
   .filter(o=>o&&allowed.has(o.id)&&clean(o.reason))
   .slice(0,3).map(o=>({id:o.id,reason:clean(o.reason)}));
@@ -193,3 +194,6 @@ async function runGemini(){
   clearTimeout(timer);if(id===serial){controller=null;button.disabled=false}
  }
 }
+
+// Named exports support automated safety tests without calling Gemini.
+export {identify as analyzeCoachIssues,evidence as buildCoachEvidence,local as buildCoachLocalPlan,validate as validateCoachResponse};
