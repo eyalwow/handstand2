@@ -65,7 +65,7 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   <canvas id="tl" style="cursor:pointer"></canvas>
   <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
 </section>
-<p class="note" style="text-align:center">גרסה 4</p>
+<p class="note" style="text-align:center">גרסה 5</p>
 </main>
 <script type="module">
 import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
@@ -118,25 +118,26 @@ async function landmarker(){
  const fs=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
  const base="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
  return PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:base,delegate:"CPU"},runningMode:"VIDEO",numPoses:1})}
+let LM=null;const getLM=()=>LM||(LM=landmarker().catch(e=>{LM=null;throw e}));getLM().catch(()=>{});
 const seek=(v,t)=>new Promise(r=>{v.addEventListener("seeked",r,{once:true});v.currentTime=t});
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
  const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
  try{
   st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
-  const lm=await Promise.race([landmarker(),new Promise((_,no)=>setTimeout(()=>no(new Error("טעינת המודל לוקחת יותר מדי זמן. בדוק חיבור ונסה שוב")),45000))]);
+  const lm=await Promise.race([getLM(),new Promise((_,no)=>setTimeout(()=>no(new Error("טעינת המודל לוקחת יותר מדי זמן. בדוק חיבור ונסה שוב")),45000))]);
   v.muted=true;v.src=URL.createObjectURL(file);v.load();
   const dg=()=>`סוג=${file.type||"לא ידוע"} גודל=${Math.round(file.size/1e5)/10}MB אורך=${v.duration} רזולוציה=${v.videoWidth}x${v.videoHeight} קוד=${v.error?v.error.code:"-"}`;
   await new Promise((ok,no)=>{v.onloadedmetadata=ok;v.onerror=()=>no(new Error("video "+dg()));setTimeout(()=>no(new Error("video "+dg())),20000)});
   if(!isFinite(v.duration)){v.currentTime=1e7;await new Promise(r=>setTimeout(r,1500));v.currentTime=0}
-  const w=v.videoWidth,h=v.videoHeight,fps=15,n=Math.floor((v.duration-.1)*fps),fr=[];
+  const w=v.videoWidth,h=v.videoHeight,fps=10,n=Math.floor((v.duration-.1)*fps),fr=[];
   if(!w||!h||!(n>0))throw new Error("video "+dg());
-  const cvs=document.createElement("canvas");cvs.width=w;cvs.height=h;const cx=cvs.getContext("2d");
+  const cvs=document.createElement("canvas");const sc=Math.min(1,480/Math.max(w,h));cvs.width=Math.round(w*sc);cvs.height=Math.round(h*sc);const cx=cvs.getContext("2d");
   st.textContent="מנתח את הסרטון...";
   for(let i=0;i<n;i++){
    await seek(v,.05+i/fps);
-   cx.drawImage(v,0,0,w,h);
-   const r=lm.detectForVideo(cvs,i*67+1),L=r.landmarks&&r.landmarks[0];
+   cx.drawImage(v,0,0,cvs.width,cvs.height);
+   const r=lm.detectForVideo(cvs,i*100+1),L=r.landmarks&&r.landmarks[0];
    fr.push(L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null);
    pg.value=(i+1)/n;if(i%3===0)await new Promise(r=>setTimeout(r));}
   pg.style.display="none";
