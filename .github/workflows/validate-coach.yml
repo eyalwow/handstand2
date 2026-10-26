@@ -1,0 +1,24 @@
+name: Validate handstand coach
+on:
+  push:
+    branches: [feat/gemini-coach-preview]
+  pull_request:
+    paths:
+      - 'preview/**'
+      - 'tests/**'
+      - '.github/workflows/validate-coach.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check AI module syntax
+        run: node --check preview/ai-feedback.js
+      - name: Test personalized and safe feedback
+        run: node --test tests/coach.test.mjs
