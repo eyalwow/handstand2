@@ -1,7 +1,7 @@
 "use strict";
 // Server-only Gemini key, never exposed to frontend or git.
 // Best-effort per-instance throttling only. Keep Google API billing disabled for this prototype.
-const VALID_DRILLS=new Set(["hollow","wallLine","toePull","finger","shoulderStretch","shrug","plank","kick","entry"]);
+const VALID_DRILLS=new Set(["hollow","wallLine","toePull","finger","shoulderStretch","shrug","plank","kick","entry","freeHandstand","toeBalance"]);
 const VALID_METRICS=new Set(["hold_banana","hold_lean","hold_shoulder","hold_elbow","hold_sway","entry_reach","entry_arch","entry_shoulder","entry_elbow"]);
 const hits=new Map();
 const send=(r,s,o)=>r.status(s).setHeader("Cache-Control","no-store").json(o);
