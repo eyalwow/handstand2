@@ -2,6 +2,19 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## Approved fitness illustration direction — first screened rollout (2026-10-27)
+- User approved the premium grayscale human / charcoal / subtle green art direction. Replaced artwork for SIX exact movements only: overhand pull-up, standard push-up, bodyweight squat, parallel-bar dip, straight-leg L-sit and hollow hold. Remaining catalogue movements retain their existing content; there is no blanket mapping or claim of complete coverage.
+- Generated seven original candidates with OpenAI image generation. Withheld the wall-handstand candidate because chest-versus-back-to-wall orientation was ambiguous. Its files are not shipped and it is not mapped to the chest-to-wall exercise.
+- Separate JPEG files per movement, normalized 4:3 frames at 512×384, dedicated 320×240 card derivatives. Card downsampling softens fine muscle texture rather than pretending to be a new anatomical drawing. Sixteen image files together are under 190 KB. Static holds use one frame; four dynamic movements show distinct labeled start/end frames.
+- Added fitness-art.js shared renderer for card, detail and active-workout contexts, exact name/ID mappings only. Training-plan images for these same movements use the matching original card art. Added the exact straight-leg L-sit catalogue entry instead of attaching it to the existing bent-knee variant. Training prescriptions and storage behavior were not changed.
+- Sources, creation method, file variants, visual pose checklist, technique-reference links and remaining QA gates: vercel-app/assets/fitness/README.md. Reference text was consulted; third-party artwork was not copied. Existing Workout Guide attribution remains unchanged for its separate assets.
+- Technical screening covered support/contact points, elbow/leg position, trunk alignment, equipment and distinct motion phases. This is visual/source-based screening, NOT independent professional anatomy certification; muscle colors are illustrative emphasis, not a validated activation map. Coach review remains pending before production-wide adoption.
+- Real browser checks: local cards/detail at 390px, static L-sit single image, squat workout frames at 320px without horizontal overflow. On deployed Preview, six sample cards are listed, both push-up detail frames load, the 320px detail dialog scrolls, and browser error logs are empty on tested routes.
+- All 36 local regression/integration tests passed, including new exact-match/variant/aspect-ratio checks. GitHub Actions succeeded for source 19d2aed991452320d8c79112f86ebcfbd2353859.
+- READY Preview source: 19d2aed991452320d8c79112f86ebcfbd2353859; deployment dpl_FWmj2qDgpgTR4iHSsKTswy1Xr2de. Sample gallery: https://handstand-lab-coach-6b4pjcu52-eyalwen-6443.vercel.app/training.html?artwork=1#library
+- Next small group: correct and re-review the wall hold, then produce genuinely distinct incline/knee push-up variants; repeat reference/equipment/pose checks and phone QA per group. Do not use the standard push-up artwork as a substitute for these variants. Full-library rollout and physical-device/independent coach review remain unfinished.
+- No merge or production deployment. This follow-up changes status documentation only; deployed application code remains at the source SHA above.
+
 ## Source and release
 - Repository: https://github.com/eyalwow/handstand2
 - Working branch: `feat/handstand-product-experience`; PR https://github.com/eyalwow/handstand2/pull/7 targets `main`.
