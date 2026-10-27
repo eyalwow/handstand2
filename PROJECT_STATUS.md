@@ -33,6 +33,16 @@ Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb59
 - **Still required before merge:** real browser and narrow mobile viewport checks, keyboard/focus/scroll review and visual review of schematic poses. Browser verification was attempted but unavailable: the in-app tab could not be attached, and native browser control stopped because it could not determine the current URL confidently. No successful visual/device check is claimed.
 - Inspect GitHub Actions for the exact new remote commit after upload; earlier green checks do not cover this continuation.
 
+## Preview verification follow-up — 2026-10-27
+- Created READY Preview `dpl_Bu3GHN6kQyj1uN4nBRXELtfsZhMH` in existing project `handstand-lab-coach`, explicitly from source commit `cb847e6ce5dab934429ec88251218ca491a02339`, branch `feat/handstand-product-experience`, root `vercel-app`. No production promotion, merge or project protection changes.
+- Preview: https://handstand-lab-coach-bx7a3fdo9-eyalwen-6443.vercel.app/training.html
+- Workout: https://handstand-lab-coach-bx7a3fdo9-eyalwen-6443.vercel.app/workout.html
+- Reran focused workout/training tests: 19 passed. Protected HTTP fetch of deployed workout.html returned 200 and the expected workout markup. No application defect was demonstrated and no application code was changed in this follow-up.
+- Browser attachment now succeeds, but the deployment redirects the browser to Vercel Login. The authenticated fetch helper succeeds but does not expose its temporary share URL. Creating a deployment-scoped 23-hour share link returned 409 protection_bypass_conflict (link already exists); querying the deployment hostname through the alias API returned 404. Stopped rather than repeatedly attempting access. No credentials requested or protection disabled.
+- Mobile visual/interactive checks remain unverified: navigation, illustration rendering, set controls, rest timer, scrolling, refresh persistence and finish/summary. Automated controller coverage is not a mobile browser check.
+- Owner can open the Preview on their phone and sign into the Vercel account owning this project if prompted. Suggested check: start from training, mark a set, start rest, change exercise, refresh, verify retained state/deadline, open exercise details and return, then finish and verify one history entry.
+- This follow-up commit changes documentation only; Preview source remains the exact application code at cb847e6.
+
 ## Work in progress — not fully verified
 - Mobile-first home screen, bottom navigation, RTL, manifest and install icons. Installation on actual iOS/Android devices has not been tested. Manifest alone does not establish reliable offline or native behavior; no finished service worker is present.
 - Exercise library: 110 named exercises with search and category/level filters, short guidance and equipment; 26 matched illustrations from Workout Guide/Everkinetic. Attribution and CC BY-SA 4.0 license are in `vercel-app/assets/exercises/`; inspect artwork mapping and attribution before release. The expanded exercise detail view and latest UI changes were being edited when work stopped: recheck functionality and accuracy. Most exercises do not yet have all requested detailed steps, muscles, common mistakes, progressions, prescriptions, safety notes or matching illustrations. Never fabricate these.
