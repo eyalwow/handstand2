@@ -70,6 +70,21 @@ details summary{cursor:pointer;color:var(--mute);font-size:13px;margin-top:6px}
 #play{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
 #play:hover{background:#C8FF7C}
 .why{margin:6px 0 0;font-size:13px;color:var(--mute)}
+.metric-title{text-align:center;margin:18px 0 4px!important;font-size:21px}
+.radar-subtitle{text-align:center;color:var(--mute);font-size:13px;margin:0}
+.radar-wrap{position:relative;max-width:430px;margin:5px auto 0}
+#scoreRadar{display:block;width:100%;height:auto;overflow:visible}
+.radar-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;width:98px;height:98px;border-radius:50%;background:#101710;border:2px solid #435B32;box-shadow:0 0 30px #070907;color:var(--ink);pointer-events:none}
+.radar-center .score{font-size:47px;letter-spacing:-2px;line-height:1}
+.radar-out-of{font-size:11px;color:var(--mute);white-space:nowrap}
+.radar-score-note{text-align:center;color:var(--mute);font-size:13px;margin:0 0 16px}
+.score-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px}
+.metric-row{background:#101710;border:1px solid var(--line);border-radius:12px;padding:12px 13px}
+.metric-row-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:700}
+.metric-row-head strong{color:var(--acc);font-variant-numeric:tabular-nums}
+.metric-row p{color:var(--mute);font-size:12px;margin:5px 0 0;line-height:1.55}
+.metric-row .bar{height:5px}
+
 .bar{height:9px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:7px}
 .bar i{display:block;height:100%;border-radius:999px}
 h2{font-size:19px;line-height:1.4;margin:25px 0 10px;font-weight:800}
@@ -246,7 +261,13 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <section id="out" aria-label="תוצאות הניתוח">
   <div class="results-heading"><strong>דו״ח התנועה שלכם</strong><span>MOVALYT ANALYSIS</span></div>
   <div id="holdSec" style="display:none">
-   <div class="top"><span class="score" id="score"></span><span class="hold" id="hold"></span></div>
+   <h2 class="metric-title">מפת הביצוע שלך</h2>
+    <p class="radar-subtitle">ככל שהצורה מתקרבת לקצה בכל כיוון, כך המדד טוב יותר.</p>
+    <div class="radar-wrap"><svg id="scoreRadar" viewBox="0 0 380 360" role="img" aria-label="מדדי הביצוע" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="radar-center" aria-label="ציון כללי"><span class="score" id="score"></span><span class="radar-out-of">מתוך 100</span></div>
+    </div>
+    <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
+    <div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div>
   </div>
   <p id="measurementNotice" class="tips" hidden></p>
   <section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
@@ -594,9 +615,43 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
  pb.textContent="נגן";$("spd").textContent="מהירות ×1";
  await seek(v,.05+mid/fps);draw(mid);
 }
+function drawScoreRadar(res,overall){
+ const svg=$("scoreRadar"),detail=$("scoreBreakdown"),ns="http://www.w3.org/2000/svg";
+ svg.replaceChildren();detail.replaceChildren();
+ // Hold metrics are measured separately from ascent. Never invent ascent metrics.
+ const keys=res?["banana","lean","shoulder","elbow",...(res.swayOk?["sway"]:[])]:[];
+ const vals=keys.map(key=>({key,label:NAME[key],score:Math.max(0,Math.min(100,res.sc[key])),description:why(key,res)}));
+ if(!vals.length){
+  svg.setAttribute("aria-label","אין מדדי החזקה זמינים לגרף");
+  detail.textContent="הציון מבוסס על שלב העלייה בלבד; לא נמדדו מספיק נתונים לגרף מדדי ההחזקה.";
+  svg.hidden=true;return;
+ }
+ svg.hidden=false;
+ svg.setAttribute("aria-label","מדדי החזקה: "+vals.map(v=>v.label+" "+Math.round(v.score)+" מתוך 100").join(", "));
+ const N=vals.length,cx=190,cy=180,r=117,axis=i=>-Math.PI/2+2*Math.PI*i/N;
+ const at=(i,value)=>{const a=axis(i),d=r*value/100;return[cx+d*Math.cos(a),cy+d*Math.sin(a)]};
+ const el=(tag,attributes={},textValue)=>{const node=document.createElementNS(ns,tag);Object.entries(attributes).forEach(([key,value])=>node.setAttribute(key,String(value)));if(textValue!==undefined)node.textContent=textValue;svg.appendChild(node);return node};
+ const pts=p=>vals.map((_,i)=>at(i,p).map(v=>v.toFixed(2)).join(",")).join(" ");
+ [25,50,75,100].forEach((level)=>el("polygon",{points:pts(level),fill:level===100?"#17211A":"none",stroke:"#344637","stroke-width":level===100?1.8:1}));
+ vals.forEach((v,i)=>{const p=at(i,100);el("line",{x1:cx,y1:cy,x2:p[0],y2:p[1],stroke:"#334635","stroke-width":1.3})});
+ el("polygon",{points:vals.map((v,i)=>at(i,v.score).map(x=>x.toFixed(2)).join(",")).join(" "),fill:"rgba(182,255,74,.20)",stroke:"#B6FF4A","stroke-width":3.6,"stroke-linejoin":"round"});
+ vals.forEach((v,i)=>{const p=at(i,v.score);el("circle",{cx:p[0],cy:p[1],r:4.5,fill:"#B6FF4A",stroke:"#10200C","stroke-width":2});
+  const end=at(i,124),anchor=end[0]<cx-12?"end":end[0]>cx+12?"start":"middle";
+  const y=end[1]+(end[1]<cy-10?-3:end[1]>cy+10?10:4);
+  el("text",{x:end[0],y,"text-anchor":anchor,fill:"#DCE9D3","font-size":13,"font-weight":700,"font-family":"Rubik,Arial,sans-serif"},v.label);
+  const item=document.createElement("div");item.className="metric-row";
+  const head=document.createElement("div");head.className="metric-row-head";
+  const name=document.createElement("span");name.textContent=v.label;
+  const number=document.createElement("strong");number.textContent=Math.round(v.score)+"/100";
+  head.append(name,number);item.append(head);
+  const bar=document.createElement("div");bar.className="bar";const fill=document.createElement("i");fill.style.width=v.score+"%";fill.style.background="var(--acc)";bar.append(fill);item.append(bar);
+  const reason=document.createElement("p");reason.textContent=v.description;item.append(reason);detail.append(item);
+ });
+}
 async function show(res,fr,v,w,h,overall){
  $("score").textContent=overall;
- $("hold").textContent="מתוך 100 · טכניקה בלבד";
+ $("hold").textContent="ציון טכניקה בלבד · "+(res?"הגרף מציג את מדדי ההחזקה שנמדדו.":"לא נמדדה החזקה מספקת.");
+ drawScoreRadar(res,overall);
  await replay(fr,v,w,h,res?.k||K[sideOf(fr)],null,res?.fps||10,res?.mid||Math.floor(fr.length/2));
  $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
 }
