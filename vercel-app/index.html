@@ -544,11 +544,26 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
  const draw=p=>{
   p=Math.max(0,Math.min(N-1,p));c.drawImage(v,0,0,w,h);
   const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
-  if($("showSkeleton").checked&&(f0||f1)){const A=f0||f1,B=f1||f0,pt=n=>{const q=k[n];return A[q].v>=.5&&B[q].v>=.5?[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]:null},ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
-   const line=(a,b,col)=>{if(!a||!b)return;c.strokeStyle=col;c.lineWidth=Math.max(1.5,w/500);c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
-   ch.slice(1).forEach((p,q)=>line(ch[q],p,"#B6FF4A"));
-   c.fillStyle="#B6FF4A";ch.filter(Boolean).forEach(p=>{c.beginPath();c.arc(p[0],p[1],Math.max(2,w/350),0,7);c.fill()});
-   const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}}
+  if($("showSkeleton").checked&&(f0||f1)){
+   const A=f0||f1,B=f1||f0;
+   const pt=q=>A[q]&&B[q]&&A[q].v>=.5&&B[q].v>=.5
+    ?[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]:null;
+   const sides=[[11,13,15,23,25,27,31],[12,14,16,24,26,28,32]];
+   const sidePoints=sides.map(ids=>ids.map(pt));
+   const line=(u,v,col,width,dash=[])=>{
+    if(!u||!v)return;c.beginPath();c.strokeStyle=col;c.lineWidth=width;c.lineCap="round";c.lineJoin="round";c.setLineDash(dash);
+    c.moveTo(...u);c.lineTo(...v);c.stroke();c.setLineDash([]);
+   };
+   const thick=Math.max(3,w/220),thin=Math.max(1.5,w/440);
+   sidePoints.forEach(ch=>{
+    [[0,1],[1,2],[0,3],[3,4],[4,5],[5,6]].forEach(([u,v])=>line(ch[u],ch[v],"#B6FF4A",thick));
+    ch.filter(Boolean).forEach(p=>{c.beginPath();c.fillStyle="#B6FF4A";c.strokeStyle="#101910";c.lineWidth=thin;c.arc(p[0],p[1],Math.max(3.5,w/190),0,Math.PI*2);c.fill();c.stroke()});
+   });
+   // Dashed shoulder/hip guides are visual connections, not measured joint angles.
+   line(sidePoints[0][0],sidePoints[1][0],"rgba(214,255,159,.7)",thin,[thick,thick]);
+   line(sidePoints[0][3],sidePoints[1][3],"rgba(214,255,159,.7)",thin,[thick,thick]);
+   const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}
+  }
   tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
   [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
   tc.strokeStyle="#B6FF4A";tc.lineWidth=2.5;let pen=false;tc.beginPath();
