@@ -24,6 +24,8 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.ok(!bridge.includes("generativelanguage.googleapis.com"));
  assert.match(bridge,/fetch\("\/api\/coach"/);
  assert.match(html,/showCoachFeedback\(res,(?:ent|null)\)/);
+ assert.match(html,/טכניקה בלבד/);
+ assert.match(html,/rate=elapsed<500\/fps\?Math\.min\(2,rate\+\.05\):1/);
  assert.match(html,/<video id="v"/);
 });
 test("API publicly reports its configuration state without leaking key",async()=>{

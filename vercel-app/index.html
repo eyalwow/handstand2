@@ -433,14 +433,17 @@ function detectPoseFrame(lm,canvas){
  }
 }
 function scanPlay(v,n,fps,cx,cvs,det,pg){return new Promise(res=>{
- const fr=new Array(n).fill(null);let k=0,rate=2,got=0,done=false,last=Date.now();
- const fin=ok=>{if(done)return;done=true;clearInterval(iv);v.onended=null;v.pause();v.playbackRate=1;res(ok?fr:null)};
+ const fr=new Array(n).fill(null);let k=0,rate=1,done=false,last=Date.now(),inferenceMs=0,samples=0;
+ const fin=ok=>{if(done)return;done=true;clearInterval(iv);v.onended=null;v.pause();v.playbackRate=1;console.info("[MOVALYT] scan",{samples,avgInferenceMs:samples?Math.round(inferenceMs/samples):0});res(ok?fr:null)};
  const iv=setInterval(()=>{if(Date.now()-last>5000)fin(false)},1000);
- const cb=(_,md)=>{if(done)return;got++;last=Date.now();
+ const cb=(_,md)=>{if(done)return;last=Date.now();
   try{const idx=Math.round((md.mediaTime-.05)*fps);
    if(idx>=n){fin(true);return}
-   if(idx>=k){cx.drawImage(v,0,0,cvs.width,cvs.height);fr[idx]=det();
-    rate=idx>k?Math.max(.25,rate*.8):Math.min(3,rate*1.05);v.playbackRate=rate;k=idx+1;pg.value=Math.min(1,k/n)}
+   if(idx>=k){cx.drawImage(v,0,0,cvs.width,cvs.height);
+    const t=performance.now();fr[idx]=det();const elapsed=performance.now()-t;
+    inferenceMs+=elapsed;samples++;
+    rate=elapsed<500/fps?Math.min(2,rate+.05):1;v.playbackRate=rate;
+    k=idx+1;pg.value=Math.min(1,k/n)}
   }catch(e){fin(false);return}
   if(k>=n)fin(true);else v.requestVideoFrameCallback(cb)};
  v.onended=()=>fin(true);v.playbackRate=rate;v.currentTime=0;
@@ -453,9 +456,11 @@ $("file").addEventListener("change",async e=>{
   resetCoachFeedback();
  const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
  try{
-  st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
+  const analysisStarted=performance.now(),modelStarted=performance.now();
+   st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
   const lm=await Promise.race([getLM(),new Promise((_,no)=>setTimeout(()=>no(new Error("טעינת המודל לוקחת יותר מדי זמן. בדוק חיבור ונסה שוב")),45000))]);
-  v.muted=true;if(videoObjectUrl)URL.revokeObjectURL(videoObjectUrl);videoObjectUrl=URL.createObjectURL(file);v.src=videoObjectUrl;v.load();
+  console.info("[MOVALYT] model ready",{ms:Math.round(performance.now()-modelStarted)});
+   v.muted=true;if(videoObjectUrl)URL.revokeObjectURL(videoObjectUrl);videoObjectUrl=URL.createObjectURL(file);v.src=videoObjectUrl;v.load();
   const dg=()=>`סוג=${file.type||"לא ידוע"} גודל=${Math.round(file.size/1e5)/10}MB אורך=${v.duration} רזולוציה=${v.videoWidth}x${v.videoHeight} קוד=${v.error?v.error.code:"-"}`;
   await new Promise((ok,no)=>{v.onloadedmetadata=ok;v.onerror=()=>no(new Error("video "+dg()));setTimeout(()=>no(new Error("video "+dg())),20000)});
   if(!isFinite(v.duration)){v.currentTime=1e7;await new Promise(r=>setTimeout(r,1500));v.currentTime=0}
@@ -466,22 +471,24 @@ $("file").addEventListener("change",async e=>{
   let fr=null;
   const det=()=>{const r=detectPoseFrame(lm,cvs),L=r.landmarks&&r.landmarks[0];return L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null};
   st.textContent="מנתח את הסרטון...";
-  if(v.requestVideoFrameCallback)fr=await scanPlay(v,n,fps,cx,cvs,det,pg);
+  const samplingStarted=performance.now();
+   if(v.requestVideoFrameCallback)fr=await scanPlay(v,n,fps,cx,cvs,det,pg);
   if(!fr){
    fr=[];pg.value=0;
    const grab=async t=>{await seek(v,t);cx.drawImage(v,0,0,cvs.width,cvs.height);return det()};
    const upAny=f=>f&&["L","R"].some(sd=>{const k=K[sd];return["shoulder","elbow","wrist","hip","ankle"].every(q=>f[k[q]].v>=.5)&&f[k.hip].y<f[k.shoulder].y&&f[k.wrist].y>f[k.shoulder].y});
-   const hits=[],cs=Math.max(1,Math.round(fps*.4));
-   for(let i=0;i<n;i+=cs){if(upAny(await grab(.05+i/fps)))hits.push(i);pg.value=.3*Math.min(1,(i+1)/n)}
+   const hits=[],cs=Math.max(1,Math.round(fps*.4)),cache=new Map();
+    const cachedGrab=async i=>{if(cache.has(i))return cache.get(i);const f=await grab(.05+i/fps);cache.set(i,f);return f};
+   for(let i=0;i<n;i+=cs){if(upAny(await cachedGrab(i)))hits.push(i);pg.value=.3*Math.min(1,(i+1)/n)}
    let lo=0,hi=n-1;
    if(hits.length){lo=Math.max(0,hits[0]-cs*2);hi=Math.min(n-1,hits[hits.length-1]+cs*2)}
    for(let i=0;i<n;i++){
     if(i<lo||i>hi){fr.push(null);continue}
-    fr.push(await grab(.05+i/fps));
+    fr.push(await cachedGrab(i));
     pg.value=.3+.7*(i-lo+1)/(hi-lo+1);if(i%3===0)await new Promise(r=>setTimeout(r));}
   }
   pg.style.display="none";
-  LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
+  console.info("[MOVALYT] sampling",{ms:Math.round(performance.now()-samplingStarted),frames:fr.filter(Boolean).length});LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
   const res=reliableResult(measuredHold,fps)?measuredHold:null;
   const entryFrames=observedEntryWindow(fr,fps,res);
   const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
@@ -497,8 +504,9 @@ $("file").addEventListener("change",async e=>{
    await show(res,fr,v,w,h,overall);
    showCoachFeedback(res,ent);
    $("measurementNotice").hidden=false;
-   $("measurementNotice").textContent=res&&ent?"הציון כולל את העלייה וההחזקה שנצפו.":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון.":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת.";
-   if(res?.hold>=2){
+    $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"הציון משקף טכניקת גוף בלבד; אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
+   console.info("[MOVALYT] local analysis total",{ms:Math.round(performance.now()-analysisStarted)});
+    if(res?.hold>=2){
     try{const key="handstand-lab-analyses-v1",old=JSON.parse(localStorage.getItem(key)||"[]");
      if(Array.isArray(old)){old.push({date:new Date().toISOString(),score:overall,model:ent?"v2-entry-hold":"v2-hold"});localStorage.setItem(key,JSON.stringify(old.slice(-100)));}
     }catch{}
@@ -544,11 +552,26 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
  const draw=p=>{
   p=Math.max(0,Math.min(N-1,p));c.drawImage(v,0,0,w,h);
   const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
-  if($("showSkeleton").checked&&(f0||f1)){const A=f0||f1,B=f1||f0,pt=n=>{const q=k[n];return A[q].v>=.5&&B[q].v>=.5?[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]:null},ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
-   const line=(a,b,col)=>{if(!a||!b)return;c.strokeStyle=col;c.lineWidth=Math.max(1.5,w/500);c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
-   ch.slice(1).forEach((p,q)=>line(ch[q],p,"#B6FF4A"));
-   c.fillStyle="#B6FF4A";ch.filter(Boolean).forEach(p=>{c.beginPath();c.arc(p[0],p[1],Math.max(2,w/350),0,7);c.fill()});
-   const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}}
+  if($("showSkeleton").checked&&(f0||f1)){
+   const A=f0||f1,B=f1||f0;
+   const pt=q=>A[q]&&B[q]&&A[q].v>=.5&&B[q].v>=.5
+    ?[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]:null;
+   const sides=[[11,13,15,23,25,27,31],[12,14,16,24,26,28,32]];
+   const sidePoints=sides.map(ids=>ids.map(pt));
+   const line=(u,v,col,width,dash=[])=>{
+    if(!u||!v)return;c.beginPath();c.strokeStyle=col;c.lineWidth=width;c.lineCap="round";c.lineJoin="round";c.setLineDash(dash);
+    c.moveTo(...u);c.lineTo(...v);c.stroke();c.setLineDash([]);
+   };
+   const thick=Math.max(3,w/220),thin=Math.max(1.5,w/440);
+   sidePoints.forEach(ch=>{
+    [[0,1],[1,2],[0,3],[3,4],[4,5],[5,6]].forEach(([u,v])=>line(ch[u],ch[v],"#B6FF4A",thick));
+    ch.filter(Boolean).forEach(p=>{c.beginPath();c.fillStyle="#B6FF4A";c.strokeStyle="#101910";c.lineWidth=thin;c.arc(p[0],p[1],Math.max(3.5,w/190),0,Math.PI*2);c.fill();c.stroke()});
+   });
+   // Dashed shoulder/hip guides are visual connections, not measured joint angles.
+   line(sidePoints[0][0],sidePoints[1][0],"rgba(214,255,159,.7)",thin,[thick,thick]);
+   line(sidePoints[0][3],sidePoints[1][3],"rgba(214,255,159,.7)",thin,[thick,thick]);
+   const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}
+  }
   tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
   [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
   tc.strokeStyle="#B6FF4A";tc.lineWidth=2.5;let pen=false;tc.beginPath();
@@ -573,7 +596,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
 }
 async function show(res,fr,v,w,h,overall){
  $("score").textContent=overall;
- $("hold").textContent="מתוך 100";
+ $("hold").textContent="מתוך 100 · טכניקה בלבד";
  await replay(fr,v,w,h,res?.k||K[sideOf(fr)],null,res?.fps||10,res?.mid||Math.floor(fr.length/2));
  $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
 }
