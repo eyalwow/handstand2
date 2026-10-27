@@ -2,6 +2,13 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## Coach product prototype — 2026-10-27
+- Separate branch feat/handstand-coach-demo from 04ebf3f0c3b935801dc7a81cd6974186fc6ad57b. Added isolated coach-app frontend; no athlete application, local storage, training plan or analyzer source changed.
+- Synthetic-only dashboard, searchable roster, athlete profiles, program library/details and clearly fabricated AI review; desktop/mobile CSS. Coach notes and simulated athlete consent/revocation live only in memory and reset on refresh. No accounts, server access, real data, billing or paid services.
+- Shared infrastructure direction, future single identity with dual capabilities, data ownership, explicit sharing/revocation and default-deny RLS release gates documented in docs/TWO_PRODUCT_ARCHITECTURE.md. No Supabase project or schema provisioned; no duplicate analyzer or exercise catalogue.
+- Two focused data/consent tests and JavaScript syntax check passed. Browser review/Preview verification recorded below when available. Existing analyzer accuracy/ascent diagnosis remains open; no new accuracy claim.
+- Limited first prototype for user review; do not expand before review. No merge or production release.
+
 ## Bounded ascent/score diagnosis — pause checkpoint (2026-10-27, before resuming after 13:30 Israel time)
 - Scope: exactly one diagnostic cycle, existing wall MP4 and its existing hold-only WebM; no new video research/download, Gemini request, Vercel/SSO access, deployment or runtime correction. Remaining quota is not exposed to the agent, so a numerical 5% reserve cannot be verified; stopped instead of starting additional attempts.
 - Important evidence limitation: earlier real-video runs retained the source videos, rendered 97/100 and 100/100 and qualitative observations, but NOT the original per-frame poses or per-metric score breakdown. Therefore those exact historical grades cannot be reconstructed or their ascent rejection assigned to a specific gate from the saved totals alone.
@@ -177,3 +184,4 @@ Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb59
 - Next for active workouts: perform pending real browser/mobile checks above and inspect CI for the exact new head. Do not redesign existing screens or start unrelated features without a new task. Broader exercise details, native/offline/PWA behavior and analyzer release checks remain separate follow-up work.
 - Run all tests including `node --test tests/*.test.*`; verify latest GitHub CI and perform real browser tests. Check preview against the exact source and environment, verify Production Gemini and rollback capability before publishing. Only merge/deploy when the owner's conditions are met. No paid services or deletion of user data are authorized.
 - The GitHub connector was used because local Git credential manager push failed; remote commits may have different hashes from local commits despite matching source content.
+

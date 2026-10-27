@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {athletes,programs,stats,visibleAnalysis} from '../coach-app/app.js';
+test('synthetic assignments resolve and dashboard totals reflect fixtures',()=>{assert.equal(new Set(athletes.map(a=>a.id)).size,athletes.length);for(const a of athletes){assert.ok(a.id.startsWith('demo-'));assert.ok(programs.some(p=>p.id===a.plan));assert.ok(a.done<=a.total);}assert.deepEqual(stats(athletes),{count:4,done:10,total:14,attention:2});});
+test('revoked consent hides analysis without deleting athlete history',()=>{const a={...athletes[0]};assert.ok(visibleAnalysis(a));a.shared=false;assert.equal(visibleAnalysis(a),false);assert.equal(a.done,3);assert.equal(visibleAnalysis(null),false);});
