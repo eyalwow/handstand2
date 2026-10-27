@@ -33,6 +33,17 @@ Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb59
 - **Still required before merge:** real browser and narrow mobile viewport checks, keyboard/focus/scroll review and visual review of schematic poses. Browser verification was attempted but unavailable: the in-app tab could not be attached, and native browser control stopped because it could not determine the current URL confidently. No successful visual/device check is claimed.
 - Inspect GitHub Actions for the exact new remote commit after upload; earlier green checks do not cover this continuation.
 
+## Real browser verification and mobile fixes — 2026-10-27
+- Continued from fb0a907. Authenticated in-app browser now accesses Preview successfully; the earlier browser/auth blocker is resolved.
+- Tested real browser viewports 390×844 and 320×640: home, all four bottom navigation destinations, exercise library search, exercise detail dialog/scrolling, three loaded push-up illustrations, active workout schematic and matched artwork, individual sets, running rest timer across refresh, previous/next/direct exercise selection, exercise-details return, partial finish confirmation/cancel, summary persistence across refresh, and a single saved history entry. No horizontal overflow at either tested width. No browser console errors observed on tested routes.
+- Found low contrast in active-workout artwork: white SVGs appeared on a pale background. Changed only the workout image background to existing dark green #253329; visually rechecked loaded artwork at 320px on the corrected deployment.
+- Changed rest output from implicit live status to role=timer with aria-live=off, keeping the separate rest-end announcement. Confirmed timer semantics in the real browser accessibility tree.
+- Application fix commit: ef21aecebe71c483ac95c82bb501ae77689e680c. 15 focused workout tests passed and GitHub Actions succeeded for that commit. Existing unrelated tests were not manually rerun.
+- Corrected Preview is READY: https://handstand-lab-coach-hbd1ixfv3-eyalwen-6443.vercel.app/training.html
+- Deployment: dpl_DdsDDNufC3L6CtQBUiCczfz9dVxi, source ef21aecebe71c483ac95c82bb501ae77689e680c, existing project handstand-lab-coach, root vercel-app. This status-only follow-up does not change deployed application code.
+- These are real desktop-browser responsive viewport checks, not physical iOS/Android device tests or a complete review of all 110 exercise entries. Broader exercise content/PWA limitations remain. Owner should now check this exact Preview on their phone before any release.
+- No merge, production promotion, redesign or unrelated feature work.
+
 ## Preview verification follow-up — 2026-10-27
 - Created READY Preview `dpl_Bu3GHN6kQyj1uN4nBRXELtfsZhMH` in existing project `handstand-lab-coach`, explicitly from source commit `cb847e6ce5dab934429ec88251218ca491a02339`, branch `feat/handstand-product-experience`, root `vercel-app`. No production promotion, merge or project protection changes.
 - Preview: https://handstand-lab-coach-bx7a3fdo9-eyalwen-6443.vercel.app/training.html
