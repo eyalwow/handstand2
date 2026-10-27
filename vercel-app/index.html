@@ -167,6 +167,8 @@ main{max-width:860px}
 a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 @media(max-width:600px){body{padding: max(15px,env(safe-area-inset-top)) 14px calc(100px + env(safe-area-inset-bottom))}.brand{margin:3px 0 28px}.brand-caption{font-size:11px}.feature-card{padding:23px 20px}.home-tile{padding:15px;min-height:155px}.home-grid{gap:9px}}
 @media(max-width:340px){.home-grid{grid-template-columns:1fr}.home-tile{min-height:130px}}
+
+.coach-strength{padding:12px 15px;border-inline-start:3px solid #B6FF4A;background:#22311c;border-radius:10px;font-size:15px}.skeleton-control{margin:12px 0}.skeleton-control label{display:flex;align-items:center;gap:9px;font-size:14px}.skeleton-control input{width:22px;height:22px;accent-color:#B6FF4A}.coach-drills{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.coach-drills{grid-template-columns:1fr}.coach-observation{padding:14px}.coach-summary{font-size:17px}}
 </style>
 
 </head>
@@ -231,7 +233,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
   <p id="measurementNotice" class="tips" hidden></p>
   <section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
    <div class="coach-topline"><span class="coach-kicker">המשוב שלך</span><span class="coach-badge" id="coachBadge"></span></div>
-   <h2>על מה כדאי לעבוד</h2>
+   <h2>הצעד הבא שלך</h2>
+   <p id="coachStrength" class="coach-strength"></p>
    <p class="coach-summary" id="coachSummary"></p>
    <div class="coach-observations" id="coachObservations"></div>
    <h3>תרגילים להמשך</h3>
@@ -242,6 +245,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
   </section>
   <div id="replaySec">
   <h2>צפה בעצמך</h2>
+  <div class="skeleton-control"><label><input id="showSkeleton" type="checkbox" checked> הצגת קווי שלד</label></div>
   <canvas id="cv"></canvas>
   <div dir="ltr" style="margin-top:12px"><input id="scrub" type="range" min="0" max="1" step="0.01" value="0" style="width:100%;accent-color:var(--acc)" aria-label="מיקום בסרטון"></div>
   <div style="display:flex;gap:8px;margin-top:8px">
@@ -288,6 +292,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 })();
 </script>
 <script type="module">
+import {overallHandstandScore,observedEntryWindow} from "./handstand-summary.js";
 import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
 import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
 const $=id=>document.getElementById(id);
@@ -336,6 +341,8 @@ function analyze(fr,fps){
  const m=n=>med(ms.map(x=>x[n]));
  const val={banana:m("banana"),lean:m("lean"),shoulder:Math.max(0,m("shoulder")),elbow:Math.max(0,m("elbow")),sway:std(ms.map(x=>x.hipx))};
  const swayOk=idx.length>=5;
+ // Preserve raw sway diagnostics, but prevent isolated detector jumps dominating the score.
+ const rawSway=val.sway;val.sway=1.4826*med(ms.map(x=>Math.abs(x.hipx-med(ms.map(y=>y.hipx)))));
  const sc={};let total=0;
  for(const n in TH){sc[n]=band(n==="banana"?Math.abs(val[n]):val[n],TH[n].map(x=>x*SCALE));if(n!=="sway"||swayOk)total+=sc[n]*WT[n]}
  if(!swayOk)total/=1-WT.sway;
@@ -356,7 +363,7 @@ function analyze(fr,fps){
  }).filter(x=>x!==null);
  const legsApart=legGaps.length>=Math.max(5,idx.length*.4)&&med(legGaps)>.35;
  return{val,sc,total,swayOk,k,series,fps,hold:(run[1]-run[0]+1)/fps,mid:idx[idx.length>>1],
-  diagnostics:{validFrames:idx.length,visibilityPercent,thirds,relaxed,legsApart}}}
+  diagnostics:{startFrame:run[0],endFrame:run[1],validFrames:idx.length,visibilityPercent,thirds,relaxed,legsApart,rawSway}}}
 function reliableResult(res,fps){
  return !!(res&&!res.diagnostics.relaxed&&!res.diagnostics.legsApart&&res.hold>=1.5&&res.diagnostics.validFrames>=10&&
   res.diagnostics.visibilityPercent>=65&&res.diagnostics.validFrames/(res.hold*fps)>=.7);
@@ -456,23 +463,30 @@ $("file").addEventListener("change",async e=>{
     pg.value=.3+.7*(i-lo+1)/(hi-lo+1);if(i%3===0)await new Promise(r=>setTimeout(r));}
   }
   pg.style.display="none";
-  LAST={fr,fps,v,w,h};const res=analyze(fr,fps);
-  const reliable=reliableResult(res,fps);
+  LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
+  const res=reliableResult(measuredHold,fps)?measuredHold:null;
+  const entryFrames=observedEntryWindow(fr,fps,res);
+  const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
+  if(ent && ent.arch===null) ent.total=(ent.sc.reach*.4+ent.sc.shoulder*.2+ent.sc.elbow*.15)/.75;
+  const overall=overallHandstandScore(res,ent);
+  const reliable=overall!==null;
   const seen=fr.map((f,i)=>f?i:-1).filter(i=>i>=0);
   if(!seen.length){st.textContent="לא הצלחנו לזהות גוף בסרטון. נסו לצלם מהצד כשכל הגוף מופיע בפריים.";return}
   st.textContent="";
   $("measurementNotice").hidden=reliable;
   $("holdSec").style.display=reliable?"block":"none";
   if(reliable){
-   await show(res,fr,v,w,h);
-   showCoachFeedback(res,null);
-   if(res.hold>=2){
+   await show(res,fr,v,w,h,overall);
+   showCoachFeedback(res,ent);
+   $("measurementNotice").hidden=false;
+   $("measurementNotice").textContent=res&&ent?"הציון כולל את העלייה וההחזקה שנצפו.":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון.":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת.";
+   if(res?.hold>=2){
     try{const key="handstand-lab-analyses-v1",old=JSON.parse(localStorage.getItem(key)||"[]");
-     if(Array.isArray(old)){old.push({date:new Date().toISOString(),score:Math.round(res.total),model:"v1"});localStorage.setItem(key,JSON.stringify(old.slice(-100)));}
+     if(Array.isArray(old)){old.push({date:new Date().toISOString(),score:overall,model:ent?"v2-entry-hold":"v2-hold"});localStorage.setItem(key,JSON.stringify(old.slice(-100)));}
     }catch{}
    }
   }else{
-   $("measurementNotice").textContent=res?.diagnostics.legsApart
+   $("measurementNotice").textContent=measuredHold?.diagnostics.legsApart
     ?"בפיסוק הרגליים קשה לנו להעריך את קו הגוף בצורה הוגנת. נסו סרטון נוסף עם רגליים קרובות, כשהגוף כולו בפריים."
     :"לא הצלחנו למדוד את העמידה בביטחון. נסו לצלם מהצד, עם כל הגוף בפריים והחזקה ברורה של כמה שניות.";
    await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1]);
@@ -512,10 +526,10 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
  const draw=p=>{
   p=Math.max(0,Math.min(N-1,p));c.drawImage(v,0,0,w,h);
   const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
-  if(f0||f1){const A=f0||f1,B=f1||f0,pt=n=>{const q=k[n];return[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]},ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
-   const line=(a,b,col)=>{c.strokeStyle=col;c.lineWidth=Math.max(3,w/200);c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
-   line(ch[2],ch[4],"#22c55e");ch.slice(1).forEach((p,q)=>line(ch[q],p,"#facc15"));
-   c.fillStyle="#ef4444";ch.forEach(p=>{c.beginPath();c.arc(p[0],p[1],Math.max(5,w/120),0,7);c.fill()});
+  if($("showSkeleton").checked&&(f0||f1)){const A=f0||f1,B=f1||f0,pt=n=>{const q=k[n];return A[q].v>=.5&&B[q].v>=.5?[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]:null},ch=["wrist","elbow","shoulder","hip","ankle"].map(pt);
+   const line=(a,b,col)=>{if(!a||!b)return;c.strokeStyle=col;c.lineWidth=Math.max(1.5,w/500);c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
+   ch.slice(1).forEach((p,q)=>line(ch[q],p,"#B6FF4A"));
+   c.fillStyle="#B6FF4A";ch.filter(Boolean).forEach(p=>{c.beginPath();c.arc(p[0],p[1],Math.max(2,w/350),0,7);c.fill()});
    const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}}
   tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
   [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
@@ -535,13 +549,14 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
  $("spd").onclick=()=>{rate=rate===1?.5:rate===.5?.25:1;v.playbackRate=rate;$("spd").textContent="מהירות ×"+rate};
  sl.oninput=()=>{v.pause();goTo(+sl.value)};
  tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo((e.clientX-r.left)/r.width*(N-1))};
+ $("showSkeleton").onchange=()=>draw(posOf());
  pb.textContent="נגן";$("spd").textContent="מהירות ×1";
  await seek(v,.05+mid/fps);draw(mid);
 }
-async function show(res,fr,v,w,h){
- $("score").textContent=Math.round(res.total);
+async function show(res,fr,v,w,h,overall){
+ $("score").textContent=overall;
  $("hold").textContent="מתוך 100";
- await replay(fr,v,w,h,res.k,null,res.fps,res.mid);
+ await replay(fr,v,w,h,res?.k||K[sideOf(fr)],null,res?.fps||10,res?.mid||Math.floor(fr.length/2));
  $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
 }
 

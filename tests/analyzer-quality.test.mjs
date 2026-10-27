@@ -45,8 +45,8 @@ test("measured problems are actionable, bounded and do not expose technical scor
  assert.ok(!JSON.stringify(evidence).includes("Degrees"));
  const raw={summary:"פציעה 45°",observations:[{key:"hold_banana",finding:"שקר",correction:"שקר"}],drills:[{id:"hollow",reason:"שקר"}]};
  const ai=validateCoachResponse(raw,evidence,issues);
- assert.equal(ai.observations[0].finding,issues[0].finding);
- assert.equal(ai.observations[0].correction,issues[0].correction);
+ assert.equal(ai.observations[0].key,issues[0].key);
+ assert.ok(!JSON.stringify(ai).includes("שקר"));
  assert.ok(ai.drills.length>=2);
  assert.ok(!ai.summary.includes("פציעה"));
 });

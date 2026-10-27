@@ -1,3 +1,4 @@
+import {bestMeasuredStrength} from "./handstand-summary.js";
 import {getSharedGemini,geminiReady,checkGeminiStatus} from "./server-gemini.js";
 // Handstand AI Coach: only numeric pose measurements go to Gemini, never photos/video.
 // Backend holds shared Gemini secret; app users never enter API keys.
@@ -51,12 +52,13 @@ function identify(res,ent){
  const hold=out.filter(i=>i.key.startsWith("hold_")).sort((a,b)=>a.score-b.score);
  const entry=out.filter(i=>i.key.startsWith("entry_")).sort((a,b)=>a.score-b.score);
  const duplicate={entry_arch:"hold_banana",entry_shoulder:"hold_shoulder",entry_elbow:"hold_elbow",entry_reach:"hold_lean"};
- return [...hold,...entry.filter(i=>i.score<55&&!hold.some(h=>h.key===duplicate[i.key])).slice(0,1)].slice(0,3);
+ return [...hold,...entry.filter(i=>!hold.some(h=>h.key===duplicate[i.key]))].sort((a,b)=>a.score-b.score).slice(0,3);
 }
 function evidence(res,ent,issues){
  const allowed=[...new Set(issues.slice(0,4).flatMap(i=>i.drills))];
  return {
   kind:"2D side-view pose tracking; no raw video supplied",
+  strength:bestMeasuredStrength(res,ent),
   hold:res?{durationSeconds:n(res.hold),score:Math.round(res.total)}:null,
   entry:ent?{score:n(ent.total)}:null,
   groundedProblems:issues.slice(0,6).map(i=>({key:i.key,score:i.score,finding:i.finding,correction:i.correction})),
@@ -64,41 +66,102 @@ function evidence(res,ent,issues){
   note:"Pose and angles are approximations in one 2D camera plane. Avoid diagnosing injuries; safe wall and clear floor needed."
  };
 }
+// Equivalent, measurement-keyed fallback language. Variation never changes the evidence.
+const fallbackVariants = {
+ hold_banana:[
+ ["קו הגוף אינו נשאר אחיד.","נסה לאסוף בטן וישבן ולתרגל קו גוף ליד קיר."],
+ ["יש מקום לדייק את קו הגוף.","תרגל החזקה קצרה עם בטן אסופה וצלעות פנימה."],
+ ["קו הגוף הוא נקודת העבודה המרכזית.","התמקד בחיבור בין הבטן והאגן לפני הארכת ההחזקה."],
+ ["האגן אינו נשאר על קו הגוף שנמדד.","נסה לשמור בטן אסופה במהלך החזקה נתמכת."]],
+ hold_lean:[
+ ["נראית נטייה של הגוף ביחס לידיים.","תרגל תיקוני איזון קטנים ליד קיר."],
+ ["יש מקום למרכז את הגוף מעל הידיים.","נסה החזקות קצרות עם דחיפה דרך הכתפיים."],
+ ["הקו נוטה מעט מהאנך בחלק שנמדד.","התמקד בתיקונים עדינים, בלי לשנות הכול בבת אחת."],
+ ["המיקום מעל הידיים דורש עוד דיוק.","תרגל ליד קיר והתמקד בשמירה על מרכז יציב."]],
+ hold_shoulder:[
+ ["פתיחת הכתפיים יכולה להיות טובה יותר.","דחוף את הרצפה והארך את הידיים, בלי להגדיל את הקשת בגב."],
+ ["הכתפיים לא נשארו פתוחות לאורך החלק שנמדד.","תרגל פתיחת כתפיים בתמיכה נוחה ליד קיר."],
+ ["יש מקום להאריך יותר דרך הכתפיים.","נסה לדחוף גבוה דרך הכתפיים בזמן ההחזקה."],
+ ["הכתפיים הן נקודה שכדאי לדייק.","שמור בטן אסופה בזמן תרגול פתיחת הכתפיים."]],
+ hold_elbow:[
+ ["נראית כפיפה מסוימת במרפקים.","תרגל שמירה על זרועות ישרות בתמיכת קיר."],
+ ["הידיים לא נשארו ישרות בחלק שנמדד.","התמקד בזרועות יציבות לפני הארכת ההחזקה."],
+ ["יש מקום לייצב את המרפקים.","נסה החזקות קצרות ונשלטות עם זרועות ישרות."],
+ ["יישור הידיים דורש עוד תרגול.","תרגל דחיפה יציבה מהידיים בעזרת קיר."]],
+ hold_sway:[
+ ["נראית תנועה בזמן ההחזקה.","התחל מהחזקות קצרות ותרגל תיקוני איזון קטנים."],
+ ["האגן נע במהלך החלק שנמדד.","תרגל יציבות ליד קיר עם תיקונים עדינים."],
+ ["יש מקום להפוך את ההחזקה לעקבית יותר.","נסה לצמצם תיקונים גדולים ולהתמקד בשינויים קטנים."],
+ ["היציבות היא נקודת עבודה טובה להמשך.","תרגל החזקות קצרות עם תשומת לב לשליטה."]],
+ entry_reach:[
+ ["העלייה לא התקרבה מספיק לקו האנכי.","נסה עליות הדרגתיות ליד קיר ובמרחב פנוי."],
+ ["יש מקום לדייק את ההגעה לאנך.","תרגל עלייה נשלטת עם תמיכת קיר."],
+ ["בסוף העלייה הקו עדיין לא התייצב מעל הידיים.","התמקד בהגעה הדרגתית לקו לפני ניסיון ארוך."],
+ ["ההגעה לקו העמידה דורשת עוד דיוק.","נסה לתרגל ליד קיר כשהכתפיים מעל הידיים."]],
+ entry_arch:[
+ ["קו הגוף השתנה במהלך העלייה.","נסה לאסוף את הבטן לפני תחילת העלייה."],
+ ["בעלייה נראית קשת בקו הגוף.","תרגל עלייה עדינה עם צלעות פנימה."],
+ ["האגן לא נשאר על הקו במהלך העלייה.","התמקד בשמירה על בטן אסופה כבר מההתחלה."],
+ ["יש מקום לשמור על קו אחיד יותר בעלייה.","תרגל את החיבור בין הבטן והאגן בתמיכת קיר."]],
+ entry_shoulder:[
+ ["הכתפיים נסגרו מעט בעלייה.","דחוף את הרצפה כבר בתחילת התנועה."],
+ ["פתיחת הכתפיים השתנתה במהלך העלייה.","נסה להאריך דרך הכתפיים עוד לפני שהרגליים עולות."],
+ ["יש מקום לפתוח יותר את הכתפיים בעלייה.","תרגל עלייה עדינה עם כתפיים פעילות."],
+ ["הכתפיים הן נקודת הדיוק החשובה בעלייה.","התמקד בדחיפה יציבה מהרצפה בתמיכת קיר."]],
+ entry_elbow:[
+ ["נראית כפיפה בידיים במהלך העלייה.","נסה לשמור זרועות ישרות מההתחלה, ליד קיר."],
+ ["המרפקים לא נשארו ישרים בעלייה.","תרגל עלייה נשלטת בלי לוותר על יציבות הזרועות."],
+ ["יש מקום לייצב את הידיים במהלך העלייה.","התמקד בזרועות ישרות לפני ניסיון ארוך יותר."],
+ ["יישור הזרועות משתנה בזמן העלייה.","נסה עליות קצרות עם תשומת לב לדחיפה דרך הידיים."]]
+};
+let fallbackCursor=Math.floor(Math.random()*4);
+const fallbackChoices=new WeakMap();
+function fallbackChoice(measure) {
+ if(!fallbackChoices.has(measure))fallbackChoices.set(measure,fallbackCursor++);
+ return fallbackChoices.get(measure);
+}
+
 function local(issues,measure){
- const priorities=issues.slice(0,3),first=priorities[0],second=priorities[1];
+ const variant=fallbackChoice(measure);
+ const priorities=issues.slice(0,2),first=priorities[0],second=priorities[1];
  const summary=first
    ?(measure.hold?.score>=85?"העמידה נראית טובה. הנה נקודה שאפשר להמשיך לדייק.":measure.hold?.score>=70?"יש כאן בסיס טוב. נתמקד בדבר אחד בכל פעם.":"יש כאן בסיס להתקדם ממנו. נתחיל בתרגול אחד בכל פעם.")
    :"העמידה נראית יציבה במדדים שזוהו. המשך לתרגל שליטה וקו גוף עקבי.";
  const choices=[...new Set(priorities.flatMap(i=>i.drills))].filter(id=>measure.allowedExerciseIds.includes(id));
  if(!choices.length)choices.push(...measure.allowedExerciseIds);
- const drills=choices.slice(0,3).map(id=>{const issue=priorities.find(i=>i.drills.includes(id));return{id,reason:issue?"מתמקד במדד "+names[issue.key]+" שנמצא חלש.":"לחיזוק שליטה בסיסית בקו ובאיזון."}});
- const quality=(!measure.hold||measure.hold.durationSeconds<2)
+ const drills=choices.slice(0,2).map(id=>{const issue=priorities.find(i=>i.drills.includes(id));return{id,reason:issue?"מתמקד במדד "+names[issue.key]+" שנמצא חלש.":"לחיזוק שליטה בסיסית בקו ובאיזון."}});
+ const quality=(measure.hold&&measure.hold.durationSeconds<2)
   ?"ההחזקה קצרה, ולכן התוצאה נותנת תמונה חלקית. נסו סרטון נוסף עם החזקה ארוכה יותר."
   :"המשוב מבוסס על זיהוי הגוף בסרטון. זווית הצילום יכולה להשפיע על התוצאה.";
- return{summary,observations:priorities.map(i=>({key:i.key,finding:i.finding,correction:i.correction})),drills,quality};
+ const strength=measure.strength?.text || (measure.hold?"הצלחת לשמור על תנוחה מזוהה לאורך ההחזקה שנמדדה.":"המעבר לעלייה זוהה בסרטון.");
+ const introductions=["נתמקד בשינוי קטן שאפשר לקחת לניסיון הבא.","יש לך כיוון ברור לתרגול הבא.","הנה סדר עדיפויות קצר להמשך התרגול.","כדאי לעבוד בהדרגה, על נקודה אחת בכל פעם."];
+ return{strength,summary:first?introductions[variant%introductions.length]:["במדדים שנצפו לא בלט כרגע תיקון מרכזי. אפשר להמשיך לבנות עקביות.","המדדים הזמינים מצביעים על ביצוע עקבי. המשך לתרגל שליטה באותו קצב.","לא זוהתה נקודת שיפור בולטת במדדים שנמדדו. נסה לשחזר את הביצוע בניסיון הבא.","בחלק שנמדד לא עלה דגש טכני מרכזי. התרגול הבא יכול להתמקד בעקביות."][variant%4],observations:priorities.map(i=>{const words=fallbackVariants[i.key]?.[variant%4];return {key:i.key,finding:words?.[0]||i.finding,correction:words?.[1]||i.correction};}),drills,quality};
 }
 function validate(raw,measure,issues){
  if(!raw||typeof raw.summary!=="string")throw Error("Gemini לא החזיר תשובה בפורמט הנדרש.");
  const clean=v=>typeof v==="string"?v.trim().slice(0,350):"";
+ const safeText=v=>{const t=clean(v);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת/.test(t)?t:""};
+ if(!safeText(raw.summary)) return local(issues,measure);
  const metrics=new Set(issues.slice(0,6).map(i=>i.key)),allowed=new Set(measure.allowedExerciseIds);
  const byKey=new Map(issues.map(i=>[i.key,i]));
  const observationKeys=new Set();
  const observations=(Array.isArray(raw.observations)?raw.observations:[])
   .filter(o=>o&&metrics.has(o.key)&&clean(o.finding)&&clean(o.correction)&&!observationKeys.has(o.key)&&observationKeys.add(o.key))
-  .slice(0,3).map(o=>({key:o.key,finding:byKey.get(o.key).finding,correction:byKey.get(o.key).correction}));
+  .slice(0,2).map(o=>({key:o.key,finding:byKey.get(o.key).finding,correction:safeText(o.correction)||byKey.get(o.key).correction}));
  const seen=new Set();
  const drills=(Array.isArray(raw.drills)?raw.drills:[])
   .filter(o=>o&&allowed.has(o.id)&&clean(o.reason)&&!seen.has(o.id)&&seen.add(o.id))
-  .slice(0,3).map(o=>({id:o.id,reason:clean(o.reason)}));
+  .slice(0,2).map(o=>({id:o.id,reason:clean(o.reason)}));
  if(!drills.length||(issues.length&&!observations.length))throw Error("Gemini החזיר המלצות שלא נתמכו במדדים שנמדדו.");
  const fallback=local(issues,measure);
  for(const d of fallback.drills)if(drills.length<2&&!seen.has(d.id)){drills.push(d);seen.add(d.id)}
- return{summary:fallback.summary,observations,drills:drills.map(d=>({id:d.id,reason:fallback.drills.find(x=>x.id===d.id)?.reason||"לתרגול שליטה בהתאם למדדים."})),quality:fallback.quality};
+ return{strength:raw.strength?.key===measure.strength?.key&&safeText(raw.strength?.text)?safeText(raw.strength.text):fallback.strength,summary:safeText(raw.summary)||fallback.summary,observations,drills:drills.map(d=>({id:d.id,reason:safeText(d.reason)||fallback.drills.find(x=>x.id===d.id)?.reason||"לתרגול שליטה בהתאם למדדים."})),quality:fallback.quality};
 }
 function p(value,cls){const e=document.createElement("p");e.className=cls;e.textContent=value;return e}
 function render(plan,ai){
- $("coachBadge").textContent=ai?"Gemini AI":"משוב מדידות";
+ $("coachBadge").textContent=ai?"משוב Gemini":"משוב מדידות";
  $("coachSummary").textContent=plan.summary;
+ $("coachStrength").textContent="מה עבד טוב: "+plan.strength;
  const obs=$("coachObservations"),dr=$("coachDrills");obs.replaceChildren();dr.replaceChildren();
  plan.observations.forEach((o,i)=>{
   const block=document.createElement("article");block.className="coach-observation";
@@ -112,7 +175,7 @@ function render(plan,ai){
   const block=document.createElement("article");block.className="coach-drill";
   block.appendChild(p(String(i+1).padStart(2,"0")+"  "+d.name,"coach-drill-name"));
   block.appendChild(p(d.dose,"coach-dose"));
-  block.appendChild(p(d.cue,"coach-drill-focus"));
+  block.appendChild(p(o.reason||d.cue,"coach-drill-focus"));
   dr.appendChild(block);
  });
  $("coachQuality").textContent=plan.quality;

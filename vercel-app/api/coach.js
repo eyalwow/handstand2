@@ -13,6 +13,7 @@ function valid(e){
     e.allowedExerciseIds.some(k=>!VALID_DRILLS.has(k)))return false;
  if(e.hold!=null&&(!validN(e.hold.durationSeconds,0,600)||!validN(e.hold.score,0,100)))return false;
  if(e.entry!=null&&!validN(e.entry.score,0,100))return false;
+ if(e.strength!=null&&(!VALID_METRICS.has(e.strength.key)||!validN(e.strength.score,80,100)))return false;
  return e.groundedProblems.every(p=>p&&VALID_METRICS.has(p.key)&&validN(p.score,0,100)&&
    typeof p.finding==="string"&&p.finding.length<275&&typeof p.correction==="string"&&p.correction.length<275);
 }
@@ -20,12 +21,14 @@ const RULES=[
  "You are a careful calisthenics handstand coach. Write fluent Hebrew for the trainee.",
  "You have ONLY 2D pose estimates, not video footage; never claim to have watched it.",
  "Never invent measurements, diagnosis, injury, anatomy, exact root causes, finger pressure, or direction not measured.",
- "Select up to 3 key observations from groundedProblems; lower scores indicate greater concern. Return at most 3 drills.",
+ "Select up to 2 key observations from groundedProblems; lower scores indicate greater concern. Return at most 2 drills.",
  "Write simple, concise, encouraging Hebrew. Do not include numeric values, angles, percentages, scores or medical claims.",
  "Exercise IDs MUST belong to allowedExerciseIds. Do not prescribe unlisted exercises or set/repetition counts.",
+ "When groundedStrength is present, return strength with that exact key and one brief encouraging Hebrew sentence describing ONLY that strength. Otherwise omit strength and do not invent praise about technique.",
+ "Only discuss phases present in hold/entry; missing phases were not observed and must never be treated as mistakes.",
  "If no grounded problems, observations must be empty; recommend safe maintenance and good habits.",
  "Advise a stable wall and clear surface; stop if painful. Return valid JSON ONLY.",
- 'Shape: {"summary":"Hebrew","observations":[{"key":"metric key","finding":"measured value in Hebrew","correction":"one specific cue"}],"drills":[{"id":"allowed exercise ID","reason":"specific link to weakness"}]}'
+ 'Shape: {"strength":{"key":"groundedStrength.key only, or null","text":"one evidence-based positive in Hebrew"},"summary":"Hebrew","observations":[{"key":"metric key","finding":"measured value in Hebrew","correction":"one specific cue"}],"drills":[{"id":"allowed exercise ID","reason":"specific link to weakness"}]}'
 ].join("\n");
 module.exports=async function handler(req,res){
  if(req.method==="GET")return send(res,200,{enabled:!!process.env.GEMINI_API_KEY});
@@ -49,6 +52,7 @@ module.exports=async function handler(req,res){
  const permit=new Set(e.groundedProblems.map(p=>p.key));
  // Explicit allowlist: never forward extra fields, free text, raw video, images or landmark arrays.
  const safe={
+  groundedStrength:e.strength?{key:e.strength.key,score:e.strength.score}:null,
   hold:e.hold?{durationSeconds:e.hold.durationSeconds,score:e.hold.score}:null,
   entry:e.entry?{score:e.entry.score}:null,
   groundedProblems:e.groundedProblems.map(({key,score})=>({key,score})),
@@ -79,13 +83,14 @@ module.exports=async function handler(req,res){
   // Generative claims with numbers or medical diagnoses are unsupported; prefer local fallback.
   const safeText=x=>{const t=short(x);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת/.test(t)?t:""};
   const seen=new Set();
-  const observations=parsed.observations.filter(o=>o&&permit.has(o.key)&&!seen.has(o.key)&&safeText(o.correction)&&seen.add(o.key)).slice(0,3)
+  const observations=parsed.observations.filter(o=>o&&permit.has(o.key)&&!seen.has(o.key)&&safeText(o.correction)&&seen.add(o.key)).slice(0,2)
    .map(o=>({key:o.key,finding:e.groundedProblems.find(p=>p.key===o.key).finding,correction:short(o.correction)}));
   const seenDrills=new Set();
   const drills=parsed.drills.filter(o=>o&&allowed.has(o.id)&&!seenDrills.has(o.id)&&safeText(o.reason)&&seenDrills.add(o.id)).slice(0,3)
    .map(o=>({id:o.id,reason:short(o.reason)}));
   if(!safeText(parsed.summary)||!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
-  return send(res,200,{summary:short(parsed.summary),observations,drills});
+  const strength=e.strength&&parsed.strength?.key===e.strength.key&&safeText(parsed.strength.text)?{key:e.strength.key,text:safeText(parsed.strength.text)}:null;
+  return send(res,200,{summary:short(parsed.summary),strength,observations,drills});
  }catch{return send(res,503,{message:"Gemini לא זמין כרגע. המשוב המקומי נשאר זמין."})}
  finally{clearTimeout(timer)}
 };
