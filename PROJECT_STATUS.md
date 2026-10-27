@@ -2,6 +2,12 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## Handstand Lab + Coach CI upgrade — 2026-10-27
+- On work branch `chore/ci-lab-coach`, upgraded `.github/workflows/validate-coach.yml` without changing application code. Relevant pull requests now include changes under `preview/`, `vercel-app/`, `coach-app/`, `tests/` or the workflow itself; the existing manual trigger and existing `feat/gemini-coach-preview` push trigger remain.
+- Split the workflow into two explicit results: **Handstand Lab** checks all Lab/Preview JavaScript syntax and runs the existing Lab analyzer, privacy, API, catalogue, training and workout tests; **Handstand Coach** checks Coach JavaScript syntax, builds `coach-app`, verifies the packaged catalogue is byte-identical to the canonical Lab catalogue, and runs the existing Coach v2 tests. Test files are assigned once rather than rerunning the whole suite in both jobs.
+- Local verification on Node 24.19.0: workflow YAML parsed with both jobs; all selected syntax checks passed; Handstand Lab passed 42/42 tests; Handstand Coach built successfully, passed the catalogue comparison and passed 13/13 tests. GitHub uses Node 22 and its pull-request run remains the authoritative clean-run confirmation.
+- No paid service, API key, cloud dependency, Vercel setting, deployment, merge or Production state was added or changed.
+
 ## Work browser validation and safe Preview — 2026-10-27
 - Verified in authenticated Vercel Dashboard: separate project handstand-coach-demo (prj_HBLOrZVo65x2Bsw1YLHGXvgMSXXm), team team_k8Ko38VPSnqSg9YLYzpHxGc0; Git connected to eyalwow/handstand2; Production tracks main; Preview branch tracking enabled for all unassigned branches; no custom environments. Existing SSO all_except_custom_domains remains enabled.
 - Build settings verified: Root Directory coach-app; Framework Other; include files outside root enabled; coach-app/vercel.json defines node build.mjs and public output. No project settings changed.
