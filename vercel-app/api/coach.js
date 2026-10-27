@@ -24,7 +24,8 @@ const RULES=[
  "Select up to 2 key observations from groundedProblems; lower scores indicate greater concern. Return at most 2 drills.",
  "Write simple, concise, encouraging Hebrew. Do not include numeric values, angles, percentages, scores or medical claims.",
  "Exercise IDs MUST belong to allowedExerciseIds. Do not prescribe unlisted exercises or set/repetition counts.",
- "When groundedStrength is present, return strength with that exact key and one brief encouraging Hebrew sentence describing ONLY that strength. Otherwise omit strength and do not invent praise about technique.",
+ "When groundedStrength is present, return strength with that exact key and one brief encouraging Hebrew sentence describing ONLY that strength. Include the exact Hebrew phrase בחלק שנמדד in that sentence. Otherwise omit strength and do not invent praise about technique.",
+ "Limit all claims to the observed portion, never the whole exercise/video. Do not infer muscle tension/activation, effort, pain or intention from pose scores. Avoid boilerplate praise; write specifically about the supplied metric keys.",
  "Only discuss phases present in hold/entry; missing phases were not observed and must never be treated as mistakes.",
  "If no grounded problems, observations must be empty; recommend safe maintenance and good habits.",
  "Advise a stable wall and clear surface; stop if painful. Return valid JSON ONLY.",
@@ -81,7 +82,7 @@ module.exports=async function handler(req,res){
   if(typeof parsed?.summary!=="string"||!Array.isArray(parsed?.drills)||!Array.isArray(parsed?.observations))return send(res,502,{message:"מבנה תשובת Gemini לא תקין."});
   const short=x=>typeof x==="string"?x.trim().slice(0,330):"";
   // Generative claims with numbers or medical diagnoses are unsupported; prefer local fallback.
-  const safeText=x=>{const t=short(x);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת/.test(t)?t:""};
+  const safeText=x=>{const t=short(x);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח/.test(t)?t:""};
   const seen=new Set();
   const observations=parsed.observations.filter(o=>o&&permit.has(o.key)&&!seen.has(o.key)&&safeText(o.correction)&&seen.add(o.key)).slice(0,2)
    .map(o=>({key:o.key,finding:e.groundedProblems.find(p=>p.key===o.key).finding,correction:short(o.correction)}));
@@ -89,7 +90,7 @@ module.exports=async function handler(req,res){
   const drills=parsed.drills.filter(o=>o&&allowed.has(o.id)&&!seenDrills.has(o.id)&&safeText(o.reason)&&seenDrills.add(o.id)).slice(0,3)
    .map(o=>({id:o.id,reason:short(o.reason)}));
   if(!safeText(parsed.summary)||!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
-  const strength=e.strength&&parsed.strength?.key===e.strength.key&&safeText(parsed.strength.text)?{key:e.strength.key,text:safeText(parsed.strength.text)}:null;
+  const strength=e.strength&&parsed.strength?.key===e.strength.key&&safeText(parsed.strength.text)&&parsed.strength.text.includes("בחלק שנמדד")?{key:e.strength.key,text:safeText(parsed.strength.text)}:null;
   return send(res,200,{summary:short(parsed.summary),strength,observations,drills});
  }catch{return send(res,503,{message:"Gemini לא זמין כרגע. המשוב המקומי נשאר זמין."})}
  finally{clearTimeout(timer)}

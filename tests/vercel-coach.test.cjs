@@ -94,3 +94,14 @@ test("upstream quota failures and unsafe generated claims fail closed",async()=>
   if(previous===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=previous;
  }
 });
+
+test("real-video regression: Gemini cannot broaden praise to the entire exercise",async()=>{
+ const previous=process.env.GEMINI_API_KEY,original=global.fetch;process.env.GEMINI_API_KEY="TEST_NO_REAL_KEY";
+ let summary="קו הגוף נראה טוב בחלק שנמדד.";
+ global.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({summary,strength:{key:"hold_banana",text:"שמרת על גוף ארוך ומתוח לאורך כל התרגיל."},observations:[],drills:[{id:"wallLine",reason:"לשימור קו הגוף."}]})}]}}]})});
+ const evidence={...measure,strength:{key:"hold_banana",score:99},groundedProblems:[]};
+ const request=()=>({...req("POST",{evidence}),headers:{...req("POST").headers,"x-real-ip":"198.51.100.91"}});
+ try{let r=makeRes();await handler(request(),r);assert.equal(r.code,200);assert.equal(r.body.strength,null);
+ summary="קו הגוף נשמר לאורך כל התרגיל.";r=makeRes();await handler(request(),r);assert.equal(r.code,502);
+ }finally{global.fetch=original;if(previous===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=previous;}
+});

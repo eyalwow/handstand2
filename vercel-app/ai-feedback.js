@@ -135,12 +135,12 @@ function local(issues,measure){
   :"המשוב מבוסס על זיהוי הגוף בסרטון. זווית הצילום יכולה להשפיע על התוצאה.";
  const strength=measure.strength?.text || (measure.hold?"הצלחת לשמור על תנוחה מזוהה לאורך ההחזקה שנמדדה.":"המעבר לעלייה זוהה בסרטון.");
  const introductions=["נתמקד בשינוי קטן שאפשר לקחת לניסיון הבא.","יש לך כיוון ברור לתרגול הבא.","הנה סדר עדיפויות קצר להמשך התרגול.","כדאי לעבוד בהדרגה, על נקודה אחת בכל פעם."];
- return{strength,summary:first?introductions[variant%introductions.length]:["במדדים שנצפו לא בלט כרגע תיקון מרכזי. אפשר להמשיך לבנות עקביות.","המדדים הזמינים מצביעים על ביצוע עקבי. המשך לתרגל שליטה באותו קצב.","לא זוהתה נקודת שיפור בולטת במדדים שנמדדו. נסה לשחזר את הביצוע בניסיון הבא.","בחלק שנמדד לא עלה דגש טכני מרכזי. התרגול הבא יכול להתמקד בעקביות."][variant%4],observations:priorities.map(i=>{const words=fallbackVariants[i.key]?.[variant%4];return {key:i.key,finding:words?.[0]||i.finding,correction:words?.[1]||i.correction};}),drills,quality};
+ return{source:"local",strength,summary:first?introductions[variant%introductions.length]:["במדדים שנצפו לא בלט כרגע תיקון מרכזי. אפשר להמשיך לבנות עקביות.","המדדים הזמינים מצביעים על ביצוע עקבי. המשך לתרגל שליטה באותו קצב.","לא זוהתה נקודת שיפור בולטת במדדים שנמדדו. נסה לשחזר את הביצוע בניסיון הבא.","בחלק שנמדד לא עלה דגש טכני מרכזי. התרגול הבא יכול להתמקד בעקביות."][variant%4],observations:priorities.map(i=>{const words=fallbackVariants[i.key]?.[variant%4];return {key:i.key,finding:words?.[0]||i.finding,correction:words?.[1]||i.correction};}),drills,quality};
 }
 function validate(raw,measure,issues){
  if(!raw||typeof raw.summary!=="string")throw Error("Gemini לא החזיר תשובה בפורמט הנדרש.");
  const clean=v=>typeof v==="string"?v.trim().slice(0,350):"";
- const safeText=v=>{const t=clean(v);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת/.test(t)?t:""};
+ const safeText=v=>{const t=clean(v);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח/.test(t)?t:""};
  if(!safeText(raw.summary)) return local(issues,measure);
  const metrics=new Set(issues.slice(0,6).map(i=>i.key)),allowed=new Set(measure.allowedExerciseIds);
  const byKey=new Map(issues.map(i=>[i.key,i]));
@@ -155,7 +155,7 @@ function validate(raw,measure,issues){
  if(!drills.length||(issues.length&&!observations.length))throw Error("Gemini החזיר המלצות שלא נתמכו במדדים שנמדדו.");
  const fallback=local(issues,measure);
  for(const d of fallback.drills)if(drills.length<2&&!seen.has(d.id)){drills.push(d);seen.add(d.id)}
- return{strength:raw.strength?.key===measure.strength?.key&&safeText(raw.strength?.text)?safeText(raw.strength.text):fallback.strength,summary:safeText(raw.summary)||fallback.summary,observations,drills:drills.map(d=>({id:d.id,reason:safeText(d.reason)||fallback.drills.find(x=>x.id===d.id)?.reason||"לתרגול שליטה בהתאם למדדים."})),quality:fallback.quality};
+ return{source:"gemini",strength:raw.strength?.key===measure.strength?.key&&safeText(raw.strength?.text)&&raw.strength.text.includes("בחלק שנמדד")?safeText(raw.strength.text):fallback.strength,summary:safeText(raw.summary)||fallback.summary,observations,drills:drills.map(d=>({id:d.id,reason:safeText(d.reason)||fallback.drills.find(x=>x.id===d.id)?.reason||"לתרגול שליטה בהתאם למדדים."})),quality:fallback.quality};
 }
 function p(value,cls){const e=document.createElement("p");e.className=cls;e.textContent=value;return e}
 function render(plan,ai){
@@ -237,8 +237,8 @@ async function runGemini(){
   ]);
   if(id!==serial||!consent)return;
   const plan=validate(response,measure,issues);
-  render(plan,true);
-  status.textContent="המשוב נעזר ב־Gemini. הסרטון עצמו נשאר במכשיר.";
+  render(plan,plan.source==="gemini");
+  status.textContent=plan.source==="gemini"?"המשוב נעזר ב־Gemini. הסרטון עצמו נשאר במכשיר.":"תשובת ה־AI לא התאימה למדידה. מוצג משוב מקומי.";
  }catch(err){
   if(id!==serial)return;
   const msg=String(err?.message||"שגיאה בחיבור");

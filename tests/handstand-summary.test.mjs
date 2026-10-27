@@ -53,3 +53,15 @@ test("local fallback varies equivalent feedback while preserving phase and probl
   assert.ok(reply.observations.length<=2);
  }
 });
+
+test("real-video regression: whole-exercise praise is not passed off as measured feedback",()=>{
+ const res={val:{banana:0,lean:0,shoulder:0,elbow:0,sway:0},sc:{banana:100,lean:95,shoulder:95,elbow:95,sway:95},total:97,hold:6,swayOk:true};
+ const issues=analyzeCoachIssues(res,null),evidence=buildCoachEvidence(res,null,issues);
+ const raw={summary:"נתמקד בשמירה על קו הגוף בחלק שנמדד.",strength:{key:evidence.strength.key,text:"שמרת על גוף ארוך ומתוח לאורך כל התרגיל."},observations:[],drills:[{id:"wallLine",reason:"לתרגול עקביות בקו הגוף."}]};
+ const accepted=validateCoachResponse(raw,evidence,issues);
+ assert.equal(accepted.strength,evidence.strength.text);
+ assert.equal(accepted.source,"gemini");
+ const rejected=validateCoachResponse({...raw,summary:"הגוף נשאר ישר לאורך כל התרגיל."},evidence,issues);
+ assert.equal(rejected.source,"local");
+ assert.ok(!JSON.stringify(rejected).includes("לאורך כל התרגיל"));
+});
