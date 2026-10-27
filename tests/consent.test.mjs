@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {setupCoach,showCoachFeedback} from "../vercel-app/ai-feedback.js";
+import {resetCoachFeedback,setupCoach,showCoachFeedback} from "../vercel-app/ai-feedback.js";
 
 test("a user's pose measurements reach the server only after consent, and revocation restores local feedback",async()=>{
  const nodes=new Map();
@@ -12,10 +12,11 @@ test("a user's pose measurements reach the server only after consent, and revoca
  globalThis.document={getElementById(id){if(!nodes.has(id))nodes.set(id,element(id));return nodes.get(id)},createElement(){return element()}};
  const data=new Map();
  globalThis.localStorage={getItem(k){return data.get(k)||null},setItem(k,v){data.set(k,v)},removeItem(k){data.delete(k)}};
- let posts=0;
+ let posts=0,holdNext=false,release;
  globalThis.fetch=async(url,options={})=>{
   if(options.method!=="POST")return{ok:true,json:async()=>({enabled:true})};
   posts++;
+  if(holdNext)return new Promise(resolve=>{release=resolve});
   return{ok:true,json:async()=>({summary:"ok",observations:[],drills:[{id:"wallLine",reason:"קו"}]})};
  };
  setupCoach();
@@ -35,4 +36,17 @@ test("a user's pose measurements reach the server only after consent, and revoca
  await new Promise(r=>setTimeout(r,0));
  assert.equal(posts,1);
  assert.equal(document.getElementById("coachBadge").textContent,"משוב מדידות");
+
+ holdNext=true;
+ checkbox.checked=true;checkbox.listeners.change();
+ await new Promise(r=>setTimeout(r,0));
+ assert.equal(posts,2);
+ checkbox.checked=false;checkbox.listeners.change();
+ release({ok:true,json:async()=>({summary:"הביצוע מושלם",observations:[],drills:[{id:"wallLine",reason:"קו"}]})});
+ await new Promise(r=>setTimeout(r,0));
+ assert.equal(document.getElementById("coachBadge").textContent,"משוב מדידות");
+ assert.notEqual(document.getElementById("coachSummary").textContent,"הביצוע מושלם");
+
+ resetCoachFeedback();
+ assert.equal(document.getElementById("coachPanel").hidden,true);
 });

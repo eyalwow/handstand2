@@ -1,12 +1,12 @@
 {
-  "name": "Handstand Lab — אימוני קליסטניקס",
-  "short_name": "Handstand Lab",
-  "description": "אימונים, תרגילים וניתוח עמידת ידיים",
+  "name": "MOVALYT — Master Your Movement",
+  "short_name": "MOVALYT",
+  "description": "ניתוח וידאו לתנועה, אימונים וספריית תרגילים",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#090b0a",
-  "theme_color": "#090b0a",
+  "background_color": "#070907",
+  "theme_color": "#070907",
   "lang": "he",
   "dir": "rtl",
   "icons": [
