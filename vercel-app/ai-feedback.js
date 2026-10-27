@@ -14,7 +14,9 @@ const catalog={
  shrug:{name:"דחיפות שכמות בעמידת ידיים נתמכת",dose:"2 × 6–8 חזרות",cue:"לשמור מרפקים ישרים ולדחוף כתפיים גבוה בעזרת הקיר"},
  plank:{name:"פלאנק בזרועות ישרות",dose:"3 × 20–30 שניות",cue:"לשמור מרפקים ישרים עם שכמות יציבות"},
  kick:{name:"בעיטה מדורגת לעמידה ליד קיר",dose:"3 × 3–5 ניסיונות לכל רגל",cue:"להעלות אגן מעל כתפיים ולהאט את הבעיטה"},
- entry:{name:"עלייה הדרגתית בתמיכת קיר",dose:"3 × 3–4 ניסיונות",cue:"לתרגל הגעה לקו אנכי בעזרת קיר יציב"}
+ entry:{name:"עלייה הדרגתית בתמיכת קיר",dose:"3 × 3–4 ניסיונות",cue:"לתרגל הגעה לקו אנכי בעזרת קיר יציב"},
+ freeHandstand:{name:"עמידת ידיים חופשית",dose:"3 × 3–5 ניסיונות קצרים",cue:"לנסות בסביבה בטוחה עם דרך יציאה מתורגלת, ורצוי בהשגחה"},
+ toeBalance:{name:"ניתוק עקבים/בהונות מהקיר",dose:"3 × 3–5 ניסיונות",cue:"לנתק לרגע ולנסות לאזן עם האצבעות ליד הקיר"}
 };
 const exerciseMap={
  hold_banana:["hollow","wallLine"],hold_lean:["finger","toePull"],
@@ -54,10 +56,14 @@ function identify(res,ent){
  const duplicate={entry_arch:"hold_banana",entry_shoulder:"hold_shoulder",entry_elbow:"hold_elbow",entry_reach:"hold_lean"};
  return [...hold,...entry.filter(i=>!hold.some(h=>h.key===duplicate[i.key]))].sort((a,b)=>a.score-b.score).slice(0,3);
 }
-function evidence(res,ent,issues){
- const allowed=[...new Set(issues.slice(0,4).flatMap(i=>i.drills))];
+function evidence(res,ent,issues,context={}){
+ const readyForFree=context.support==="wall"&&res?.hold>=3&&context.overall>=80;
+ const wallProgression=context.support==="wall"?(readyForFree?"freeHandstand":"toeBalance"):null;
+ const allowed=[...new Set([...issues.slice(0,4).flatMap(i=>i.drills),...(wallProgression?[wallProgression]:[])])];
  return {
   kind:"2D side-view pose tracking; no raw video supplied",
+  support:context.support==="wall"?"self-reported wall support":context.support==="free"?"self-reported freestanding":"not established",
+  wallProgression,
   strength:bestMeasuredStrength(res,ent),
   hold:res?{durationSeconds:n(res.hold),score:Math.round(res.total)}:null,
   entry:ent?{score:n(ent.total)}:null,
@@ -130,6 +136,7 @@ function local(issues,measure){
  const choices=[...new Set(priorities.flatMap(i=>i.drills))].filter(id=>measure.allowedExerciseIds.includes(id));
  if(!choices.length)choices.push(...measure.allowedExerciseIds);
  const drills=choices.slice(0,2).map(id=>{const issue=priorities.find(i=>i.drills.includes(id));return{id,reason:issue?"מתמקד במדד "+names[issue.key]+" שנמצא חלש.":"לחיזוק שליטה בסיסית בקו ובאיזון."}});
+ if(measure.wallProgression){const id=measure.wallProgression;const reason=id==="freeHandstand"?"לאחר החזקה טובה עם תמיכת קיר, אפשר להתקדם בזהירות לניסיונות עמידת ידיים חופשית.":"שלב מעבר מעמידת ידיים בקיר לאיזון עצמאי, לפני ניסיונות חופשיים.";drills.splice(0,1,{id,reason});}
  const quality=(measure.hold&&measure.hold.durationSeconds<2)
   ?"ההחזקה קצרה, ולכן התוצאה נותנת תמונה חלקית. נסו סרטון נוסף עם החזקה ארוכה יותר."
   :"המשוב מבוסס על זיהוי הגוף בסרטון. זווית הצילום יכולה להשפיע על התוצאה.";
@@ -154,6 +161,7 @@ function validate(raw,measure,issues){
   .slice(0,2).map(o=>({id:o.id,reason:clean(o.reason)}));
  if(!drills.length||(issues.length&&!observations.length))throw Error("Gemini החזיר המלצות שלא נתמכו במדדים שנמדדו.");
  const fallback=local(issues,measure);
+ if(measure.wallProgression&&!drills.some(d=>d.id===measure.wallProgression))drills.splice(0,1,fallback.drills.find(d=>d.id===measure.wallProgression));
  for(const d of fallback.drills)if(drills.length<2&&!seen.has(d.id)){drills.push(d);seen.add(d.id)}
  return{source:"gemini",strength:raw.strength?.key===measure.strength?.key&&safeText(raw.strength?.text)&&raw.strength.text.includes("בחלק שנמדד")?safeText(raw.strength.text):fallback.strength,summary:safeText(raw.summary)||fallback.summary,observations,drills:drills.map(d=>({id:d.id,reason:safeText(d.reason)||fallback.drills.find(x=>x.id===d.id)?.reason||"לתרגול שליטה בהתאם למדדים."})),quality:fallback.quality};
 }
@@ -211,9 +219,9 @@ export function setupCoach(){
   if(consent&&geminiReady()&&current)void runGemini();
  }).catch(()=>{btn.disabled=true});
 }
-export function showCoachFeedback(res,ent){
+export function showCoachFeedback(res,ent,context={}){
  cancel();
- const issues=identify(res,ent),measure=evidence(res,ent,issues);
+ const issues=identify(res,ent),measure=evidence(res,ent,issues,context);
  current={issues,measure};
  render(local(issues,measure),false);
  if(consent&&geminiReady()){
