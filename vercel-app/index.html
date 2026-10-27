@@ -238,7 +238,6 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
   <p>הסרטון נשאר במכשיר. Google עשויה להשתמש בנתונים ובמשוב לשיפור שירותיה. אפשר לבטל את ההסכמה כאן בכל עת; גם בלעדיה תקבלו משוב מקומי.</p>
  </div>
 </details>
-<div class="tips"><label for="handstandSupport"><b>איך בוצעה העמידה?</b></label><select id="handstandSupport" style="display:block;width:100%;margin-top:8px;padding:12px;background:#212822;color:#F4F7F3;border:1px solid #45523B;border-radius:10px;font:inherit"><option value="unknown">לא בטוח/ה — לא ידוע אם הייתה תמיכה</option><option value="wall">נעזרתי בקיר</option><option value="free">ללא תמיכה (עמידה חופשית)</option></select><small>המצלמה לא יכולה לאמת בוודאות מגע בקיר. הציון מודד את קו הגוף בלבד, לא עצמאות או איזון ללא תמיכה.</small></div>
 <label class="pick"><span aria-hidden="true">↑</span> העלאת סרטון לניתוח<input id="file" type="file" accept="video/*"></label>
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
@@ -495,7 +494,6 @@ $("file").addEventListener("change",async e=>{
   const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
   if(ent && ent.arch===null) ent.total=(ent.sc.reach*.4+ent.sc.shoulder*.2+ent.sc.elbow*.15)/.75;
   const overall=overallHandstandScore(res,ent);
-   const support=$("handstandSupport").value;
   const reliable=overall!==null;
   const seen=fr.map((f,i)=>f?i:-1).filter(i=>i>=0);
   if(!seen.length){st.textContent="לא הצלחנו לזהות גוף בסרטון. נסו לצלם מהצד כשכל הגוף מופיע בפריים.";return}
@@ -504,9 +502,9 @@ $("file").addEventListener("change",async e=>{
   $("holdSec").style.display=reliable?"block":"none";
   if(reliable){
    await show(res,fr,v,w,h,overall);
-   showCoachFeedback(res,ent,{support,overall});
+   showCoachFeedback(res,ent);
    $("measurementNotice").hidden=false;
-   $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+(support==="wall"?"השתמשת בתמיכת קיר (לפי הדיווח שלך). ":support==="free"?"דווח ללא תמיכה; לא אומת בסרטון. ":"התמיכה לא ידועה. ")+"זהו ציון טכניקת גוף, לא ציון עמידת ידיים חופשית.";
+    $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"הציון משקף טכניקת גוף בלבד; אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
    console.info("[MOVALYT] local analysis total",{ms:Math.round(performance.now()-analysisStarted)});
     if(res?.hold>=2){
     try{const key="handstand-lab-analyses-v1",old=JSON.parse(localStorage.getItem(key)||"[]");
