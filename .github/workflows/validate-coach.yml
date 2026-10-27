@@ -1,4 +1,5 @@
-name: Validate handstand coach
+name: Validate Handstand Lab and Coach
+
 on:
   push:
     branches: [feat/gemini-coach-preview]
@@ -6,32 +7,62 @@ on:
     paths:
       - 'preview/**'
       - 'vercel-app/**'
+      - 'coach-app/**'
       - 'tests/**'
       - '.github/workflows/validate-coach.yml'
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
-  test:
+  handstand-lab:
+    name: Handstand Lab
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check AI module syntax
-        run: node --check preview/ai-feedback.js
-      - name: Check Vercel modules
+      - name: Check Handstand Lab JavaScript syntax
+        shell: bash
         run: |
-          node --check vercel-app/ai-feedback.js
-          node --check vercel-app/server-gemini.js
-          node --check vercel-app/training-core.js
-          node --check vercel-app/exercise-library.js
-          node --check vercel-app/exercise-media.js
-          node --check vercel-app/training-ui.js
-          node --check vercel-app/workout-core.js
-          node --check vercel-app/workout-ui.js
-          node --check vercel-app/workout-media.js
-          node --check vercel-app/api/coach.js
-      - name: Run analyzer, privacy, API, and training tests
-        run: node --test tests/*.test.*
+          set -euo pipefail
+          for file in preview/*.js vercel-app/*.js vercel-app/api/*.js; do
+            node --check "$file"
+          done
+      - name: Run Handstand Lab tests
+        run: >-
+          node --test
+          tests/analyzer-quality.test.mjs
+          tests/coach.test.mjs
+          tests/consent.test.mjs
+          tests/exercise-library.test.mjs
+          tests/handstand-summary.test.mjs
+          tests/training.test.mjs
+          tests/vercel-coach.test.cjs
+          tests/workout.test.mjs
+
+  handstand-coach:
+    name: Handstand Coach
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Handstand Coach JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in coach-app/*.js coach-app/*.mjs; do
+            node --check "$file"
+          done
+      - name: Build Handstand Coach
+        run: node coach-app/build.mjs
+      - name: Verify packaged canonical exercise catalogue
+        run: cmp vercel-app/exercise-library.js coach-app/public/catalog.js
+      - name: Run Handstand Coach tests
+        run: node --test tests/coach-demo.test.mjs
