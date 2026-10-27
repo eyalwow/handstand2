@@ -1,7 +1,5 @@
-import { FITNESS_ART, fitnessFigure } from "./fitness-art.js";
 import { GOALS, LEVELS, LIBRARY, generatePlan } from "./training-core.js";
 import { CATEGORIES, FILTER_LEVELS, searchExercises } from "./exercise-library.js";
-import { illustrationSlugs } from "./exercise-media.js";
 import { ACTIVE_KEY, TRAINING_KEY, readWorkout, readTraining } from "./workout-core.js";
 
 const KEY = TRAINING_KEY;
@@ -61,40 +59,6 @@ function element(tag, text, className) {
   if (className) node.className = className;
   return node;
 }
-// Only exact, independently checked matches are illustrated; other exercises stay text-only.
-
-function movementDetails(name) {
-  const slug = illustrationSlugs[name];
-  if (!slug) return null;
-  const details = document.createElement("details");
-  details.className = "movement-details";
-  const staticHold = ["dead-hang","active-hang","side-plank"].includes(slug);
-  const summaryText = staticHold ? "צפייה באיור התרגיל" : "צפייה בתנוחות לדוגמה";
-  const summary = element("summary", summaryText);
-  summary.setAttribute("aria-label", summaryText + ": " + name);
-  details.append(summary);
-  details.addEventListener("toggle", () => {
-    if (!details.open || details.dataset.loaded) return;
-    details.dataset.loaded = "true";
-    details.append(element("p", "איורים להמחשה; חלקם מציגים גם אפשרויות נוספות לתרגיל.", "movement-note"));
-    const gallery = element("div", undefined, "movement-frames");
-    for (let index=1; index<=(staticHold ? 1 : 3); index++) {
-      const figure = document.createElement("figure");
-      const image = document.createElement("img");
-      image.src = "./assets/exercises/" + slug + "/frame-" + index + ".svg";
-      image.alt = "איור " + index + " לתרגיל " + name;
-      image.loading = "lazy";
-      image.width = 220;
-      image.height = 220;
-      const caption = slug === "plank" && index === 3 ? "אפשרות בתמיכת ברכיים" :
-        slug === "hollow-body-hold" && index > 1 ? "אפשרות עם ברכיים כפופות" : "איור " + index;
-      figure.append(image, element("figcaption", caption));
-      gallery.append(figure);
-    }
-    details.append(gallery);
-  });
-  return details;
-}
 function fillSelect(id, options, value) {
   const select = byId(id);
   for (const item of options) {
@@ -152,11 +116,6 @@ function renderPlan() {
     );
     const body = element("div", undefined, "exercise-body");
     body.append(label);
-    // Training IDs and catalogue names occasionally differ; the mapping is explicit.
-    const planNames = {push:"שכיבות סמיכה",pull:"מתח באחיזה עילית",squat:"סקוואט משקל גוף",plank:"פלאנק על אמות"};
-    const pictureName = planNames[prescription.id] || exercise.name;
-    const picture = FITNESS_ART[pictureName] ? fitnessFigure(FITNESS_ART[pictureName],pictureName,"card") : movementDetails(pictureName);
-    if (picture) body.append(picture);
     row.append(input, body);
     list.append(row);
   }
@@ -257,13 +216,11 @@ function renderCatalog() {
     category: catalogFilters.category.value,
     level: catalogFilters.level.value
   });
-  if (new URLSearchParams(location.search).get("artwork") === "1") results = results.filter(ex => FITNESS_ART[ex.name]);
   byId("library-count").textContent = results.length ? results.length + " תרגילים מתאימים" : "לא נמצאו תרגילים. נסו חיפוש או סינון אחר.";
   const list = byId("library-list");
   list.replaceChildren();
   for (const exercise of results.slice(0,catalogLimit)) {
     const card = element("article", undefined, "library-card");
-    if (FITNESS_ART[exercise.name]) card.append(fitnessFigure(FITNESS_ART[exercise.name],exercise.name,"card"));
     card.append(
       element("h3", exercise.name),
       element("p", [exercise.category,exercise.level,exercise.equipment].join(" · "), "library-meta"),
@@ -314,8 +271,6 @@ function showExerciseDetails(exercise, fromWorkout=false) {
   const meta = element("div", undefined, "detail-meta");
   for (const text of [exercise.category,exercise.level,exercise.equipment].filter(Boolean)) meta.append(element("span",text));
   content.append(meta, element("h3","איך לבצע"), element("p",exercise.tip,"detail-explanation"));
-  const pictures = FITNESS_ART[exercise.name] ? fitnessFigure(FITNESS_ART[exercise.name],exercise.name) : movementDetails(exercise.name);
-  if (pictures) content.append(pictures);
   content.append(element("p","פירוט שרירים, שלבי ביצוע, המלצות סטים ווריאציות טרם אומתו עבור תרגיל זה.","detail-unavailable"));
   byId("detail-return-workout").hidden = !fromWorkout;
   if (!detailsDialog.open) detailsDialog.showModal();

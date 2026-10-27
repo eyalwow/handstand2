@@ -1,6 +1,5 @@
 import { LIBRARY } from "./training-core.js";
 import { ACTIVE_KEY, TRAINING_KEY, createWorkout, changeWorkout, readWorkout, saveWorkout, saveFinishedWorkout, workoutSummary, remainingRest } from "./workout-core.js";
-import { renderWorkoutMedia } from "./workout-media.js";
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -106,7 +105,6 @@ function render() {
   $("exercise-name").textContent = info.name;
   $("prescription").textContent = exercise.sets + " סטים × " + exercise.target + " · " + info.equipment;
   $("exercise-tip").textContent = info.tip;
-  renderWorkoutMedia($("exercise-media"),exercise.id);
   $("exercise-details").href = "./training.html?" + new URLSearchParams({exercise:exercise.id});
   const sets = $("set-list");
   sets.replaceChildren();
