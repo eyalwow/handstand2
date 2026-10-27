@@ -29,6 +29,8 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.match(html,/<video id="v"/);
  assert.match(html,/id="scoreRadar"/);
  assert.match(html,/id="scoreBreakdown"/);
+ assert.doesNotMatch(html,/id="geminiBtn"/);
+ assert.match(js,/current\.requested=true/);
  assert.match(html,/drawScoreRadar\(res,overall\)/);
  assert.match(html,/res\.swayOk\?\["sway"\]/);
  assert.match(html,/reason\.textContent=v\.description/);
