@@ -2,6 +2,12 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## Runway connection verified — 2026-10-27
+- User connected Runway successfully; authenticated workspace confirmed. The earlier missing-connection blocker is resolved.
+- Connected workspace is on the Free plan and availableVideoModels is empty. No video generation was submitted; no generation credits were consumed. Account capability, not authentication, now blocks the three requested motion samples.
+- The connector reports video generation requires a paid plan. Displayed its plan information as required; no purchase, upgrade or trial was initiated. Do not retry generation on the same free workspace or substitute animated still-image effects.
+- Existing static Preview remains unchanged. Continue the original three-sample task once a video-capable workspace or suitable original motion assets are available, with anatomical/motion review before integration.
+
 ## Motion-first change request — capability check (2026-10-27)
 - User now prefers genuine continuous looping motion for pull-up, push-up and squat, preserving the approved grayscale/charcoal/subtle-green human illustration style. Static professional artwork is explicitly allowed when credible animation cannot be produced.
 - No animation samples were produced in this follow-up. No video, Lottie, Rive, motion-generation or rigged-human rendering tool is currently connected; the existing image generator produces still images. Blender and ffmpeg were not found on the available command path. This does not imply animation is impossible, only that a suitable production path is not currently available in this session.
