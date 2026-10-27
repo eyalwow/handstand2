@@ -29,6 +29,9 @@ jobs:
           node --check vercel-app/exercise-library.js
           node --check vercel-app/exercise-media.js
           node --check vercel-app/training-ui.js
+          node --check vercel-app/workout-core.js
+          node --check vercel-app/workout-ui.js
+          node --check vercel-app/workout-media.js
           node --check vercel-app/api/coach.js
       - name: Run analyzer, privacy, API, and training tests
         run: node --test tests/*.test.*

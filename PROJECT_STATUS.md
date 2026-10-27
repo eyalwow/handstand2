@@ -1,12 +1,12 @@
 # Handstand Lab — project status
 
-Last updated: 2026-10-27. Work is intentionally paused at the owner's request.
+Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
 ## Source and release
 - Repository: https://github.com/eyalwow/handstand2
 - Working branch: `feat/handstand-product-experience`; PR https://github.com/eyalwow/handstand2/pull/7 targets `main`.
-- This file is saved in the latest work-in-progress commit on that branch. Its parent includes commit `094547e62094105832ffe4c334a6b53548ac58bc`. Inspect branch HEAD for the exact current commit; do not infer it from the local checkout's commit hash.
-- **Do not merge or publish yet**: latest mobile, library and exercise details changes are incomplete and have not received full verification. An earlier preview exists but does not contain the latest work. The production site was not replaced.
+- Inspect remote branch HEAD for the exact current commit. Local Git was reconstructed from the GitHub snapshot because the shell cannot resolve github.com; the connector commit preserves the existing branch ancestry.
+- **Do not merge or publish yet**: active workouts pass local automated checks, but real browser/mobile visual verification is still required. Earlier unfinished library content and mobile/PWA work remain outside this task. Production was not replaced.
 - Previous production deployment: `dpl_EA8gn95o5K5i7oXGzTjYwwb2YXhq`; it was reported as a rollback candidate. Recheck before any release.
 
 ## Implemented and verified earlier
@@ -17,14 +17,30 @@ Last updated: 2026-10-27. Work is intentionally paused at the owner's request.
 - Vercel Firewall rate limit is active for POST `/api/coach`, 10 per minute per IP and region. Invalid-request testing confirmed Vercel blocking with `x-vercel-mitigated: deny`; distributed abuse is not prevented and this is not a global quota. Temporary diagnostic endpoints were blocked by a scoped firewall rule.
 - Before the latest work, 20 automated tests passed; CI also passed for the earlier PR head `094547e62094105832ffe4c334a6b53548ac58bc`. The newer changes need fresh CI and browser verification.
 
+## Completed in this continuation — active workouts
+- Added `vercel-app/workout.html`, `workout-ui.js`, `workout-core.js`, `workout-media.js` and `workout.css`, retaining the existing dark/lime styles and RTL layout. Start from the existing training plan; an active session resumes instead of being replaced by another requested plan.
+- Users see each exercise, prescription, guidance and illustration, mark/undo individual sets, navigate directly or previous/next, start/restart/skip rest, and finish with a confirmation and per-exercise summary. Partial workouts record only marked sets. Empty workouts cannot be logged as completed.
+- Each change saves to `handstand-lab-active-workout-v1` before the screen accepts it. Current exercise, individual sets, start time and absolute rest deadline survive reload, navigation and background time. Elapsed time explicitly includes time away from the workout screen.
+- Completed sessions append compatibly to the existing `handstand-lab-training-ui-v1` history, with an ID, set counts, targets and duration. Existing records, preferences, additional fields, analyses and the older training-core storage key are preserved. History saves deduplicate by ID; a failed history write retains the finished workout and exposes a retry. Failed active writes restore the last saved screen state. Corrupt data is reported and left untouched.
+- Training links show resume while a session is active, exercise details link back to the saved session, and history displays completed set counts. Shared writes use Web Locks where available; stale workout screens reload instead of overwriting newer progress.
+- Reused 11 matched artwork mappings with existing attribution, including the explicitly labeled low-bar option for rows. Other training movements use accessible, clearly labeled schematic pose SVGs rather than incorrectly matched artwork. These are static illustrations, not full movement demonstrations or newly verified coaching content.
+- Removed broken references to absent `pwa.js` from home/training; no service worker or offline feature was added.
+
+## Verification for this continuation
+- **35 local automated tests pass**: 20 existing regression tests plus 15 focused workout tests. Coverage includes all 27 goal/level/day choices, complete/partial workouts, mark/undo, reload/return, exercise details, rest expiry/restart, duplicate finish protection, legacy data, corrupt data, quota failures/retry, stale tabs, training/history integration and illustration/resource references.
+- Controller integration tests execute the actual workout/training UI modules against a small DOM/event harness with real state/storage functions. They do not replace a real browser rendering or device test.
+- All module syntax checks pass, and the new workout modules were added to GitHub CI syntax checks. Local HTTP checks returned 200 with appropriate MIME types for home, training, workout, scripts, CSS and sampled illustration/license resources.
+- **Still required before merge:** real browser and narrow mobile viewport checks, keyboard/focus/scroll review and visual review of schematic poses. Browser verification was attempted but unavailable: the in-app tab could not be attached, and native browser control stopped because it could not determine the current URL confidently. No successful visual/device check is claimed.
+- Inspect GitHub Actions for the exact new remote commit after upload; earlier green checks do not cover this continuation.
+
 ## Work in progress — not fully verified
 - Mobile-first home screen, bottom navigation, RTL, manifest and install icons. Installation on actual iOS/Android devices has not been tested. Manifest alone does not establish reliable offline or native behavior; no finished service worker is present.
 - Exercise library: 110 named exercises with search and category/level filters, short guidance and equipment; 26 matched illustrations from Workout Guide/Everkinetic. Attribution and CC BY-SA 4.0 license are in `vercel-app/assets/exercises/`; inspect artwork mapping and attribution before release. The expanded exercise detail view and latest UI changes were being edited when work stopped: recheck functionality and accuracy. Most exercises do not yet have all requested detailed steps, muscles, common mistakes, progressions, prescriptions, safety notes or matching illustrations. Never fabricate these.
-- The requested active workout flow (start, set completion, rest timer, next exercise, resumable session and summary) is not finished; `workout.html` is not present. Training UI may contain an unfinished link: inspect before using or release.
+- The active workout flow is implemented and covered by the automated tests above; real browser/mobile verification remains pending before release.
 - Splash screen, reliable offline behavior, profile/settings, personal next-workout summary, progress charts, and broad exercise content review remain to be completed. Retain existing local user data when modifying storage.
 
 ## Architecture and next actions
 - `vercel-app/index.html`: home/analyzer and local MediaPipe model; `ai-feedback.js` and `server-gemini.js`: feedback and consent; `api/coach.js`: Vercel server function; `training-core.js`, `training-ui.js`, `training.html`, `training.css`: plans and progress; `exercise-library.js`, `exercise-media.js`: exercise catalog and artwork mapping. Tests live in `tests/`.
-- Resume by reading latest user requirements in the conversation and inspecting this branch and working tree. First remove or complete broken links, finish and test the workout flow, exercise detail content and PWA behavior. Check licensing, keyboard and mobile accessibility, video, real API errors, storage and reload, service worker updates, browser console and server errors.
+- Next for active workouts: perform pending real browser/mobile checks above and inspect CI for the exact new head. Do not redesign existing screens or start unrelated features without a new task. Broader exercise details, native/offline/PWA behavior and analyzer release checks remain separate follow-up work.
 - Run all tests including `node --test tests/*.test.*`; verify latest GitHub CI and perform real browser tests. Check preview against the exact source and environment, verify Production Gemini and rollback capability before publishing. Only merge/deploy when the owner's conditions are met. No paid services or deletion of user data are authorized.
 - The GitHub connector was used because local Git credential manager push failed; remote commits may have different hashes from local commits despite matching source content.

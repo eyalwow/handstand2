@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b0a"><title>אימון פעיל | Handstand Lab</title>
+<link rel="manifest" href="./app.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="stylesheet" href="./training.css"><link rel="stylesheet" href="./workout.css">
+<script type="module" src="./workout-ui.js"></script>
+</head>
+<body class="workout-page">
+<main class="shell workout-shell">
+<header class="header"><a class="brand" href="./">HANDSTAND LAB</a><a href="./training.html">חזרה לתוכנית</a></header>
+<p id="storage-status" role="status" aria-live="polite" class="storage-status"></p>
+<button id="retry-save" class="secondary" type="button" hidden>ניסיון שמירה נוסף</button>
+<section id="ready" class="panel" hidden>
+<span class="kicker">האימון שלך</span><h1 id="ready-title"></h1><p id="ready-description"></p>
+<button id="begin" class="primary" type="button">התחלת אימון</button>
+<p class="guidance">ההתקדמות נשמרת בדפדפן הזה אחרי כל פעולה. אפשר לצאת ולחזור לאותו אימון.</p>
+</section>
+<section id="active-workout" hidden>
+<div class="workout-top"><div><span class="kicker">אימון פעיל</span><h1 id="session-name"></h1></div><span id="elapsed" aria-label="זמן מתחילת האימון" dir="ltr">00:00</span></div>
+<p id="progress-label"></p><progress id="workout-progress" value="0" max="1" aria-label="סטים שהושלמו"></progress>
+<div id="exercise-tabs" class="exercise-tabs" role="group" aria-label="בחירת תרגיל"></div>
+<article class="panel" aria-labelledby="exercise-name">
+<p id="exercise-position" class="kicker"></p><h2 id="exercise-name" tabindex="-1"></h2>
+<p id="prescription" class="prescription"></p><p id="exercise-tip"></p>
+<div id="exercise-media" class="workout-media"></div>
+<a id="exercise-details" class="text-link" href="./training.html">פרטי התרגיל</a>
+<fieldset class="sets"><legend>סימון סטים שהושלמו</legend><div id="set-list" class="set-list"></div></fieldset>
+<section class="rest-panel" aria-labelledby="rest-heading">
+<div><h3 id="rest-heading">מנוחה בין סטים</h3><p id="rest-note" class="guidance"></p></div>
+<output id="rest-time" dir="ltr" aria-label="זמן מנוחה שנותר">00:00</output>
+<div class="rest-actions"><button id="start-rest" class="secondary" type="button">הפעלת מנוחה</button><button id="skip-rest" class="secondary" type="button" hidden>סיום המנוחה</button></div>
+<p id="rest-announcement" role="status" aria-live="polite"></p>
+</section>
+<div class="exercise-navigation"><button id="previous" class="secondary" type="button">התרגיל הקודם</button><button id="next" class="primary" type="button">התרגיל הבא</button></div>
+</article>
+<div class="workout-footer"><a href="./training.html">שמירה וחזרה לתוכנית</a><button id="finish" class="secondary" type="button">סיום אימון</button></div>
+</section>
+<section id="summary" class="panel" aria-labelledby="summary-title" hidden>
+<span class="kicker">כל צעד נחשב</span><h1 id="summary-title" tabindex="-1">סיכום האימון</h1>
+<p id="summary-name"></p><div id="summary-stats" class="stats"></div><p id="summary-duration" class="guidance"></p>
+<div id="summary-exercises"></div>
+<p id="history-status" role="status"></p>
+<a id="back-to-training" class="start-workout" href="./training.html#progress-title">חזרה לתוכנית ולהיסטוריה</a>
+</section>
+<dialog id="finish-dialog" aria-labelledby="finish-title">
+<h2 id="finish-title">לסיים את האימון?</h2><p id="finish-description"></p>
+<div class="exercise-navigation"><button id="continue-workout" class="secondary" type="button">המשך אימון</button><button id="confirm-finish" class="primary" type="button">סיום ושמירה</button></div>
+</dialog>
+<noscript><p class="panel">כדי להתחיל אימון צריך להפעיל JavaScript בדפדפן.</p></noscript>
+</main>
+</body></html>

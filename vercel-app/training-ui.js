@@ -1,8 +1,9 @@
 import { GOALS, LEVELS, LIBRARY, generatePlan } from "./training-core.js";
 import { CATEGORIES, FILTER_LEVELS, searchExercises } from "./exercise-library.js";
 import { illustrationSlugs } from "./exercise-media.js";
+import { ACTIVE_KEY, TRAINING_KEY, readWorkout, readTraining } from "./workout-core.js";
 
-const KEY = "handstand-lab-training-ui-v1";
+const KEY = TRAINING_KEY;
 const SCORE_KEY = "handstand-lab-analyses-v1";
 const byId = id => document.getElementById(id);
 const dateFormatter = new Intl.DateTimeFormat("he-IL", {day:"numeric", month:"long", year:"numeric"});
@@ -24,10 +25,34 @@ try {
   storageWritable = false;
   byId("save-status").textContent = "לא ניתן לקרוא או לשמור את המידע בדפדפן. בדקו את הגדרות האחסון.";
 }
-function persist() {
+function withTrainingLock(fn) {
+  return navigator.locks ? navigator.locks.request("handstand-lab-training-storage",fn) : Promise.resolve().then(fn);
+}
+function persist(record) {
   if (!storageWritable) return false;
-  try { localStorage.setItem(KEY, JSON.stringify(data)); return true; }
-  catch { byId("save-status").textContent = "לא הצלחנו לשמור בדפדפן. בדקו שיש מקום ואחסון זמין."; return false; }
+  try {
+    const latest = readTraining(localStorage);
+    const next = {...latest,goal:data.goal,level:data.level,day:data.day,
+      sessions:record ? [...latest.sessions,record] : latest.sessions};
+    localStorage.setItem(KEY,JSON.stringify(next));
+    data.sessions = next.sessions;
+    return true;
+  } catch {
+    byId("save-status").textContent = "לא הצלחנו לשמור בדפדפן. בדקו שיש מקום ואחסון זמין.";
+    return false;
+  }
+}
+function renderWorkoutLink() {
+  const link = byId("start-workout");
+  link.href = "./workout.html?" + new URLSearchParams({start:"1",goal:data.goal,level:data.level,day:data.day}).toString();
+  link.textContent = "התחלת אימון";
+  try {
+    const active = readWorkout(localStorage);
+    if (active && !active.finishedAt) {
+      link.href = "./workout.html";
+      link.textContent = "המשך האימון השמור";
+    }
+  } catch { /* The workout page explains storage errors without replacing saved data. */ }
 }
 function element(tag, text, className) {
   const node = document.createElement(tag);
@@ -80,9 +105,9 @@ function fillSelect(id, options, value) {
 }
 fillSelect("goal", GOALS, data.goal);
 fillSelect("level", LEVELS, data.level);
-for (const id of ["goal", "level"]) byId(id).addEventListener("change", event => {
+for (const id of ["goal", "level"]) byId(id).addEventListener("change", async event => {
   data[id] = event.target.value;
-  persist();
+  await withTrainingLock(() => persist());
   renderPlan();
 });
 function renderPlan() {
@@ -94,14 +119,14 @@ function renderPlan() {
     const button = element("button", "אימון " + item.id);
     button.type = "button";
     button.setAttribute("aria-pressed", String(item.id === day.id));
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       data.day = item.id;
-      persist();
+      await withTrainingLock(() => persist());
       renderPlan();
     });
     tabs.append(button);
   }
-  byId("start-workout").href = "./workout.html?" + new URLSearchParams({goal:data.goal,level:data.level,day:day.id}).toString();
+  renderWorkoutLink();
   byId("workout-title").textContent = day.name;
   byId("workout-focus").textContent = day.focus;
   const list = byId("exercises");
@@ -159,6 +184,10 @@ function renderProgress() {
     const item = element("article", undefined, "history-item");
     item.append(element("strong", session.name + " · " + dateFormatter.format(new Date(session.date))));
     item.append(element("p", session.exercises.map(id => LIBRARY[id].name).join(" · ")));
+    if (Array.isArray(session.setResults)) {
+      const sets = session.setResults.filter(ex => ex && Number.isInteger(ex.completedSets) && ex.completedSets >= 0).reduce((sum,ex) => sum + ex.completedSets,0);
+      item.append(element("p",sets + " סטים הושלמו" + (Number.isFinite(session.minutes) ? " · " + session.minutes + " דקות" : "")));
+    }
     history.append(item);
   }
   renderAnalysisProgress();
@@ -186,16 +215,18 @@ function renderAnalysisProgress() {
   const message = change > 0 ? "עלייה של " + change + " נקודות" : change < 0 ? "ירידה של " + Math.abs(change) + " נקודות" : "ללא שינוי בציון";
   area.append(element("span", message + " לעומת הניתוח הקודם. נסו לצלם באותה זווית ובתנאים דומים; זו הערכה בלבד."));
 }
-byId("save").addEventListener("click", () => {
+byId("save").addEventListener("click", async () => {
+  const saveRecord = () => {
   const checked = [...byId("exercises").querySelectorAll("input:checked")].map(input => input.value);
   if (!checked.length) { byId("save-status").textContent = "סמנו לפחות תרגיל אחד שביצעתם."; return; }
   const day = generatePlan(data.goal,data.level).find(item => item.id === data.day);
-  const record = {date:new Date().toISOString(), name:day.name, goal:data.goal, level:data.level, exercises:checked};
-  data.sessions.push(record);
-  if (!persist()) { data.sessions.pop(); return; }
+  const record = {id:crypto.randomUUID(),date:new Date().toISOString(), name:day.name, goal:data.goal, level:data.level, exercises:checked};
+  if (!persist(record)) return;
   byId("save-status").textContent = "האימון נשמר. כל הכבוד על ההתמדה!";
   byId("exercises").querySelectorAll("input:checked").forEach(input => { selected.delete(selectedKey(input.value)); input.checked=false; });
   renderProgress();
+  };
+  await withTrainingLock(saveRecord);
 });
 renderPlan();
 renderProgress();
@@ -299,3 +330,12 @@ if (exerciseFromWorkout && Object.hasOwn(LIBRARY,exerciseFromWorkout)) {
   const catalogueMatch = searchExercises({query:name}).find(item => item.name === name);
   showExerciseDetails(catalogueMatch || {name:source.name,equipment:source.equipment,tip:source.tip},true);
 }
+
+function refreshSavedTraining() {
+  try { data.sessions = readTraining(localStorage).sessions; renderProgress(); renderWorkoutLink(); }
+  catch { byId("save-status").textContent = "לא ניתן לקרוא את ההיסטוריה השמורה. המידע לא השתנה."; }
+}
+window.addEventListener("pageshow",refreshSavedTraining);
+window.addEventListener("storage",event => {
+  if ([ACTIVE_KEY,KEY,null].includes(event.key)) refreshSavedTraining();
+});
