@@ -1,6 +1,13 @@
 # Handstand Lab — project status
 
-Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
+Last updated: 2026-10-28. MOVALYT athlete experience work is in progress on `feat/movalyt-athlete-ui`, based on `feat/handstand-product-experience`. No merge or production release.
+
+## MOVALYT athlete experience — issue #11 (2026-10-28)
+- Implemented the selected product-facing name **MOVALYT** and tagline **Master Your Movement** on branch `feat/movalyt-athlete-ui`, based on `feat/handstand-product-experience`. Repository, Vercel project, domains, internal storage keys and backend identifiers remain unchanged. Public launch still requires owner approval and separate registrar/trademark clearance as tracked in [#10](https://github.com/eyalwow/handstand2/issues/10).
+- Reworked the athlete home, bottom navigation, upload/analyze flow, results framing, training plans, exercise library and active-workout header into one premium dark system with restrained lime accents and consistent Rubik typography. AI video analysis is now the primary action; the interface explicitly says that handstand is the first supported movement, raw video stays on-device and derived movement data reaches AI only after consent. No placeholder result, accuracy claim or analysis threshold changed; product direction remains tracked in [#9](https://github.com/eyalwow/handstand2/issues/9).
+- Updated the installable display name/description while retaining manifest start URL, scope and existing icons. No new illustration or animation asset was generated. The seven-sample Premium Fitness Anatomy gate in `docs/FITNESS_ANIMATION_DESIGN.md` remains unchanged and must pass review before expansion.
+- Added three focused brand/integration tests. All 45 Node tests pass; JavaScript syntax, manifest JSON and `git diff --check` pass. Local Chromium checks returned HTTP 200 for home, analyzer, training and workout at 390px/mobile and 1280px/desktop, with no horizontal overflow or page errors. Home, analyzer and training screenshots were reviewed locally.
+- Still required: Work verification on the eventual protected Preview and physical mobile devices; real exercise-video validation and scoring calibration; a fresh consented AI response on corrected code; approved icon/logo assets if the temporary text mark changes; and the seven animation pilot samples. No merge, Production deployment, Vercel/domain setting, purchase, credential or SSO change is authorized by this work.
 
 ## Fitness animation design decision — documentation only (2026-10-27)
 - Recorded the approved **Style 4 — Premium Fitness Anatomy** direction, media behavior, seven-exercise pilot and acceptance gates in [`docs/FITNESS_ANIMATION_DESIGN.md`](docs/FITNESS_ANIMATION_DESIGN.md).

@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090b0a">
+<meta name="theme-color" content="#070907">
 <link rel="manifest" href="./app.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
-<title>Handstand Lab — AI Coach</title>
+<title>MOVALYT — Master Your Movement</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
   color-scheme:dark;
-  --bg:#090B0A;--ink:#F3F7F2;--mute:#ABB5AD;--card:#171B19;--line:#303A32;
+  --bg:#070907;--ink:#F4F7F3;--mute:#A5B0A7;--card:#141815;--line:#2D362F;
   --acc:#B6FF4A;--good:#8CE49E;--mid:#FFD476;--bad:#FF8585;
   --soft:#111612;--acc-ink:#111807;
 }
@@ -20,14 +20,17 @@
 html{scroll-behavior:smooth}
 body{
   min-height:100vh;margin:0;color:var(--ink);
-  background:radial-gradient(ellipse 65% 30% at 50% 0%,rgba(182,255,74,.10),transparent 75%),var(--bg);
+  background:radial-gradient(ellipse 70% 35% at 50% -5%,rgba(182,255,74,.11),transparent 72%),linear-gradient(180deg,#090d0a 0,var(--bg) 42%),var(--bg);
   font:400 16px/1.6 Rubik,Arial,system-ui,sans-serif;
   padding:max(28px,env(safe-area-inset-top)) 18px max(40px,env(safe-area-inset-bottom));
 }
 main{max-width:760px;margin:0 auto}
 .brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:36px}
-.brand-name{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;letter-spacing:.06em}
-.brand-mark{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;color:var(--acc-ink);background:var(--acc);font-size:19px}
+.brand-name{display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none}
+.brand-mark{display:grid;place-items:center;width:36px;height:36px;border:1px solid #ceff87;border-radius:11px;color:var(--acc-ink);background:var(--acc);font-size:16px;font-weight:800;box-shadow:0 0 24px rgba(182,255,74,.13)}
+.brand-lockup{display:flex;flex-direction:column;line-height:1}
+.brand-product{font-size:15px;font-weight:800;letter-spacing:.14em}
+.brand-tagline{margin-top:6px;color:#8d998f;font-size:8px;font-weight:700;letter-spacing:.16em}
 .brand-status{display:flex;align-items:center;gap:7px;color:var(--mute);font-size:12px;white-space:nowrap}
 .brand-status:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px rgba(182,255,74,.65)}
 .hero{position:relative;padding:34px 30px 30px;overflow:hidden;background:linear-gradient(125deg,#202B1C,#151B16 58%,#101411);border:1px solid #35452C;border-radius:24px;margin-bottom:22px}
@@ -139,14 +142,15 @@ video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 body{padding: max(20px,env(safe-area-inset-top)) 16px calc(110px + env(safe-area-inset-bottom))}
 main{max-width:860px}
 .brand{margin:0 0 35px}.brand-name{color:var(--ink);text-decoration:none}
-.brand-caption{color:#9baa9b;font-size:12px}
+.brand-caption{padding:5px 9px;border:1px solid #2f3a31;border-radius:999px;color:#9baa9b;font-size:10px;font-weight:700;letter-spacing:.08em}
 .home-greeting{margin:0 0 22px}.home-greeting .kicker,.feature-label{color:var(--acc);font-size:11px;font-weight:800;letter-spacing:.1em}
 .home-greeting h1{margin:7px 0 6px;font-size:clamp(32px,7vw,48px)}
 .home-greeting p{color:var(--mute);margin:0;font-size:15px}
-.feature-card{position:relative;overflow:hidden;border:1px solid #4b633a;background:linear-gradient(125deg,#253820,#18251a 55%,#111913);border-radius:24px;padding:25px;margin-bottom:28px}
+.feature-card{position:relative;overflow:hidden;border:1px solid #4b633a;background:linear-gradient(135deg,#25391f,#172319 56%,#0e1310);border-radius:24px;padding:28px;margin-bottom:28px;box-shadow:0 22px 70px rgba(0,0,0,.28)}
 .feature-card:after{content:"";position:absolute;width:200px;height:200px;left:-56px;top:-45px;border:1px solid #b6ff4a33;border-radius:50%;box-shadow:0 0 0 35px #b6ff4a09,0 0 0 70px #b6ff4a07;pointer-events:none}
 .feature-card h2{font-size:clamp(24px,5vw,32px);line-height:1.25;margin:12px 0 8px;max-width:480px}
 .feature-card p{margin:0 0 20px;color:#c0cfbb;font-size:14px;max-width:470px}
+.feature-meta{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}.feature-meta span{padding:6px 10px;border:1px solid #43563b;border-radius:999px;background:#111a12a8;color:#c8d4c6;font-size:11px}
 .feature-action{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:11px 19px;border-radius:12px;background:var(--acc);color:var(--acc-ink);font-size:14px;font-weight:800;text-decoration:none;transition:transform .16s,filter .16s}
 .feature-action:hover{filter:brightness(1.08);transform:translateY(-2px)}
 .home-section-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px}.home-section-title h2{margin:0;font-size:19px}
@@ -160,12 +164,16 @@ main{max-width:860px}
 .progress-card strong{display:block;font-size:15px}.progress-card p{margin:3px 0 0;color:var(--mute);font-size:13px}.progress-card .arrow{color:var(--acc);font-size:22px}
 .analyzer-heading{margin:0 0 22px}.analyzer-heading .back{display:inline-block;color:var(--acc);text-decoration:none;font-size:13px;font-weight:700;margin-bottom:18px}
 .analyzer-heading h1{font-size:clamp(30px,6vw,42px);margin:0 0 8px}.analyzer-heading p{color:var(--mute);margin:0;font-size:14px}
+.analyzer-kicker{display:block;margin-bottom:8px;color:var(--acc);font-size:10px;font-weight:800;letter-spacing:.14em}
+.analysis-process{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:0;margin:0 0 18px;list-style:none}.analysis-process li{margin:0;padding:13px;border:1px solid #2d3930;border-radius:14px;background:#101411}.analysis-process span{display:block;color:var(--acc);font-size:10px;font-weight:800;letter-spacing:.1em}.analysis-process strong{display:block;margin:4px 0 2px;font-size:13px}.analysis-process small{display:block;color:var(--mute);font-size:11px;line-height:1.45}
+.upload-panel{padding:20px;border:1px solid #344238;border-radius:20px;background:linear-gradient(150deg,#151b16,#0f1310);box-shadow:0 18px 50px rgba(0,0,0,.2)}.upload-panel .section-head{margin-top:0}.upload-panel .tips{background:#0c110e}
+.results-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:27px 4px 8px}.results-heading span{color:var(--acc);font-size:10px;font-weight:800;letter-spacing:.12em}.results-heading strong{font-size:17px}
 .app-nav{position:fixed;z-index:20;bottom:max(8px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(740px,calc(100% - 24px));display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:7px;background:#101611f2;border:1px solid #39453a;border-radius:19px;box-shadow:0 10px 34px #0009;backdrop-filter:blur(16px)}
 .app-nav a{min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#a9b6a8;text-decoration:none;font-size:11px;font-weight:600;border-radius:12px}
 .app-nav a[aria-current=page]{color:var(--acc);background:#25331f}
 .app-nav svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
-@media(max-width:600px){body{padding: max(15px,env(safe-area-inset-top)) 14px calc(100px + env(safe-area-inset-bottom))}.brand{margin:3px 0 28px}.brand-caption{font-size:11px}.feature-card{padding:23px 20px}.home-tile{padding:15px;min-height:155px}.home-grid{gap:9px}}
+@media(max-width:600px){body{padding: max(15px,env(safe-area-inset-top)) 14px calc(100px + env(safe-area-inset-bottom))}.brand{margin:3px 0 28px}.brand-caption{font-size:9px}.feature-card{padding:23px 20px}.home-tile{padding:15px;min-height:155px}.home-grid{gap:9px}.analysis-process{grid-template-columns:repeat(3,1fr);gap:6px}.analysis-process li{padding:10px 8px;text-align:center}.analysis-process strong{font-size:11px}.analysis-process small{display:none}.upload-panel{padding:17px 14px}.pick{scroll-margin-bottom:90px}}
 @media(max-width:340px){.home-grid{grid-template-columns:1fr}.home-tile{min-height:130px}}
 
 .coach-strength{padding:12px 15px;border-inline-start:3px solid #B6FF4A;background:#22311c;border-radius:10px;font-size:15px}.skeleton-control{margin:12px 0}.skeleton-control label{display:flex;align-items:center;gap:9px;font-size:14px}.skeleton-control input{width:22px;height:22px;accent-color:#B6FF4A}.coach-drills{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.coach-drills{grid-template-columns:1fr}.coach-observation{padding:14px}.coach-summary{font-size:17px}}
@@ -174,21 +182,22 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 </head>
 <body>
 <main>
-<header class="brand" aria-label="Handstand Lab">
-  <a class="brand-name" href="#home"><span class="brand-mark" aria-hidden="true">↗</span><span>HANDSTAND LAB</span></a>
-  <span class="brand-caption">מרחב האימון שלך</span>
+<header class="brand" aria-label="MOVALYT">
+  <a class="brand-name" href="#home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-lockup"><strong class="brand-product">MOVALYT</strong><small class="brand-tagline">MASTER YOUR MOVEMENT</small></span></a>
+  <span class="brand-caption">AI MOVEMENT LAB</span>
 </header>
 <section id="homeView" aria-labelledby="home-title">
  <div class="home-greeting">
-  <span class="kicker">YOUR TRAINING SPACE</span>
-  <h1 id="home-title" tabindex="-1">מתקדמים יחד.</h1>
-  <p>הכלים שלך לתנועה טובה יותר, בקצב שלך.</p>
+  <span class="kicker">MOVEMENT INTELLIGENCE</span>
+  <h1 id="home-title" tabindex="-1">לראות את התנועה.<br>להבין איך להתקדם.</h1>
+  <p>MOVALYT מחבר בין ניתוח וידאו, משוב ממוקד ואימון שנשמר אצלכם.</p>
  </div>
  <section class="feature-card" aria-labelledby="feature-title">
-  <span class="feature-label">הכלי שלך לעמידת ידיים</span>
-  <h2 id="feature-title">כל ניסיון הוא הזדמנות להתקדם.</h2>
-  <p>העלו סרטון וקבלו משוב אישי וברור שיעזור לכם למצוא את הצעד הבא.</p>
-  <a class="feature-action" href="#analyze">ניתוח עמידת ידיים ←</a>
+  <span class="feature-label">AI VIDEO ANALYSIS · HANDSTAND BETA</span>
+  <h2 id="feature-title">הסרטון שלכם הופך למשוב שאפשר לעבוד איתו.</h2>
+  <p>העלו ניסיון לעמידת ידיים וקבלו ציון מדידה, נקודות לשיפור ותרגילים להמשך. הווידאו עצמו נשאר במכשיר.</p>
+  <div class="feature-meta" aria-label="מאפייני הניתוח"><span>עיבוד וידאו מקומי</span><span>משוב מבוסס מדדים</span><span>AI רק בהסכמה</span></div>
+  <a class="feature-action" href="#analyze">התחלת ניתוח וידאו ←</a>
  </section>
  <div class="home-section-title"><h2>מה מתרגלים היום?</h2></div>
  <div class="home-grid">
@@ -209,10 +218,17 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <section id="analyzerView" aria-labelledby="analyzer-title" hidden>
  <div class="analyzer-heading">
   <a class="back" href="#home">→ חזרה לבית</a>
-  <h1 id="analyzer-title" tabindex="-1">ניתוח עמידת ידיים</h1>
-  <p>הסרטון נשאר במכשיר. המשוב מבוסס על זיהוי התנועה שלכם.</p>
+  <span class="analyzer-kicker">MOVALYT / AI VIDEO ANALYSIS</span>
+  <h1 id="analyzer-title" tabindex="-1">ניתוח וידאו — עמידת ידיים</h1>
+  <p>עמידת ידיים היא התנועה הראשונה שנתמכת. הווידאו נשאר במכשיר; רק מדדי תנועה מצומצמים נשלחים ל־AI לאחר הסכמה.</p>
  </div>
-<div class="section-head"><h2>נתח את העמידה שלך</h2><span class="step">01 / UPLOAD</span></div>
+<ol class="analysis-process" aria-label="שלבי הניתוח">
+ <li><span>01</span><strong>מעלים ניסיון</strong><small>צילום צד, גוף מלא ועד שתי דקות.</small></li>
+ <li><span>02</span><strong>מודדים תנועה</strong><small>העיבוד מתבצע מקומית בדפדפן.</small></li>
+ <li><span>03</span><strong>מקבלים כיוון</strong><small>מדדים, משוב ותרגילים להמשך.</small></li>
+</ol>
+<section class="upload-panel" aria-labelledby="upload-title">
+<div class="section-head"><h2 id="upload-title">העלאת ניסיון לניתוח</h2><span class="step">SECURE UPLOAD</span></div>
 <div class="tips"><b>איך לצלם:</b> צלמו מהצד, כשכל הגוף והידיים בפריים. סרטון ברור עם כמה שניות של החזקה ייתן את התוצאה הטובה ביותר. אורך מרבי: שתי דקות.</div>
 
 <details class="gemini-setup">
@@ -226,7 +242,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
 <video id="v" muted playsinline preload="auto"></video>
+</section>
 <section id="out" aria-label="תוצאות הניתוח">
+  <div class="results-heading"><strong>דו״ח התנועה שלכם</strong><span>MOVALYT ANALYSIS</span></div>
   <div id="holdSec" style="display:none">
    <div class="top"><span class="score" id="score"></span><span class="hold" id="hold"></span></div>
   </div>
@@ -260,11 +278,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
   </div>
 </section>
 </section>
-<p class="footer">HANDSTAND LAB <span class="footer-dot" aria-hidden="true"></span> להתקדם בקצב שלך</p>
+<p class="footer">MOVALYT <span class="footer-dot" aria-hidden="true"></span> MASTER YOUR MOVEMENT</p>
 </main>
 <nav class="app-nav" aria-label="ניווט באפליקציה">
  <a id="navHome" href="#home" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>בית</span></a>
- <a id="navAnalyze" href="#analyze"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg><span>ניתוח</span></a>
+ <a id="navAnalyze" href="#analyze"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg><span>ניתוח AI</span></a>
  <a href="./training.html"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 9v6m3-8v10m12-10v10m3-8v6M6 12h12"/></svg><span>אימונים</span></a>
  <a href="./training.html#library"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-2zm0 14a2 2 0 0 1 2-2h13M9 7h6M9 11h6"/></svg><span>תרגילים</span></a>
 </nav>
