@@ -2,6 +2,17 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## Motion-first change request — capability check (2026-10-27)
+- User now prefers genuine continuous looping motion for pull-up, push-up and squat, preserving the approved grayscale/charcoal/subtle-green human illustration style. Static professional artwork is explicitly allowed when credible animation cannot be produced.
+- No animation samples were produced in this follow-up. No video, Lottie, Rive, motion-generation or rigged-human rendering tool is currently connected; the existing image generator produces still images. Blender and ffmpeg were not found on the available command path. This does not imply animation is impossible, only that a suitable production path is not currently available in this session.
+- Plugin discovery found Runway and Higgsfield video-generation integrations, neither installed/connected. Offered Runway as one possible production route. Its connection and any account usage must be confirmed before use; generated motion would still need pose and loop quality review. No paid generation or purchase was initiated.
+- Retained the already-tested static artwork Preview rather than manufacturing crossfades, translating still images, adding a fake play button, or changing valid exercise descriptions. No application-code changes, test reruns or duplicate deployment were needed for this documentation-only follow-up.
+- Current static artwork Preview (NOT an animation Preview): https://handstand-lab-coach-6b4pjcu52-eyalwen-6443.vercel.app/training.html?artwork=1#library
+- Next production gate: obtain original full-motion clips or an anatomically credible rig, then create ONLY three samples (pull-up, push-up, squat). Review support/contact points, joint trajectories, body proportions, range of motion and loop continuity throughout each full clip, not merely endpoints. Reject deformations and implausible motion.
+- Preferred delivery once suitable clips exist: lightweight muted inline MP4/WebM with a static poster and explicit play/pause controls; honor prefers-reduced-motion by remaining paused/static. Choose final encoding after visual quality and phone-loading checks. No player implementation or accessibility behavior is claimed yet.
+- Static L-sit and hollow remain valid fallbacks; wall-handstand art is still withheld for the previously documented orientation issue. Do not expand the motion approach to other exercises before user review of the first three.
+- No merge or production publication.
+
 ## Approved fitness illustration direction — first screened rollout (2026-10-27)
 - User approved the premium grayscale human / charcoal / subtle green art direction. Replaced artwork for SIX exact movements only: overhand pull-up, standard push-up, bodyweight squat, parallel-bar dip, straight-leg L-sit and hollow hold. Remaining catalogue movements retain their existing content; there is no blanket mapping or claim of complete coverage.
 - Generated seven original candidates with OpenAI image generation. Withheld the wall-handstand candidate because chest-versus-back-to-wall orientation was ambiguous. Its files are not shipped and it is not mapped to the chest-to-wall exercise.
