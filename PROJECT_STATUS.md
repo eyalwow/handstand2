@@ -2,6 +2,12 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## PR #8 verification and fitness animation decision — 2026-10-28
+- Reviewed [PR #8](https://github.com/eyalwow/handstand2/pull/8) against `feat/handstand-coach-demo`. On its CI implementation commit, GitHub Actions run `40588984352` passed both Node 22 jobs: **Handstand Lab** and **Handstand Coach**. Local reruns are recorded in the CI section below.
+- Added [`docs/FITNESS_ANIMATION_DESIGN.md`](docs/FITNESS_ANIMATION_DESIGN.md) so the shared Coach branch retains the approved **Premium Fitness Anatomy** direction already recorded on the athlete branch: accurate semi-anatomical athletes, neutral grayscale/off-white treatment, dark contours and restrained lime muscle emphasis.
+- The first gate remains seven samples only: Push-up, Pull-up, Squat, Hollow Body Hold, Handstand Wall Hold, Dip and L-Sit. Dynamic movements require smooth full-range 2–4 second loops; static holds may use an accurate still or subtle motion. Do not produce or map the full catalogue before explicit pilot approval.
+- No application code, fitness asset, paid service, API key, Vercel setting, deployment, merge or Production state changed in this documentation follow-up.
+
 ## Handstand Lab + Coach CI upgrade — 2026-10-27
 - On work branch `chore/ci-lab-coach`, upgraded `.github/workflows/validate-coach.yml` without changing application code. Relevant pull requests now include changes under `preview/`, `vercel-app/`, `coach-app/`, `tests/` or the workflow itself; the existing manual trigger and existing `feat/gemini-coach-preview` push trigger remain.
 - Split the workflow into two explicit results: **Handstand Lab** checks all Lab/Preview JavaScript syntax and runs the existing Lab analyzer, privacy, API, catalogue, training and workout tests; **Handstand Coach** checks Coach JavaScript syntax, builds `coach-app`, verifies the packaged catalogue is byte-identical to the canonical Lab catalogue, and runs the existing Coach v2 tests. Test files are assigned once rather than rerunning the whole suite in both jobs.
