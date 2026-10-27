@@ -2,6 +2,17 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## Current decision — temporarily no exercise illustrations (2026-10-27)
+- User authorized a real trial of the free 3D option and explicitly chose no illustrations for now if the quality was unsuitable.
+- Opened the actual OpenGym3D live viewer in a real browser at 390px, selected Push-Up, waited for the animated human to load, and inspected the rendered result. The demo does provide skeletal motion, but its coarse body/material highlights do not meet the approved premium illustration direction. Pull-up was not in the visible live exercise list. This was a live third-party demo evaluation, not a completed three-exercise integration or anatomical certification.
+- Chose the user-authorized clean fallback. Removed exercise-art rendering/imports from library cards, training plans, detail dialogs and the active workout. Removed the workout media container and unused visible attribution for art no longer shown. No empty artwork area or illustration-view controls remain. The old artwork=1 sample query no longer filters the catalogue, so existing links still open the full library.
+- Retained existing art assets and their license/source documentation in Git for future recovery; no third-party 3D files or dependencies were copied. The analyzer's own video/skeleton playback and all saved training data are unchanged.
+- Focused workout/training suite: 20 passed; syntax and diff checks passed. GitHub Actions succeeded for application source d8896970e0cbc8376ce8fffde8450028d692bd1c.
+- Real browser validation on the deployed Preview at 390px: library has 12 initial cards and no main-content images/SVG/canvas; details display text without illustrations; workout has no media placeholder; marked set and running rest deadline survive refresh; no horizontal overflow and no browser console errors on checked routes.
+- READY Preview: https://handstand-lab-coach-kagezy5t6-eyalwen-6443.vercel.app/training.html
+- Deployment dpl_EJjVyfhNa1sqMwQxeTY82UWP9Xdp; source d8896970e0cbc8376ce8fffde8450028d692bd1c; existing handstand-lab-coach project, Preview only. This documentation-only commit does not alter the deployed app code.
+- Artwork/animation rollout is paused. Do not restore or expand it without a new task. No merge or production publication.
+
 ## Runway connection verified — 2026-10-27
 - User connected Runway successfully; authenticated workspace confirmed. The earlier missing-connection blocker is resolved.
 - Connected workspace is on the Free plan and availableVideoModels is empty. No video generation was submitted; no generation credits were consumed. Account capability, not authentication, now blocks the three requested motion samples.
