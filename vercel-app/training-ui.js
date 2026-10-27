@@ -1,3 +1,4 @@
+import { FITNESS_ART, fitnessFigure } from "./fitness-art.js";
 import { GOALS, LEVELS, LIBRARY, generatePlan } from "./training-core.js";
 import { CATEGORIES, FILTER_LEVELS, searchExercises } from "./exercise-library.js";
 import { illustrationSlugs } from "./exercise-media.js";
@@ -153,7 +154,8 @@ function renderPlan() {
     body.append(label);
     // Training IDs and catalogue names occasionally differ; the mapping is explicit.
     const planNames = {push:"שכיבות סמיכה",pull:"מתח באחיזה עילית",squat:"סקוואט משקל גוף",plank:"פלאנק על אמות"};
-    const picture = movementDetails(planNames[prescription.id] || exercise.name);
+    const pictureName = planNames[prescription.id] || exercise.name;
+    const picture = FITNESS_ART[pictureName] ? fitnessFigure(FITNESS_ART[pictureName],pictureName,"card") : movementDetails(pictureName);
     if (picture) body.append(picture);
     row.append(input, body);
     list.append(row);
@@ -250,16 +252,18 @@ for (const level of FILTER_LEVELS) {
 }
 let catalogLimit = 12;
 function renderCatalog() {
-  const results = searchExercises({
+  let results = searchExercises({
     query: catalogFilters.query.value,
     category: catalogFilters.category.value,
     level: catalogFilters.level.value
   });
+  if (new URLSearchParams(location.search).get("artwork") === "1") results = results.filter(ex => FITNESS_ART[ex.name]);
   byId("library-count").textContent = results.length ? results.length + " תרגילים מתאימים" : "לא נמצאו תרגילים. נסו חיפוש או סינון אחר.";
   const list = byId("library-list");
   list.replaceChildren();
   for (const exercise of results.slice(0,catalogLimit)) {
     const card = element("article", undefined, "library-card");
+    if (FITNESS_ART[exercise.name]) card.append(fitnessFigure(FITNESS_ART[exercise.name],exercise.name,"card"));
     card.append(
       element("h3", exercise.name),
       element("p", [exercise.category,exercise.level,exercise.equipment].join(" · "), "library-meta"),
@@ -310,7 +314,7 @@ function showExerciseDetails(exercise, fromWorkout=false) {
   const meta = element("div", undefined, "detail-meta");
   for (const text of [exercise.category,exercise.level,exercise.equipment].filter(Boolean)) meta.append(element("span",text));
   content.append(meta, element("h3","איך לבצע"), element("p",exercise.tip,"detail-explanation"));
-  const pictures = movementDetails(exercise.name);
+  const pictures = FITNESS_ART[exercise.name] ? fitnessFigure(FITNESS_ART[exercise.name],exercise.name) : movementDetails(exercise.name);
   if (pictures) content.append(pictures);
   content.append(element("p","פירוט שרירים, שלבי ביצוע, המלצות סטים ווריאציות טרם אומתו עבור תרגיל זה.","detail-unavailable"));
   byId("detail-return-workout").hidden = !fromWorkout;

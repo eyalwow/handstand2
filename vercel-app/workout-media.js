@@ -1,3 +1,4 @@
+import { FITNESS_WORKOUT, fitnessFigure } from "./fitness-art.js";
 import { LIBRARY } from "./training-core.js";
 
 // Reuse verified artwork only where the movement and equipment match.
@@ -69,6 +70,7 @@ export function renderWorkoutMedia(container,id) {
   if (container.dataset.exercise === id) return;
   container.dataset.exercise = id;
   container.replaceChildren();
+  if (FITNESS_WORKOUT[id]) { container.append(fitnessFigure(FITNESS_WORKOUT[id],LIBRARY[id].name,"workout")); return; }
   const media = WORKOUT_MEDIA[id];
   const figure = document.createElement("figure");
   const schematic = () => {

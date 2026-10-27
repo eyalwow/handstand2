@@ -42,3 +42,18 @@ body{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
 .detail-return{display:block;margin-top:20px;padding:12px;border-radius:10px;background:var(--lime);color:#101807;text-align:center;font-weight:800}
 .detail-return[hidden]{display:none}
 @media(max-width:600px){#exercise-dialog{padding:20px 16px;max-height:calc(100dvh - 32px);margin:auto}}
+
+/* Seven-movement art direction pilot: scoped to new original artwork only. */
+.fitness-art{margin:12px 0 18px;background:#141916;border:1px solid #344036;border-radius:14px;overflow:hidden}
+.fitness-art-frames{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));direction:ltr;gap:1px;background:#344036}
+.fitness-art-frames>div{min-width:0;background:#141916;text-align:center}
+.fitness-art img{display:block;width:100%;height:210px;object-fit:contain;background:#141916;padding:4px}
+.fitness-art-frames span{display:block;padding:5px 8px 9px;color:#bbc6bb;font-size:12px;direction:rtl}
+.fitness-art figcaption{font-size:11px;color:var(--muted);padding:9px 12px;line-height:1.5}
+.fitness-art--card .fitness-art-frames{grid-template-columns:1fr}
+.fitness-art--card img{height:170px}
+.workout-media .fitness-art img{width:100%;height:230px;border:0;border-radius:0;padding:4px;aspect-ratio:auto;background:#141916}
+.workout-media .fitness-art figcaption{margin:0}
+@media(max-width:600px){.fitness-art--detail .fitness-art-frames,.fitness-art--workout .fitness-art-frames{grid-template-columns:1fr}.fitness-art--detail img,.workout-media .fitness-art img{height:240px}.fitness-art--card img{height:180px}}
+
+.fitness-art-frames:has(>div:only-child){grid-template-columns:1fr}

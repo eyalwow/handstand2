@@ -1,3 +1,4 @@
+import { FITNESS_ART, FITNESS_WORKOUT, fitnessFigure } from "../vercel-app/fitness-art.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
@@ -326,7 +327,7 @@ function trainingScreen(storage,search="") {
   };
   const source=readFileSync(new URL("../vercel-app/training-ui.js",import.meta.url),"utf8").replace(/^import .*;\r?\n/gm,"");
   const context={
-    ...core,GOALS,LEVELS,LIBRARY,generatePlan,CATEGORIES,FILTER_LEVELS,searchExercises,
+    ...core,GOALS,LEVELS,LIBRARY,generatePlan,CATEGORIES,FILTER_LEVELS,searchExercises,FITNESS_ART,fitnessFigure:(s,n,c)=>fitnessFigure(s,n,c,document),
     illustrationSlugs:{},document,localStorage:storage,location:{search,hash:""},
     navigator:{locks:{request:(_key,fn)=>Promise.resolve().then(fn)}},
     window:{addEventListener:(type,fn)=>{winEvents[type]=fn;}},
@@ -381,13 +382,32 @@ test("every schematic renders accessible SVG, and matched images retain attribut
       assert.ok(svg.children.length>=3);
     }
     const holder=new Element();
-    renderWorkoutMedia(holder,"push");
+    renderWorkoutMedia(holder,"inclinePush");
     const figure=holder.children[0];
-    assert.match(figure.children[0].src,/push-up\/frame-1.svg$/);
+    assert.match(figure.children[0].src,/incline-push-up\/frame-1.svg$/);
     assert.match(figure.children[1].children[0].href,/ATTRIBUTION.md$/);
-    renderWorkoutMedia(holder,"push");
+    renderWorkoutMedia(holder,"inclinePush");
     assert.equal(holder.children[0],figure);
-    renderWorkoutMedia(holder,"wall");
+    renderWorkoutMedia(holder,"wrist");
     assert.equal(holder.children[0].children[0].attributes.role,"img");
   } finally { globalThis.document=previous; }
+});
+
+test("fitness pilot uses exact movement matches, separate card assets, and one frame for static holds", () => {
+  const doc={createElement:()=>new Element()};
+  assert.equal(FITNESS_ART["L-sit עם ברכיים כפופות"],undefined);
+  assert.equal(FITNESS_ART["עמידת ידיים עם הפנים לקיר"],undefined);
+  assert.equal(Object.keys(FITNESS_ART).length,6);
+  for(const [name,slug] of Object.entries(FITNESS_ART)){
+    const card=fitnessFigure(slug,name,"card",doc);
+    const cardImage=card.children[0].children[0].children[0];
+    assert.equal(cardImage.width/cardImage.height,4/3);
+    assert.ok(existsSync(new URL("../vercel-app/assets/fitness/"+slug+"-card.jpg",import.meta.url)));
+    const detail=fitnessFigure(slug,name,"detail",doc);
+    assert.equal(detail.children[0].children.length,["l-sit","hollow"].includes(slug)?1:2);
+    for(const panel of detail.children[0].children){
+      assert.equal(panel.children[0].width/panel.children[0].height,4/3);
+      assert.ok(existsSync(new URL("../vercel-app/"+panel.children[0].src.slice(2),import.meta.url)));
+    }
+  }
 });
