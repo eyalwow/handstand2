@@ -1,4 +1,6 @@
 import { GOALS, LEVELS, LIBRARY, generatePlan } from "./training-core.js";
+import { CATEGORIES, FILTER_LEVELS, searchExercises } from "./exercise-library.js";
+import { illustrationSlugs } from "./exercise-media.js";
 
 const KEY = "handstand-lab-training-ui-v1";
 const SCORE_KEY = "handstand-lab-analyses-v1";
@@ -33,6 +35,40 @@ function element(tag, text, className) {
   if (className) node.className = className;
   return node;
 }
+// Only exact, independently checked matches are illustrated; other exercises stay text-only.
+
+function movementDetails(name) {
+  const slug = illustrationSlugs[name];
+  if (!slug) return null;
+  const details = document.createElement("details");
+  details.className = "movement-details";
+  const staticHold = ["dead-hang","active-hang","side-plank"].includes(slug);
+  const summaryText = staticHold ? "צפייה באיור התרגיל" : "צפייה בתנוחות לדוגמה";
+  const summary = element("summary", summaryText);
+  summary.setAttribute("aria-label", summaryText + ": " + name);
+  details.append(summary);
+  details.addEventListener("toggle", () => {
+    if (!details.open || details.dataset.loaded) return;
+    details.dataset.loaded = "true";
+    details.append(element("p", "איורים להמחשה; חלקם מציגים גם אפשרויות נוספות לתרגיל.", "movement-note"));
+    const gallery = element("div", undefined, "movement-frames");
+    for (let index=1; index<=(staticHold ? 1 : 3); index++) {
+      const figure = document.createElement("figure");
+      const image = document.createElement("img");
+      image.src = "./assets/exercises/" + slug + "/frame-" + index + ".svg";
+      image.alt = "איור " + index + " לתרגיל " + name;
+      image.loading = "lazy";
+      image.width = 220;
+      image.height = 220;
+      const caption = slug === "plank" && index === 3 ? "אפשרות בתמיכת ברכיים" :
+        slug === "hollow-body-hold" && index > 1 ? "אפשרות עם ברכיים כפופות" : "איור " + index;
+      figure.append(image, element("figcaption", caption));
+      gallery.append(figure);
+    }
+    details.append(gallery);
+  });
+  return details;
+}
 function fillSelect(id, options, value) {
   const select = byId(id);
   for (const item of options) {
@@ -65,6 +101,7 @@ function renderPlan() {
     });
     tabs.append(button);
   }
+  byId("start-workout").href = "./workout.html?" + new URLSearchParams({goal:data.goal,level:data.level,day:day.id}).toString();
   byId("workout-title").textContent = day.name;
   byId("workout-focus").textContent = day.focus;
   const list = byId("exercises");
@@ -87,7 +124,13 @@ function renderPlan() {
       element("span", prescription.sets + " סטים × " + prescription.target + " · מנוחה " + prescription.rest + " שניות · " + exercise.equipment, "prescription"),
       element("span", exercise.tip, "tip")
     );
-    row.append(input, label);
+    const body = element("div", undefined, "exercise-body");
+    body.append(label);
+    // Training IDs and catalogue names occasionally differ; the mapping is explicit.
+    const planNames = {push:"שכיבות סמיכה",pull:"מתח באחיזה עילית",squat:"סקוואט משקל גוף",plank:"פלאנק על אמות"};
+    const picture = movementDetails(planNames[prescription.id] || exercise.name);
+    if (picture) body.append(picture);
+    row.append(input, body);
     list.append(row);
   }
 }
@@ -157,3 +200,102 @@ byId("save").addEventListener("click", () => {
 renderPlan();
 renderProgress();
 
+
+// Exercise browsing is independent from workout history.
+const catalogFilters = {
+  query: byId("library-search"),
+  category: byId("library-category"),
+  level: byId("library-level")
+};
+for (const category of CATEGORIES) {
+  const option = element("option", category);
+  option.value = category;
+  catalogFilters.category.append(option);
+}
+for (const level of FILTER_LEVELS) {
+  const option = element("option", level);
+  option.value = level;
+  catalogFilters.level.append(option);
+}
+let catalogLimit = 12;
+function renderCatalog() {
+  const results = searchExercises({
+    query: catalogFilters.query.value,
+    category: catalogFilters.category.value,
+    level: catalogFilters.level.value
+  });
+  byId("library-count").textContent = results.length ? results.length + " תרגילים מתאימים" : "לא נמצאו תרגילים. נסו חיפוש או סינון אחר.";
+  const list = byId("library-list");
+  list.replaceChildren();
+  for (const exercise of results.slice(0,catalogLimit)) {
+    const card = element("article", undefined, "library-card");
+    card.append(
+      element("h3", exercise.name),
+      element("p", [exercise.category,exercise.level,exercise.equipment].join(" · "), "library-meta"),
+      element("p", exercise.tip, "library-tip")
+    );
+    const detailButton = element("button", "פרטי התרגיל", "library-detail-button");
+    detailButton.type = "button";
+    detailButton.setAttribute("aria-label", "פרטי התרגיל: " + exercise.name);
+    detailButton.addEventListener("click", () => showExerciseDetails(exercise));
+    card.append(detailButton);
+    list.append(card);
+  }
+  byId("library-more").hidden = results.length <= catalogLimit;
+}
+for (const input of Object.values(catalogFilters)) {
+  input.addEventListener(input === catalogFilters.query ? "input" : "change", () => {
+    catalogLimit = 12;
+    renderCatalog();
+  });
+}
+byId("library-more").addEventListener("click", () => {
+  catalogLimit += 12;
+  renderCatalog();
+});
+renderCatalog();
+
+function syncNavigation() {
+  const library = location.hash === "#library";
+  byId("nav-library").toggleAttribute("aria-current",library);
+  byId("nav-training").toggleAttribute("aria-current",!library);
+  byId(library ? "nav-library" : "nav-training").setAttribute("aria-current","page");
+}
+window.addEventListener("hashchange",syncNavigation);
+syncNavigation();
+function landOnLibrary() {
+  if (location.hash === "#library") requestAnimationFrame(() => byId("library").scrollIntoView({block:"start"}));
+}
+// Initial fragment navigation can happen before the dynamic plan has changed layout.
+// Re-align after the page resources have finished loading as well.
+if (document.readyState === "complete") landOnLibrary();
+else window.addEventListener("load", landOnLibrary, {once:true});
+
+const detailsDialog = byId("exercise-dialog");
+function showExerciseDetails(exercise, fromWorkout=false) {
+  byId("exercise-detail-title").textContent = exercise.name;
+  const content = byId("exercise-detail-content");
+  content.replaceChildren();
+  const meta = element("div", undefined, "detail-meta");
+  for (const text of [exercise.category,exercise.level,exercise.equipment].filter(Boolean)) meta.append(element("span",text));
+  content.append(meta, element("h3","איך לבצע"), element("p",exercise.tip,"detail-explanation"));
+  const pictures = movementDetails(exercise.name);
+  if (pictures) content.append(pictures);
+  content.append(element("p","פירוט שרירים, שלבי ביצוע, המלצות סטים ווריאציות טרם אומתו עבור תרגיל זה.","detail-unavailable"));
+  byId("detail-return-workout").hidden = !fromWorkout;
+  if (!detailsDialog.open) detailsDialog.showModal();
+}
+byId("exercise-detail-close").addEventListener("click", () => detailsDialog.close());
+const exerciseFromWorkout = new URLSearchParams(location.search).get("exercise");
+if (exerciseFromWorkout && Object.hasOwn(LIBRARY,exerciseFromWorkout)) {
+  const source = LIBRARY[exerciseFromWorkout];
+  const aliases = {
+    wallKick:"עליות נשלטות לעמידת ידיים",
+    dip:"דיפס במקבילים",
+    calf:"עליות תאומים בעמידה",
+    hangingKnee:"כפיפות ברכיים בתלייה"
+  };
+  const name = aliases[exerciseFromWorkout] || source.name;
+  const catalogueMatch = searchExercises({query:name}).find(item => item.name === name);
+  showExerciseDetails(catalogueMatch || {name:source.name,equipment:source.equipment,tip:source.tip},true);
+}

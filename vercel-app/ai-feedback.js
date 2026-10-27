@@ -67,7 +67,7 @@ function evidence(res,ent,issues){
 function local(issues,measure){
  const priorities=issues.slice(0,3),first=priorities[0],second=priorities[1];
  const summary=first
-   ?"יש כאן בסיס להתקדם ממנו. כדאי להתחיל בתרגול "+names[first.key]+"."
+   ?(measure.hold?.score>=85?"העמידה נראית טובה. הנה נקודה שאפשר להמשיך לדייק.":measure.hold?.score>=70?"יש כאן בסיס טוב. נתמקד בדבר אחד בכל פעם.":"יש כאן בסיס להתקדם ממנו. נתחיל בתרגול אחד בכל פעם.")
    :"העמידה נראית יציבה במדדים שזוהו. המשך לתרגל שליטה וקו גוף עקבי.";
  const choices=[...new Set(priorities.flatMap(i=>i.drills))].filter(id=>measure.allowedExerciseIds.includes(id));
  if(!choices.length)choices.push(...measure.allowedExerciseIds);

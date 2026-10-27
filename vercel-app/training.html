@@ -1,6 +1,32 @@
 <!doctype html>
-<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090b0a"><title>האימונים שלי | Handstand Lab</title><link rel="stylesheet" href="training.css"><script type="module" src="training-ui.js"></script></head>
-<body><main class="shell"><header class="header"><a class="brand" href="./" aria-label="Handstand Lab — חזרה לניתוח"><span aria-hidden="true">↗</span> HANDSTAND LAB</a><nav aria-label="ניווט ראשי"><a href="./">ניתוח עמידת ידיים</a><a href="training.html" aria-current="page">האימונים שלי</a></nav></header>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090b0a"><title>האימונים שלי | Handstand Lab</title><link rel="manifest" href="app.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="stylesheet" href="training.css"><script defer src="./pwa.js"></script><script type="module" src="training-ui.js"></script></head>
+<body><main class="shell"><header class="header"><a class="brand" href="./" aria-label="Handstand Lab — חזרה לניתוח"><span aria-hidden="true">↗</span> HANDSTAND LAB</a></header>
 <section class="intro"><span class="kicker">MOVE WITH PURPOSE</span><h1>מתקדמים, אימון אחרי אימון.</h1><p>תוכנית שמתאימה לך, ומקום קטן לראות כמה רחוק הגעת.</p></section>
-<section class="panel" aria-labelledby="plan-title"><div class="section-title"><div><span class="kicker">התוכנית שלך</span><h2 id="plan-title">בואו נתחיל לזוז</h2></div><span class="pill">3 אימונים לבחירה</span></div><div class="selectors"><label>המטרה שלי<select id="goal"></select></label><label>הרמה שלי<select id="level"></select></label></div><p class="guidance">בחרו עד שלושה אימונים בשבוע והשאירו לפחות יום מנוחה בין אימוני כוח. התחילו כל אימון בחמש דקות של חימום קל, התקדמו בהדרגה ועצרו אם מופיע כאב.</p><div id="day-tabs" class="days" role="group" aria-label="בחירת אימון"></div><div class="workout-heading"><div><h3 id="workout-title"></h3><p id="workout-focus"></p></div><span>סמנו מה ביצעתם</span></div><div id="exercises" class="exercises"></div><div class="actions"><button id="save" type="button">שמירת האימון</button><p id="save-status" role="status" aria-live="polite"></p></div></section>
-<section class="panel progress" aria-labelledby="progress-title"><span class="kicker">הדרך שלך</span><h2 id="progress-title">ההתקדמות שלי</h2><div id="stats" class="stats"></div><div id="analysis-progress" class="analysis-progress"></div><h3>האימונים האחרונים</h3><div id="history"></div><p class="privacy">המידע נשמר בדפדפן הזה בלבד. מחיקת נתוני הדפדפן או מעבר למכשיר אחר לא יעבירו אותו.</p></section></main></body></html>
+<section id="plan" class="panel" aria-labelledby="plan-title"><div class="section-title"><div><span class="kicker">התוכנית שלך</span><h2 id="plan-title">בואו נתחיל לזוז</h2></div><span class="pill">3 אימונים לבחירה</span></div><div class="selectors"><label>המטרה שלי<select id="goal"></select></label><label>הרמה שלי<select id="level"></select></label></div><p class="guidance">בחרו עד שלושה אימונים בשבוע והשאירו לפחות יום מנוחה בין אימוני כוח. התחילו כל אימון בחמש דקות של חימום קל, התקדמו בהדרגה ועצרו אם מופיע כאב.</p><div id="day-tabs" class="days" role="group" aria-label="בחירת אימון"></div><div class="workout-heading"><div><h3 id="workout-title"></h3><p id="workout-focus"></p></div><span>סמנו מה ביצעתם</span></div><a id="start-workout" class="start-workout" href="workout.html">התחלת אימון</a><div id="exercises" class="exercises"></div><div class="actions"><button id="save" type="button">שמירת האימון</button><p id="save-status" role="status" aria-live="polite"></p></div></section>
+<section class="panel progress" aria-labelledby="progress-title"><span class="kicker">הדרך שלך</span><h2 id="progress-title">ההתקדמות שלי</h2><div id="stats" class="stats"></div><div id="analysis-progress" class="analysis-progress"></div><h3>האימונים האחרונים</h3><div id="history"></div><p class="privacy">המידע נשמר בדפדפן הזה בלבד. מחיקת נתוני הדפדפן או מעבר למכשיר אחר לא יעבירו אותו.</p></section>
+<section id="library" class="panel library" aria-labelledby="library-title">
+<span class="kicker">EXERCISE LIBRARY</span><h2 id="library-title">ספריית התרגילים</h2>
+<p class="guidance">מחפשים רעיון לאימון? בחרו תרגיל שמתאים לרמה ולציוד שלכם. רמות הקושי הן הכוונה כללית.</p>
+<div class="library-filters">
+<label class="search-label">חיפוש תרגיל<input id="library-search" type="search" placeholder="למשל סקוואט, גומייה או מתח" autocomplete="off"></label>
+<label>קטגוריה<select id="library-category"><option value="">כל הקטגוריות</option></select></label>
+<label>רמה<select id="library-level"><option value="">כל הרמות</option></select></label>
+</div>
+<p id="library-count" class="library-count" role="status" aria-live="polite"></p>
+<div id="library-list" class="library-list"></div>
+<button id="library-more" class="library-more" type="button" hidden>הצגת תרגילים נוספים</button>
+<p class="asset-credit">בחלק מהתרגילים מופיע איור מתוך <a href="https://github.com/bryllim/workout-guide">Workout Guide</a> מאת Bryl Lim ו־Everkinetic. <a href="https://creativecommons.org/licenses/by-sa/4.0/">רישיון CC BY-SA 4.0</a> · <a href="assets/exercises/ATTRIBUTION.md">פרטי מקור ושינויים</a></p>
+</section></main>
+<dialog id="exercise-dialog" aria-labelledby="exercise-detail-title">
+  <div class="detail-head"><span class="kicker">פרטי תרגיל</span><button id="exercise-detail-close" type="button" aria-label="סגירת פרטי התרגיל">×</button></div>
+  <h2 id="exercise-detail-title"></h2>
+  <div id="exercise-detail-content"></div>
+  <a id="detail-return-workout" class="detail-return" href="./workout.html" hidden>חזרה לאימון</a>
+</dialog>
+<nav class="app-nav" aria-label="ניווט באפליקציה">
+ <a href="./#home"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>בית</span></a>
+ <a href="./#analyze"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg><span>ניתוח</span></a>
+ <a id="nav-training" href="./training.html"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 9v6m3-8v10m12-10v10m3-8v6M6 12h12"/></svg><span>אימונים</span></a>
+ <a id="nav-library" href="./training.html#library"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-2zm0 14a2 2 0 0 1 2-2h13M9 7h6M9 11h6"/></svg><span>תרגילים</span></a>
+</nav>
+</body></html>
