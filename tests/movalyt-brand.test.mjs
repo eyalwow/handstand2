@@ -27,6 +27,11 @@ test("video analysis remains the primary honest product flow",()=>{
   for(const id of ["analyzerView","file","status","prog","out","coachPanel","replaySec"]){
     assert.ok(home.includes(`id="${id}"`),`missing analysis control: ${id}`);
   }
+  assert.match(home,/#out\{display:none/);
+  assert.match(home,/<span class="score" id="score"><\/span>/);
+  assert.match(home,/id="coachPanel"[^>]* hidden/);
+  assert.match(home,/id="aiConsent" type="checkbox"/);
+  assert.match(home,/הסרטון נשאר במכשיר/);
 });
 
 test("branding does not rename persisted athlete data",()=>{
