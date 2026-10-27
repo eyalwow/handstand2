@@ -2,6 +2,12 @@
 
 Last updated: 2026-10-27. Resumed from branch head `019e8d83a3b261489b1bc961cb592b5ff3538197` to complete active workouts. No merge or production release.
 
+## Fitness animation design decision — documentation only (2026-10-27)
+- Recorded the approved **Style 4 — Premium Fitness Anatomy** direction, media behavior, seven-exercise pilot and acceptance gates in [`docs/FITNESS_ANIMATION_DESIGN.md`](docs/FITNESS_ANIMATION_DESIGN.md).
+- The pilot is Push-up, Pull-up, Squat, Hollow Body Hold, Handstand Wall Hold, Dip and L-Sit. Dynamic exercises require credible full-range 2–4 second loops; static holds may use a precise still or subtle motion. Library cards remain static, while details and active workouts may use approved animation with pause/resume and `prefers-reduced-motion` fallback.
+- Professional animations have not been created. Earlier OpenGym3D and wall-handstand attempts were rejected for insufficient quality or ambiguous orientation. Do not restore rejected or unapproved illustrations, and do not begin mass production or broad catalogue mapping before explicit pilot approval.
+- This change records product decisions only. No application code, asset, test result, Preview, deployment or Production state changed. The animation initiative remains waiting; the current product priority is completing Handstand Coach v2 Preview and real-browser validation.
+
 ## Bounded ascent/score diagnosis — pause checkpoint (2026-10-27, before resuming after 13:30 Israel time)
 - Scope: exactly one diagnostic cycle, existing wall MP4 and its existing hold-only WebM; no new video research/download, Gemini request, Vercel/SSO access, deployment or runtime correction. Remaining quota is not exposed to the agent, so a numerical 5% reserve cannot be verified; stopped instead of starting additional attempts.
 - Important evidence limitation: earlier real-video runs retained the source videos, rendered 97/100 and 100/100 and qualitative observations, but NOT the original per-frame poses or per-metric score breakdown. Therefore those exact historical grades cannot be reconstructed or their ascent rejection assigned to a specific gate from the saved totals alone.
