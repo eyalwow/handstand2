@@ -169,3 +169,12 @@ main{width:100%;max-width:1160px}
  .app-nav{max-width:calc(100% - 16px)}
 }
 @media(prefers-reduced-motion:reduce){.feature-action,.supported-movement,.app-nav a{transition:none!important;animation:none!important}}
+
+/* The photo keeps its native portrait ratio at every width: no cropped head,
+   feet, or narrow 235px preview. Height is content-driven, never stretched. */
+.studio-photo{flex:0 0 auto;aspect-ratio:1400 / 2114}
+.studio-photo>img{width:100%;height:auto;min-height:0;aspect-ratio:1400 / 2114;object-fit:contain;object-position:center}
+@media(max-width:740px){
+ .studio-photo{aspect-ratio:1400 / 2114}
+ .studio-photo>img{width:100%;height:auto;min-height:0}
+}
