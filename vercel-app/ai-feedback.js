@@ -14,14 +14,24 @@ const catalog={
  shrug:{name:"דחיפות שכמות בעמידת ידיים נתמכת",dose:"2 × 6–8 חזרות",cue:"לשמור מרפקים ישרים ולדחוף כתפיים גבוה בעזרת הקיר"},
  plank:{name:"פלאנק בזרועות ישרות",dose:"3 × 20–30 שניות",cue:"לשמור מרפקים ישרים עם שכמות יציבות"},
  kick:{name:"בעיטה מדורגת לעמידה ליד קיר",dose:"3 × 3–5 ניסיונות לכל רגל",cue:"להעלות אגן מעל כתפיים ולהאט את הבעיטה"},
- entry:{name:"עלייה הדרגתית בתמיכת קיר",dose:"3 × 3–4 ניסיונות",cue:"לתרגל הגעה לקו אנכי בעזרת קיר יציב"}
+ entry:{name:"עלייה הדרגתית בתמיכת קיר",dose:"3 × 3–4 ניסיונות",cue:"לתרגל הגעה לקו אנכי בעזרת קיר יציב"},
+ shoulderTap:{name:"העברות משקל על ארבע",dose:"3 × 6 לכל צד",cue:"לשמור על כתפיים יציבות בלי לזרוק את האגן"},
+ pikeHold:{name:"החזקת פייק עם רגליים מוגבהות",dose:"3 × 15–20 שניות",cue:"להעמיס בהדרגה על הכתפיים עם ידיים ישרות"},
+ boxHandstand:{name:"עמידת L על קופסה יציבה",dose:"3 × 15–20 שניות",cue:"לדחוף גבוה דרך הכתפיים ולשמור בטן אסופה"},
+ heelPull:{name:"ניתוק עקבים מהקיר",dose:"3 × 3–5 ניסיונות",cue:"לנתק לזמן קצר ולחזור לקיר בשליטה"},
+ safeExit:{name:"תרגול יציאה בטוחה מהעמידה",dose:"3 × 3 יציאות בהשגחה",cue:"לתרגל במרחב פנוי לפני ניסיון חופשי"},
+ wallWalk:{name:"הליכה מדורגת עם הרגליים על הקיר",dose:"3 × 2–3 ניסיונות",cue:"להתקרב בהדרגה תוך שמירה על שליטה בכתפיים"},
+ wristPrep:{name:"הכנת פרקי כף היד",dose:"2 × 30 שניות",cue:"להעמיס בהדרגה ללא כאב"},
+ chestWall:{name:"עמידה בקיר עם בטן אסופה",dose:"3 × 20 שניות",cue:"לכוון צלעות ואגן לקו אחד עם הכתפיים"},
+ tuckBalance:{name:"תרגול איזון בטאק ליד קיר",dose:"3 × 3 ניסיונות",cue:"להזיז את מרכז הגוף לאט תוך הישארות קרוב לקיר"},
+ straddleBalance:{name:"תרגול פיסוק עם תמיכה",dose:"3 × 10–15 שניות",cue:"להתאמן על שליטה ברגליים ללא איבוד הקו"}
 };
 const exerciseMap={
- hold_banana:["hollow","wallLine","shoulderStretch"],hold_lean:["finger","toePull","wallLine"],
- hold_shoulder:["shoulderStretch","shrug","wallLine"],hold_elbow:["plank","wallLine","shrug"],
- hold_sway:["finger","toePull","wallLine"],entry_reach:["kick","entry","toePull"],
- entry_arch:["hollow","wallLine","entry"],entry_shoulder:["shoulderStretch","shrug","entry"],
- entry_elbow:["plank","entry","wallLine"]
+ hold_banana:["hollow","chestWall","wallLine","boxHandstand"],hold_lean:["finger","toePull","heelPull","tuckBalance"],
+ hold_shoulder:["shoulderStretch","shrug","pikeHold","boxHandstand"],hold_elbow:["plank","pikeHold","shoulderTap","wristPrep"],
+ hold_sway:["finger","heelPull","toePull","tuckBalance","safeExit"],entry_reach:["kick","entry","wallWalk","safeExit"],
+ entry_arch:["hollow","chestWall","entry","boxHandstand"],entry_shoulder:["shoulderStretch","shrug","wallWalk","pikeHold"],
+ entry_elbow:["plank","entry","shoulderTap","wristPrep"]
 };
 const names={
  hold_banana:"קו הגוף",hold_lean:"איזון",hold_shoulder:"כתפיים",hold_elbow:"מרפקים",
@@ -56,13 +66,15 @@ function identify(res,ent){
 }
 function evidence(res,ent,issues){
  const allowed=[...new Set(issues.slice(0,3).flatMap(i=>i.drills))];
+ // Strong holds may cautiously progress, but a high 2D score never certifies unsupported balance.
+ if(res?.hold>=3 && res?.total>=80)allowed.push("heelPull","safeExit");
  return {
   kind:"2D side-view pose tracking; no raw video supplied",
   strength:bestMeasuredStrength(res,ent),
-  hold:res?{durationSeconds:n(res.hold),score:Math.round(res.total)}:null,
-  entry:ent?{score:n(ent.total)}:null,
+  hold:res?{durationSeconds:n(res.hold),score:Math.round(res.total),metrics:{bodyLineScore:n(res.sc.banana),pelvisOffsetPercent:n(res.val.banana*100),leanDegrees:n(res.val.lean),shoulderDeficitDegrees:n(res.val.shoulder),elbowDeficitDegrees:n(res.val.elbow),...(res.swayOk?{stabilityScore:n(res.sc.sway),pelvisMovementPercent:n(res.val.sway*100)}:{})},trackingConfidencePercent:res.diagnostics?.visibilityPercent??null}:null,
+  entry:ent?{score:n(ent.total),metrics:{reachScore:n(ent.sc.reach),bodyLineScore:ent.arch===null?null:n(ent.sc.arch),shoulderScore:n(ent.sc.shoulder),elbowScore:n(ent.sc.elbow)}}:null,
   groundedProblems:issues.slice(0,6).map(i=>({key:i.key,score:i.score,finding:i.finding,correction:i.correction})),
-  allowedExerciseIds:allowed.length?allowed:["wallLine","finger","toePull"],
+  allowedExerciseIds:allowed.length?[...new Set(allowed)]:["wallLine","finger","toePull","safeExit"],
   note:"Pose and angles are approximations in one 2D camera plane. Avoid diagnosing injuries; safe wall and clear floor needed."
  };
 }
@@ -124,7 +136,7 @@ function fallbackChoice(measure) {
 function local(issues,measure){
  const variant=fallbackChoice(measure);
  const priorities=issues.slice(0,2),first=priorities[0];
- const summary=first?("בקטע שנמדד, המדד העיקרי לשיפור הוא "+names[first.key]+". "+first.correction):"בקטע שנמדד לא בלטו חריגות משמעותיות במדדים הזמינים. המשך לתרגל ולשמור על קו גוף יציב.";
+ const summary=[measure.hold?("בקטע שנמדד זוהתה החזקה של כ־"+measure.hold.durationSeconds+" שניות. הציון מתייחס לקו הגוף ולא מוכיח איזון ללא תמיכה."):"נמדד שלב העלייה, אך אין מדידת החזקה מספקת.",first?("הנקודה המרכזית לשיפור היא "+names[first.key]+". "+first.correction):"לא נמצאה חריגה בולטת במדדים שניתן היה למדוד.", "המשך לתרגל בשליטה ובמרחב בטוח. צורת הצילום ואיכות הזיהוי משפיעות על מידת הביטחון במשוב."].join("\n\n");
  const choices=[...new Set(priorities.flatMap(i=>i.drills))].filter(id=>measure.allowedExerciseIds.includes(id));
  if(!choices.length)choices.push(...measure.allowedExerciseIds);
  const drills=choices.slice(0,2).map(id=>{const issue=priorities.find(i=>i.drills.includes(id));return{id,reason:issue?"מתמקד במדד "+names[issue.key]+" שנמצא חלש.":"לחיזוק שליטה בסיסית בקו ובאיזון."}});
@@ -137,12 +149,12 @@ function local(issues,measure){
 }
 function validate(raw,measure,issues){
  if(!raw||typeof raw.summary!=="string")throw Error("Gemini לא החזיר תשובה בפורמט הנדרש.");
- const clean=v=>typeof v==="string"?v.trim().slice(0,350):"";
+ const clean=v=>typeof v==="string"?v.trim().slice(0,1700):"";
  const safeText=v=>{const t=clean(v);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח/.test(t)?t:""};
  if(!safeText(raw.summary)) return local(issues,measure);
  // Keep the coach concise and reject empty or excessively verbose summaries.
- const sentenceCount=raw.summary.split(/[.!?؟]+/).map(x=>x.trim()).filter(Boolean).length;
- if(sentenceCount!==2)return local(issues,measure);
+ const paragraphs=raw.summary.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+ if(paragraphs.length<3||paragraphs.length>5||clean(raw.summary).length<160)return local(issues,measure);
  const metrics=new Set(issues.slice(0,6).map(i=>i.key)),allowed=new Set(measure.allowedExerciseIds);
  const byKey=new Map(issues.map(i=>[i.key,i]));
  const observationKeys=new Set();
