@@ -106,7 +106,7 @@ module.exports=async function handler(req,res){
   const seenDrills=new Set();
   const drills=parsed.drills.filter(o=>o&&allowed.has(o.id)&&!seenDrills.has(o.id)&&safeText(o.reason)&&seenDrills.add(o.id)).slice(0,3)
    .map(o=>({id:o.id,reason:short(o.reason)}));
-  if(!report(parsed.summary)||!safeText(report(parsed.summary))||!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
+  if(!report(parsed.summary)||/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף/.test(report(parsed.summary))||!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
   const strength=e.strength&&parsed.strength?.key===e.strength.key&&safeText(parsed.strength.text)&&parsed.strength.text.includes("בחלק שנמדד")?{key:e.strength.key,text:safeText(parsed.strength.text)}:null;
   return send(res,200,{summary:report(parsed.summary),strength,observations,drills});
  }catch{return send(res,503,{message:"Gemini לא זמין כרגע. המשוב המקומי נשאר זמין."})}
