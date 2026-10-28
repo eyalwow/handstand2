@@ -32,7 +32,8 @@ test("analysis-first home retains the honest video analysis flow",()=>{
   assert.match(home,/#out\{display:none/);
   assert.match(home,/<span class="score" id="score"><\/span>/);
   assert.match(home,/id="coachPanel"[^>]* hidden/);
-  assert.match(home,/id="aiConsent" type="checkbox"/);
+  assert.doesNotMatch(home,/id="aiConsent"/);
+  assert.match(home,/id="cloudRequest"/);
   assert.match(home,/הסרטון נשאר במכשיר/);
 });
 

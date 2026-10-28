@@ -1,8 +1,7 @@
 import {bestMeasuredStrength} from "./handstand-summary.js";
-import {getSharedGemini,geminiReady,checkGeminiStatus} from "./server-gemini.js";
-// Handstand AI Coach: only numeric pose measurements go to Gemini, never photos/video.
-// Backend holds shared Gemini secret; app users never enter API keys.
-// When Firebase is not configured or quota is exhausted, local measurements still work.
+import {cloudFeedbackPolicy} from "./server-gemini.js";
+// Athlete feedback is local. Cloud feedback is unavailable under the current provider policy.
+// Keep metric-grounding helpers for future provider review; no startup or analysis network request.
 const $=id=>document.getElementById(id);
 const n=(x,p=1)=>Number(Number(x).toFixed(p));
 const catalog={
@@ -195,72 +194,42 @@ function render(plan,ai){
  $("coachQuality").textContent=plan.quality;
  $("coachPanel").hidden=false;
 }
-let current=null,serial=0,requestController=null;
+let current=null;
 const consentKey="movalyt-ai-measurements-consent-v2";
-let consent=false;
-function cancel(){
- serial++;
- if(requestController){requestController.abort();requestController=null}
+function notice(message){const element=$("cloudNotice");if(element)element.textContent=message}
+function updateRevocation(){
+ const button=$("revokeCloudConsent");if(!button)return;
+ try{button.hidden=localStorage.getItem(consentKey)!=="yes"}
+ catch{button.hidden=false}
 }
 export function resetCoachFeedback(){
- cancel();current=null;$("coachPanel").hidden=true;$("geminiStatus").textContent="";
+ current=null;$("coachPanel").hidden=true;$("geminiStatus").textContent="";
+ notice("");
 }
 export function setupCoach(){
- const check=$("aiConsent");
- try{consent=localStorage.getItem(consentKey)==="yes"}catch{}
- check.checked=consent;
- check.addEventListener("change",()=>{
-  consent=check.checked;
-  try{if(consent)localStorage.setItem(consentKey,"yes");else localStorage.removeItem(consentKey)}catch{}
-  cancel();
-  if(!consent&&current){
-   render(local(current.issues,current.measure),false);
-   $("geminiStatus").textContent="משוב מקומי פעיל. ניתן להפעיל שוב את משוב ה־AI בכל עת.";
-  }else if(consent&&current&&geminiReady()&&!current.requested)void runGemini();
+ // A remembered permission never starts a cloud request, and is not a paid entitlement.
+ updateRevocation();
+ $("cloudRequest")?.addEventListener("click",()=>{
+  if(!current)return;
+  notice(cloudFeedbackPolicy.message);
  });
- void checkGeminiStatus().then(()=>{
-  if(consent&&geminiReady()&&current&&!current.requested)void runGemini();
- }).catch(()=>{});
+ $("revokeCloudConsent")?.addEventListener("click",()=>{
+  try{
+   localStorage.removeItem(consentKey);
+   updateRevocation();
+   notice("ההסכמה השמורה בוטלה. המשוב המקומי נשאר זמין; לא נשלחו נתונים לשירות ענן בגרסה זו.");
+  }catch{
+   notice("לא ניתן לשנות כרגע את ההגדרה השמורה בדפדפן. שירות הענן חסום גם כשהסכמה ישנה שמורה.");
+  }
+  if(current)render(local(current.issues,current.measure),false);
+ });
 }
 export function showCoachFeedback(res,ent){
- cancel();
  const issues=identify(res,ent),measure=evidence(res,ent,issues);
- current={issues,measure,requested:false};
+ current={issues,measure};
  render(local(issues,measure),false);
- if(consent&&geminiReady()){
-  $("geminiStatus").textContent="מכין משוב אישי עם Gemini…";
-  void runGemini();
- }else{
-  $("geminiStatus").textContent=consent?"משוב מקומי פעיל; שירות ה־AI אינו זמין כרגע.":"משוב מקומי פעיל. אפשר להפעיל משוב AI בהגדרות הפרטיות למעלה.";
- }
-}
-async function runGemini(){
- if(!current||!consent||!geminiReady()||current.requested)return;
- current.requested=true;
- const id=++serial,status=$("geminiStatus");
- const {issues,measure}=current;
- const controller=new AbortController();requestController=controller;
- let timer;
- status.textContent="מכין משוב אישי…";
- try{
-  const response=await Promise.race([
-   getSharedGemini(measure,{signal:controller.signal}),
-   new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error("השירות לא השיב בזמן. נסה שוב.")),35000)})
-  ]);
-  if(id!==serial||!consent)return;
-  const plan=validate(response,measure,issues);
-  render(plan,plan.source==="gemini");
-  status.textContent=plan.source==="gemini"?"המשוב נעזר ב־Gemini. הסרטון עצמו נשאר במכשיר.":"תשובת ה־AI לא התאימה למדידה. מוצג משוב מקומי.";
- }catch(err){
-  if(id!==serial)return;
-  const msg=String(err?.message||"שגיאה בחיבור");
-  const isQuota=/429|quota|resource.exhausted|rate.limit/i.test(msg);
-  render(local(issues,measure),false);
-  status.textContent=(isQuota?"שירות ה־AI הגיע למגבלת השימוש. ":"שירות ה־AI אינו זמין כרגע. ")+"המשוב המקומי נשאר זמין.";
- }finally{
-  clearTimeout(timer);
-  if(requestController===controller)requestController=null;
- }
+ $("geminiStatus").textContent="המשוב מבוסס על המדידה במכשיר. לא נשלחו נתוני הניסיון לשירות ענן.";
+ notice("");updateRevocation();
 }
 
 // Named exports support automated safety tests without calling Gemini.
