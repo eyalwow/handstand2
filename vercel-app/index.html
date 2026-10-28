@@ -465,7 +465,7 @@ const seek=(v,t)=>new Promise(r=>{if(Math.abs(v.currentTime-t)<.001)return r();c
 let videoObjectUrl=null;
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
- const timing={kind:"video-analysis",outcome:"error",capturePath:"none"},analysisStarted=performance.now();
+ const timing={kind:"video-analysis",outcome:"error",capturePath:"none",stage:"decode"},analysisStarted=performance.now();
  const controller=new AbortController();activeAnalysis=controller;let analysisTimer;
  e.target.disabled=true;
   resetCoachFeedback();
@@ -481,14 +481,14 @@ $("file").addEventListener("change",async e=>{
   const w=v.videoWidth,h=v.videoHeight,fps=10,n=Math.floor((v.duration-.1)*fps);
   if(!w||!h||!(n>0))throw new Error("video "+dg());
   const cvs=document.createElement("canvas");const sc=Math.min(1,480/Math.max(w,h));cvs.width=Math.round(w*sc);cvs.height=Math.round(h*sc);const cx=cvs.getContext("2d");
-  st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";const modelStarted=performance.now();
+  timing.stage="model";st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";const modelStarted=performance.now();
   const ready=await poseRuntime.init(controller.signal);timing.modelMs=performance.now()-modelStarted;timing.poseDelegate=ready.delegate;
   analysisTimer=setTimeout(()=>controller.abort(new DOMException("הניתוח עבר את מגבלת הזמן.","TimeoutError")),analysisTimeoutMs(v.duration));
   let fr=null,poseMs=0,poseRoundTripMs=0,frameExtractionMs=0,poseFrames=0;const perf={};
   const det=async()=>{const extractionStarted=performance.now(),bitmap=await createImageBitmap(cvs);frameExtractionMs+=performance.now()-extractionStarted;const started=performance.now();
    const result=await poseRuntime.detect(bitmap,controller.signal);poseRoundTripMs+=performance.now()-started;poseMs+=result.inferenceMs;poseFrames++;
    return result.landmarks?result.landmarks.map(p=>({x:p.x*w,y:p.y*h,v:p.v})):null};
-  st.textContent="מנתח את הסרטון...";
+  timing.stage="scan";st.textContent="מנתח את הסרטון...";
   const samplingStarted=performance.now();
   if(v.requestVideoFrameCallback){timing.capturePath="video-frame-callback";fr=await scanPlay(v,n,fps,cx,cvs,det,pg,perf,controller.signal)}
   if(!fr){
@@ -510,7 +510,7 @@ $("file").addEventListener("change",async e=>{
   if(perf.finalPlaybackRate)timing.finalPlaybackRate=perf.finalPlaybackRate;
   if(perf.targetPlaybackRate)timing.targetPlaybackRate=perf.targetPlaybackRate;
   pg.style.display="none";
-  const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
+  timing.stage="scoring";const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
   const res=reliableResult(measuredHold,fps)?measuredHold:null;
   const entryFrames=observedEntryWindow(fr,fps,res);
   const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
@@ -523,7 +523,7 @@ $("file").addEventListener("change",async e=>{
   st.textContent="";
   $("measurementNotice").hidden=reliable;
   $("holdSec").style.display=reliable?"block":"none";
-  if(reliable){
+  timing.stage="render";if(reliable){
    const renderStarted=performance.now();
    await show(res,fr,v,w,h,overall);
    showCoachFeedback(res,ent);
@@ -546,6 +546,7 @@ $("file").addEventListener("change",async e=>{
  }catch(err){pg.style.display="none";console.error(err);poseRuntime.terminate();poseRuntime=new PoseWorkerRuntime();
   if(err?.name==="AbortError"){timing.outcome="cancelled";st.textContent="הניתוח בוטל. לא נשמרה ולא הוצגה תוצאה."}
   else if(err?.name==="TimeoutError"){timing.outcome="timeout";st.textContent="הניתוח נעצר כי העיבוד ארך יותר מדי. לא הוצגה תוצאה; אפשר לנסות סרטון קצר יותר."}
+  else if(timing.stage==="model"){timing.outcome="model-error";st.textContent="רכיב ניתוח התנועה לא נטען בדפדפן הזה. לא הוצגה תוצאה; נסו שוב או עברו לדפדפן מעודכן."}
   else st.textContent="לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."}
  finally{clearTimeout(analysisTimer);if(activeAnalysis===controller)activeAnalysis=null;cancel.hidden=true;timing.totalMs=performance.now()-analysisStarted;reportAnalysisTiming(timing);e.target.disabled=false;e.target.value=""}
 });

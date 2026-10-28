@@ -6,6 +6,8 @@ const html=fs.readFileSync("vercel-app/index.html","utf8");
 const js=fs.readFileSync("vercel-app/ai-feedback.js","utf8");
 const bridge=fs.readFileSync("vercel-app/server-gemini.js","utf8");
 const api=fs.readFileSync("vercel-app/api/coach.js","utf8");
+const poseRuntime=fs.readFileSync("vercel-app/pose-runtime.js","utf8");
+const poseWorker=fs.readFileSync("vercel-app/pose-worker.js","utf8");
 const makeRes=()=>({code:200,headers:{},body:null,
  status(n){this.code=n;return this},
  setHeader(k,v){this.headers[k]=v;return this},
@@ -31,6 +33,14 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.match(html,/לא נשמרה ולא הוצגה תוצאה/);
  assert.ok(html.indexOf('st.textContent="בודק את הסרטון')<html.indexOf("poseRuntime.init(controller.signal)"));
  assert.match(html,/inFlight\?new DOMException/);
+ assert.match(poseRuntime,/new Worker\(workerUrl\)/);
+ assert.doesNotMatch(poseRuntime,/type:\s*["']module["']/);
+ assert.match(poseWorker,/await import\(visionModuleUrl\)/);
+ assert.doesNotMatch(poseWorker,/^import\s+\{/m);
+ assert.match(poseWorker,/vision_bundle\.mjs/);
+ assert.match(html,/רכיב ניתוח התנועה לא נטען בדפדפן הזה/);
+ assert.ok(fs.existsSync("scripts/smoke-mediapipe-worker.py"));
+ assert.ok(fs.existsSync("tests/browser/mediapipe-worker-smoke.html"));
  assert.match(bridge,/signal/);
  assert.match(html,/<video id="v"/);
  assert.match(html,/id="scoreRadar"/);

@@ -38,3 +38,5 @@ jobs:
           node --check vercel-app/api/coach.js
       - name: Run analyzer, privacy, API, and training tests
         run: node --test tests/*.test.*
+      - name: Check Chromium smoke test harness
+        run: python3 -m py_compile scripts/smoke-mediapipe-worker.py

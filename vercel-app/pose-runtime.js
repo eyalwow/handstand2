@@ -1,9 +1,10 @@
 const abortError = reason => reason instanceof Error ? reason : new DOMException("הניתוח בוטל.","AbortError");
 
 export class PoseWorkerRuntime {
-  constructor({workerFactory,workerUrl=new URL("./pose-worker.js",import.meta.url),requestTimeoutMs=15000}={}){
-    this.workerFactory=workerFactory||(()=>new Worker(workerUrl,{type:"module"}));
+  constructor({workerFactory,workerUrl=new URL("./pose-worker.js",import.meta.url),requestTimeoutMs=15000,initOptions={}}={}){
+    this.workerFactory=workerFactory||(()=>new Worker(workerUrl));
     this.requestTimeoutMs=requestTimeoutMs;
+    this.initOptions=initOptions;
     this.worker=null;this.pending=new Map();this.nextId=1;this.timestamp=0;this.ready=null;
   }
   ensureWorker(){
@@ -36,7 +37,7 @@ export class PoseWorkerRuntime {
     this.pending.clear();this.terminate();
   }
   init(signal){
-    if(!this.ready)this.ready=this.request("init",{},signal,45000).catch(error=>{this.ready=null;throw error});
+    if(!this.ready)this.ready=this.request("init",this.initOptions,signal,45000).catch(error=>{this.ready=null;throw error});
     return this.ready;
   }
   async detect(bitmap,signal){
