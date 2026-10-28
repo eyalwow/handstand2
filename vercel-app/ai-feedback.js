@@ -66,6 +66,7 @@ function identify(res,ent){
 }
 function evidence(res,ent,issues){
  const allowed=[...new Set(issues.slice(0,3).flatMap(i=>i.drills))];
+ if(!allowed.length)allowed.push("wallLine","finger","toePull");
  // Strong holds may cautiously progress, but a high 2D score never certifies unsupported balance.
  if(res?.hold>=3 && res?.total>=80)allowed.push("heelPull","safeExit");
  return {
