@@ -1,4 +1,8 @@
 "use strict";
+// Athlete endpoint. Fixed policy closure is independent of credentials and consent.
+// Separate preview/ Coach implementation is unchanged.
+const CLOUD_FEEDBACK_ALLOWED=false;
+const POLICY_REASON="provider_audience_review_required";
 // Server-only Gemini key, never exposed to frontend or git.
 // Best-effort per-instance throttling only. Keep Google API billing disabled for this prototype.
 const VALID_DRILLS=new Set(["hollow","wallLine","toePull","finger","shoulderStretch","shrug","plank","kick","entry","freeHandstand","toeBalance","shoulderTap","pikeHold","boxHandstand","heelPull","safeExit","wallWalk","wristPrep","chestWall","tuckBalance","straddleBalance"]);
@@ -45,8 +49,9 @@ const RULES=[
  'Shape: {"strength":{"key":"groundedStrength.key only, or null","text":"one evidence-based positive in Hebrew"},"summary":"Hebrew","observations":[{"key":"metric key","finding":"measured value in Hebrew","correction":"one specific cue"}],"drills":[{"id":"allowed exercise ID","reason":"specific link to weakness"}]}'
 ].join("\n");
 module.exports=async function handler(req,res){
- if(req.method==="GET")return send(res,200,{enabled:!!process.env.GEMINI_API_KEY});
+ if(req.method==="GET")return send(res,200,{enabled:false,reason:POLICY_REASON});
  if(req.method!=="POST")return send(res,405,{message:"Method not allowed"});
+ if(!CLOUD_FEEDBACK_ALLOWED)return send(res,403,{code:POLICY_REASON,message:"משוב ענן אינו זמין באפליקציה זו. הניתוח המקומי נשאר זמין."});
  if(!process.env.GEMINI_API_KEY)return send(res,503,{message:"Gemini עדיין לא הוגדר על ידי בעל האתר."});
  const origin=req.headers.origin;
  if(origin){try{if(new URL(origin).host!==req.headers.host)return send(res,403,{message:"Origin not allowed"})}catch{return send(res,403,{message:"Origin not allowed"})}}
