@@ -79,6 +79,8 @@ module.exports=async function handler(req,res){
  const model=String(process.env.GEMINI_MODEL||"gemini-3.5-flash-lite");
  if(!["gemini-3.5-flash-lite","gemini-3.6-flash","gemini-3.8-flash"].includes(model))return send(res,500,{message:"Invalid model"});
  const controller=new AbortController();
+ req.on?.("aborted",()=>controller.abort());
+ res.on?.("close",()=>{if(!res.writableEnded)controller.abort()});
  const timer=setTimeout(()=>controller.abort(),24000);
  try{
   const response=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent",{
@@ -99,16 +101,18 @@ module.exports=async function handler(req,res){
   const short=x=>typeof x==="string"?x.trim().slice(0,330):"";
   const report=x=>typeof x==="string"?x.trim().slice(0,1700):"";
   // Generative claims with numbers or medical diagnoses are unsupported; prefer local fallback.
-  const safeText=x=>{const t=short(x);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח/.test(t)?t:""};
+  const unsafe=/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח|הרמה שלך|ברמת (?:מתחיל|ביניים|מתקדם)|מתאמן (?:מתחיל|מתקדם)|מוכ(?:ן|נה|נים|נות) (?:ל|לעמידת)|יכולת (?:גבוהה|נמוכה|מתקדמת)/;
+  const safeText=x=>{const t=short(x);return t&&!unsafe.test(t)?t:""};
   const seen=new Set();
   const observations=parsed.observations.filter(o=>o&&permit.has(o.key)&&!seen.has(o.key)&&safeText(o.correction)&&seen.add(o.key)).slice(0,2)
    .map(o=>({key:o.key,finding:e.groundedProblems.find(p=>p.key===o.key).finding,correction:short(o.correction)}));
   const seenDrills=new Set();
   const drills=parsed.drills.filter(o=>o&&allowed.has(o.id)&&!seenDrills.has(o.id)&&safeText(o.reason)&&seenDrills.add(o.id)).slice(0,3)
    .map(o=>({id:o.id,reason:short(o.reason)}));
-  if(!report(parsed.summary)||/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף/.test(report(parsed.summary))||!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
+  const summary=report(parsed.summary),paragraphs=summary.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+  if(!summary||unsafe.test(summary)||!summary.includes("נמדד")||summary.length<160||paragraphs.length<3||paragraphs.length>5||!drills.length||(e.groundedProblems.length&&!observations.length))return send(res,502,{message:"Gemini לא החזיר המלצות מבוססות מדידה."});
   const strength=e.strength&&parsed.strength?.key===e.strength.key&&safeText(parsed.strength.text)&&parsed.strength.text.includes("בחלק שנמדד")?{key:e.strength.key,text:safeText(parsed.strength.text)}:null;
-  return send(res,200,{summary:report(parsed.summary),strength,observations,drills});
+  return send(res,200,{summary,strength,observations,drills});
  }catch{return send(res,503,{message:"Gemini לא זמין כרגע. המשוב המקומי נשאר זמין."})}
  finally{clearTimeout(timer)}
 };

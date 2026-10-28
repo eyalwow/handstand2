@@ -22,7 +22,8 @@ export function bestMeasuredStrength(hold,entry) {
 export function observedEntryWindow(fr,fps,hold) {
   const stop=hold?.diagnostics?.startFrame ?? fr.length-1;
   const side=hold?.k || {wrist:15,elbow:13,shoulder:11,hip:23,ankle:27};
-  const valid=f=>f&&Object.values(side).every(i=>f[i]&&f[i].v>=.65&&Number.isFinite(f[i].x)&&Number.isFinite(f[i].y));
+  const required=[side.wrist,side.elbow,side.shoulder,side.hip,side.ankle];
+  const valid=f=>f&&required.every(i=>f[i]&&f[i].v>=.65&&Number.isFinite(f[i].x)&&Number.isFinite(f[i].y));
   const inverted=f=>valid(f)&&f[side.hip].y<f[side.shoulder].y&&f[side.ankle].y<f[side.shoulder].y&&f[side.wrist].y>f[side.shoulder].y;
   let end=-1;
   for(let i=0;i<=Math.min(fr.length-3,stop+3);i++) if(inverted(fr[i])&&inverted(fr[i+1])&&inverted(fr[i+2])){end=i+2;break;}
@@ -41,4 +42,31 @@ export function observedEntryWindow(fr,fps,hold) {
   const body=Math.hypot(last[side.ankle].x-last[side.shoulder].x,last[side.ankle].y-last[side.shoulder].y);
   if(body<=0 || first[side.hip].y-last[side.hip].y<body*.15)return null;
   return segment.map(f=>valid(f)?f:null);
+}
+
+// Replay boundaries are only labelled when adjacent reliable body samples show
+// a standing-to-inverted or inverted-to-standing transition. Missing phases
+// fall back to a bounded context window around the measured hold.
+export function observedExerciseWindow(fr,fps,hold) {
+  const diag=hold?.diagnostics;
+  if(!diag)return null;
+  const side=hold.k || {wrist:15,shoulder:11,hip:23,ankle:27};
+  const body=[side.wrist,side.shoulder,side.hip,side.ankle];
+  const visible=(f,min)=>f&&body.every(i=>f[i]&&f[i].v>=min&&Number.isFinite(f[i].x)&&Number.isFinite(f[i].y));
+  const inverted=f=>visible(f,.6)&&f[side.hip].y<f[side.shoulder].y&&f[side.ankle].y<f[side.shoulder].y&&f[side.wrist].y>f[side.shoulder].y;
+  const standing=f=>visible(f,.65)&&f[side.hip].y>f[side.shoulder].y&&f[side.ankle].y>f[side.shoulder].y;
+  const st=diag.startFrame,en=diag.endFrame;
+  let start=Math.max(0,st-Math.round(fps*2)),end=Math.min(fr.length-1,en+Math.round(fps*.9));
+  let observedStart=false,observedEnd=false;
+  for(let i=st-2;i>=Math.max(1,st-Math.round(fps*5));i--){
+    if(standing(fr[i])&&standing(fr[i-1])&&fr.slice(i+1,st+1).some(inverted)){
+      start=Math.max(0,i-Math.round(fps*.2));observedStart=true;break;
+    }
+  }
+  for(let i=en+1;i<Math.min(fr.length-1,en+Math.round(fps*5));i++){
+    if(standing(fr[i])&&standing(fr[i+1])){
+      end=Math.min(fr.length-1,i+Math.round(fps*.2));observedEnd=true;break;
+    }
+  }
+  return {start,end,observedStart,observedEnd};
 }
