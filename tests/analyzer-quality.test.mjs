@@ -18,6 +18,7 @@ function frame(visibility=1,offset=0){
 test("clear held line yields a high single overall score and is eligible to compare",()=>{
  const res=context.analyze(Array.from({length:25},()=>frame()),10);
  assert.ok(res.total>=95);
+ assert.equal(res.hold,2.5);
  assert.equal(context.reliableResult(res,10),true);
 });
 test("short, poorly visible and fragmented tracks do not qualify for a score",()=>{

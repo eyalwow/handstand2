@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {overallHandstandScore,observedEntryWindow,bestMeasuredStrength} from "../vercel-app/handstand-summary.js";
+import {overallHandstandScore,observedEntryWindow,observedExerciseWindow,bestMeasuredStrength} from "../vercel-app/handstand-summary.js";
 import {analyzeCoachIssues,buildCoachEvidence,buildCoachLocalPlan,validateCoachResponse} from "../vercel-app/ai-feedback.js";
 
 test("one score renormalizes missing phases rather than penalizing unseen footage",()=>{
@@ -23,6 +23,17 @@ test("entry detector rejects already-held footage, incomplete ascent and poor tr
  const noisy=entry.map((f,i)=>i%2?null:f);
  assert.equal(observedEntryWindow(noisy,10,null),null);
  assert.equal(observedEntryWindow(entry.map(f=>f.map(p=>({...p,v:.4}))),10,null),null);
+ const obscuredEar=entry.map(f=>{const copy=f.map(p=>({...p}));copy[7].v=.1;return copy});
+ assert.ok(observedEntryWindow(obscuredEar,10,{k:{ear:7,wrist:15,elbow:13,shoulder:11,hip:23,ankle:27},diagnostics:{startFrame:14}}));
+});
+test("replay crop labels only observed ascent and descent boundaries",()=>{
+ const standing=()=>frame(300,360),inverted=()=>frame(160,80);
+ const complete=[...Array.from({length:5},standing),...Array.from({length:10},inverted),...Array.from({length:10},standing)];
+ const hold={k:{wrist:15,elbow:13,shoulder:11,hip:23,ankle:27},diagnostics:{startFrame:8,endFrame:14}};
+ assert.deepEqual(observedExerciseWindow(complete,10,hold),{start:2,end:17,observedStart:true,observedEnd:true});
+ const noDescent=complete.map((f,i)=>i>14?inverted():f);
+ assert.deepEqual(observedExerciseWindow(noDescent,10,hold),{start:2,end:23,observedStart:true,observedEnd:false});
+ assert.equal(observedExerciseWindow(complete,10,null),null);
 });
 test("Gemini wording is displayed, grounded findings stay anchored, fabricated keys and numbers do not pass",()=>{
  const res={val:{banana:.11,lean:4,shoulder:0,elbow:0,sway:0},sc:{banana:35,lean:75,shoulder:98,elbow:95,sway:99},total:74,hold:3,swayOk:true};

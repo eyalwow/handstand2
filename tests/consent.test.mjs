@@ -12,11 +12,11 @@ test("a user's pose measurements reach the server only after consent, and revoca
  globalThis.document={getElementById(id){if(!nodes.has(id))nodes.set(id,element(id));return nodes.get(id)},createElement(){return element()}};
  const data=new Map();
  globalThis.localStorage={getItem(k){return data.get(k)||null},setItem(k,v){data.set(k,v)},removeItem(k){data.delete(k)}};
- let posts=0,holdNext=false,release;
+ let posts=0,holdNext=false,activeSignal;
  globalThis.fetch=async(url,options={})=>{
   if(options.method!=="POST")return{ok:true,json:async()=>({enabled:true})};
   posts++;
-  if(holdNext)return new Promise(resolve=>{release=resolve});
+  if(holdNext)return new Promise((_resolve,reject)=>{activeSignal=options.signal;options.signal.addEventListener("abort",()=>reject(new Error("aborted")),{once:true})});
   return{ok:true,json:async()=>({summary:"ok",observations:[],drills:[{id:"wallLine",reason:"קו"}]})};
  };
  setupCoach();
@@ -42,8 +42,8 @@ test("a user's pose measurements reach the server only after consent, and revoca
  await new Promise(r=>setTimeout(r,0));
  assert.equal(posts,2);
  checkbox.checked=false;checkbox.listeners.change();
- release({ok:true,json:async()=>({summary:"הביצוע מושלם",observations:[],drills:[{id:"wallLine",reason:"קו"}]})});
  await new Promise(r=>setTimeout(r,0));
+ assert.equal(activeSignal.aborted,true);
  assert.equal(document.getElementById("coachBadge").textContent,"משוב מדידות");
  assert.notEqual(document.getElementById("coachSummary").textContent,"הביצוע מושלם");
 

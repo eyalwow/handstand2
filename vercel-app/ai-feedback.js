@@ -151,7 +151,7 @@ function local(issues,measure){
 function validate(raw,measure,issues){
  if(!raw||typeof raw.summary!=="string")throw Error("Gemini לא החזיר תשובה בפורמט הנדרש.");
  const clean=v=>typeof v==="string"?v.trim().slice(0,1700):"";
- const safeText=v=>{const t=clean(v);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח/.test(t)?t:""};
+ const safeText=v=>{const t=clean(v);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח|הרמה שלך|ברמת (?:מתחיל|ביניים|מתקדם)|מתאמן (?:מתחיל|מתקדם)|מוכ(?:ן|נה|נים|נות) (?:ל|לעמידת)|יכולת (?:גבוהה|נמוכה|מתקדמת)/.test(t)?t:""};
  if(!safeText(raw.summary)) return local(issues,measure);
  // Keep the coach concise and reject empty or excessively verbose summaries.
  const paragraphs=raw.summary.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
@@ -195,12 +195,12 @@ function render(plan,ai){
  $("coachQuality").textContent=plan.quality;
  $("coachPanel").hidden=false;
 }
-let current=null,serial=0;
+let current=null,serial=0,requestController=null;
 const consentKey="movalyt-ai-measurements-consent-v2";
 let consent=false;
 function cancel(){
  serial++;
-
+ if(requestController){requestController.abort();requestController=null}
 }
 export function resetCoachFeedback(){
  cancel();current=null;$("coachPanel").hidden=true;$("geminiStatus").textContent="";
@@ -239,11 +239,12 @@ async function runGemini(){
  current.requested=true;
  const id=++serial,status=$("geminiStatus");
  const {issues,measure}=current;
+ const controller=new AbortController();requestController=controller;
  let timer;
  status.textContent="מכין משוב אישי…";
  try{
   const response=await Promise.race([
-   getSharedGemini(measure),
+   getSharedGemini(measure,{signal:controller.signal}),
    new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error("השירות לא השיב בזמן. נסה שוב.")),35000)})
   ]);
   if(id!==serial||!consent)return;
@@ -258,6 +259,7 @@ async function runGemini(){
   status.textContent=(isQuota?"שירות ה־AI הגיע למגבלת השימוש. ":"שירות ה־AI אינו זמין כרגע. ")+"המשוב המקומי נשאר זמין.";
  }finally{
   clearTimeout(timer);
+  if(requestController===controller)requestController=null;
  }
 }
 
