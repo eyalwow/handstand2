@@ -1,15 +1,21 @@
 {
   "name": "MOVALYT — Master Your Movement",
   "short_name": "MOVALYT",
-  "description": "ניתוח וידאו לתנועה, אימונים וספריית תרגילים",
+  "description": "ניתוח טכניקת תרגילים בווידאו — עמידת ידיים, מעקב תנועה ומשוב מקומי",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#070907",
-  "theme_color": "#070907",
+  "background_color": "#080b09",
+  "theme_color": "#080b09",
   "lang": "he",
   "dir": "rtl",
   "icons": [
+    {
+      "src": "assets/brand/movalyt-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
