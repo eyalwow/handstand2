@@ -1,0 +1,37 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>MediaPipe classic Worker smoke test</title>
+<canvas id="frame" width="512" height="512"></canvas>
+<pre id="result">running</pre>
+<script type="module">
+import {PoseWorkerRuntime} from "/vercel-app/pose-runtime.js";
+const output=document.querySelector("#result"),canvas=document.querySelector("#frame");
+const initOptions={
+  visionModuleUrl:new URL("/vendor/vision_bundle.mjs",location).href,
+  wasmRoot:new URL("/vendor/wasm",location).href,
+  modelAssetPath:new URL("/vendor/pose_landmarker_lite.task",location).href,
+  preferredDelegate:"CPU"
+};
+const workerUrl=new URL("/vercel-app/pose-worker.js",location);
+const makeRuntime=requestTimeoutMs=>new PoseWorkerRuntime({workerUrl,requestTimeoutMs,initOptions});
+const bitmap=async size=>{canvas.width=canvas.height=size;const context=canvas.getContext("2d");context.fillStyle="#111";context.fillRect(0,0,size,size);return createImageBitmap(canvas)};
+const expectRejection=async(promise,name)=>{try{await promise;throw new Error("Expected "+name)}catch(error){if(error.name!==name)throw error}};
+try{
+  const loadController=new AbortController(),cancelledLoad=makeRuntime(30000);
+  const loading=cancelledLoad.init(loadController.signal);setTimeout(()=>loadController.abort(new DOMException("cancel load","AbortError")),10);
+  await expectRejection(loading,"AbortError");
+
+  const inferenceController=new AbortController(),cancelledInference=makeRuntime(30000);
+  await cancelledInference.init();const cancelling=cancelledInference.detect(await bitmap(512),inferenceController.signal);
+  setTimeout(()=>inferenceController.abort(new DOMException("cancel inference","AbortError")),10);
+  await expectRejection(cancelling,"AbortError");
+
+  const timedOut=makeRuntime(5);await timedOut.init();
+  await expectRejection(timedOut.detect(await bitmap(512)),"TimeoutError");
+
+  const recovered=makeRuntime(30000),started=performance.now(),ready=await recovered.init(),modelMs=performance.now()-started;
+  const inferenceStarted=performance.now(),result=await recovered.detect(await bitmap(256)),inferenceWallMs=performance.now()-inferenceStarted;
+  const report={status:"pass",delegate:ready.delegate,modelMs,inferenceMs:result.inferenceMs,inferenceWallMs,landmarkSets:result.landmarks?1:0,cancelLoad:true,cancelInference:true,timeout:true,retry:true};
+  recovered.terminate();document.body.dataset.status="pass";output.textContent=JSON.stringify(report);
+}catch(error){document.body.dataset.status="fail";output.textContent=JSON.stringify({status:"fail",name:error.name,message:error.message,stack:error.stack})}
+</script>

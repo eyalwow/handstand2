@@ -6,6 +6,8 @@ const html=fs.readFileSync("vercel-app/index.html","utf8");
 const js=fs.readFileSync("vercel-app/ai-feedback.js","utf8");
 const bridge=fs.readFileSync("vercel-app/server-gemini.js","utf8");
 const api=fs.readFileSync("vercel-app/api/coach.js","utf8");
+const poseRuntime=fs.readFileSync("vercel-app/pose-runtime.js","utf8");
+const poseWorker=fs.readFileSync("vercel-app/pose-worker.js","utf8");
 const makeRes=()=>({code:200,headers:{},body:null,
  status(n){this.code=n;return this},
  setHeader(k,v){this.headers[k]=v;return this},
@@ -25,7 +27,21 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.match(bridge,/fetch\("\/api\/coach"/);
  assert.match(html,/showCoachFeedback\(res,(?:ent|null)\)/);
  assert.match(html,/טכניקה בלבד/);
- assert.match(html,/rate=elapsed<500\/fps\?Math\.min\(2,rate\+\.05\):1/);
+ assert.match(html,/playbackRateForPoseCost\(poseCost,fps\)/);
+ assert.match(html,/new PoseWorkerRuntime\(\)/);
+ assert.match(html,/id="cancelAnalysis"/);
+ assert.match(html,/לא נשמרה ולא הוצגה תוצאה/);
+ assert.ok(html.indexOf('st.textContent="בודק את הסרטון')<html.indexOf("poseRuntime.init(controller.signal)"));
+ assert.match(html,/inFlight\?new DOMException/);
+ assert.match(poseRuntime,/new Worker\(workerUrl\)/);
+ assert.doesNotMatch(poseRuntime,/type:\s*["']module["']/);
+ assert.match(poseWorker,/await import\(visionModuleUrl\)/);
+ assert.doesNotMatch(poseWorker,/^import\s+\{/m);
+ assert.match(poseWorker,/vision_bundle\.mjs/);
+ assert.match(html,/רכיב ניתוח התנועה לא נטען בדפדפן הזה/);
+ assert.ok(fs.existsSync("scripts/smoke-mediapipe-worker.py"));
+ assert.ok(fs.existsSync("tests/browser/mediapipe-worker-smoke.html"));
+ assert.match(bridge,/signal/);
  assert.match(html,/<video id="v"/);
  assert.match(html,/id="scoreRadar"/);
  assert.match(html,/id="scoreBreakdown"/);
@@ -59,7 +75,7 @@ test("API validates input and only returns grounded findings and allowed exercis
   assert.ok(!JSON.stringify(options.body).includes("data:video"));
   assert.ok(!options.body.includes("SENSITIVE_SENTINEL"), "unexpected user fields must never reach Google");
   return{ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({
-   summary:"כדאי לתרגל קו גוף יציב",
+   summary:"בחלק שנמדד זוהתה החזקה שמאפשרת להעריך את קו הגוף, אך אינה מוכיחה איזון ללא תמיכה. הממצאים מוגבלים למקטע שנקלט בביטחון.\n\nקו הגוף הוא הנקודה המרכזית שכדאי לדייק לפי המדד שנמדד. שאר החלקים שלא נכללו במדידה אינם בסיס למסקנה.\n\nכדאי לתרגל קו גוף יציב ליד קיר בטוח ולהתקדם לפי שליטה בפועל. ההמלצה מבוססת על המדד המקומי בלבד.",
    observations:[{key:"hold_banana",finding:"מומצא 90 מעלות",correction:"אסוף בטן"}],
    drills:[{id:"hollow",reason:"שיפור קו גוף"},{id:"inventedMove",reason:"לא מותר"}]
   })}]}}]})};
@@ -98,6 +114,12 @@ test("upstream quota failures and unsafe generated claims fail closed",async()=>
   })}]}}]})});
   response=makeRes();await handler(request(),response);
   assert.equal(response.code,502);
+  global.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({
+   summary:"בחלק שנמדד קו הגוף נראה עקבי. המקטע מאפשר הערכה מוגבלת בלבד.\n\nהרמה שלך מתקדמת ואתה מוכן לעמידת ידיים חופשית, גם בלי מידע על תמיכה. זו מסקנה על היכולת הכללית.\n\nכדאי להמשיך לתרגל בזהירות ליד קיר יציב ובשטח פנוי.",
+   observations:[{key:"hold_banana",correction:"אסוף בטן"}],drills:[{id:"hollow",reason:"שיפור קו גוף"}]
+  })}]}}]})});
+  response=makeRes();await handler(request(),response);
+  assert.equal(response.code,502);
  }finally{
   global.fetch=original;
   if(previous===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=previous;
@@ -106,7 +128,7 @@ test("upstream quota failures and unsafe generated claims fail closed",async()=>
 
 test("real-video regression: Gemini cannot broaden praise to the entire exercise",async()=>{
  const previous=process.env.GEMINI_API_KEY,original=global.fetch;process.env.GEMINI_API_KEY="TEST_NO_REAL_KEY";
- let summary="קו הגוף נראה טוב בחלק שנמדד.";
+ let summary="בחלק שנמדד קו הגוף נראה עקבי, וההערכה מוגבלת למקטע שנקלט בביטחון. המדידה אינה קובעת אם הייתה תמיכה.\n\nהזרועות והכתפיים נכללו במדדים שנמדדו, ללא מסקנה על רגעים שמחוץ למקטע. אין כאן קביעה על רמת המתאמן.\n\nכדאי להמשיך לתרגל קו אחיד ליד קיר בטוח ולבחון את ההתקדמות לפי ביצועים נוספים. זווית הצילום עשויה להשפיע על ההערכה.";
  global.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({summary,strength:{key:"hold_banana",text:"שמרת על גוף ארוך ומתוח לאורך כל התרגיל."},observations:[],drills:[{id:"wallLine",reason:"לשימור קו הגוף."}]})}]}}]})});
  const evidence={...measure,strength:{key:"hold_banana",score:99},groundedProblems:[]};
  const request=()=>({...req("POST",{evidence}),headers:{...req("POST").headers,"x-real-ip":"198.51.100.91"}});
