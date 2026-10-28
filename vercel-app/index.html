@@ -250,6 +250,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
    <p class="note" id="replayTrimNotice">מקטע העמידה שנמדד</p>
   <div class="skeleton-control"><label><input id="showSkeleton" type="checkbox" checked> הצגת קווי שלד</label></div>
   <canvas id="cv"></canvas>
+  <div id="replayMoments" class="replay-moments" aria-label="רגעים לצפייה" hidden></div>
   <div dir="ltr" style="margin-top:12px"><input id="scrub" type="range" min="0" max="1" step="0.01" value="0" style="width:100%;accent-color:var(--acc)" aria-label="מיקום בסרטון"></div>
   <div style="display:flex;gap:8px;margin-top:8px">
    <button id="prev" class="ctl">פריים קודם</button>
@@ -586,6 +587,11 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
  const posOf=()=>(v.currentTime-.05)*fps;
  const loop=()=>{if(v.currentTime>=(.05+end/fps)){v.pause();v.currentTime=.05+start/fps;draw(start);return}draw(posOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
  const goTo=async p=>{pend=p;if(busy)return;busy=true;while(pend!=null){const q=Math.max(start,Math.min(end,pend));pend=null;await seek(v,.05+q/fps);draw(q)}busy=false};
+ const moments=$("replayMoments");moments.replaceChildren();moments.hidden=!windowFrames;
+ if(windowFrames){
+  const points=[...(windowFrames.observedStart?[[start,"תחילת העלייה"]]:[]),[Math.max(start,Math.min(end,mid)),"רגע המדידה"],...(windowFrames.observedEnd?[[end,"סיום התנועה"]]:[])];
+  for(const [frame,label] of points){const button=document.createElement("button");button.type="button";button.className="moment-button";button.textContent=label+" · "+(.05+frame/fps).toFixed(1)+" שנ׳";button.onclick=()=>{v.pause();goTo(frame)};moments.append(button);}
+ }
  const pb=$("play");
  pb.onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=(.05+end/fps)||v.currentTime<(.05+start/fps))v.currentTime=.05+start/fps;v.playbackRate=rate;await v.play();pb.textContent="עצור";loop()}else v.pause()};
  v.onpause=()=>{pb.textContent="נגן"};

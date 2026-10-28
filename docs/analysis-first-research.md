@@ -30,3 +30,12 @@ Charcoal #111213, warm white, restrained lime #c1ed62, rounded tactile actions, 
 3. Can you film a usable attempt using only the capture guidance?
 4. After a report, name the first technique change you would try and show the video evidence for it.
 5. What do you think is saved or sent off your device, and can you distinguish supported analysis from Coming Soon?
+
+## Verification and remaining work
+- Branch ui/analysis-first is based on #21 head 249fcae, which contains #20 ce402f7. The analysis-first direction replaces the training-first Home; useful replay improvements remain.
+- 50/50 Node tests pass locally, including new corrupt/empty history preservation, valid score filtering and compatible-only comparison tests. Existing analyzer, consent, server and workout tests pass. Inline/module syntax checks pass.
+- Initial new Preview b6cf224: actual in-app browser Home and capture at 1440/390/320 have no horizontal overflow. Photograph loads at natural width 1400; report hidden and AI consent false before analysis. History empty state and navigation verified. BEFORE/AFTER and capture screenshots exported separately.
+- No new human-video test was performed. Real report appearance, observed-moment jumps, complete upload/error/cancel flow, live Gemini, physical iOS/Android camera and offline cold start remain unverified for this change. The existing pipeline and its quality thresholds were preserved. Local video processing does not mean the model/fonts work offline on first load.
+- Historical records contain only date/score/model: no previous-video replay or frame comparison can be honestly offered. Score comparisons appear only for matching recorded model variants and include a camera/wall caveat. No schema migration or user-data rewrite.
+- Style 4 and its animation pilot remain unapproved and undelivered. Existing document still applies; skill-progression sequences should show distinct reviewed frames rather than simulated motion. No paid service was invoked.
+- Remaining visual/product work: coach-reviewed technique photography or original Style 4 pilot; human-video report QA and physical mobile QA; stronger per-finding video anchors beyond the observed phase shortcuts. These are not claimed complete.
