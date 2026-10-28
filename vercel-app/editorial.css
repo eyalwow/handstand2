@@ -1,7 +1,7 @@
 /* Performance Editorial: content, rules, and a restrained action color. */
 .radar-wrap{align-self:start;height:fit-content}
 .metric-row .bar i{background:#8c967f!important}
-.skip-link{top:-100px!important;transform:none!important}.skip-link:focus{top:8px!important}
+.skip-link{top:8px!important;transform:none!important;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}.skip-link:focus{clip-path:none;width:auto;height:auto;overflow:visible}
 #holdSec:not([style*="none"]){display:grid!important}
 @media(max-width:600px){#holdSec:not([style*="none"]){display:block!important}}
 :root{--bg:#111213;--card:#191b1d;--soft:#191b1d;--ink:#f0f0eb;--mute:#b3b5b4;--line:#3b3e40;--acc:#c1ed62;--acc-ink:#19200e}
