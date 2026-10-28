@@ -195,7 +195,7 @@ function render(plan,ai){
  $("coachPanel").hidden=false;
 }
 let current=null,serial=0;
-const consentKey="handstand-lab-ai-consent-v1";
+const consentKey="movalyt-ai-measurements-consent-v2";
 let consent=false;
 function cancel(){
  serial++;
