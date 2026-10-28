@@ -142,7 +142,7 @@ function validate(raw,measure,issues){
  if(!safeText(raw.summary)) return local(issues,measure);
  // Keep the coach concise and reject empty or excessively verbose summaries.
  const sentenceCount=raw.summary.split(/[.!?؟]+/).map(x=>x.trim()).filter(Boolean).length;
- if(sentenceCount<1||sentenceCount>3)return local(issues,measure);
+ if(sentenceCount!==2)return local(issues,measure);
  const metrics=new Set(issues.slice(0,6).map(i=>i.key)),allowed=new Set(measure.allowedExerciseIds);
  const byKey=new Map(issues.map(i=>[i.key,i]));
  const observationKeys=new Set();
