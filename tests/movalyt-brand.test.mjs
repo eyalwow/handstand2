@@ -11,7 +11,6 @@ const manifest=JSON.parse(read("../vercel-app/app.webmanifest"));
 test("MOVALYT brand is consistent across athlete surfaces",()=>{
   for(const page of [home,training,workout]){
     assert.match(page,/MOVALYT/);
-    assert.match(page,/MASTER YOUR MOVEMENT/);
     assert.doesNotMatch(page,/HANDSTAND LAB|Handstand Lab/);
   }
   assert.equal(manifest.name,"MOVALYT — Master Your Movement");
@@ -20,8 +19,9 @@ test("MOVALYT brand is consistent across athlete surfaces",()=>{
   assert.equal(manifest.scope,"./");
 });
 
-test("video analysis remains the primary honest product flow",()=>{
-  assert.match(home,/AI VIDEO ANALYSIS · HANDSTAND BETA/);
+test("training home retains the honest video analysis flow",()=>{
+  assert.match(home,/id="home-start"/);
+  assert.match(home,/href="#analyze"/);
   assert.match(home,/עמידת ידיים היא התנועה הראשונה שנתמכת/);
   assert.match(home,/הווידאו נשאר במכשיר/);
   for(const id of ["analyzerView","file","status","prog","out","coachPanel","replaySec"]){

@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#070907">
 <link rel="manifest" href="./app.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
-<title>MOVALYT — Master Your Movement</title>
+<title>MOVALYT — אימון ותנועה</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -197,48 +197,52 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 
 .coach-strength{padding:12px 15px;border-inline-start:3px solid #B6FF4A;background:#22311c;border-radius:10px;font-size:15px}.skeleton-control{margin:12px 0}.skeleton-control label{display:flex;align-items:center;gap:9px;font-size:14px}.skeleton-control input{width:22px;height:22px;accent-color:#B6FF4A}.coach-drills{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.coach-drills{grid-template-columns:1fr}.coach-observation{padding:14px}.coach-summary{font-size:17px}}
 </style>
+<link rel="stylesheet" href="./editorial.css">
 
 </head>
 <body>
+<a class="skip-link" href="#home-title">דילוג לתוכן</a>
 <main>
 <header class="brand" aria-label="MOVALYT">
-  <a class="brand-name" href="#home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-lockup"><strong class="brand-product">MOVALYT</strong><small class="brand-tagline">MASTER YOUR MOVEMENT</small></span></a>
-  <span class="brand-caption">AI MOVEMENT LAB</span>
+  <a class="brand-name" href="#home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-lockup"><strong class="brand-product">MOVALYT</strong><small class="brand-tagline">TRAINING / MOVEMENT</small></span></a>
+  <a class="brand-caption" href="./training.html#progress-title">יומן אימונים</a>
 </header>
 <section id="homeView" aria-labelledby="home-title">
  <div class="home-greeting">
-  <span class="kicker">MOVEMENT INTELLIGENCE</span>
-  <h1 id="home-title" tabindex="-1">לראות את התנועה.<br>להבין איך להתקדם.</h1>
-  <p>MOVALYT מחבר בין ניתוח וידאו, משוב ממוקד ואימון שנשמר אצלכם.</p>
+  <span class="kicker">האימון שלך</span>
+  <h1 id="home-title" tabindex="-1">האימון הבא שלך.</h1>
+  <p>התוכנית, התרגול וההתקדמות — במקום אחד.</p>
  </div>
+ <div class="home-layout">
  <section class="feature-card" aria-labelledby="feature-title">
-  <span class="feature-label">AI VIDEO ANALYSIS · HANDSTAND BETA</span>
-  <h2 id="feature-title">הסרטון שלכם הופך למשוב שאפשר לעבוד איתו.</h2>
-  <p>העלו ניסיון לעמידת ידיים וקבלו ציון מדידה, נקודות לשיפור ותרגילים להמשך. הווידאו עצמו נשאר במכשיר.</p>
-  <div class="feature-meta" aria-label="מאפייני הניתוח"><span>עיבוד וידאו מקומי</span><span>משוב מבוסס מדדים</span><span>AI רק בהסכמה</span></div>
-  <a class="feature-action" href="#analyze">התחלת ניתוח וידאו ←</a>
+  <div class="section-index"><span>01 / האימון הבא</span><a href="./training.html">עריכת תוכנית</a></div>
+  <p id="home-plan-meta" class="plan-meta">עמידת ידיים · מתחיל · אימון A</p>
+  <h2 id="feature-title">יסודות ויציבות</h2>
+  <p id="home-plan-focus">שליטה בקו הגוף ובכתפיים</p>
+  <ol id="home-exercises" class="exercise-preview" aria-label="תרגילים באימון"></ol>
+  <a id="home-start" class="feature-action" href="./training.html">פתיחת התוכנית</a>
+  <p class="plan-footnote" id="home-plan-note">תוכנית התחלה · ניתן להתאים לרמה ולמטרה שלך.</p>
  </section>
- <div class="home-section-title"><h2>מה מתרגלים היום?</h2></div>
- <div class="home-grid">
-  <a class="home-tile" href="./training.html">
-   <span class="tile-icon" aria-hidden="true">↗</span>
-   <strong>האימונים שלי</strong><p>תוכנית שמתאימה לרמה ולמטרה שלכם.</p><span class="tile-link">לתוכנית ←</span>
-  </a>
-  <a class="home-tile" href="./training.html#library">
-   <span class="tile-icon" aria-hidden="true">⌁</span>
-   <strong>ספריית תרגילים</strong><p>גלו תרגילים והנחיות לתנועה טובה.</p><span class="tile-link">לספרייה ←</span>
-  </a>
+ <section class="home-progress-section" aria-labelledby="progress-heading">
+  <div class="section-index"><h2 id="progress-heading">02 / התקדמות</h2></div>
+  <div class="progress-stat"><strong id="home-session-count">0</strong><span>אימונים שמורים</span></div>
+  <p id="home-progress">האימון הראשון שלך הוא נקודת ההתחלה.</p>
+  <a class="text-link" href="./training.html#progress-title">ליומן האימונים ←</a>
+  <div class="analysis-history"><span>ניתוח אחרון</span><p id="home-analysis-history">אין עדיין מדידה שמורה.</p></div>
+ </section>
  </div>
- <a class="progress-card" href="./training.html#progress-title">
-  <div><strong>הדרך שלכם</strong><p id="home-progress">אימונים והתקדמות מחכים לכם כאן.</p></div>
-  <span class="arrow" aria-hidden="true">←</span>
- </a>
+ <section class="home-analysis" aria-labelledby="video-heading">
+  <span class="section-number" aria-hidden="true">03</span>
+  <div><p class="plan-meta">בדיקת תנועה / וידאו</p><h2 id="video-heading">עמידת הידיים שלך, מקרוב.</h2><p>צפייה בניסיון, מדדי טכניקה ונקודות לתרגול. הסרטון נשאר במכשיר.</p></div>
+  <a class="secondary-action" href="#analyze">ניתוח ניסיון ←</a>
+ </section>
+ <a class="library-link" href="./training.html#library">ספריית תרגילים <span>הנחיות לביצוע ולתרגול ←</span></a>
 </section>
 <section id="analyzerView" aria-labelledby="analyzer-title" hidden>
  <div class="analyzer-heading">
   <a class="back" href="#home">→ חזרה לבית</a>
-  <span class="analyzer-kicker">MOVALYT / AI VIDEO ANALYSIS</span>
-  <h1 id="analyzer-title" tabindex="-1">ניתוח וידאו — עמידת ידיים</h1>
+  <span class="analyzer-kicker">בדיקת תנועה / 01</span>
+  <h1 id="analyzer-title" tabindex="-1">עמידת ידיים.</h1>
   <p>עמידת ידיים היא התנועה הראשונה שנתמכת. הווידאו נשאר במכשיר; רק מדדי תנועה מצומצמים נשלחים ל־AI לאחר הסכמה.</p>
  </div>
 <ol class="analysis-process" aria-label="שלבי הניתוח">
@@ -247,11 +251,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
  <li><span>03</span><strong>מקבלים כיוון</strong><small>מדדים, משוב ותרגילים להמשך.</small></li>
 </ol>
 <section class="upload-panel" aria-labelledby="upload-title">
-<div class="section-head"><h2 id="upload-title">העלאת ניסיון לניתוח</h2><span class="step">SECURE UPLOAD</span></div>
+<div class="section-head"><h2 id="upload-title">העלאת ניסיון לניתוח</h2></div>
 <div class="tips"><b>איך לצלם:</b> צלמו מהצד, כשכל הגוף והידיים בפריים. סרטון ברור עם כמה שניות של החזקה ייתן את התוצאה הטובה ביותר. אורך מרבי: שתי דקות.</div>
 
 <details class="gemini-setup">
- <summary>✦ משוב אישי עם AI · לבחירתך</summary>
+ <summary>משוב נוסף עם AI · לבחירתך</summary>
  <div class="gemini-setup-content">
   <label><input id="aiConsent" type="checkbox"> אני מאשר/ת לשלוח ל־Google מדדי תנועה (לא סרטון או תמונה) לצורך דו״ח אימון אישי.</label>
   <p>הסרטון נשאר במכשיר וגם התמונות אינן נשלחות; ל־AI נשלחים רק מדדים כמו זמן החזקה וקו הגוף. הבחירה נשמרת בדפדפן. ביטול עוצר שליחות עתידיות ומבטל את ההמתנה לבקשה פעילה, אך אינו יכול למחוק נתונים שכבר נשלחו. ללא הסכמה מתקבל משוב מקומי. שימוש ושמירת נתונים אצל Google תלויים במסלול השירות ובמדיניותו.</p>
@@ -264,32 +268,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <video id="v" muted playsinline preload="auto"></video>
 </section>
 <section id="out" aria-label="תוצאות הניתוח">
-  <div class="results-heading"><strong>דו״ח התנועה שלכם</strong><span>MOVALYT ANALYSIS</span></div>
-  <div id="holdSec" style="display:none">
-   <h2 class="metric-title">מפת הביצוע שלך</h2>
-    <p class="radar-subtitle">ככל שהצורה מתקרבת לקצה בכל כיוון, כך המדד טוב יותר.</p>
-    <div class="radar-wrap"><svg id="scoreRadar" viewBox="0 0 380 360" role="img" aria-label="מדדי הביצוע" preserveAspectRatio="xMidYMid meet"></svg>
-      <div class="radar-center" aria-label="ציון כללי"><span class="score" id="score"></span><span class="radar-out-of">מתוך 100</span></div>
-    </div>
-    <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
-    <p class="hold-duration" id="holdDuration" hidden></p>
-    <div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div>
-  </div>
-  <p id="measurementNotice" class="tips" hidden></p>
-  <section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
-   <div class="coach-topline"><span class="coach-kicker">המשוב שלך</span><span class="coach-badge" id="coachBadge"></span></div>
-   <h2>הצעד הבא שלך</h2>
-   <p id="coachStrength" class="coach-strength"></p>
-   <p class="coach-summary" id="coachSummary"></p>
-   <div class="coach-observations" id="coachObservations"></div>
-   <h3>תרגילים להמשך</h3>
-   <div class="coach-drills" id="coachDrills"></div>
-   <p class="note">תרגלו לצד קיר ובמרחב פנוי. אם מופיע כאב, הפסיקו את התרגיל.</p>
-   <p class="coach-quality" id="coachQuality"></p>
-   <div class="coach-ai-action"><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
-  </section>
+  <div class="results-heading"><strong>דו״ח הביצוע</strong><span>וידאו / מדידה / תרגול</span></div>
   <div id="replaySec">
-  <h2>צפה בעצמך</h2>
+  <h2>הניסיון שלך</h2>
    <p class="note" id="replayTrimNotice">מקטע העמידה שנמדד</p>
   <div class="skeleton-control"><label><input id="showSkeleton" type="checkbox" checked> הצגת קווי שלד</label></div>
   <canvas id="cv"></canvas>
@@ -304,9 +285,33 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
   <canvas id="tl" style="cursor:pointer"></canvas>
   <p class="note">הסימון מציג הערכה של מנח הגוף. אם הזיהוי חלקי, כדאי לנסות צילום ברור יותר.</p>
   </div>
+  <div id="holdSec" style="display:none">
+   <h2 class="metric-title">מדדי טכניקה</h2>
+    <p class="radar-subtitle">ככל שהצורה מתקרבת לקצה בכל כיוון, כך המדד טוב יותר.</p>
+    <div class="radar-wrap"><svg id="scoreRadar" viewBox="0 0 380 360" role="img" aria-label="מדדי הביצוע" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="radar-center" aria-label="ציון כללי"><span class="score" id="score"></span><span class="radar-out-of">מתוך 100</span></div>
+    </div>
+    <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
+    <p class="hold-duration" id="holdDuration" hidden></p>
+    <div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div>
+  </div>
+  <p id="measurementNotice" class="tips" hidden></p>
+  <section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
+   <div class="coach-topline"><span class="coach-kicker">המשוב שלך</span><span class="coach-badge" id="coachBadge"></span></div>
+   <h2>מכאן לתרגול</h2>
+   <p id="coachStrength" class="coach-strength"></p>
+   <p class="coach-summary" id="coachSummary"></p>
+   <div class="coach-observations" id="coachObservations"></div>
+   <h3>תרגילים להמשך</h3>
+   <div class="coach-drills" id="coachDrills"></div>
+   <p class="note">תרגלו לצד קיר ובמרחב פנוי. אם מופיע כאב, הפסיקו את התרגיל.</p>
+   <p class="coach-quality" id="coachQuality"></p>
+   <div class="coach-ai-action"><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
+  </section>
+
 </section>
 </section>
-<p class="footer">MOVALYT <span class="footer-dot" aria-hidden="true"></span> MASTER YOUR MOVEMENT</p>
+<p class="footer">MOVALYT <span class="footer-dot" aria-hidden="true"></span> TRAINING / MOVEMENT</p>
 </main>
 <nav class="app-nav" aria-label="ניווט באפליקציה">
  <a id="navHome" href="#home" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>בית</span></a>
@@ -328,7 +333,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
    try{
     const stored=JSON.parse(localStorage.getItem("handstand-lab-training-ui-v1")||"null");
     const sessions=Array.isArray(stored?.sessions)?stored.sessions.filter(x=>x&&Number.isFinite(Date.parse(x.date))&&Array.isArray(x.exercises)): [];
-    document.getElementById("home-progress").textContent=sessions.length?"נשמרו "+sessions.length+" אימונים. כל צעד נחשב.":"אימונים והתקדמות מחכים לכם כאן.";
+    document.getElementById("home-progress").textContent=sessions.length?"נשמרו "+sessions.length+" אימונים. כל צעד נחשב.":"האימון הראשון שלך הוא נקודת ההתחלה.";
    }catch{}
   }
   window.scrollTo({top:0,behavior:"auto"});
@@ -677,6 +682,7 @@ async function show(res,fr,v,w,h,overall){
 }
 
 </script>
+<script type="module" src="./home-ui.js"></script>
 </body>
 </html>
 
