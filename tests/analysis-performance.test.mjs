@@ -5,7 +5,7 @@ import {playbackRateForPoseCost,updatePoseCost,reportAnalysisTiming} from "../ve
 test("analysis playback adapts to measured pose cost without dropping below real time",()=>{
  assert.equal(playbackRateForPoseCost(20),2);
  assert.equal(playbackRateForPoseCost(40),2);
- assert.equal(playbackRateForPoseCost(80),1.2);
+ assert.equal(playbackRateForPoseCost(80),1);
  assert.equal(playbackRateForPoseCost(180),1);
  assert.equal(playbackRateForPoseCost(NaN),1);
  assert.equal(updatePoseCost(40,80),50);

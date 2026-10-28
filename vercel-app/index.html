@@ -54,6 +54,8 @@ h1{position:relative;z-index:1;font-size:clamp(30px,5vw,46px);font-weight:800;li
 progress{width:100%;height:8px;accent-color:var(--acc);display:none;border-radius:999px}
 progress::-webkit-progress-bar{background:var(--line);border-radius:999px}
 progress::-webkit-progress-value{background:var(--acc);border-radius:999px}
+.cancel-analysis{display:block;margin:12px auto 0;padding:9px 15px;border:1px solid #667064;border-radius:10px;background:transparent;color:var(--mute);font:inherit;font-weight:700;cursor:pointer}
+.cancel-analysis:hover{border-color:var(--acc);color:var(--ink)}
 #out{display:none;animation:rise .25s ease-out}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 #entrySec,#holdSec,#replaySec{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin-top:16px}
@@ -258,6 +260,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <label class="pick"><span aria-hidden="true">↑</span> העלאת סרטון לניתוח<input id="file" type="file" accept="video/*"></label>
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
+<button id="cancelAnalysis" class="cancel-analysis" type="button" hidden>ביטול הניתוח</button>
 <video id="v" muted playsinline preload="auto"></video>
 </section>
 <section id="out" aria-label="תוצאות הניתוח">
@@ -338,7 +341,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 import {overallHandstandScore,observedEntryWindow,observedExerciseWindow} from "./handstand-summary.js";
 import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
 import {playbackRateForPoseCost,updatePoseCost,reportAnalysisTiming} from "./analysis-performance.js";
-import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
+import {PoseWorkerRuntime,analysisTimeoutMs} from "./pose-runtime.js";
 const $=id=>document.getElementById(id);
 setupCoach();
 const K={L:{ear:7,shoulder:11,elbow:13,wrist:15,hip:23,ankle:27},R:{ear:8,shoulder:12,elbow:14,wrist:16,hip:24,ankle:28}};
@@ -440,53 +443,35 @@ function showEntry(e){
  $("entryList").innerHTML=Object.keys(T).map(n=>`<li><b>${ENAME[n]}</b> · <span style="color:var(--${col(e.sc[n])})">${lab(e.sc[n])}</span><br>${T[n]}</li>`).join("");
  const wk=Object.keys(T).filter(n=>e.sc[n]<80).sort((a,b)=>e.sc[a]-e.sc[b]).slice(0,2);
  $("entryDrills").innerHTML=wk.length?wk.map(n=>`<li style="margin:10px 0"><b>${ENAME[n]}</b><br>${(ENTRYD[n]||DRILLS[n]).map(d=>"• "+d).join("<br>")}</li>`).join(""):"<li>עלייה טובה. נסה להאריך את ההחזקה אחרי העלייה.</li>"}
-async function landmarker(){
- const fs=await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
- const base="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
- const mk=d=>PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:base,delegate:d},runningMode:"VIDEO",numPoses:1});
- try{return await Promise.race([mk("GPU"),new Promise((_,no)=>setTimeout(()=>no(new Error("gpu")),12000))])}catch{return await mk("CPU")}}
-let LM=null;const getLM=()=>LM||(LM=landmarker().catch(e=>{LM=null;throw e}));getLM().catch(()=>{});
-// MediaPipe's VIDEO mode requires a strictly increasing timestamp for the lifetime
-// of the shared landmarker, even when a different video is selected.
-let poseTimestamp=0;
-function detectPoseFrame(lm,canvas){
- poseTimestamp+=100;
- try{return lm.detectForVideo(canvas,poseTimestamp)}
- catch(err){
-  // A failed graph can be unusable. Recreate it on the next upload.
-  LM=null;try{lm.close()}catch{}
-  throw err;
- }
-}
-function scanPlay(v,n,fps,cx,cvs,det,pg,perf){return new Promise(res=>{
- const fr=new Array(n).fill(null);let k=0,rate=2,poseCost=0,done=false,last=Date.now(),samples=0;
- const fin=ok=>{if(done)return;done=true;clearInterval(iv);v.onended=null;v.pause();v.playbackRate=1;perf.samples=samples;res(ok?fr:null)};
- const iv=setInterval(()=>{if(Date.now()-last>5000)fin(false)},1000);
- const cb=(_,md)=>{if(done)return;last=Date.now();
-  try{const idx=Math.round((md.mediaTime-.05)*fps);
+let poseRuntime=new PoseWorkerRuntime(),activeAnalysis=null;
+function scanPlay(v,n,fps,cx,cvs,det,pg,perf,signal){return new Promise((res,rej)=>{
+ const fr=new Array(n).fill(null);let k=0,rate=1,poseCost=0,done=false,inFlight=false,ended=false,last=Date.now(),samples=0;
+ const fin=(ok,error)=>{if(done)return;done=true;clearInterval(iv);v.onended=null;v.pause();v.playbackRate=1;perf.samples=samples;error?rej(error):res(ok?fr:null)};
+ const iv=setInterval(()=>{if(Date.now()-last>5000)fin(false,inFlight?new DOMException("זיהוי התנוחה לא השיב בזמן.","TimeoutError"):undefined)},1000);
+ const cb=async(_,md)=>{if(done)return;if(signal.aborted){fin(false,signal.reason);return}last=Date.now();
+   try{const idx=Math.round((md.mediaTime-.05)*fps),skipped=idx>k;
    if(idx>=n){fin(true);return}
    if(idx>=k){cx.drawImage(v,0,0,cvs.width,cvs.height);
-    const t=performance.now();fr[idx]=det();const elapsed=performance.now()-t;samples++;
-    poseCost=updatePoseCost(poseCost,elapsed);rate=playbackRateForPoseCost(poseCost,fps);v.playbackRate=rate;
-    perf.finalPlaybackRate=rate;perf.poseCostMs=poseCost;
+    inFlight=true;const t=performance.now();fr[idx]=await det();inFlight=false;const elapsed=performance.now()-t;samples++;
+    poseCost=updatePoseCost(poseCost,elapsed);const targetRate=playbackRateForPoseCost(poseCost,fps);
+    rate=skipped?Math.max(1,rate-.1):Math.min(targetRate,rate+.05);v.playbackRate=rate;
+    perf.finalPlaybackRate=rate;perf.targetPlaybackRate=targetRate;perf.poseCostMs=poseCost;
     k=idx+1;pg.value=Math.min(1,k/n)}
-  }catch(e){fin(false);return}
-  if(k>=n)fin(true);else v.requestVideoFrameCallback(cb)};
- v.onended=()=>fin(true);v.playbackRate=rate;v.currentTime=0;
+  }catch(e){fin(false,e);return}
+  if(ended||k>=n)fin(true);else setTimeout(()=>{if(!done)v.requestVideoFrameCallback(cb)},0)};
+ v.onended=()=>{ended=true;if(!inFlight)fin(true)};v.playbackRate=rate;v.currentTime=0;
  v.play().then(()=>v.requestVideoFrameCallback(cb)).catch(()=>fin(false))})}
 const seek=(v,t)=>new Promise(r=>{if(Math.abs(v.currentTime-t)<.001)return r();const d=()=>{clearTimeout(to);r()},to=setTimeout(()=>{v.removeEventListener("seeked",d);r()},1500);v.addEventListener("seeked",d,{once:true});v.currentTime=t});
 let videoObjectUrl=null;
 $("file").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
  const timing={kind:"video-analysis",outcome:"error",capturePath:"none"},analysisStarted=performance.now();
+ const controller=new AbortController();activeAnalysis=controller;let analysisTimer;
  e.target.disabled=true;
   resetCoachFeedback();
- const st=$("status"),pg=$("prog"),v=$("v");$("out").style.display="none";pg.style.display="block";pg.value=0;
+ const st=$("status"),pg=$("prog"),v=$("v"),cancel=$("cancelAnalysis");$("out").style.display="none";pg.style.display="block";pg.value=0;cancel.hidden=false;
  try{
-  const modelStarted=performance.now();
-   st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";
-  const lm=await Promise.race([getLM(),new Promise((_,no)=>setTimeout(()=>no(new Error("טעינת המודל לוקחת יותר מדי זמן. בדוק חיבור ונסה שוב")),45000))]);
-  timing.modelMs=performance.now()-modelStarted;const decodeStarted=performance.now();
+  const decodeStarted=performance.now();st.textContent="בודק את הסרטון...";
    v.muted=true;if(videoObjectUrl)URL.revokeObjectURL(videoObjectUrl);videoObjectUrl=URL.createObjectURL(file);v.src=videoObjectUrl;v.load();
   const dg=()=>`סוג=${file.type||"לא ידוע"} גודל=${Math.round(file.size/1e5)/10}MB אורך=${v.duration} רזולוציה=${v.videoWidth}x${v.videoHeight} קוד=${v.error?v.error.code:"-"}`;
   await new Promise((ok,no)=>{v.onloadedmetadata=ok;v.onerror=()=>no(new Error("video "+dg()));setTimeout(()=>no(new Error("video "+dg())),20000)});
@@ -496,11 +481,16 @@ $("file").addEventListener("change",async e=>{
   const w=v.videoWidth,h=v.videoHeight,fps=10,n=Math.floor((v.duration-.1)*fps);
   if(!w||!h||!(n>0))throw new Error("video "+dg());
   const cvs=document.createElement("canvas");const sc=Math.min(1,480/Math.max(w,h));cvs.width=Math.round(w*sc);cvs.height=Math.round(h*sc);const cx=cvs.getContext("2d");
-  let fr=null,poseMs=0,poseFrames=0;const perf={};
-  const det=()=>{const started=performance.now();try{const r=detectPoseFrame(lm,cvs),L=r.landmarks&&r.landmarks[0];return L?L.map(p=>({x:p.x*w,y:p.y*h,v:p.visibility??0})):null}finally{poseMs+=performance.now()-started;poseFrames++}};
+  st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";const modelStarted=performance.now();
+  const ready=await poseRuntime.init(controller.signal);timing.modelMs=performance.now()-modelStarted;timing.poseDelegate=ready.delegate;
+  analysisTimer=setTimeout(()=>controller.abort(new DOMException("הניתוח עבר את מגבלת הזמן.","TimeoutError")),analysisTimeoutMs(v.duration));
+  let fr=null,poseMs=0,poseRoundTripMs=0,frameExtractionMs=0,poseFrames=0;const perf={};
+  const det=async()=>{const extractionStarted=performance.now(),bitmap=await createImageBitmap(cvs);frameExtractionMs+=performance.now()-extractionStarted;const started=performance.now();
+   const result=await poseRuntime.detect(bitmap,controller.signal);poseRoundTripMs+=performance.now()-started;poseMs+=result.inferenceMs;poseFrames++;
+   return result.landmarks?result.landmarks.map(p=>({x:p.x*w,y:p.y*h,v:p.v})):null};
   st.textContent="מנתח את הסרטון...";
   const samplingStarted=performance.now();
-  if(v.requestVideoFrameCallback){timing.capturePath="video-frame-callback";fr=await scanPlay(v,n,fps,cx,cvs,det,pg,perf)}
+  if(v.requestVideoFrameCallback){timing.capturePath="video-frame-callback";fr=await scanPlay(v,n,fps,cx,cvs,det,pg,perf,controller.signal)}
   if(!fr){
    timing.capturePath="sequential-seek";
    fr=[];pg.value=0;
@@ -516,8 +506,9 @@ $("file").addEventListener("change",async e=>{
     fr.push(await cachedGrab(i));
     pg.value=.3+.7*(i-lo+1)/(hi-lo+1);if(i%3===0)await new Promise(r=>setTimeout(r));}
   }
-  timing.scanMs=performance.now()-samplingStarted;timing.poseMs=poseMs;timing.frameExtractionMs=Math.max(0,timing.scanMs-poseMs);timing.poseFrames=poseFrames;
+  timing.scanMs=performance.now()-samplingStarted;timing.poseMs=poseMs;timing.poseRoundTripMs=poseRoundTripMs;timing.workerOverheadMs=Math.max(0,poseRoundTripMs-poseMs);timing.frameExtractionMs=frameExtractionMs;timing.samplingWaitMs=Math.max(0,timing.scanMs-poseRoundTripMs-frameExtractionMs);timing.poseFrames=poseFrames;
   if(perf.finalPlaybackRate)timing.finalPlaybackRate=perf.finalPlaybackRate;
+  if(perf.targetPlaybackRate)timing.targetPlaybackRate=perf.targetPlaybackRate;
   pg.style.display="none";
   const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
   const res=reliableResult(measuredHold,fps)?measuredHold:null;
@@ -552,9 +543,13 @@ $("file").addEventListener("change",async e=>{
    $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
    timing.outcome="unreliable";
   }
- }catch(err){pg.style.display="none";console.error(err);st.textContent="לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."}
- finally{timing.totalMs=performance.now()-analysisStarted;reportAnalysisTiming(timing);e.target.disabled=false;e.target.value=""}
+ }catch(err){pg.style.display="none";console.error(err);poseRuntime.terminate();poseRuntime=new PoseWorkerRuntime();
+  if(err?.name==="AbortError"){timing.outcome="cancelled";st.textContent="הניתוח בוטל. לא נשמרה ולא הוצגה תוצאה."}
+  else if(err?.name==="TimeoutError"){timing.outcome="timeout";st.textContent="הניתוח נעצר כי העיבוד ארך יותר מדי. לא הוצגה תוצאה; אפשר לנסות סרטון קצר יותר."}
+  else st.textContent="לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."}
+ finally{clearTimeout(analysisTimer);if(activeAnalysis===controller)activeAnalysis=null;cancel.hidden=true;timing.totalMs=performance.now()-analysisStarted;reportAnalysisTiming(timing);e.target.disabled=false;e.target.value=""}
 });
+$("cancelAnalysis").addEventListener("click",()=>{if(activeAnalysis&&!activeAnalysis.signal.aborted){activeAnalysis.abort(new DOMException("הניתוח בוטל על ידי המשתמש.","AbortError"));poseRuntime.terminate();poseRuntime=new PoseWorkerRuntime()}});
 const f1=x=>String(Math.round(x*10)/10);
 function why(n,res){
  const score=Math.round(res.sc[n]),v=res.val;

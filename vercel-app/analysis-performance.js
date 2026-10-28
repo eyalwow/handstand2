@@ -3,7 +3,7 @@ const round = value => Math.round(value * 10) / 10;
 export function playbackRateForPoseCost(poseMs, fps = 10) {
   if (!Number.isFinite(poseMs) || poseMs <= 0 || !Number.isFinite(fps) || fps <= 0) return 1;
   const frameBudget = 1000 / fps;
-  return Math.max(1, Math.min(2, round((frameBudget * 0.95) / poseMs)));
+  return Math.max(1, Math.min(2, round((frameBudget * 0.8) / poseMs)));
 }
 
 export function updatePoseCost(previousMs, sampleMs) {

@@ -26,6 +26,11 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.match(html,/showCoachFeedback\(res,(?:ent|null)\)/);
  assert.match(html,/טכניקה בלבד/);
  assert.match(html,/playbackRateForPoseCost\(poseCost,fps\)/);
+ assert.match(html,/new PoseWorkerRuntime\(\)/);
+ assert.match(html,/id="cancelAnalysis"/);
+ assert.match(html,/לא נשמרה ולא הוצגה תוצאה/);
+ assert.ok(html.indexOf('st.textContent="בודק את הסרטון')<html.indexOf("poseRuntime.init(controller.signal)"));
+ assert.match(html,/inFlight\?new DOMException/);
  assert.match(bridge,/signal/);
  assert.match(html,/<video id="v"/);
  assert.match(html,/id="scoreRadar"/);
