@@ -34,7 +34,7 @@ test("analysis-first home retains the honest video analysis flow",()=>{
   assert.match(home,/id="coachPanel"[^>]* hidden/);
   assert.doesNotMatch(home,/id="aiConsent"/);
   assert.match(home,/id="cloudRequest"/);
-  assert.match(home,/הסרטון נשאר במכשיר/);
+  assert.match(home,/הווידאו נשאר במכשיר/);
 });
 
 test("branding does not rename persisted athlete data",()=>{
@@ -43,3 +43,4 @@ test("branding does not rename persisted athlete data",()=>{
     assert.match(sources,new RegExp(key));
   }
 });
+

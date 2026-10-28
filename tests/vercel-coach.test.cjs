@@ -24,7 +24,7 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.ok(!html.includes('id="geminiKey"'));
  assert.ok(!js.includes("x-goog-api-key"));
  assert.ok(!bridge.includes("generativelanguage.googleapis.com"));
- assert.match(bridge,/fetch\("\/api\/coach"/);
+ assert.doesNotMatch(bridge,/fetch\(/);
  assert.match(html,/showCoachFeedback\(res,(?:ent|null)\)/);
  assert.match(html,/טכניקה בלבד/);
  assert.match(html,/playbackRateForPoseCost\(poseCost,fps\)/);
@@ -41,98 +41,36 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.match(html,/רכיב ניתוח התנועה לא נטען בדפדפן הזה/);
  assert.ok(fs.existsSync("scripts/smoke-mediapipe-worker.py"));
  assert.ok(fs.existsSync("tests/browser/mediapipe-worker-smoke.html"));
- assert.match(bridge,/signal/);
+ assert.match(bridge,/enabled:false/);
  assert.match(html,/<video id="v"/);
  assert.match(html,/id="scoreRadar"/);
  assert.match(html,/id="scoreBreakdown"/);
  assert.doesNotMatch(html,/id="geminiBtn"/);
- assert.match(js,/current\.requested=true/);
+ assert.doesNotMatch(js,/runGemini|checkGeminiStatus\(/);
  assert.match(html,/drawScoreRadar\(res,overall\)/);
  assert.match(html,/res\.swayOk\?\["sway"\]/);
  assert.match(html,/reason\.textContent=v\.description/);
 });
-test("API publicly reports its configuration state without leaking key",async()=>{
- const previous=process.env.GEMINI_API_KEY;delete process.env.GEMINI_API_KEY;
- const r=makeRes();await handler(req("GET"),r);
- assert.equal(r.code,200);assert.deepEqual(r.body,{enabled:false});
- if(previous!==undefined)process.env.GEMINI_API_KEY=previous;
-});
-test("API refuses POST when owner has not enabled AI",async()=>{
- const previous=process.env.GEMINI_API_KEY;delete process.env.GEMINI_API_KEY;
- const r=makeRes();await handler(req("POST",{evidence:measure}),r);
- assert.equal(r.code,503);
- if(previous!==undefined)process.env.GEMINI_API_KEY=previous;
-});
-test("API validates input and only returns grounded findings and allowed exercises",async()=>{
- const prevKey=process.env.GEMINI_API_KEY;
- const originalFetch=global.fetch;
- process.env.GEMINI_API_KEY="TEST_NO_REAL_KEY";
- let count=0;
- global.fetch=async(url,options)=>{
-  count++;
-  assert.match(url,/generativelanguage.googleapis.com/);
-  assert.equal(options.headers["x-goog-api-key"],"TEST_NO_REAL_KEY");
-  assert.ok(!JSON.stringify(options.body).includes("data:video"));
-  assert.ok(!options.body.includes("SENSITIVE_SENTINEL"), "unexpected user fields must never reach Google");
-  return{ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({
-   summary:"בחלק שנמדד זוהתה החזקה שמאפשרת להעריך את קו הגוף, אך אינה מוכיחה איזון ללא תמיכה. הממצאים מוגבלים למקטע שנקלט בביטחון.\n\nקו הגוף הוא הנקודה המרכזית שכדאי לדייק לפי המדד שנמדד. שאר החלקים שלא נכללו במדידה אינם בסיס למסקנה.\n\nכדאי לתרגל קו גוף יציב ליד קיר בטוח ולהתקדם לפי שליטה בפועל. ההמלצה מבוססת על המדד המקומי בלבד.",
-   observations:[{key:"hold_banana",finding:"מומצא 90 מעלות",correction:"אסוף בטן"}],
-   drills:[{id:"hollow",reason:"שיפור קו גוף"},{id:"inventedMove",reason:"לא מותר"}]
-  })}]}}]})};
- };
- try{
-  const r=makeRes();await handler(req("POST",{evidence:{...measure,hold:{...measure.hold,unexpected:"SENSITIVE_SENTINEL"},groundedProblems:measure.groundedProblems.map(p=>({...p,extra:"SENSITIVE_SENTINEL"})),extra:"SENSITIVE_SENTINEL"}}),r);
-  assert.equal(r.code,200);
-  assert.equal(r.body.observations[0].finding,measure.groundedProblems[0].finding);
-  assert.deepEqual(r.body.drills.map(d=>d.id),["hollow"]);
-  assert.equal(count,1);
-  const invalid=makeRes();
-  await handler(req("POST",{evidence:{...measure,allowedExerciseIds:["inventedMove"]}}),invalid);
-  assert.equal(invalid.code,400);
-  const blocked=makeRes();
-  await handler({...req("POST",{evidence:measure}),headers:{host:"handstand-lab-coach.vercel.app",origin:"https://evil.example"}},blocked);
-  assert.equal(blocked.code,403);
- }finally{
-  global.fetch=originalFetch;
-  if(prevKey===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=prevKey;
- }
-});
-
-test("upstream quota failures and unsafe generated claims fail closed",async()=>{
+test("athlete API is closed even with a configured key, paid marker and remembered consent",async()=>{
  const previous=process.env.GEMINI_API_KEY, original=global.fetch;
- process.env.GEMINI_API_KEY="TEST_NO_REAL_KEY";
- const request=()=>({...req("POST",{evidence:measure}),headers:{...req("POST").headers,"x-real-ip":"198.51.100.58"}});
+ process.env.GEMINI_API_KEY="TEST_NO_REAL_KEY";let calls=0;
+ global.fetch=async()=>{calls++;throw Error("Provider must not be contacted")};
  try{
-  global.fetch=async()=>({ok:false,status:429});
-  let response=makeRes();await handler(request(),response);
-  assert.equal(response.code,429);
-  assert.ok(!JSON.stringify(response.body).includes(process.env.GEMINI_API_KEY));
-  global.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({
-   summary:"הגוף בזווית 16.7 מעלות",
-   observations:[{key:"hold_banana",correction:"אסוף בטן"}],
-   drills:[{id:"hollow",reason:"שליטה טובה"}]
-  })}]}}]})});
-  response=makeRes();await handler(request(),response);
-  assert.equal(response.code,502);
-  global.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({
-   summary:"בחלק שנמדד קו הגוף נראה עקבי. המקטע מאפשר הערכה מוגבלת בלבד.\n\nהרמה שלך מתקדמת ואתה מוכן לעמידת ידיים חופשית, גם בלי מידע על תמיכה. זו מסקנה על היכולת הכללית.\n\nכדאי להמשיך לתרגל בזהירות ליד קיר יציב ובשטח פנוי.",
-   observations:[{key:"hold_banana",correction:"אסוף בטן"}],drills:[{id:"hollow",reason:"שיפור קו גוף"}]
-  })}]}}]})});
-  response=makeRes();await handler(request(),response);
-  assert.equal(response.code,502);
- }finally{
-  global.fetch=original;
-  if(previous===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=previous;
- }
+  const status=makeRes();await handler(req("GET"),status);
+  assert.equal(status.code,200);assert.equal(status.body.enabled,false);
+  assert.equal(status.body.reason,"provider_audience_review_required");
+  for(const body of [undefined,{evidence:measure},{evidence:measure,consent:true,plan:"pro",age:19},{evidence:{rawVideo:"PRIVATE_SENTINEL"}}]){
+   const result=makeRes();await handler(req("POST",body),result);
+   assert.equal(result.code,403);assert.equal(result.body.code,"provider_audience_review_required");
+   assert.equal(result.headers["Cache-Control"],"no-store");
+   assert.doesNotMatch(JSON.stringify(result.body),/PRIVATE_SENTINEL|TEST_NO_REAL_KEY/);
+  }
+  assert.equal(calls,0);
+ }finally{global.fetch=original;if(previous===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=previous}
 });
-
-test("real-video regression: Gemini cannot broaden praise to the entire exercise",async()=>{
- const previous=process.env.GEMINI_API_KEY,original=global.fetch;process.env.GEMINI_API_KEY="TEST_NO_REAL_KEY";
- let summary="בחלק שנמדד קו הגוף נראה עקבי, וההערכה מוגבלת למקטע שנקלט בביטחון. המדידה אינה קובעת אם הייתה תמיכה.\n\nהזרועות והכתפיים נכללו במדדים שנמדדו, ללא מסקנה על רגעים שמחוץ למקטע. אין כאן קביעה על רמת המתאמן.\n\nכדאי להמשיך לתרגל קו אחיד ליד קיר בטוח ולבחון את ההתקדמות לפי ביצועים נוספים. זווית הצילום עשויה להשפיע על ההערכה.";
- global.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({summary,strength:{key:"hold_banana",text:"שמרת על גוף ארוך ומתוח לאורך כל התרגיל."},observations:[],drills:[{id:"wallLine",reason:"לשימור קו הגוף."}]})}]}}]})});
- const evidence={...measure,strength:{key:"hold_banana",score:99},groundedProblems:[]};
- const request=()=>({...req("POST",{evidence}),headers:{...req("POST").headers,"x-real-ip":"198.51.100.91"}});
- try{let r=makeRes();await handler(request(),r);assert.equal(r.code,200);assert.equal(r.body.strength,null);
- summary="קו הגוף נשמר לאורך כל התרגיל.";r=makeRes();await handler(request(),r);assert.equal(r.code,502);
- }finally{global.fetch=original;if(previous===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=previous;}
+test("closed endpoint needs no credentials and rejects unsupported methods",async()=>{
+ const previous=process.env.GEMINI_API_KEY;delete process.env.GEMINI_API_KEY;
+ try{const result=makeRes();await handler(req("POST",{evidence:measure}),result);assert.equal(result.code,403);
+ const method=makeRes();await handler(req("DELETE"),method);assert.equal(method.code,405);
+ }finally{if(previous!==undefined)process.env.GEMINI_API_KEY=previous}
 });
