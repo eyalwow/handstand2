@@ -122,7 +122,7 @@ function fallbackChoice(measure) {
 }
 
 function local(issues,measure){
- const variant=0; // Consistent evidence-based fallback; never randomize feedback for the same video.
+ const variant=fallbackChoice(measure);
  const priorities=issues.slice(0,2),first=priorities[0];
  const summary=first?("בקטע שנמדד, המדד העיקרי לשיפור הוא "+names[first.key]+". "+first.correction):"בקטע שנמדד לא בלטו חריגות משמעותיות במדדים הזמינים. המשך לתרגל ולשמור על קו גוף יציב.";
  const choices=[...new Set(priorities.flatMap(i=>i.drills))].filter(id=>measure.allowedExerciseIds.includes(id));
