@@ -1,0 +1,32 @@
+# MOVALYT analysis-first research — 28 October 2026
+
+## Evidence and limits
+Desk research of public first-party product pages and documentation, not hands-on competitor onboarding or a paid account audit. “Unknown” means not established by the cited source, not absent. Marketing accuracy and injury-prevention claims have not been independently verified. Prices can vary by store/region. Visual observations below concern published product presentation, not an installed-app usability test.
+
+## Feature matrix
+| Product / sources | Start and capture | Analysis / annotation | Feedback, history, drills | Privacy / business model | Published visual direction |
+|---|---|---|---|---|---|
+| [Onform](https://support.onform.com/article/94-what-is-onform), [platform guide](https://support.onform.com/article/153-user-guide-onform-video-analysis-app), [athlete page](https://onform.com/video-analysis-for-athletes/) | Athlete/coach context; camera recording; several iOS recording modes | Slow motion, markup, voiceover, comparison; skeleton tracking on iOS, not Android per guide | Private/shared libraries, tags, coach chat; automatic drill prescription unknown | Cloud sync; private/group communication is not proof of local-only processing. [US listing](https://apps.apple.com/us/app/onform-video-analysis-app/id1490334045) lists individual $9.99/$14.99 monthly tiers | Athlete footage and device demonstrations; review tools centered on video |
+| [Ochy](https://www.ochy.io/runners), [privacy](https://www.ochy.io/privacy-policy) | Short side/rear running video upload, around 10 seconds | Automated gait metrics; annotation controls unknown | Explanation, tailored exercises, progress and side-by-side comparison | Policy: source video/profile data retained 12 months after account deletion, metrics 5 years unless deletion requested; anonymized metrics may support research/model training. Price not verified | Real runners and sport-specific presentation |
+| [Kemtai](https://kemtai.com/), [vision](https://kemtai.com/our-computer-vision/) | Camera on browser/device; healthcare provider deployment; consumer onboarding unknown | Live corrective audio/visual guidance, spatial tracking; manual markup unknown | Repetition-level adherence and performance reports, large exercise library | Vendor states edge processing, no video recording/transmission; B2B/API, price unknown | People performing movements and clinical demonstrations |
+| [Gymscore](https://www.gymscore.ai/form-check), [support](https://www.gymscore.ai/support), [privacy](https://www.gymscore.ai/privacy) | App onboarding then record/upload; full body, steady side view guidance | 0–100 score, five form categories; vendor claims 2,500+ exercises | Video feedback, progress, AI chat; specific drill recommendation workflow unknown | Policy names Google Cloud AI and processing of inputs/outputs; exact retention duration unspecified. Current price not verified | Exercise footage and clear score as product anchor |
+| [myDartfish](https://www.dartfish.com/mobile/), [detailed workflow](https://www.dartfish.com/mobile_web/) | Camera or gallery import; free trial | Slow motion, frame step, measurements, drawing, labels, side-by-side and voiceover | Coach-authored feedback, collections; automated drill prescription unknown | Subscription plans, 50 GB Smart Cloud; offline viewing offered; exact retention policy not reviewed | Athlete footage with explicit measurement tools |
+| [Kinovea](https://www.kinovea.org/features.html), [license/business](https://www.kinovea.org/) | Desktop camera capture or local files; no managed collection | Slow motion, synchronized comparison, keyframes, annotations, semi-automated tracking and measurements | Local file/KVA organization; no automatic coaching established | Free/open source, no subscription; local-file workflow, not a reviewed privacy guarantee | Functional desktop tool with motion and measurement visible |
+
+## Product inference, not competitor fact
+The feasible differentiator is a narrow, trustworthy handstand improvement loop: film correctly → see the measured segment → understand two or three concrete cues → try again → compare genuinely saved scores. Hebrew RTL, local video processing and explicit optional metric-only cloud consent reduce friction. Breadth or superior biomechanical accuracy cannot honestly be claimed from this research.
+
+## Rendered current Preview audit
+Preview from PR #21 opened in an actual in-app browser; BEFORE files captured at 1440, 390 and 320 CSS pixels (height 960). The initial training plan dominates; analysis is secondary. Oversized headings, numbered editorial sections, repeated rules and the zero-workout statistic read as an editorial dashboard. There is no athlete media on Home. At 320px the plan rows and bottom navigation consume most of the useful view. This audit is visual; it does not validate human-video inference.
+
+## Screen map and implementation brief
+Home: compact brand → handstand photograph and primary “נתח תרגיל” → supported handstand selection → clearly unavailable future movements → real recent analysis summaries. Capture: selected movement → concise visual framing guide → camera/gallery options → optional existing metric-only consent. Processing: existing real stage/progress + cancel. Report: actual video/skeleton → measured score and metrics → existing local/consented feedback and drills. History: only saved validated entries, explicit empty/unreadable states, score-only limitation for old records. No demo rows. Training routes/data retained but removed from athlete primary navigation. Coach and inference/scoring remain untouched.
+
+Charcoal #111213, warm white, restrained lime #c1ed62, rounded tactile actions, compact headings, generous video area. RTL logical spacing, 44px minimum actions, 320px support, safe-area footer and reduced-motion support. No decorative pseudo-analytics or marketing promises. Style 4 remains governed by FITNESS_ANIMATION_DESIGN.md; no rejected artwork is reinstated.
+
+## User test prompts
+1. Without explanation, what would you do first, and what does this product do?
+2. Which part feels like a real sports app and which part feels generated or templated? Point to the exact element.
+3. Can you film a usable attempt using only the capture guidance?
+4. After a report, name the first technique change you would try and show the video evidence for it.
+5. What do you think is saved or sent off your device, and can you distinguish supported analysis from Coming Soon?
