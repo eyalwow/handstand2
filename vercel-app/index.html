@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#070907">
+<meta name="theme-color" content="#070b09">
 <link rel="manifest" href="./app.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <title>MOVALYT — ניתוח תנועה</title>
@@ -200,52 +200,53 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <link rel="stylesheet" href="./editorial.css">
 <link rel="stylesheet" href="./analysis-first.css">
 <link rel="stylesheet" href="./sports-finish.css">
+<link rel="stylesheet" href="./brand-hero.css">
+<link rel="icon" type="image/svg+xml" href="./assets/brand/movalyt-icon.svg">
 
 </head>
 <body>
 <a class="skip-link" href="#home-title">דילוג לתוכן</a>
 <main>
+
 <header class="brand" aria-label="MOVALYT">
-  <a class="brand-name" href="#home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-lockup"><strong class="brand-product">MOVALYT</strong><small class="brand-tagline">MOVEMENT / ANALYSIS</small></span></a>
-  <a class="brand-caption" href="#history">הניתוחים שלי</a>
+ <a class="brand-name" href="#home" aria-label="MOVALYT — בית"><span class="brand-mark" aria-hidden="true"><img src="./assets/brand/movalyt-mark.svg" alt="" width="42" height="42"></span><span class="brand-lockup"><strong class="brand-product">MOVALYT</strong><small class="brand-tagline">MOVE  ·  ANALYZE  ·  IMPROVE</small></span></a>
+ <a class="brand-caption" href="#history">הניתוחים שלי <span aria-hidden="true">↗</span></a>
 </header>
 <section id="homeView" aria-labelledby="home-title">
- <div class="home-greeting">
-  <div><span class="kicker"><span class="active-dot" aria-hidden="true"></span> MOVALYT / TECHNIQUE STUDIO</span><h1 id="home-title" tabindex="-1">לראות את התנועה.<br><span>לשפר את הביצוע.</span></h1></div>
-  <p class="home-greeting-aside">ניתוח וידאו ממוקד למתאמנים שרוצים להבין את הטכניקה שלהם — ולא רק לספור חזרות.</p>
- </div>
  <div class="analysis-workspace">
-  <section class="start-session" aria-labelledby="start-title">
-   <div class="session-top"><span class="session-label"><span class="active-dot" aria-hidden="true"></span> ניתוח תנועה · זמין עכשיו</span><span class="session-number" aria-hidden="true">01 / MOVEMENT</span></div>
-   <h2 id="start-title">הניסיון הבא<br><span>מתחיל כאן.</span></h2>
-   <p class="session-intro">מעלים וידאו של עמידת ידיים, בודקים את קו הגוף ומקבלים כיוון ברור לתרגול הבא.</p>
-   <div class="exercise-selected"><span class="exercise-badge" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M24 40V11m0 0-9 9m9-9 9 9" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 40h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div><small>תרגיל נתמך</small><strong>עמידת ידיים</strong></div><span class="session-available">זמין</span></div>
-   <a class="feature-action" href="#analyze"><span>נתח תרגיל</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M19 12H5m0 0 6-6m-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-   <p class="local-note"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m12 3 8 4v5c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V7l8-4Z" stroke="currentColor" stroke-width="1.7"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> הווידאו נשאר במכשיר. בלי חשבון ובלי אישור לענן.</p>
-   <div class="session-insights" aria-label="מה מודדים"><div><strong>קו הגוף</strong><small>יישור והקשתה</small></div><div><strong>כתפיים</strong><small>מנח בזמן ההחזקה</small></div><div><strong>יציבות</strong><small>תנועה בזמן העמידה</small></div></div>
-  </section>
-  <figure class="technique-preview" aria-label="צילום ספורטאי לדוגמה">
+ <section class="premium-hero" aria-label="ניתוח עמידת ידיים">
    <div class="studio-photo">
-    <img src="./assets/photography/handstand-isabella-mendes.jpg" alt="מתעמלת מבצעת עמידת ידיים מלאה בחדר כושר, מכפות הידיים ועד קצות הרגליים" width="1400" height="2114" fetchpriority="high">
-    <div class="studio-photo-label"><span class="active-dot" aria-hidden="true"></span> HANDSTAND / 01</div>
-    <span class="photo-corner top-right" aria-hidden="true"></span><span class="photo-corner bottom-left" aria-hidden="true"></span>
+    <img class="hero-athlete" src="https://images.pexels.com/photos/16779467/pexels-photo-16779467.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1400" width="4000" height="6000" fetchpriority="high" alt="ספורטאי מבצע עמידת ידיים בחדר כושר חשוך" data-fallback="./assets/photography/handstand-isabella-mendes.jpg">
    </div>
-   <figcaption class="studio-photo-caption"><div><strong>תנועה אמיתית, לא מספרים על מסך.</strong><small>צילום הדגמה בלבד · לא ניתוח של הספורטאית המצולמת</small></div><span class="photo-caption-arrow" aria-hidden="true">↗</span></figcaption>
-  </figure>
- </div>
+   <div class="hero-darken" aria-hidden="true"></div>
+   <div class="hero-copy start-session">
+     <span class="hero-eyebrow"><span class="hero-live-dot" aria-hidden="true"></span> MOVALYT / FORM ANALYSIS</span>
+     <h1 id="home-title" tabindex="-1">נתח את<br><em>עמידת הידיים</em><br>שלך.</h1>
+     <p>העלה סרטון, ראה מה קורה בתנועה שלך וקבל משוב ממוקד שיעזור לך לדעת על מה לעבוד בניסיון הבא.</p>
+     <div class="hero-cta-row"><a class="feature-action" href="#analyze"><span>נתח תרגיל</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M19 12H5m0 0 6-6m-6 6 6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span class="hero-trust"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="m12 3 8 4v5c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V7l8-4Z" stroke="currentColor" stroke-width="1.7"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.8"/></svg> הניתוח המקומי לא שולח את הסרטון לענן</span></div>
+   </div>
+   <div class="hero-stage" aria-label="שלבי הניתוח">
+    <div class="hero-stage-item"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="8" width="26" height="20" rx="3" stroke="currentColor" stroke-width="1.8"/><circle cx="16" cy="18" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M11 8 13 5h6l2 3" stroke="currentColor" stroke-width="1.8"/></svg><span><strong>צלם</strong><small>וידאו מהצד</small></span></div>
+    <div class="hero-stage-item"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 26V5m0 21h22M9 20l6-8 5 4 7-11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>ראה את התנועה</strong><small>שלד ומדדים</small></span></div>
+    <div class="hero-stage-item"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m7 17 6 6L26 9" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>דע מה לתקן</strong><small>משוב מקומי</small></span></div>
+   </div>
+ </section></div>
+ <div class="home-content">
+ <section class="home-activity" aria-labelledby="recent-heading">
+  <div class="section-title"><div><span class="section-kicker">YOUR PROGRESS</span><h2 id="recent-heading">הניסיון האחרון</h2></div><a href="#history">כל הניתוחים ←</a></div>
+  <div id="home-analysis-history" class="empty-analysis">עוד לא ניתחת ניסיון. הסרטון הראשון יהיה נקודת ההתחלה שלך.</div>
+ </section>
  <section class="movement-flow" aria-labelledby="flow-heading">
-  <div class="flow-heading"><span class="flow-eyebrow">WHAT HAPPENS NEXT</span><h2 id="flow-heading">פשוט לצלם. קל להבין.</h2></div>
+  <div class="flow-heading"><span class="flow-eyebrow">START HERE</span><h2 id="flow-heading">איך מתחילים?</h2></div>
   <ol class="flow-steps">
-   <li><span class="flow-step-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="12" width="36" height="26" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="25" r="7" stroke="currentColor" stroke-width="2"/><path d="M16 12 19 8h10l3 4" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><div><span class="flow-count">01 / CAPTURE</span><h3>צלם ניסיון</h3><p>וידאו מהצד, כל הגוף בפריים, תאורה ברורה.</p></div></li>
-   <li><span class="flow-step-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M10 39V8m0 31h30" stroke="currentColor" stroke-width="2"/><path d="m13 32 8-12 7 5 8-14" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="21" cy="20" r="3" fill="currentColor"/><circle cx="36" cy="11" r="3" fill="currentColor"/></svg></span><div><span class="flow-count">02 / REVIEW</span><h3>ראה מה נמדד</h3><p>צפה שוב בסרטון, בשלד ובמדדי התנועה שזוהו.</p></div></li>
-   <li><span class="flow-step-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M12 25 21 34 37 15" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 7h10m22 34H29" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div><span class="flow-count">03 / IMPROVE</span><h3>קח משהו לתרגול</h3><p>קבל תיקונים שמבוססים על המדדים הזמינים — ונסה שוב.</p></div></li>
+   <li><span class="flow-step-icon" aria-hidden="true">01</span><div><h3>בחר סרטון</h3><p>צילום מהצד שבו רואים את כל הגוף ואת הרצפה.</p></div></li>
+   <li><span class="flow-step-icon" aria-hidden="true">02</span><div><h3>צפה בניתוח</h3><p>סרטון, שכבת שלד וציון המבוסס על חלקי התנועה שזוהו.</p></div></li>
+   <li><span class="flow-step-icon" aria-hidden="true">03</span><div><h3>נסה שוב</h3><p>בחר נקודת שיפור אחת וחזור למדוד את הביצוע הבא.</p></div></li>
   </ol>
  </section>
- <div class="home-bottom">
-  <section class="movement-picker" aria-labelledby="movement-heading"><div class="section-title"><h2 id="movement-heading">תרגילים לניתוח</h2><span class="only-one">01 זמין עכשיו</span></div><a class="supported-movement" href="#analyze"><span class="movement-symbol" aria-hidden="true">↟</span><span><strong>עמידת ידיים</strong><small>קו גוף · כתפיים · שליטה</small></span><span class="available">מתחילים ←</span></a><p class="coming-movements">בפיתוח <span>פלאנץ׳</span><span>מתח</span><small>התרגילים הנוספים עדיין אינם נתמכים בניתוח.</small></p></section>
-  <section class="recent-analysis" aria-labelledby="recent-heading"><div class="section-title"><h2 id="recent-heading">הניסיון האחרון</h2><a href="#history">כל הניתוחים ←</a></div><div id="home-analysis-history" class="empty-analysis">עוד לא ניתחת ניסיון. הסרטון הראשון יהיה נקודת ההתחלה שלך.</div></section>
+ <section class="movement-picker" aria-labelledby="movement-heading"><div class="section-title"><div><span class="section-kicker">SUPPORTED NOW</span><h2 id="movement-heading">תרגילים לניתוח</h2></div><span class="only-one">עמידת ידיים בלבד</span></div><a class="supported-movement" href="#analyze"><span class="movement-symbol" aria-hidden="true">↟</span><span><strong>עמידת ידיים</strong><small>קו גוף · כתפיים · יציבות</small></span><span class="available">נתח עכשיו ←</span></a><p class="coming-movements">בפיתוח <span>פלאנץ׳</span><span>מתח</span><small>התרגילים הנוספים עדיין אינם זמינים לניתוח.</small></p></section>
  </div>
- <details class="photo-credit"><summary>קרדיט לצילום</summary><a href="https://www.pexels.com/photo/woman-doing-exercise-at-gym-348489/" target="_blank" rel="noopener">Isabella Mendes / Pexels</a> · צילום להמחשה, ללא קשר לנתוני משתמש או המלצה על המוצר.</details>
+ <details class="photo-credit"><summary>קרדיט לצילום</summary><a href="https://www.pexels.com/photo/man-practicing-handstand-16779467/" target="_blank" rel="noopener noreferrer">Ardit Mbrati / Pexels</a>. צילום הדגמה בלבד, ללא קשר לנתוני משתמש. במקרה של כשל בטעינת התמונה ייתכן שיוצג צילום חלופי של <a href="https://www.pexels.com/photo/woman-doing-exercise-at-gym-348489/" target="_blank" rel="noopener noreferrer">Isabella Mendes / Pexels</a>.</details>
 </section>
 <section id="historyView" aria-labelledby="history-title" hidden><span id="history"></span><a class="back" href="#home">→ חזרה לבית</a><h1 id="history-title" tabindex="-1">הניתוחים שלי</h1><p class="history-note">מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.</p><div id="history-list" aria-live="polite"></div><a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a></section>
 <section id="analyzerView" aria-labelledby="analyzer-title" hidden>
@@ -257,10 +258,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
  </div>
 <section class="upload-panel" aria-labelledby="upload-title">
 <div class="section-head"><h2 id="upload-title">נצלם ניסיון?</h2><span class="available">עמידת ידיים בלבד</span></div>
-<div class="capture-guide"><div class="framing-demo" aria-hidden="true"><img src="./assets/photography/handstand-isabella-mendes.jpg" alt="" width="1400" height="2114"><span class="frame-corner"></span></div><div><h3>כל הגוף. מהצד.</h3><p>טלפון יציב, תאורה ברורה, וכפות הידיים וכפות הרגליים בתוך הפריים.</p><p>כמה שניות של החזקה · עד 2 דקות</p><small>הצילום להמחשת מסגור בלבד. תרגלו במרחב בטוח ולצד קיר לפי הצורך.</small></div></div>
+<div class="capture-guide capture-guide-rebuilt">
+ <div class="capture-guide-symbol" aria-hidden="true"><svg viewBox="0 0 100 124" fill="none"><rect x="3" y="3" width="94" height="118" rx="12" stroke="#9ab778" stroke-width="2" stroke-dasharray="6 7"/><path d="M25 31V19h12M75 31V19H63M25 93v12h12M75 93v12H63" stroke="#c1ed62" stroke-width="3" stroke-linecap="round"/><path d="M50 27v70M30 62h40" stroke="#748b70" stroke-width="1.5" stroke-dasharray="3 6"/></svg><span>FRAMING / 01</span></div>
+ <div><h3>כל הגוף בפריים.</h3><p>צלם מהצד, כשהטלפון יציב וכפות הידיים והרגליים מופיעות לאורך כל הסרטון.</p><p>ודא שיש אור ברור ושהניסיון כולל כמה שניות של החזקה.</p><small>עד שתי דקות לסרטון · תרגל ליד קיר יציב ובמרחב פנוי לפי הצורך.</small></div>
+ </div>
 
-
-<div class="capture-actions"><label class="pick">העלאת וידאו<input id="file" type="file" accept="video/*"></label><label class="camera-pick">צילום ניסיון<input id="cameraFile" type="file" accept="video/*" capture="environment"></label></div><p class="capture-note">במכשיר תומך תיפתח המצלמה; במחשב ניתן לבחור קובץ. לאחר הבחירה הניתוח מתחיל במכשיר.</p>
+<div class="capture-actions"><label class="pick">בחר או צלם וידאו<input id="file" type="file" accept="video/*"></label><input id="cameraFile" class="capture-legacy-hidden" aria-label="קלט צילום חלופי" type="file" accept="video/*" capture="environment" hidden></div><p class="capture-note">בחלק ממכשירי האייפון והאנדרואיד בחירת וידאו מאפשרת גם צילום חדש. הניתוח יתחיל לאחר בחירת קובץ.</p>
 <div id="status" role="status" aria-live="polite"></div>
 <progress id="prog" value="0" max="1"></progress>
 <button id="cancelAnalysis" class="cancel-analysis" type="button" hidden>ביטול הניתוח</button>
@@ -674,6 +677,7 @@ async function show(res,fr,v,w,h,overall){
 }
 
 </script>
+<script>document.querySelector(".hero-athlete")?.addEventListener("error", function(){if(!this.dataset.triedFallback){this.dataset.triedFallback="1";this.src=this.dataset.fallback;this.alt="ספורטאית מדגימה עמידת ידיים בחדר כושר";}});</script>
 <script type="module" src="./home-ui.js"></script>
 </body>
 </html>
