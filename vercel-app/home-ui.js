@@ -1,48 +1,37 @@
-import { GOALS, LEVELS, LIBRARY, generatePlan } from './training-core.js';
-import { readTraining, readWorkout } from './workout-core.js';
-
-// Read the existing training data; opening Home never writes or seeds storage.
 const byId = id => document.getElementById(id);
-function renderHome() {
-  let training;
-  try { training = readTraining(localStorage); }
-  catch { byId('home-plan-note').textContent = 'לא ניתן לקרוא את התוכנית השמורה. אפשר לפתוח את התוכנית ולבדוק את האחסון.'; return; }
-  const saved = training;
-  training = {...saved,
-    goal:GOALS.some(x => x.id === saved.goal) ? saved.goal : 'handstand',
-    level:LEVELS.some(x => x.id === saved.level) ? saved.level : 'beginner',
-    day:['A','B','C'].includes(saved.day) ? saved.day : 'A',
-    sessions:saved.sessions.filter(x => x && Number.isFinite(Date.parse(x.date)) && Array.isArray(x.exercises))};
-  const day = generatePlan(training.goal, training.level).find(item => item.id === training.day);
-  byId('feature-title').textContent = day.name;
-  byId('home-plan-focus').textContent = day.focus;
-  byId('home-plan-meta').textContent = `${GOALS.find(x => x.id === training.goal).label} · ${LEVELS.find(x => x.id === training.level).label} · אימון ${day.id}`;
-  const list = byId('home-exercises'); list.replaceChildren();
-  for (const exercise of day.list.slice(0,3)) {
-    const row = document.createElement('li');
-    const name = document.createElement('span'); name.textContent = LIBRARY[exercise.id].name;
-    const dose = document.createElement('small'); dose.textContent = `${exercise.sets} × ${exercise.target}`;
-    row.append(name,dose); list.append(row);
+const dateLabel = date => new Intl.DateTimeFormat('he-IL',{day:'numeric',month:'short',year:'numeric'}).format(new Date(date));
+function renderHistory() {
+ const recent=byId('home-analysis-history'),list=byId('history-list');
+ recent.replaceChildren();list.replaceChildren();
+ let entries;
+ try {
+  const raw=JSON.parse(localStorage.getItem('handstand-lab-analyses-v1')||'[]');
+  if(!Array.isArray(raw)) throw new Error('history');
+  entries=raw.filter(x=>x&&typeof x.model==='string'&&x.model.startsWith('v2-')&&Number.isFinite(x.score)&&x.score>=0&&x.score<=100&&Number.isFinite(Date.parse(x.date))).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
+ } catch {
+  recent.textContent='לא ניתן לקרוא את ההיסטוריה במכשיר הזה.';
+  list.textContent='הנתונים השמורים לא זמינים כרגע. לא שינינו אותם. אפשר לנסות לפתוח מחדש את הדפדפן.';
+  return;
+ }
+ if(!entries.length){
+  recent.textContent='עוד לא ניתחת ניסיון. הסרטון הראשון יהיה נקודת ההתחלה שלך.';
+  const empty=document.createElement('p');empty.className='empty-analysis';empty.textContent='כאן יופיעו הניסיונות שלך. אחרי ניתוח מוצלח עם החזקה מספקת תישמר מדידה, ללא הווידאו.';list.append(empty);return;
+ }
+ const row=(entry,previous)=>{
+  const item=document.createElement('article');item.className='history-entry';
+  const info=document.createElement('div');
+  const title=document.createElement('h3');title.textContent='עמידת ידיים';
+  const date=document.createElement('time');date.dateTime=entry.date;date.textContent=dateLabel(entry.date);
+  const score=document.createElement('strong');score.className='history-score';score.textContent=`${Math.round(entry.score)} / 100`;score.setAttribute('aria-label',`ציון טכניקה ${Math.round(entry.score)} מתוך 100`);
+  info.append(title,date);item.append(info,score);
+  const note=document.createElement('p');note.textContent='סיכום מדידה בלבד · הווידאו אינו נשמר';item.append(note);
+  if(previous&&previous.model===entry.model){
+   const delta=Math.round(entry.score)-Math.round(previous.score),comparison=document.createElement('p');comparison.className='history-comparison';comparison.textContent=`${delta>0?'+':''}${delta} נקודות מהמדידה הקודמת באותו סוג ניתוח. זווית צילום ותמיכת קיר עשויות להשפיע על ההשוואה.`;item.append(comparison);
   }
-  const link = byId('home-start');
-  link.href = './workout.html?' + new URLSearchParams({start:'1',goal:training.goal,level:training.level,day:day.id});
-  link.textContent = 'התחלת אימון';
-  try {
-    const active = readWorkout(localStorage);
-    if (active && !active.finishedAt) { link.href='./workout.html'; link.textContent='המשך האימון השמור'; }
-  } catch { /* Keep the plan link; never overwrite an unreadable active workout. */ }
-  const count = training.sessions.length;
-  byId('home-session-count').textContent = count;
-  byId('home-progress').textContent = count ? `${count} אימונים ביומן. אפשר לראות את פירוט התרגול והמדידות.` : 'האימון הראשון שלך הוא נקודת ההתחלה.';
-  byId('home-plan-note').textContent = `${day.list.length} תרגילים בתוכנית · ניתן להתאים לרמה ולמטרה שלך.`;
-  byId('home-analysis-history').textContent = 'אין עדיין מדידה שמורה.';
-  try {
-    const raw = JSON.parse(localStorage.getItem('handstand-lab-analyses-v1') || '[]');
-    const entries = Array.isArray(raw) ? raw.filter(x => x && typeof x.model === 'string' && Number.isFinite(x.score) && x.score>=0 && x.score<=100 && Number.isFinite(Date.parse(x.date))).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)) : [];
-    if (entries.length) byId('home-analysis-history').textContent = `${Math.round(entries[0].score)} / 100 · ${new Intl.DateTimeFormat('he-IL',{day:'numeric',month:'short'}).format(new Date(entries[0].date))}`;
-  } catch { /* Missing/corrupt history is never presented as a measured score. */ }
+  return item;
+ };
+ recent.append(row(entries[0],entries[1]));
+ entries.forEach((entry,i)=>list.append(row(entry,entries[i+1])));
 }
-renderHome();
-window.addEventListener('storage',renderHome);
-window.addEventListener('hashchange',renderHome);
-window.addEventListener('pageshow',renderHome);
+renderHistory();
+for(const event of ['storage','hashchange','pageshow','analysis-saved']) window.addEventListener(event,renderHistory);
