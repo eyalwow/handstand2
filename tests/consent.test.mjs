@@ -29,9 +29,9 @@ test("a user's pose measurements reach the server only after consent, and revoca
  checkbox.checked=true;checkbox.listeners.change();
  await new Promise(r=>setTimeout(r,0));
  assert.equal(posts,1);
- assert.equal(localStorage.getItem("handstand-lab-ai-consent-v1"),"yes");
+ assert.equal(localStorage.getItem("movalyt-ai-measurements-consent-v2"),"yes");
  checkbox.checked=false;checkbox.listeners.change();
- assert.equal(localStorage.getItem("handstand-lab-ai-consent-v1"),null);
+ assert.equal(localStorage.getItem("movalyt-ai-measurements-consent-v2"),null);
  showCoachFeedback(res,null);
  await new Promise(r=>setTimeout(r,0));
  assert.equal(posts,1);
