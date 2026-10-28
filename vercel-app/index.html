@@ -579,7 +579,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
  const N=ser.length,X=i=>i/Math.max(1,N-1)*600,Y=s=>112-s;
  const start=windowFrames?.start??0,end=windowFrames?.end??N-1;
  sl.min=start;sl.max=end;sl.step=.01;
- $("replayTrimNotice").textContent=windowFrames?"מקטע ממוקד סביב ההחזקה שנמדדה. לא ניתן להבטיח שהעלייה והירידה נצפו במלואן.":"גבולות התרגיל אינם מזוהים בביטחון; מוצג הסרטון המלא.";
+ $("replayTrimNotice").textContent=windowFrames?(windowFrames.observedStart&&windowFrames.observedEnd?"ניגון הקטע מתחילת העלייה שזוהתה עד הירידה שזוהתה.":"מוצג מקטע סביב ההחזקה. "+(!windowFrames.observedStart?"תחילת העלייה לא זוהתה בביטחון. ":"")+(!windowFrames.observedEnd?"הירידה לא זוהתה בביטחון.":"")):"גבולות התרגיל אינם מזוהים בביטחון; מוצג הסרטון המלא.";
  const draw=p=>{
   p=Math.max(start,Math.min(end,p));c.drawImage(v,0,0,w,h);
   const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
@@ -665,8 +665,30 @@ async function show(res,fr,v,w,h,overall){
  if(res)$("holdDuration").textContent="זמן החזקה מזוהה: "+(Math.round(res.hold*10)/10).toFixed(1)+" שניות (הערכה מתוך הדגימות)";
  drawScoreRadar(res,overall);
  const fps=res?.fps||10,diag=res?.diagnostics;
- const trim=diag?{start:Math.max(0,diag.startFrame-Math.round(fps*2)),end:Math.min(fr.length-1,diag.endFrame+Math.round(fps*.9))}:null;
- await replay(fr,v,w,h,res?.k||K[sideOf(fr)],null,fps,res?.mid||Math.floor(fr.length/2),trim);
+ const k=res?.k||K[sideOf(fr)];
+ const inverted=f=>f&&["hip","ankle","shoulder","wrist"].every(name=>f[k[name]]?.v>=.6)
+   &&f[k.hip].y<f[k.shoulder].y&&f[k.ankle].y<f[k.shoulder].y&&f[k.wrist].y>f[k.shoulder].y;
+ const standing=f=>f&&["hip","ankle","shoulder"].every(name=>f[k[name]]?.v>=.65)
+   &&f[k.hip].y>f[k.shoulder].y&&f[k.ankle].y>f[k.shoulder].y;
+ let trim=null;
+ if(diag){
+  const st=diag.startFrame,en=diag.endFrame;
+  let start=Math.max(0,st-Math.round(fps*2)),end=Math.min(fr.length-1,en+Math.round(fps*.9));
+  let observedStart=false,observedEnd=false;
+  // Only label actual ascent/descent boundaries when two adjacent clear frames support them.
+  for(let i=st-2;i>=Math.max(1,st-Math.round(fps*5));i--){
+   if(standing(fr[i])&&standing(fr[i-1])&&fr.slice(i+1,st+1).some(inverted)){
+    start=Math.max(0,i-Math.round(fps*.2));observedStart=true;break;
+   }
+  }
+  for(let i=en+1;i<Math.min(fr.length-1,en+Math.round(fps*5));i++){
+   if(standing(fr[i])&&standing(fr[i+1])){
+    end=Math.min(fr.length-1,i+Math.round(fps*.2));observedEnd=true;break;
+   }
+  }
+  trim={start,end,observedStart,observedEnd};
+ }
+ await replay(fr,v,w,h,k,null,fps,res?.mid||Math.floor(fr.length/2),trim);
  $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
 }
 
