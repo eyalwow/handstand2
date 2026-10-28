@@ -28,12 +28,12 @@ test("Gemini wording is displayed, grounded findings stay anchored, fabricated k
  const res={val:{banana:.11,lean:4,shoulder:0,elbow:0,sway:0},sc:{banana:35,lean:75,shoulder:98,elbow:95,sway:99},total:74,hold:3,swayOk:true};
  const issues=analyzeCoachIssues(res,null),evidence=buildCoachEvidence(res,null,issues);
  const result=validateCoachResponse({
- summary:"הזרועות נשארות מסודרות; בפעם הבאה נתמקד בקו הגוף.",
+ summary:"בחלק שנמדד זוהתה סטייה בקו הגוף. בתרגול הבא כדאי להתמקד בקו ישר יותר.",
  strength:{key:evidence.strength.key,text:"שמרת על יציבות יפה בחלק שנמדד."},
  observations:[{key:"hold_banana",finding:"invented",correction:"נסה לאסוף את הבטן לפני העלייה."},{key:"invented",finding:"invented",correction:"invented"}],
  drills:[{id:"hollow",reason:"יעזור לך לתרגל בטן אסופה לאורך ההחזקה."}]
  },evidence,issues);
- assert.equal(result.summary,"הזרועות נשארות מסודרות; בפעם הבאה נתמקד בקו הגוף.");
+ assert.equal(result.summary,"בחלק שנמדד זוהתה סטייה בקו הגוף. בתרגול הבא כדאי להתמקד בקו ישר יותר.");
  assert.equal(result.observations[0].finding,issues[0].finding);
  assert.equal(result.observations[0].correction,"נסה לאסוף את הבטן לפני העלייה.");
  assert.equal(result.drills[0].reason,"יעזור לך לתרגל בטן אסופה לאורך ההחזקה.");
@@ -57,7 +57,7 @@ test("local fallback varies equivalent feedback while preserving phase and probl
 test("real-video regression: whole-exercise praise is not passed off as measured feedback",()=>{
  const res={val:{banana:0,lean:0,shoulder:0,elbow:0,sway:0},sc:{banana:100,lean:95,shoulder:95,elbow:95,sway:95},total:97,hold:6,swayOk:true};
  const issues=analyzeCoachIssues(res,null),evidence=buildCoachEvidence(res,null,issues);
- const raw={summary:"נתמקד בשמירה על קו הגוף בחלק שנמדד.",strength:{key:evidence.strength.key,text:"שמרת על גוף ארוך ומתוח לאורך כל התרגיל."},observations:[],drills:[{id:"wallLine",reason:"לתרגול עקביות בקו הגוף."}]};
+ const raw={summary:"בחלק שנמדד נראתה עמידה יציבה במדדים הזמינים. כדאי לתרגל את הקו גם בניסיון הבא.",strength:{key:evidence.strength.key,text:"שמרת על גוף ארוך ומתוח לאורך כל התרגיל."},observations:[],drills:[{id:"wallLine",reason:"לתרגול עקביות בקו הגוף."}]};
  const accepted=validateCoachResponse(raw,evidence,issues);
  assert.equal(accepted.strength,evidence.strength.text);
  assert.equal(accepted.source,"gemini");

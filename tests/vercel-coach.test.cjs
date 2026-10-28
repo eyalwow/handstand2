@@ -27,6 +27,13 @@ test("client has no key input, raw video upload to AI, or Gemini key",()=>{
  assert.match(html,/טכניקה בלבד/);
  assert.match(html,/rate=elapsed<500\/fps\?Math\.min\(2,rate\+\.05\):1/);
  assert.match(html,/<video id="v"/);
+ assert.match(html,/id="scoreRadar"/);
+ assert.match(html,/id="scoreBreakdown"/);
+ assert.doesNotMatch(html,/id="geminiBtn"/);
+ assert.match(js,/current\.requested=true/);
+ assert.match(html,/drawScoreRadar\(res,overall\)/);
+ assert.match(html,/res\.swayOk\?\["sway"\]/);
+ assert.match(html,/reason\.textContent=v\.description/);
 });
 test("API publicly reports its configuration state without leaking key",async()=>{
  const previous=process.env.GEMINI_API_KEY;delete process.env.GEMINI_API_KEY;

@@ -17,11 +17,11 @@ const catalog={
  entry:{name:"עלייה הדרגתית בתמיכת קיר",dose:"3 × 3–4 ניסיונות",cue:"לתרגל הגעה לקו אנכי בעזרת קיר יציב"}
 };
 const exerciseMap={
- hold_banana:["hollow","wallLine"],hold_lean:["finger","toePull"],
- hold_shoulder:["shoulderStretch","shrug"],hold_elbow:["plank","wallLine"],
- hold_sway:["finger","toePull"],entry_reach:["kick","entry"],
- entry_arch:["hollow","wallLine"],entry_shoulder:["shoulderStretch","shrug"],
- entry_elbow:["plank","entry"]
+ hold_banana:["hollow","wallLine","shoulderStretch"],hold_lean:["finger","toePull","wallLine"],
+ hold_shoulder:["shoulderStretch","shrug","wallLine"],hold_elbow:["plank","wallLine","shrug"],
+ hold_sway:["finger","toePull","wallLine"],entry_reach:["kick","entry","toePull"],
+ entry_arch:["hollow","wallLine","entry"],entry_shoulder:["shoulderStretch","shrug","entry"],
+ entry_elbow:["plank","entry","wallLine"]
 };
 const names={
  hold_banana:"קו הגוף",hold_lean:"איזון",hold_shoulder:"כתפיים",hold_elbow:"מרפקים",
@@ -55,14 +55,14 @@ function identify(res,ent){
  return [...hold,...entry.filter(i=>!hold.some(h=>h.key===duplicate[i.key]))].sort((a,b)=>a.score-b.score).slice(0,3);
 }
 function evidence(res,ent,issues){
- const allowed=[...new Set(issues.slice(0,4).flatMap(i=>i.drills))];
+ const allowed=[...new Set(issues.slice(0,3).flatMap(i=>i.drills))];
  return {
   kind:"2D side-view pose tracking; no raw video supplied",
   strength:bestMeasuredStrength(res,ent),
   hold:res?{durationSeconds:n(res.hold),score:Math.round(res.total)}:null,
   entry:ent?{score:n(ent.total)}:null,
   groundedProblems:issues.slice(0,6).map(i=>({key:i.key,score:i.score,finding:i.finding,correction:i.correction})),
-  allowedExerciseIds:allowed.length?allowed:["wallLine","finger"],
+  allowedExerciseIds:allowed.length?allowed:["wallLine","finger","toePull"],
   note:"Pose and angles are approximations in one 2D camera plane. Avoid diagnosing injuries; safe wall and clear floor needed."
  };
 }
@@ -123,10 +123,8 @@ function fallbackChoice(measure) {
 
 function local(issues,measure){
  const variant=fallbackChoice(measure);
- const priorities=issues.slice(0,2),first=priorities[0],second=priorities[1];
- const summary=first
-   ?(measure.hold?.score>=85?"העמידה נראית טובה. הנה נקודה שאפשר להמשיך לדייק.":measure.hold?.score>=70?"יש כאן בסיס טוב. נתמקד בדבר אחד בכל פעם.":"יש כאן בסיס להתקדם ממנו. נתחיל בתרגול אחד בכל פעם.")
-   :"העמידה נראית יציבה במדדים שזוהו. המשך לתרגל שליטה וקו גוף עקבי.";
+ const priorities=issues.slice(0,2),first=priorities[0];
+ const summary=first?("בקטע שנמדד, המדד העיקרי לשיפור הוא "+names[first.key]+". "+first.correction):"בקטע שנמדד לא בלטו חריגות משמעותיות במדדים הזמינים. המשך לתרגל ולשמור על קו גוף יציב.";
  const choices=[...new Set(priorities.flatMap(i=>i.drills))].filter(id=>measure.allowedExerciseIds.includes(id));
  if(!choices.length)choices.push(...measure.allowedExerciseIds);
  const drills=choices.slice(0,2).map(id=>{const issue=priorities.find(i=>i.drills.includes(id));return{id,reason:issue?"מתמקד במדד "+names[issue.key]+" שנמצא חלש.":"לחיזוק שליטה בסיסית בקו ובאיזון."}});
@@ -134,14 +132,17 @@ function local(issues,measure){
   ?"ההחזקה קצרה, ולכן התוצאה נותנת תמונה חלקית. נסו סרטון נוסף עם החזקה ארוכה יותר."
   :"המשוב מבוסס על זיהוי הגוף בסרטון. זווית הצילום יכולה להשפיע על התוצאה.";
  const strength=measure.strength?.text || (measure.hold?"הצלחת לשמור על תנוחה מזוהה לאורך ההחזקה שנמדדה.":"המעבר לעלייה זוהה בסרטון.");
- const introductions=["נתמקד בשינוי קטן שאפשר לקחת לניסיון הבא.","יש לך כיוון ברור לתרגול הבא.","הנה סדר עדיפויות קצר להמשך התרגול.","כדאי לעבוד בהדרגה, על נקודה אחת בכל פעם."];
- return{source:"local",strength,summary:first?introductions[variant%introductions.length]:["במדדים שנצפו לא בלט כרגע תיקון מרכזי. אפשר להמשיך לבנות עקביות.","המדדים הזמינים מצביעים על ביצוע עקבי. המשך לתרגל שליטה באותו קצב.","לא זוהתה נקודת שיפור בולטת במדדים שנמדדו. נסה לשחזר את הביצוע בניסיון הבא.","בחלק שנמדד לא עלה דגש טכני מרכזי. התרגול הבא יכול להתמקד בעקביות."][variant%4],observations:priorities.map(i=>{const words=fallbackVariants[i.key]?.[variant%4];return {key:i.key,finding:words?.[0]||i.finding,correction:words?.[1]||i.correction};}),drills,quality};
+ 
+ return{source:"local",strength,summary,observations:priorities.map(i=>{const words=fallbackVariants[i.key]?.[variant%4];return {key:i.key,finding:words?.[0]||i.finding,correction:words?.[1]||i.correction};}),drills,quality};
 }
 function validate(raw,measure,issues){
  if(!raw||typeof raw.summary!=="string")throw Error("Gemini לא החזיר תשובה בפורמט הנדרש.");
  const clean=v=>typeof v==="string"?v.trim().slice(0,350):"";
  const safeText=v=>{const t=clean(v);return t&&!/[0-9٠-٩۰-۹°%]|אבחנ|פציעה|מחלה|דלקת|לאורך כל|בכל (?:התרגיל|הסרטון)|כל הזמן|מההתחלה ועד הסוף|שרירים מתוחים|גוף.{0,12}מתוח/.test(t)?t:""};
  if(!safeText(raw.summary)) return local(issues,measure);
+ // Keep the coach concise and reject empty or excessively verbose summaries.
+ const sentenceCount=raw.summary.split(/[.!?؟]+/).map(x=>x.trim()).filter(Boolean).length;
+ if(sentenceCount!==2)return local(issues,measure);
  const metrics=new Set(issues.slice(0,6).map(i=>i.key)),allowed=new Set(measure.allowedExerciseIds);
  const byKey=new Map(issues.map(i=>[i.key,i]));
  const observationKeys=new Set();
@@ -186,13 +187,13 @@ const consentKey="handstand-lab-ai-consent-v1";
 let consent=false;
 function cancel(){
  serial++;
- $("geminiBtn").disabled=!consent||!geminiReady();
+
 }
 export function resetCoachFeedback(){
  cancel();current=null;$("coachPanel").hidden=true;$("geminiStatus").textContent="";
 }
 export function setupCoach(){
- const btn=$("geminiBtn"),check=$("aiConsent");
+ const check=$("aiConsent");
  try{consent=localStorage.getItem(consentKey)==="yes"}catch{}
  check.checked=consent;
  check.addEventListener("change",()=>{
@@ -202,19 +203,16 @@ export function setupCoach(){
   if(!consent&&current){
    render(local(current.issues,current.measure),false);
    $("geminiStatus").textContent="משוב מקומי פעיל. ניתן להפעיל שוב את משוב ה־AI בכל עת.";
-  }else if(consent&&current&&geminiReady())void runGemini();
+  }else if(consent&&current&&geminiReady()&&!current.requested)void runGemini();
  });
- btn.addEventListener("click",()=>void runGemini());
- btn.disabled=true;
  void checkGeminiStatus().then(()=>{
-  btn.disabled=!consent||!geminiReady();
-  if(consent&&geminiReady()&&current)void runGemini();
- }).catch(()=>{btn.disabled=true});
+  if(consent&&geminiReady()&&current&&!current.requested)void runGemini();
+ }).catch(()=>{});
 }
 export function showCoachFeedback(res,ent){
  cancel();
  const issues=identify(res,ent),measure=evidence(res,ent,issues);
- current={issues,measure};
+ current={issues,measure,requested:false};
  render(local(issues,measure),false);
  if(consent&&geminiReady()){
   $("geminiStatus").textContent="מכין משוב אישי עם Gemini…";
@@ -224,9 +222,9 @@ export function showCoachFeedback(res,ent){
  }
 }
 async function runGemini(){
- if(!current||!consent||!geminiReady())return;
- const id=++serial,button=$("geminiBtn"),status=$("geminiStatus");
- button.disabled=true;
+ if(!current||!consent||!geminiReady()||current.requested)return;
+ current.requested=true;
+ const id=++serial,status=$("geminiStatus");
  const {issues,measure}=current;
  let timer;
  status.textContent="מכין משוב אישי…";
@@ -247,7 +245,6 @@ async function runGemini(){
   status.textContent=(isQuota?"שירות ה־AI הגיע למגבלת השימוש. ":"שירות ה־AI אינו זמין כרגע. ")+"המשוב המקומי נשאר זמין.";
  }finally{
   clearTimeout(timer);
-  if(id===serial)button.disabled=!consent||!geminiReady();
  }
 }
 

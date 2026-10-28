@@ -2,6 +2,12 @@
 
 Last updated: 2026-10-28. MOVALYT athlete experience work is in progress on `feat/movalyt-athlete-ui`, based on `feat/handstand-product-experience`. No merge or production release.
 
+## MOVALYT radar and one-shot AI coaching (2026-10-28; Draft PR #17)
+- Score summary now uses a responsive radial diagram with the overall score in the center, plotted *measured hold* metrics (body line, balance, shoulders, elbow extension and stability when reliable), plus per-metric values and quantified deduction explanations. When only entry was measured, the diagram explicitly has no hold axes rather than inventing data.
+- Removed the user-facing Gemini regeneration button. At most one Gemini request is initiated per successful local analysis. Late responses are ignored after consent withdrawal or a new analysis. Privacy fallback remains local.
+- Gemini is instructed to return exactly two short, evidence-based Hebrew summary sentences and choose up to two drills contextually from an expanded, measurement-linked set. Invalid or unsupported generated claims fall back to locally grounded feedback. This is still an LLM operating on 2D pose metrics, **not** direct understanding of raw video and **not** proof of fitness coaching accuracy.
+- CI, actual Gemini response, real-video browser/mobile checks and visual layout review remain release gates. Keep Draft and no Production change.
+
 ## MOVALYT Issue #13 interim fix (2026-10-28; Draft PR #16)
 - Working branch `fix/movalyt-analysis-issue13-complete` targets athlete feature branch only; neither Production nor `main` was changed. Includes the bilateral pose-overlay changes from Draft PR #15.
 - Code fix: playback-based sampling can no longer reduce source video rate below 1×; logs per-frame inference/model/sampling and local overall wall times. Seek fallback caches sparse probe frames, avoiding repeated pose estimation at identical timestamps. This is a source-level remedy, **not** an end-to-end benchmark on the same human video or same hardware. Lower coverage on slow hardware must still fail reliability checks instead of inventing a grade.
