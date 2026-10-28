@@ -71,6 +71,8 @@ details summary{cursor:pointer;color:var(--mute);font-size:13px;margin-top:6px}
 #play:hover{background:#C8FF7C}
 .why{margin:6px 0 0;font-size:13px;color:var(--mute)}
 .metric-title{text-align:center;margin:18px 0 4px!important;font-size:21px}
+.hold-duration{text-align:center;margin:4px auto 14px;color:var(--acc);font-weight:800;font-size:18px}
+.coach-summary{white-space:pre-line;line-height:1.85;max-width:66ch}
 .radar-subtitle{text-align:center;color:var(--mute);font-size:13px;margin:0}
 .radar-wrap{position:relative;max-width:430px;margin:5px auto 0}
 #scoreRadar{display:block;width:100%;height:auto;overflow:visible}
@@ -247,10 +249,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <div class="tips"><b>איך לצלם:</b> צלמו מהצד, כשכל הגוף והידיים בפריים. סרטון ברור עם כמה שניות של החזקה ייתן את התוצאה הטובה ביותר. אורך מרבי: שתי דקות.</div>
 
 <details class="gemini-setup">
- <summary>פרטיות ומשוב AI</summary>
+ <summary>✦ משוב אישי עם AI · לבחירתך</summary>
  <div class="gemini-setup-content">
-  <label><input id="aiConsent" type="checkbox"> אני מסכים/ה לשלוח ל־Google נתוני תנועה מצומצמים כדי לקבל משוב AI.</label>
-  <p>הסרטון נשאר במכשיר. Google עשויה להשתמש בנתונים ובמשוב לשיפור שירותיה. אפשר לבטל את ההסכמה כאן בכל עת; גם בלעדיה תקבלו משוב מקומי.</p>
+  <label><input id="aiConsent" type="checkbox"> אני מאשר/ת לשלוח ל־Google מדדי תנועה (לא סרטון או תמונה) לצורך דו״ח אימון אישי.</label>
+  <p>הסרטון נשאר במכשיר וגם התמונות אינן נשלחות; ל־AI נשלחים רק מדדים כמו זמן החזקה וקו הגוף. הבחירה נשמרת בדפדפן וניתן לבטל אותה כאן בכל עת. ללא הסכמה מתקבל משוב מקומי. שימוש ושמירת נתונים אצל Google תלויים במסלול השירות ובמדיניותו.</p>
  </div>
 </details>
 <label class="pick"><span aria-hidden="true">↑</span> העלאת סרטון לניתוח<input id="file" type="file" accept="video/*"></label>
@@ -267,6 +269,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
       <div class="radar-center" aria-label="ציון כללי"><span class="score" id="score"></span><span class="radar-out-of">מתוך 100</span></div>
     </div>
     <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
+    <p class="hold-duration" id="holdDuration" hidden></p>
     <div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div>
   </div>
   <p id="measurementNotice" class="tips" hidden></p>
@@ -284,6 +287,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
   </section>
   <div id="replaySec">
   <h2>צפה בעצמך</h2>
+   <p class="note" id="replayTrimNotice">מקטע העמידה שנמדד</p>
   <div class="skeleton-control"><label><input id="showSkeleton" type="checkbox" checked> הצגת קווי שלד</label></div>
   <canvas id="cv"></canvas>
   <div dir="ltr" style="margin-top:12px"><input id="scrub" type="range" min="0" max="1" step="0.01" value="0" style="width:100%;accent-color:var(--acc)" aria-label="מיקום בסרטון"></div>
@@ -536,19 +540,22 @@ $("file").addEventListener("change",async e=>{
    $("measurementNotice").textContent=measuredHold?.diagnostics.legsApart
     ?"בפיסוק הרגליים קשה לנו להעריך את קו הגוף בצורה הוגנת. נסו סרטון נוסף עם רגליים קרובות, כשהגוף כולו בפריים."
     :"לא הצלחנו למדוד את העמידה בביטחון. נסו לצלם מהצד, עם כל הגוף בפריים והחזקה ברורה של כמה שניות.";
-   await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1]);
+   await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1],null);
    $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
   }
  }catch(err){pg.style.display="none";console.error(err);st.textContent="לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."}
  finally{e.target.disabled=false;e.target.value=""}
 });
 const f1=x=>String(Math.round(x*10)/10);
-function why(n,res){const s=res.sc[n],v=res.val,[g,b]=TH[n].map(x=>x*SCALE),vd=s>=80?"בטווח הטוב":s>=50?"סטייה קלה":"סטייה גדולה";
- if(n==="banana")return`${vd}: האגן סוטה ${f1(Math.abs(v.banana)*100)}% מאורך הגוף מהקו כתף-קרסול ${s<80?` (${v.banana>0?"קדימה, גב מקושת":"אחורה"})`:""}. עד ${f1(g*100)}% נחשב ישר, מ-${f1(b*100)}% הציון 0.`;
- if(n==="lean")return`${vd}: הגוף נוטה ${f1(v.lean)}° מהאנך. עד ${f1(g)}° נחשב ישר, מ-${f1(b)}° הציון 0.`;
- if(n==="shoulder")return`${vd}: לכתף חסרות ${f1(v.shoulder)}° כדי להיות פתוחה עד הסוף (180°). עד ${f1(g)}° חסרות נחשב טוב, מ-${f1(b)}° הציון 0.`;
- if(n==="elbow")return`${vd}: למרפק חסרות ${f1(v.elbow)}° כדי להיות ישר עד הסוף (180°). עד ${f1(g)}° חסרות נחשב טוב, מ-${f1(b)}° הציון 0.`;
- return`${vd}: האגן זז מצד לצד בסטייה של ${f1(v.sway*100)}% מאורך הגוף מעל הידיים. עד ${f1(g*100)}% נחשב יציב, מ-${f1(b*100)}% הציון 0.`}
+function why(n,res){
+ const score=Math.round(res.sc[n]),v=res.val;
+ const level=score>=80?"נראה טוב בחלק שנמדד":score>=50?"כדאי לדייק":"דורש עבודה ממוקדת";
+ if(n==="banana")return level+". "+(v.banana>0?"האגן בורח קדימה מקו הגוף והגב נראה מקושת.":"האגן נשאר מעט מאחורי קו הכתפיים והרגליים.")+" נסה לשמור על קו גוף אחיד.";
+ if(n==="lean")return level+". הגוף נוטה מהקו האנכי של הידיים. כדאי לעבוד על שליטה במרכז הגוף.";
+ if(n==="shoulder")return level+". הכתפיים נסגרות במידה מסוימת במקום להישאר פתוחות לאורך העמידה. דחוף גבוה דרך הכתפיים.";
+ if(n==="elbow")return level+". המרפקים לא נשארים ישרים לחלוטין. התמקד ביישור ידיים ובדחיפה יציבה מהרצפה.";
+ return level+". נמדדה תנועה של האגן במהלך ההחזקה. תרגל תיקוני איזון קטנים ומבוקרים.";
+}
 const lab=s=>s>=80?"מצוין":s>=50?"בסדר":"דורש תרגול";
 function plain(n,res){const s=res.sc[n],g=s>=80,b=res.val.banana>0;
  return({banana:g?"הגוף שלך ישר כמו קו, בלי קשת.":b?"הגב שלך מקושת והאגן בורח קדימה.":"האגן נשאר קצת אחורה והגוף לא ישר.",
@@ -564,14 +571,17 @@ const DRILLS={
  sway:["החזקות קצרות בקיר: 8 x 10 שניות עם מנוחה בין סט לסט","תרגול יציאה בטוחה (גלגול קדימה) כדי לא לפחד ולהתמקד באיזון"]};
 const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקרסוליים. תמשיך לכווץ ישבן ובטן.",lean:"איזון טוב מעל הידיים. תמשיך עם לחץ עדין באצבעות.",
  shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
-async function replay(fr,v,w,h,k,ser,fps,mid){
+async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
  ser=fr.map(()=>null);
  v.pause();const has=ser.some(x=>x!=null);$("tl").style.display=has?"block":"none";$("tlLabel").style.display=has?"block":"none";
  const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d"),sl=$("scrub");
  tl.width=600;tl.height=120;
- const N=ser.length,X=i=>i/(N-1)*600,Y=s=>112-s;sl.min=0;sl.max=N-1;sl.step=.01;
+ const N=ser.length,X=i=>i/Math.max(1,N-1)*600,Y=s=>112-s;
+ const start=windowFrames?.start??0,end=windowFrames?.end??N-1;
+ sl.min=start;sl.max=end;sl.step=.01;
+ $("replayTrimNotice").textContent=windowFrames?(windowFrames.observedStart&&windowFrames.observedEnd?"ניגון הקטע מתחילת העלייה שזוהתה עד הירידה שזוהתה.":"מוצג מקטע סביב ההחזקה. "+(!windowFrames.observedStart?"תחילת העלייה לא זוהתה בביטחון. ":"")+(!windowFrames.observedEnd?"הירידה לא זוהתה בביטחון.":"")):"גבולות התרגיל אינם מזוהים בביטחון; מוצג הסרטון המלא.";
  const draw=p=>{
-  p=Math.max(0,Math.min(N-1,p));c.drawImage(v,0,0,w,h);
+  p=Math.max(start,Math.min(end,p));c.drawImage(v,0,0,w,h);
   const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
   if($("showSkeleton").checked&&(f0||f1)){
    const A=f0||f1,B=f1||f0;
@@ -601,19 +611,19 @@ async function replay(fr,v,w,h,k,ser,fps,mid){
   sl.value=p};
  let rate=1,busy=false,pend=null;
  const posOf=()=>(v.currentTime-.05)*fps;
- const loop=()=>{draw(posOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
- const goTo=async p=>{pend=p;if(busy)return;busy=true;while(pend!=null){const q=Math.max(0,Math.min(N-1,pend));pend=null;await seek(v,.05+q/fps);draw(q)}busy=false};
+ const loop=()=>{if(v.currentTime>=(.05+end/fps)){v.pause();v.currentTime=.05+start/fps;draw(start);return}draw(posOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
+ const goTo=async p=>{pend=p;if(busy)return;busy=true;while(pend!=null){const q=Math.max(start,Math.min(end,pend));pend=null;await seek(v,.05+q/fps);draw(q)}busy=false};
  const pb=$("play");
- pb.onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=v.duration-.1)v.currentTime=.05;v.playbackRate=rate;await v.play();pb.textContent="עצור";loop()}else v.pause()};
+ pb.onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=(.05+end/fps)||v.currentTime<(.05+start/fps))v.currentTime=.05+start/fps;v.playbackRate=rate;await v.play();pb.textContent="עצור";loop()}else v.pause()};
  v.onpause=()=>{pb.textContent="נגן"};
  $("prev").onclick=()=>{v.pause();goTo(Math.round(posOf())-1)};
  $("next").onclick=()=>{v.pause();goTo(Math.round(posOf())+1)};
  $("spd").onclick=()=>{rate=rate===1?.5:rate===.5?.25:1;v.playbackRate=rate;$("spd").textContent="מהירות ×"+rate};
  sl.oninput=()=>{v.pause();goTo(+sl.value)};
- tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo((e.clientX-r.left)/r.width*(N-1))};
+ tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo(start+(e.clientX-r.left)/r.width*(end-start))};
  $("showSkeleton").onchange=()=>draw(posOf());
  pb.textContent="נגן";$("spd").textContent="מהירות ×1";
- await seek(v,.05+mid/fps);draw(mid);
+ await seek(v,.05+Math.max(start,Math.min(end,mid))/fps);draw(Math.max(start,Math.min(end,mid)));
 }
 function drawScoreRadar(res,overall){
  const svg=$("scoreRadar"),detail=$("scoreBreakdown"),ns="http://www.w3.org/2000/svg";
@@ -651,8 +661,34 @@ function drawScoreRadar(res,overall){
 async function show(res,fr,v,w,h,overall){
  $("score").textContent=overall;
  $("hold").textContent="ציון טכניקה בלבד · "+(res?"הגרף מציג את מדדי ההחזקה שנמדדו.":"לא נמדדה החזקה מספקת.");
+ $("holdDuration").hidden=!res;
+ if(res)$("holdDuration").textContent="זמן החזקה מזוהה: "+(Math.round(res.hold*10)/10).toFixed(1)+" שניות (הערכה מתוך הדגימות)";
  drawScoreRadar(res,overall);
- await replay(fr,v,w,h,res?.k||K[sideOf(fr)],null,res?.fps||10,res?.mid||Math.floor(fr.length/2));
+ const fps=res?.fps||10,diag=res?.diagnostics;
+ const k=res?.k||K[sideOf(fr)];
+ const inverted=f=>f&&["hip","ankle","shoulder","wrist"].every(name=>f[k[name]]?.v>=.6)
+   &&f[k.hip].y<f[k.shoulder].y&&f[k.ankle].y<f[k.shoulder].y&&f[k.wrist].y>f[k.shoulder].y;
+ const standing=f=>f&&["hip","ankle","shoulder"].every(name=>f[k[name]]?.v>=.65)
+   &&f[k.hip].y>f[k.shoulder].y&&f[k.ankle].y>f[k.shoulder].y;
+ let trim=null;
+ if(diag){
+  const st=diag.startFrame,en=diag.endFrame;
+  let start=Math.max(0,st-Math.round(fps*2)),end=Math.min(fr.length-1,en+Math.round(fps*.9));
+  let observedStart=false,observedEnd=false;
+  // Only label actual ascent/descent boundaries when two adjacent clear frames support them.
+  for(let i=st-2;i>=Math.max(1,st-Math.round(fps*5));i--){
+   if(standing(fr[i])&&standing(fr[i-1])&&fr.slice(i+1,st+1).some(inverted)){
+    start=Math.max(0,i-Math.round(fps*.2));observedStart=true;break;
+   }
+  }
+  for(let i=en+1;i<Math.min(fr.length-1,en+Math.round(fps*5));i++){
+   if(standing(fr[i])&&standing(fr[i+1])){
+    end=Math.min(fr.length-1,i+Math.round(fps*.2));observedEnd=true;break;
+   }
+  }
+  trim={start,end,observedStart,observedEnd};
+ }
+ await replay(fr,v,w,h,k,null,fps,res?.mid||Math.floor(fr.length/2),trim);
  $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
 }
 

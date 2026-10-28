@@ -2,6 +2,15 @@
 
 Last updated: 2026-10-28. MOVALYT athlete experience work is in progress on `feat/movalyt-athlete-ui`, based on `feat/handstand-product-experience`. No merge or production release.
 
+## MOVALYT detailed coaching and segment replay (2026-10-28; Draft PR #18)
+- Added measured handstand hold duration to score page; duration comes from reliable pose sample window, not an inferred perfect full-video duration.
+- Replay now tries to bound video between observed pre-inversion and return-to-standing (both require consecutive reliable pose samples). If one phase is not observed, the UI says so and falls back to context around the measured hold. This is a local playback window, **not** an exported/re-encoded cropped video.
+- Score explanations are athlete-friendly movement descriptions (body leaning, pelvis shifting, shoulders closing, elbow bend) instead of raw angle values.
+- Gemini receives an explicit allowlist of numeric 2D measurements (e.g. estimated tilt, shoulder/elbow deficits, pelvis deviation, confidence, hold length), but no image, video, landmarks, or arbitrary personal fields. The client requests a 3–4 paragraph evidence-bound Hebrew coaching report. The server validates incoming fields and AI responses, and falls back to grounded local text when necessary.
+- Expanded curated coaching exercise set to 19 options, dynamically narrowed by measured deficits; this is not yet the entire >100-item workout library, and no readiness for unsupported freestanding practice is inferred from a high technique score.
+- Because the outbound metric scope changed, Gemini preference key is now v2: users need to opt in again; they may revoke at any time. Remembered opt-in pertains to only the current published metrics-only flow.
+- Requires real human-video testing (hold times, trimming, recommendation quality), real consented Gemini response verification, mobile browser testing and legal/provider review. No Production merge or SSO changes.
+
 ## MOVALYT radar and one-shot AI coaching (2026-10-28; Draft PR #17)
 - Score summary now uses a responsive radial diagram with the overall score in the center, plotted *measured hold* metrics (body line, balance, shoulders, elbow extension and stability when reliable), plus per-metric values and quantified deduction explanations. When only entry was measured, the diagram explicitly has no hold axes rather than inventing data.
 - Removed the user-facing Gemini regeneration button. At most one Gemini request is initiated per successful local analysis. Late responses are ignored after consent withdrawal or a new analysis. Privacy fallback remains local.

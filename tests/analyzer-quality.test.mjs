@@ -42,7 +42,9 @@ test("measured problems are actionable, bounded and do not expose technical scor
  assert.ok(!issues.some(i=>/°|מעלות|ציון|\/100/.test(i.finding+i.correction)));
  const evidence=buildCoachEvidence(res,null,issues),local=buildCoachLocalPlan(issues,evidence);
  assert.ok(local.drills.length>=2&&local.drills.length<=3);
- assert.ok(!JSON.stringify(evidence).includes("Degrees"));
+ assert.equal(evidence.hold.metrics.leanDegrees,6);
+ assert.equal(evidence.hold.metrics.shoulderDeficitDegrees,30);
+ assert.ok(!JSON.stringify(issues).includes("Degrees"));
  const raw={summary:"פציעה 45°",observations:[{key:"hold_banana",finding:"שקר",correction:"שקר"}],drills:[{id:"hollow",reason:"שקר"}]};
  const ai=validateCoachResponse(raw,evidence,issues);
  assert.equal(ai.observations[0].key,issues[0].key);
