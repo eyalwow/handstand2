@@ -11,7 +11,7 @@ test("brand hero follows the approved athlete-first direction without fabricated
  assert.match(html,/movalyt-mark\.svg/);
  assert.match(html,/class="premium-hero"/);
  assert.match(html,/class="studio-photo"/);
- assert.match(html,/16779467/);
+ assert.match(html,/handstand-isabella-mendes/);
  assert.match(html,/Ardit Mbrati \/ Pexels/);
  assert.match(html,/צילום הדגמה בלבד/);
  assert.match(html,/ללא קשר לנתוני משתמש/);
