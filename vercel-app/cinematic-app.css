@@ -1,0 +1,122 @@
+/* MOVALYT Cinematic App — reference-led UI-only layer.
+   No changes to upload logic, MediaPipe, scoring, cloud or local history.
+   Desktop editorial sports photography and native-feeling mobile UI. */
+:root{--bg:#050908;--ink:#f5f7f2;--mute:#a9b5aa;--card:#101713;--line:#2c3a31;--acc:#c4ff64;--acc-ink:#111c0b}
+html{background:#050908}
+body{background:#050908!important;color:var(--ink);padding-top:clamp(12px,2vw,28px)!important}
+main{max-width:1380px!important}
+.brand{border-bottom:0!important;margin-bottom:8px!important;padding:8px 4px 16px!important;min-height:62px}
+.brand-mark{width:45px!important;height:45px!important}
+.brand-product{font-size:clamp(19px,2.1vw,26px)!important;letter-spacing:.18em!important}
+.brand-tagline{font-size:8px!important;letter-spacing:.19em}
+.brand-caption{background:#111a14;border-color:#354237!important;font-weight:600;font-size:12px}
+.brand-caption:hover{background:#19281c}
+.premium-hero{min-height:670px!important;border-radius:12px!important;border-color:#233128!important;background:#070b09!important;box-shadow:0 20px 75px #0005}
+.premium-hero .studio-photo{inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important}
+.premium-hero .studio-photo .hero-athlete{position:absolute!important;top:0!important;left:0!important;right:auto!important;transform:none!important;width:100%!important;max-width:none!important;height:100%!important;max-height:none!important;object-fit:cover!important;object-position:50% 38%!important;filter:grayscale(.85) saturate(.28) contrast(1.21) brightness(.68)!important;mask-image:none!important;-webkit-mask-image:none!important}
+.hero-darken{background:linear-gradient(90deg,#050806 0%,#050806f0 24%,#050806ae 47%,#05080628 73%,#05080612 100%),linear-gradient(0deg,#050806 0%,#05080677 20%,transparent 56%)!important}
+.premium-hero .hero-copy{position:relative!important;z-index:2!important;display:flex!important;flex-direction:column;align-items:flex-start!important;justify-content:center!important;text-align:right!important;direction:rtl!important;width:55%!important;min-height:555px!important;max-width:730px!important;padding:75px clamp(26px,5vw,75px) 76px 24px!important;margin:0 auto 0 0!important}
+.hero-eyebrow{color:#c8e7a3!important;font-size:11px!important;letter-spacing:.19em!important;margin-bottom:25px!important}
+.hero-copy h1{font-size:clamp(39px,4.8vw,75px)!important;line-height:1.19!important;letter-spacing:-.055em!important;max-width:650px!important;margin:0 0 21px!important;text-align:right!important;text-wrap:balance}
+.hero-copy h1 em{color:var(--acc)!important;white-space:normal!important}
+.hero-copy>p{color:#e1e9e0!important;max-width:34ch!important;font-size:clamp(14px,1.35vw,18px)!important;line-height:1.9!important;text-shadow:0 2px 12px #0009}
+.hero-cta-row{width:100%;align-items:flex-start!important;gap:13px!important}
+.hero-copy .feature-action{background:var(--acc)!important;color:#0c1708!important;border-radius:9px!important;min-height:60px!important;width:min(100%,360px)!important;justify-content:center!important;font-size:17px!important;box-shadow:0 8px 30px #0006!important}
+.hero-copy .feature-action:hover{background:#d5ff86!important}
+.hero-trust{color:#e0e8df!important;font-size:11px!important}
+.hero-stage{min-height:108px!important;background:#080e0ce8!important;backdrop-filter:blur(16px);border-top:1px solid #42504499!important;padding:13px clamp(16px,3vw,48px)!important;box-shadow:0 -12px 30px #0004}
+.hero-stage-item{justify-content:center!important;gap:11px!important;min-width:0}
+.hero-stage-item svg{width:27px;height:27px;flex:none;color:var(--acc)!important}
+.hero-stage-item strong{font-size:13px!important;color:#edf7e6}
+.hero-stage-item small{font-size:11px!important;color:#a8b9aa}
+.home-content{gap:22px!important;margin-top:28px!important}
+.home-activity,.movement-flow,.movement-picker{background:#0d1410!important;border-color:#27372d!important;box-shadow:none!important;border-radius:16px!important}
+.home-activity{padding:25px!important}.movement-flow,.movement-picker{padding:25px!important}
+.section-kicker,.flow-eyebrow{color:var(--acc)!important;letter-spacing:.17em!important}
+.section-title h2,.flow-heading h2{font-size:clamp(21px,2.7vw,29px)!important;letter-spacing:-.025em}
+.flow-steps{gap:8px!important}
+.flow-steps li{background:#111b14!important;border:1px solid #283a2b!important;border-radius:12px!important}
+.flow-step-icon{background:#1a2a1d!important;color:var(--acc)!important;border-radius:10px!important}
+.supported-movement{background:#142016!important;border:1px solid #456236!important;border-radius:12px!important}
+.coming-movements{color:#a8b6aa}
+.app-nav{background:#0a110de8!important;border:1px solid #36443a!important;backdrop-filter:blur(18px);border-radius:17px!important;box-shadow:0 12px 42px #0009!important}
+.app-nav a{transition:background .15s,color .15s}
+.app-nav a[aria-current=page]{background:#24351f!important;color:var(--acc)!important;border-radius:13px}
+#analyzerView,#historyView{max-width:960px;margin-inline:auto}
+.analyzer-heading{margin-top:18px!important}
+.analyzer-kicker{letter-spacing:.16em!important;color:var(--acc)!important}
+.analyzer-heading h1,#history-title{font-size:clamp(32px,5vw,52px)!important;line-height:1.2!important}
+.upload-panel{border:1px solid #2c3b30!important;background:#0c130f!important;border-radius:18px!important;padding:clamp(15px,3vw,28px)!important}
+.capture-guide.capture-guide-rebuilt{border-radius:12px!important;background:#070b09!important;min-height:360px!important}
+.capture-photo{height:370px!important}
+.capture-photo img{object-fit:cover!important;object-position:center 43%!important;filter:grayscale(.8) contrast(1.2) brightness(.77)!important}
+.capture-photo:after{background:linear-gradient(270deg,transparent 35%,#070b09 100%),linear-gradient(0deg,#070b09 0%,transparent 40%)!important}
+.capture-copy{padding:24px 30px!important}
+.capture-guide-rebuilt h3{font-size:clamp(26px,3.6vw,38px)!important;line-height:1.2!important}
+.capture-guide-rebuilt p{color:#e0e9dc!important}
+.capture-actions .pick{border-radius:9px!important;background:var(--acc)!important;color:#0b1909!important;min-height:64px!important;font-size:18px!important}
+#status:not(:empty){background:#17221a!important;border:1px solid #374a3b!important;color:#e8f1e5!important}
+#retryAnalysis{background:#203224!important;border:1px solid #77995e!important;color:#f3ffe7!important;border-radius:9px!important}
+.results-heading{background:#0b130e!important;border:0!important;border-inline-start:4px solid var(--acc)!important;border-radius:4px!important;padding:16px 20px!important}
+#replaySec,#holdSec,#entrySec{border:1px solid #2b3b30!important;background:#0d1510!important;border-radius:17px!important}
+#cv{background:#070c09!important;border:1px solid #324335!important;border-radius:12px!important;overflow:hidden}
+.skeleton-control{color:#d6e6d6!important}
+#holdSec{background:radial-gradient(ellipse at 50% 15%,#21351c 0%,#0c140e 55%)!important}
+.radar-center .score{color:#fff!important;font-weight:800!important}
+#scoreBreakdown>*{border-radius:12px!important}
+.coach-panel{border-color:#324034!important;background:#0b120e!important;border-radius:18px!important}
+.coach-strength{background:#17291b!important}
+#historyView .history-entry,.history-entry{background:#101a13!important;border:1px solid #2d4031!important;border-radius:14px!important}
+.history-score{color:var(--acc)!important}
+.photo-credit{opacity:.7}
+@media(min-width:1000px){
+ .premium-hero .studio-photo .hero-athlete{object-position:57% 36%!important}
+ .hero-darken{background:linear-gradient(90deg,#050806 0%,#050806ec 20%,#050806ad 42%,transparent 76%),linear-gradient(0deg,#050806 0%,#0508069c 20%,transparent 60%)!important}
+}
+@media(max-width:740px){
+ body{padding-inline:12px!important;padding-top:max(9px,env(safe-area-inset-top))!important;padding-bottom:calc(108px + env(safe-area-inset-bottom))!important}
+ .brand{padding:4px 5px 12px!important;min-height:55px!important;margin-bottom:5px!important}
+ .brand-mark{width:36px!important;height:36px!important}.brand-product{font-size:18px!important}.brand-tagline{font-size:7px!important}
+ .brand-caption{font-size:10px!important;padding:7px 10px!important}
+ .premium-hero{height:min(720px,calc(100svh - 136px))!important;min-height:555px!important;max-height:790px!important;border-radius:13px!important}
+ .premium-hero .studio-photo{height:100%!important;inset:0!important}
+ .premium-hero .studio-photo .hero-athlete{top:0!important;width:100%!important;height:100%!important;object-position:50% 34%!important;object-fit:cover!important;filter:grayscale(.8) contrast(1.23) brightness(.81)!important}
+ .hero-darken{background:linear-gradient(0deg,#050806 0%,#050806f5 19%,#050806b8 40%,#05080624 69%,#05080640 100%)!important}
+ .premium-hero .hero-copy{position:absolute!important;bottom:92px!important;left:0!important;right:0!important;min-height:0!important;max-width:none!important;width:100%!important;padding:20px 22px 18px!important;align-items:flex-start!important;justify-content:flex-end!important}
+ .hero-eyebrow{display:none!important}
+ .hero-copy h1{font-size:clamp(33px,8.4vw,45px)!important;line-height:1.13!important;margin:0 0 12px!important;max-width:360px!important}
+ .hero-copy>p{font-size:12px!important;line-height:1.65!important;margin:0 0 15px!important;max-width:33ch!important;color:#edf4ec!important}
+ .hero-cta-row{gap:9px!important}
+ .hero-copy .feature-action{min-height:53px!important;width:100%!important;border-radius:9px!important;font-size:15px!important}
+ .hero-trust{font-size:10px!important}
+ .hero-stage{height:92px!important;min-height:92px!important;padding:10px 2px!important;border-top-color:#364737!important}
+ .hero-stage-item{padding:5px 3px!important;gap:5px!important;flex-direction:column!important;text-align:center}
+ .hero-stage-item svg{width:21px;height:21px}
+ .hero-stage-item strong{font-size:10px!important;line-height:1.3}
+ .hero-stage-item small{font-size:8px!important;line-height:1.3}
+ .home-content{margin-top:14px!important;gap:12px!important}
+ .home-activity,.movement-flow,.movement-picker{padding:17px!important;border-radius:13px!important}
+ .app-nav{bottom:max(10px,env(safe-area-inset-bottom))!important;left:12px!important;right:12px!important;border-radius:18px!important;min-height:68px!important}
+ .app-nav a{padding:7px 3px!important}.app-nav a svg{width:23px;height:23px}.app-nav a span{font-size:11px!important}
+ .analyzer-heading h1,#history-title{font-size:29px!important}
+ .upload-panel{padding:13px!important;border-radius:14px!important}
+ .capture-guide.capture-guide-rebuilt{grid-template-columns:1fr!important;min-height:0!important}
+ .capture-photo{grid-column:1!important;grid-row:1!important;height:270px!important;background:#090e0a!important}
+ .capture-photo img{object-fit:cover!important;object-position:center 36%!important}
+ .capture-photo:after{background:linear-gradient(0deg,#070b09 1%,#070b0900 50%)!important}
+ .capture-copy{grid-column:1!important;grid-row:2!important;padding:14px 17px 18px!important}
+ .capture-guide-rebuilt h3{font-size:27px!important}
+ .capture-guide-rebuilt p{font-size:13px!important}
+ .capture-actions .pick{font-size:16px!important;min-height:57px!important}
+ #replaySec,#holdSec,#entrySec{padding:14px!important;border-radius:13px!important}
+ #cv{max-width:100%!important}
+ .results-heading{padding:12px 14px!important}
+}
+@media(max-width:380px){
+ .premium-hero{min-height:525px!important}
+ .hero-copy h1{font-size:30px!important}
+ .hero-copy>p{font-size:11px!important}
+ .hero-stage{height:88px!important;min-height:88px!important}
+ .capture-photo{height:220px!important}
+}
+@media(prefers-reduced-motion:reduce){.hero-copy .feature-action,.app-nav a{transition:none!important}}
