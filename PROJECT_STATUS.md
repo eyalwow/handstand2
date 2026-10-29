@@ -1,5 +1,12 @@
 # Handstand Lab — project status
 
+## MOVALYT iOS/repeatability continuation — 2026-10-29
+
+- Current work: `fix/movalyt-ios-repeatability`, based exactly on PR #26 (`7a53e0d`). Reproduced WebKit Worker canvas/`document` initialization failure; added a feature-based local compatibility path and verified actual human-photo inference. This does **not** establish successful iPhone video analysis.
+- Fixed-time chronological sampling, fresh CPU model per upload, real source timestamps, strict seek failure/cancellation cleanup and versioned comparable history replace timing-dependent sampling/model reuse. Scoring formulas and reliability gates unchanged. Upload now uses existing licensed photography, concise guidance, percent progress and retry. The new AI photo was not attached.
+- 61 Node tests pass; real original MP4 upload in Chromium three times yields 97/97/97, identical 167-sample diagnostics/metrics. Real layouts at 1440/390/320 pass. Windows WebKit Blob decoding and paused-frame presentation prevent a valid end-to-end video score; no success claimed there. Physical iPhone, personal source file and native MOV/HEVC remain unverified.
+- Full evidence, reproduction command and limitations: [`docs/ios-repeatability.md`](docs/ios-repeatability.md). Draft/Preview only. Coach, closed Gemini policy, existing data and global SSO unchanged.
+
 Last updated: 2026-10-28. MOVALYT athlete experience work is in progress on `feat/movalyt-athlete-ui`, based on `feat/handstand-product-experience`. No merge or production release.
 
 ## MOVALYT TASK-005 — MediaPipe Worker/WASM compatibility (2026-10-28; Draft PR #20)

@@ -76,5 +76,5 @@ test("pose inference runs through a cancellable worker with increasing timestamp
  const timeoutWorker=new FakeWorker();timeoutWorker.postMessage=message=>{if(message.type==="init")queueMicrotask(()=>timeoutWorker.onmessage({data:{id:message.id,type:"ready",delegate:"CPU"}}))};
  const timed=new PoseWorkerRuntime({workerFactory:()=>timeoutWorker,requestTimeoutMs:5});await timed.init();
  await assert.rejects(timed.detect({},null),error=>error.name==="TimeoutError");assert.equal(timeoutWorker.terminated,true);
- assert.equal(analysisTimeoutMs(16.83),60000);assert.equal(analysisTimeoutMs(120),180000);
+ assert.equal(analysisTimeoutMs(16.83),100980);assert.equal(analysisTimeoutMs(120),480000);
 });

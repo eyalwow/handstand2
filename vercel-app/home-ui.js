@@ -7,7 +7,7 @@ function renderHistory() {
  try {
   const raw=JSON.parse(localStorage.getItem('handstand-lab-analyses-v1')||'[]');
   if(!Array.isArray(raw)) throw new Error('history');
-  entries=raw.filter(x=>x&&typeof x.model==='string'&&x.model.startsWith('v2-')&&Number.isFinite(x.score)&&x.score>=0&&x.score<=100&&Number.isFinite(Date.parse(x.date))).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
+  entries=raw.filter(x=>x&&typeof x.model==='string'&&/^(v2-|v3-fixed-)/.test(x.model)&&Number.isFinite(x.score)&&x.score>=0&&x.score<=100&&Number.isFinite(Date.parse(x.date))).sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
  } catch {
   recent.textContent='לא ניתן לקרוא את ההיסטוריה במכשיר הזה.';
   list.textContent='הנתונים השמורים לא זמינים כרגע. לא שינינו אותם. אפשר לנסות לפתוח מחדש את הדפדפן.';
