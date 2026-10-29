@@ -27,6 +27,8 @@ jobs:
           node --check vercel-app/analysis-performance.js
           node --check vercel-app/pose-runtime.js
           node --check vercel-app/pose-worker.js
+          node --check vercel-app/pose-main.js
+          node --check vercel-app/video-sampling.js
           node --check vercel-app/server-gemini.js
           node --check vercel-app/training-core.js
           node --check vercel-app/exercise-library.js

@@ -24,7 +24,7 @@ test("analysis-first home retains the honest video analysis flow",()=>{
   assert.doesNotMatch(home, /href=".\/training.html/);
   assert.match(home,/id="cameraFile"[^>]*capture="environment"/);
   assert.match(home,/href="#analyze"/);
-  assert.match(home,/עמידת ידיים היא התנועה הראשונה שנתמכת/);
+  assert.match(home,/עמידת ידיים בלבד/);
   assert.match(home,/הווידאו נשאר במכשיר/);
   for(const id of ["analyzerView","file","status","prog","out","coachPanel","replaySec"]){
     assert.ok(home.includes(`id="${id}"`),`missing analysis control: ${id}`);
