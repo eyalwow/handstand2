@@ -20,3 +20,9 @@
  .hero-stage{min-height:98px;padding:10px 6px}.hero-stage-item{padding:6px 4px}.hero-stage-item strong{font-size:11px}.hero-stage-item small{font-size:9px}
 }
 @media(max-width:380px){.premium-hero{min-height:700px}.premium-hero .studio-photo{height:440px!important}.premium-hero .hero-copy{padding-inline:18px!important}.hero-copy h1{font-size:27px}.hero-copy>p{font-size:12px}.hero-stage-item strong{font-size:10px}}
+@media(min-width:741px){
+ .premium-hero .studio-photo .hero-athlete{right:18%;top:8px;height:calc(100% - 16px)!important;mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+ .premium-hero .hero-copy{position:relative!important;width:74%!important;padding-top:180px!important;padding-bottom:145px!important;max-width:940px}
+ .hero-darken{background:linear-gradient(90deg,#070a08f5 0%,#070a08bb 25%,#070a0840 51%,transparent 70%),linear-gradient(0deg,#070a08 10%,#070a0866 33%,transparent 70%)}
+ .hero-copy h1{font-size:clamp(38px,4.1vw,57px)}
+}
