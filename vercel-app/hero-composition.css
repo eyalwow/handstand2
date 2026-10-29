@@ -26,3 +26,8 @@
  .hero-darken{background:linear-gradient(90deg,#070a08f5 0%,#070a08bb 25%,#070a0840 51%,transparent 70%),linear-gradient(0deg,#070a08 10%,#070a0866 33%,transparent 70%)}
  .hero-copy h1{font-size:clamp(38px,4.1vw,57px)}
 }
+@media(min-width:741px){
+ .premium-hero .studio-photo .hero-athlete{right:auto;left:50%;transform:translateX(-50%);top:8px;max-width:100%!important;height:calc(100% - 16px)!important}
+ .premium-hero .hero-copy{width:100%!important;max-width:none;text-align:center!important;padding:300px 40px 135px!important}
+ .hero-copy h1{font-size:48px;max-width:700px;margin-inline:auto!important}.hero-copy>p{margin-inline:auto}.hero-cta-row{align-items:center}.hero-darken{background:linear-gradient(0deg,#070a08 12%,#070a08dd 32%,#070a0866 54%,transparent 82%)}
+}
