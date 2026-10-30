@@ -1,35 +1,53 @@
 import { readAnalysisHistory } from "./analysis-history.js";
+import {
+  ANALYSIS_CATALOG,
+  HANDSTAND_METRICS,
+  exerciseById,
+} from "./analysis-catalog.js";
+import { analysisFor } from "./analysis-registry.js";
+import { GOALS } from "./onboarding-data.js";
+import { createOnboarding, renderOnboardingPose } from "./onboarding-ui.js";
+import {
+  exerciseArtwork,
+  exerciseCaption,
+  statusBadge,
+} from "./ui-elements.js";
 const $ = (id) => document.getElementById(id);
 let busy = false,
   available = false,
-  scored = false;
+  scored = false,
+  pendingRoute = null;
 const stages = ["decode", "model", "scan", "scoring", "render"];
-function route() {
-  let screen = location.hash.slice(1) || "home";
-  if (
-    !["home", "analyze", "processing", "results", "replay", "history"].includes(
-      screen,
-    )
-  )
-    screen = "home";
-  if (busy && ["analyze", "results", "replay"].includes(screen))
-    screen = "processing";
-  if (screen === "processing" && !busy)
-    screen = available ? (scored ? "results" : "replay") : "analyze";
-  if (["results", "replay"].includes(screen) && !available) {
-    screen = "analyze";
-    $("sessionNotice").hidden = false;
-  }
+const onboarding = createOnboarding({
+  onShow() {
+    if ($("aboutDialog").open) $("aboutDialog").close();
+    route();
+  },
+  onComplete({ error }) {
+    if (error) {
+      $("storageNotice").textContent = error;
+      $("storageNotice").hidden = false;
+    }
+    location.hash = "home";
+    route();
+    renderPreferences();
+  },
+});
+function activate(screen) {
   document.body.dataset.screen = screen;
-  $("analyzer-title").textContent =
-    screen === "results"
-      ? "תוצאה"
-      : screen === "processing"
-        ? "מנתח את הסרטון"
-        : "ניתוח עמידת ידיים";
-  $("homeView").hidden = screen !== "home";
-  $("historyView").hidden = screen !== "history";
-  $("analyzerView").hidden = ["home", "history"].includes(screen);
+  for (const [id, key] of [
+    ["homeView", "home"],
+    ["historyView", "history"],
+    ["catalogView", "catalog"],
+    ["onboardingView", "onboarding"],
+  ])
+    $(id).hidden = screen !== key;
+  $("analyzerView").hidden = [
+    "home",
+    "history",
+    "catalog",
+    "onboarding",
+  ].includes(screen);
   $("holdSec").hidden = screen !== "results";
   const active =
     screen === "home"
@@ -41,17 +59,62 @@ function route() {
     if (id === active) $(id).setAttribute("aria-current", "page");
     else $(id).removeAttribute("aria-current");
   }
-  if (screen !== "replay") $("v").pause();
+}
+function route() {
+  if (onboarding.isOpen) {
+    activate("onboarding");
+    return;
+  }
+  if (onboarding.needsIntroduction) {
+    onboarding.start();
+    return;
+  }
+  let screen = location.hash.slice(1) || "home";
+  if (
+    ![
+      "home",
+      "analyze",
+      "processing",
+      "results",
+      "replay",
+      "history",
+      "catalog",
+    ].includes(screen)
+  )
+    screen = "home";
+  if (busy && screen !== "processing") {
+    pendingRoute = screen;
+    $("cancelAnalysis").click();
+    screen = "processing";
+  }
+  if (screen === "processing" && !busy)
+    screen = available ? (scored ? "results" : "replay") : "analyze";
+  if (["results", "replay"].includes(screen) && !available) {
+    screen = "analyze";
+    $("sessionNotice").hidden = false;
+  }
+  activate(screen);
+  $("analyzer-title").textContent =
+    screen === "results"
+      ? "תוצאה"
+      : screen === "processing"
+        ? "מנתח את הסרטון"
+        : "העלאת סרטון";
+  if (screen !== "replay") {
+    $("v").pause();
+    setExpanded(false);
+  }
+  if ($("aboutDialog").open) $("aboutDialog").close();
   window.scrollTo({ top: 0, behavior: "instant" });
   const heading =
     screen === "home"
       ? $("home-title")
       : screen === "history"
         ? $("history-title")
-        : screen === "replay"
-          ? $("playerTitle")
-          : screen === "processing"
-            ? $("analyzer-title")
+        : screen === "catalog"
+          ? $("catalog-title")
+          : screen === "replay"
+            ? $("playerTitle")
             : $("analyzer-title");
   heading.focus({ preventScroll: true });
 }
@@ -59,9 +122,17 @@ window.addEventListener("hashchange", route);
 $("openCamera").onclick = () => $("cameraFile").click();
 $("openGallery").onclick = () => $("file").click();
 const about = $("aboutDialog");
-$("aboutButton").onclick = () => about.showModal();
+$("aboutButton").onclick = () => {
+  renderPreferences();
+  about.showModal();
+};
 $("closeAbout").onclick = () => about.close();
 $("aboutAnalyze").addEventListener("click", () => about.close());
+$("settingsCatalog").addEventListener("click", () => about.close());
+$("restartOnboarding").onclick = () => {
+  about.close();
+  onboarding.start();
+};
 about.addEventListener("click", (event) => {
   if (event.target !== about) return;
   const box = about.getBoundingClientRect();
@@ -73,21 +144,57 @@ about.addEventListener("click", (event) => {
   )
     about.close();
 });
+function renderPreferences() {
+  const host = $("savedPreferences");
+  host.replaceChildren();
+  const preferences = onboarding.preferences;
+  const goal = document.createElement("p");
+  goal.textContent = preferences?.goal
+    ? "המטרה שלך: " + GOALS.find((item) => item.id === preferences.goal)?.title
+    : "אפשר לבחור מטרה ותחומי עניין בתהליך ההיכרות.";
+  host.append(goal);
+  if (preferences?.interests.length) {
+    const list = document.createElement("p");
+    list.textContent =
+      "תחומי העניין: " +
+      preferences.interests.map((id) => exerciseById(id).name).join(" · ");
+    host.append(list);
+  }
+  $("preferencesError").textContent = onboarding.storageError || "";
+}
+$("catalogCount").textContent =
+  ANALYSIS_CATALOG.length + " תרגילים. כיוון אחד: להתקדם.";
+for (const exercise of ANALYSIS_CATALOG) {
+  const config = analysisFor(exercise.id),
+    card = document.createElement(config ? "a" : "article");
+  card.className = "exercise-card";
+  card.dataset.exercise = exercise.id;
+  card.dataset.status = exercise.status;
+  if (config) {
+    card.href = "#analyze";
+    card.setAttribute("aria-label", exercise.name + " — ניתוח זמין");
+  }
+  card.append(
+    exerciseArtwork(exercise),
+    statusBadge(exercise),
+    exerciseCaption(exercise),
+  );
+  $("catalogGrid").append(card);
+}
 for (const [id, showGraph] of [
   ["historyGraphTab", true],
   ["historyListTab", false],
-]) {
+])
   $(id).onclick = () => {
     $("historyChart").hidden = !showGraph;
     $("historyGraphTab").setAttribute("aria-pressed", String(showGraph));
     $("historyListTab").setAttribute("aria-pressed", String(!showGraph));
   };
-}
 function viewportChanged() {
   const height = window.visualViewport?.height || window.innerHeight;
   document.documentElement.style.setProperty("--visual-height", height + "px");
   const editing = document.activeElement?.matches(
-    'input:not([type="file"]):not([type="checkbox"]):not([type="range"]),textarea,[contenteditable="true"]',
+    'input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]),textarea,[contenteditable="true"]',
   );
   document.body.dataset.keyboard =
     editing && window.innerHeight - height > 150 ? "open" : "closed";
@@ -97,6 +204,28 @@ window.addEventListener("resize", viewportChanged);
 document.addEventListener("focusin", viewportChanged);
 document.addEventListener("focusout", viewportChanged);
 viewportChanged();
+function playState() {
+  const playing = !$("v").paused;
+  $("play").dataset.playing = String(playing);
+  $("play").setAttribute("aria-label", playing ? "עצור" : "נגן");
+}
+$("v").addEventListener("play", playState);
+$("v").addEventListener("pause", playState);
+playState();
+function setExpanded(expanded) {
+  document.body.dataset.expanded = String(expanded);
+  $("expandPlayer").setAttribute("aria-expanded", String(expanded));
+  $("expandPlayer").setAttribute(
+    "aria-label",
+    expanded ? "סגירת התצוגה המוגדלת" : "הגדלת הסרטון",
+  );
+}
+$("expandPlayer").onclick = () =>
+  setExpanded(document.body.dataset.expanded !== "true");
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setExpanded(false);
+});
+renderOnboardingPose();
 export function drawPose(ctx, landmarks, width, height) {
   if (!landmarks) return;
   const point = (i) => (landmarks[i]?.v >= 0.5 ? landmarks[i] : null);
@@ -146,6 +275,29 @@ export const analysisUI = {
       return Math.floor(value / 60) + ":" + String(value % 60).padStart(2, "0");
     };
     $("playerTime").textContent = format(current) + " / " + format(duration);
+    const scrub = $("scrub"),
+      range = Number(scrub.max) - Number(scrub.min);
+    scrub.style.setProperty(
+      "--seek-percent",
+      (range > 0
+        ? Math.max(
+            0,
+            Math.min(
+              100,
+              ((Number(scrub.value) - Number(scrub.min)) / range) * 100,
+            ),
+          )
+        : 0) + "%",
+    );
+    const video = $("v"),
+      backdrop = $("replayBackdrop");
+    if (video.readyState >= 2) {
+      if (backdrop.width !== 128) {
+        backdrop.width = 128;
+        backdrop.height = 128;
+      }
+      backdrop.getContext("2d").drawImage(video, 0, 0, 128, 128);
+    }
   },
   joints(first, second, amount) {
     const host = $("jointMetrics");
@@ -192,6 +344,19 @@ export const analysisUI = {
   },
   start() {
     busy = true;
+    pendingRoute = null;
+    for (const id of [
+      "resultMetrics",
+      "playerMetrics",
+      "resultHighlights",
+      "jointMetrics",
+    ])
+      $(id).replaceChildren();
+    $("score").textContent = "";
+    $("ringScore").textContent = "";
+    $("resultQuality").textContent = "";
+    $("scoreArc").style.strokeDashoffset = 100;
+
     available = false;
     scored = false;
     $("sessionNotice").hidden = true;
@@ -249,12 +414,9 @@ export const analysisUI = {
     const target = $("resultMetrics");
     target.replaceChildren();
     if (res)
-      for (const [key, label] of [
-        ["banana", "יישור גוף"],
-        ["shoulder", "כתפיים"],
-        ["elbow", "ידיים"],
-        ["lean", "איזון"],
-      ]) {
+      for (const { key, label } of HANDSTAND_METRICS.filter(
+        (metric) => metric.key !== "sway",
+      )) {
         if (!Number.isFinite(res.sc[key])) continue;
         const card = document.createElement("article");
         const title = document.createElement("span");
@@ -325,7 +487,9 @@ export const analysisUI = {
     available = ["scored", "unreliable"].includes(outcome);
     scored = outcome === "scored";
     $("analysisStage").hidden = true;
-    location.hash = available ? (scored ? "results" : "replay") : "analyze";
+    location.hash =
+      pendingRoute || (available ? (scored ? "results" : "replay") : "analyze");
+    pendingRoute = null;
     route();
   },
 };

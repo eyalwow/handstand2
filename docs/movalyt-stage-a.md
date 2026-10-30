@@ -1,5 +1,8 @@
 # MOVALYT — Stage A: four screens for visual approval
 
+> Historical Stage A snapshot. The overnight request approved Stage B, now integrated
+> into the active app. See [Stage B report](movalyt-overnight.md).
+
 Continues the existing branch and Draft PR #29. **Stop after this review and wait
 for the user's explicit approval before Stage B.** This is a new isolated design
 proposal, not another spacing patch applied to the running app.

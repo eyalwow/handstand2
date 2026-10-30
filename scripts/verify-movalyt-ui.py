@@ -15,6 +15,7 @@ import subprocess
 import tarfile
 import tempfile
 import threading
+import shutil
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.request import urlopen
 from playwright.sync_api import sync_playwright
@@ -32,29 +33,36 @@ HISTORY_KEY = "handstand-lab-analyses-v1"
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--browser", choices=["chromium", "webkit", "all"], default="all")
 parser.add_argument("--webkit-executable")
-parser.add_argument("--chromium-executable", default="/usr/bin/chromium")
 parser.add_argument(
-    "--out", type=Path, default=ROOT / "docs/screenshots/mobile-refinement"
+    "--ui-only",
+    action="store_true",
+    help="Check UI without retrying the known Linux WebKit inference limitation",
 )
+parser.add_argument("--chromium-executable", default="/usr/bin/chromium")
+parser.add_argument("--out", type=Path, default=ROOT / "docs/screenshots/overnight")
+parser.add_argument("--cache", type=Path, default=ROOT.parent / "movalyt-test-cache")
 args = parser.parse_args()
 args.out.mkdir(parents=True, exist_ok=True)
 
 
 def prepare(directory):
-    for spec, name in [
-        ("@mediapipe/tasks-vision@0.10.14", "vision"),
-        ("ptmaker-vision-models@1.0.0", "model"),
+    directory.mkdir(parents=True, exist_ok=True)
+    packages = args.cache / "packages"
+    packages.mkdir(parents=True, exist_ok=True)
+    for spec, name, artifact in [
+        ("@mediapipe/tasks-vision@0.10.14", "vision", "vision_bundle.mjs"),
+        ("ptmaker-vision-models@1.0.0", "model", "pose_landmarker_lite.task"),
     ]:
+        if (directory / name / "package" / artifact).exists():
+            continue
         packed = subprocess.run(
-            ["npm", "pack", spec, "--pack-destination", str(directory)],
+            ["npm", "pack", spec, "--pack-destination", str(packages)],
             check=True,
             capture_output=True,
             text=True,
-            env={**os.environ, "npm_config_cache": str(directory / "npm-cache")},
+            env={**os.environ, "npm_config_cache": str(args.cache / "npm-cache")},
         )
-        with tarfile.open(
-            directory / packed.stdout.strip().splitlines()[-1]
-        ) as archive:
+        with tarfile.open(packages / packed.stdout.strip().splitlines()[-1]) as archive:
             archive.extractall(directory / name, filter="data")
     assert (
         hashlib.sha256(
@@ -62,31 +70,53 @@ def prepare(directory):
         ).hexdigest()
         == MODEL_SHA
     )
-    with urlopen(VIDEO_URL, timeout=45) as response:
-        original = response.read()
-    assert hashlib.sha256(original).hexdigest() == VIDEO_SHA, "UCF101 LFS SHA mismatch"
-    avi, video = directory / "source.avi", directory / "motion.mp4"
-    avi.write_bytes(original)
-    subprocess.run(
-        [
-            "ffmpeg",
-            "-hide_banner",
-            "-loglevel",
-            "error",
-            "-i",
-            str(avi),
-            "-vf",
-            "scale=480:-2",
-            "-c:v",
-            "libx264",
-            "-pix_fmt",
-            "yuv420p",
-            "-an",
-            "-y",
-            str(video),
-        ],
-        check=True,
-    )
+    avi, video = args.cache / "source.avi", args.cache / "motion.mp4"
+    if not avi.exists():
+        with urlopen(VIDEO_URL, timeout=45) as response:
+            avi.write_bytes(response.read())
+    assert hashlib.sha256(avi.read_bytes()).hexdigest() == VIDEO_SHA
+    if not video.exists():
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-i",
+                str(avi),
+                "-vf",
+                "scale=480:-2",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                "-an",
+                "-y",
+                str(video),
+            ],
+            check=True,
+        )
+    negative = args.cache / "no-pose.mp4"
+    if not negative.exists():
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-f",
+                "lavfi",
+                "-i",
+                "color=c=black:s=320x480:r=10:d=2",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                "-y",
+                str(negative),
+            ],
+            check=True,
+        )
     return video
 
 
@@ -147,6 +177,48 @@ def run_browser(playwright, name, url, video):
     prefix = "" if name == "chromium" else "webkit-"
     try:
         page.goto(url, wait_until="networkidle")
+        assert page.evaluate("document.body.dataset.screen") == "onboarding"
+        snapshot(page, "welcome", 390, prefix)
+        page.locator("#welcomeStart").click()
+        assert page.locator("#onboardingNext").is_disabled()
+        page.locator("#goal-technique").check()
+        snapshot(page, "onboarding-goal", 390, prefix)
+        page.locator("#onboardingNext").click()
+        assert page.locator("input[name=interest]").count() == 20
+        page.locator("#interest-planche").check()
+        page.locator("#interest-front-lever").check()
+        snapshot(page, "onboarding-exercises", 390, prefix)
+        page.locator("#onboardingNext").click()
+        snapshot(page, "onboarding-explain", 390, prefix)
+        page.locator("#onboardingNext").click()
+        snapshot(page, "onboarding-finish", 390, prefix)
+        page.locator("#onboardingNext").click()
+        profile = page.evaluate(
+            "JSON.parse(localStorage.getItem('movalyt-preferences-v1'))"
+        )
+        assert (
+            profile["completed"]
+            and profile["goal"] == "technique"
+            and set(profile["interests"]) == {"handstand", "planche", "front-lever"}
+        )
+        page.reload(wait_until="networkidle")
+        assert page.evaluate("document.body.dataset.screen") == "home"
+        page.locator("#aboutButton").click()
+        snapshot(page, "settings", 390, prefix)
+        page.locator("#restartOnboarding").click()
+        assert page.evaluate("document.body.dataset.screen") == "onboarding"
+        page.locator("#welcomeSkip").click()
+        assert (
+            page.evaluate(
+                "JSON.parse(localStorage.getItem('movalyt-preferences-v1')).interests.length"
+            )
+            == 3
+        )
+        page.reload(wait_until="networkidle")
+        assert page.evaluate("document.body.dataset.screen") == "home"
+        report["passed"].append(
+            "Full first-run onboarding, goal/multiple interests, completion persistence, reload, settings replay and Welcome skip"
+        )
         for width in WIDTHS:
             page.set_viewport_size({"width": width, "height": HEIGHTS[width]})
             for screen in ["home", "analyze", "history"]:
@@ -157,8 +229,27 @@ def run_browser(playwright, name, url, video):
                     width,
                     prefix,
                 )
+            page.evaluate("location.hash='catalog'")
+            assert page.locator("#catalogGrid .exercise-card").count() == 20
+            assert page.locator("#catalogGrid a.exercise-card").count() == 1
+            assert page.locator("#catalogGrid [data-status=coming-soon]").count() == 19
+            snapshot(page, "catalog", width, prefix)
+            page.evaluate("location.hash='home'")
+            page.locator("#aboutButton").click()
+            page.locator("#restartOnboarding").click()
+            assert not page.evaluate("document.documentElement.scrollWidth>innerWidth")
+            page.locator("#welcomeStart").click()
+            assert not page.evaluate("document.documentElement.scrollWidth>innerWidth")
+            page.locator("#goal-progress").check()
+            page.locator("#onboardingNext").click()
+            assert not page.evaluate("document.documentElement.scrollWidth>innerWidth")
+            page.locator("#onboardingNext").click()
+            assert not page.evaluate("document.documentElement.scrollWidth>innerWidth")
+            page.locator("#onboardingNext").click()
+            assert not page.evaluate("document.documentElement.scrollWidth>innerWidth")
+            page.locator("#onboardingNext").click()
             report["passed"].append(
-                f"{width}: home, upload, empty history, no horizontal overflow"
+                f"{width}: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow"
             )
         page.set_viewport_size({"width": 390, "height": 844})
         page.evaluate("location.hash='home'")
@@ -180,7 +271,7 @@ def run_browser(playwright, name, url, video):
         page.evaluate(
             "document.documentElement.style.setProperty('--safe-top','47px');document.documentElement.style.setProperty('--safe-bottom','34px')"
         )
-        assert page.locator(".brand").bounding_box()["y"] >= 47
+        assert page.locator(".brand:visible").bounding_box()["y"] >= 47
         assert (
             page.locator(".app-nav").bounding_box()["y"]
             + page.locator(".app-nav").bounding_box()["height"]
@@ -193,6 +284,11 @@ def run_browser(playwright, name, url, video):
         report["passed"].append(
             "dialog close/focus return, reduced motion, simulated top/bottom safe areas"
         )
+        if args.ui_only:
+            report["unrun"].append(
+                "Media inference/player/results: deliberately excluded; known Linux WebKit GLctx.activeTexture limitation, no physical device"
+            )
+            return report
         page.evaluate("location.hash='analyze'")
         page.locator("#file").set_input_files(str(video))
         page.locator("#cancelAnalysis").click()
@@ -256,6 +352,16 @@ def run_browser(playwright, name, url, video):
             page.locator("#showAngles").check()
             assert page.locator("#jointMetrics p").count() >= 2
             page.locator("#showAngles").uncheck()
+            assert page.locator("#playerMetrics article").count() >= 4
+            assert not page.locator("#coachPanel").evaluate(
+                "element=>element.closest('details')!==null"
+            )
+            page.locator("#expandPlayer").click()
+            assert page.evaluate("document.body.dataset.expanded") == "true"
+            page.keyboard.press("Escape")
+            assert (
+                page.locator("#expandPlayer").get_attribute("aria-expanded") == "false"
+            )
             page.locator("#play").click()
             page.wait_for_timeout(450)
             assert not page.locator("#v").evaluate("(video)=>video.paused")
@@ -303,6 +409,42 @@ def run_browser(playwright, name, url, video):
                 f"{width}: real motion, progress, results, moving skeleton, replay, speed, angles, history/reload"
             )
         if name == "chromium":
+            page.evaluate("location.hash='analyze'")
+            old_history = page.evaluate(
+                "localStorage.getItem('handstand-lab-analyses-v1')"
+            )
+            page.locator("#file").set_input_files(str(args.cache / "no-pose.mp4"))
+            page.wait_for_function("document.body.dataset.screen==='processing'")
+            page.wait_for_function(
+                "document.body.dataset.screen!=='processing'", timeout=120000
+            )
+            assert page.evaluate("document.body.dataset.screen") == "analyze"
+            assert (
+                page.locator("#playerMetrics article").count() == 0
+                and page.locator("#ringScore").inner_text() == ""
+            )
+            assert (
+                page.evaluate("localStorage.getItem('handstand-lab-analyses-v1')")
+                == old_history
+            )
+            report["passed"].append(
+                "No-pose retry clears previous measured cards/score and never adds fake history"
+            )
+            denied = browser.new_context(viewport={"width": 390, "height": 844})
+            denied.add_init_script(
+                "const read=Storage.prototype.getItem;Storage.prototype.getItem=function(key){if(key==='movalyt-preferences-v1')throw Error('blocked');return read.call(this,key)};const write=Storage.prototype.setItem;Storage.prototype.setItem=function(key,value){if(key==='movalyt-preferences-v1')throw Error('blocked');return write.call(this,key,value)}"
+            )
+            denied_page = denied.new_page()
+            denied_page.goto(url, wait_until="networkidle")
+            denied_page.locator("#welcomeSkip").click()
+            assert (
+                denied_page.evaluate("document.body.dataset.screen") == "home"
+                and denied_page.locator("#storageNotice").is_visible()
+            )
+            denied.close()
+            report["passed"].append(
+                "Unavailable preference storage still permits entry with an explicit unsaved notice"
+            )
             page.set_viewport_size({"width": 1440, "height": 900})
             page.evaluate("location.hash='home'")
             assert not page.evaluate("document.documentElement.scrollWidth>innerWidth")
@@ -321,8 +463,8 @@ def run_browser(playwright, name, url, video):
     return report
 
 
-with tempfile.TemporaryDirectory(prefix="movalyt-motion-qa-") as temporary:
-    vendor = Path(temporary)
+if __name__ == "__main__":
+    vendor = args.cache / "vendor"
     video = prepare(vendor)
 
     class Handler(SimpleHTTPRequestHandler):

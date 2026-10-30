@@ -1,5 +1,8 @@
 # MOVALYT — Stage A design approval
 
+> Historical Stage A snapshot. The overnight request approved Stage B, now integrated
+> into the active app. See [Stage B report](../../docs/movalyt-overnight.md).
+
 This directory is an isolated, read-only visual proposal. The running application
 at `../index.html`, analysis engine, Worker, scoring, history and cloud/Coach code
 remain unchanged. There is no link from the active app into this proposal.

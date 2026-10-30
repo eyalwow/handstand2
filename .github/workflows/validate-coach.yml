@@ -25,6 +25,13 @@ jobs:
         run: |
           node --check vercel-app/analysis-history.js
           node --check vercel-app/movalyt-ui.js
+          node --check vercel-app/handstand-engine.js
+          node --check vercel-app/onboarding-ui.js
+          node --check vercel-app/onboarding-data.js
+          node --check vercel-app/analysis-catalog.js
+          node --check vercel-app/analysis-registry.js
+          node --check vercel-app/campaign-artwork.js
+          node --check vercel-app/ui-elements.js
           node --check vercel-app/ai-feedback.js
           node --check vercel-app/analysis-performance.js
           node --check vercel-app/pose-runtime.js

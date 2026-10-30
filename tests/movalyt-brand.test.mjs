@@ -29,16 +29,16 @@ test("analysis-first home retains the honest video analysis flow",()=>{
   for(const id of ["analyzerView","file","status","prog","out","coachPanel","replaySec"]){
     assert.ok(home.includes(`id="${id}"`),`missing analysis control: ${id}`);
   }
-  assert.match(home,/#out\{display:none/);
-  assert.match(home,/<span class="score" id="score"><\/span>/);
-  assert.match(home,/id="coachPanel"[^>]* hidden/);
+  assert.match(read("../vercel-app/app.css"),/#out\s*\{\s*display:\s*none/);
+  assert.match(home,/<span class="score" id="score"><\/span\s*>/);
+  assert.match(home,/<section(?=[^>]*id="coachPanel")(?=[^>]*\bhidden\b)/);
   assert.doesNotMatch(home,/id="aiConsent"/);
   assert.match(home,/id="cloudRequest"/);
   assert.match(home,/הווידאו נשאר במכשיר/);
 });
 
 test("branding does not rename persisted athlete data",()=>{
-  const sources=[read("../vercel-app/index.html"),read("../vercel-app/training-core.js"),read("../vercel-app/training-ui.js"),read("../vercel-app/workout-core.js")].join("\n");
+  const sources=[read("../vercel-app/index.html"),read("../vercel-app/handstand-engine.js"),read("../vercel-app/training-core.js"),read("../vercel-app/training-ui.js"),read("../vercel-app/workout-core.js")].join("\n");
   for(const key of ["handstand-lab-training-ui-v1","handstand-lab-workouts-v1","handstand-lab-active-workout-v1","handstand-lab-analyses-v1"]){
     assert.match(sources,new RegExp(key));
   }

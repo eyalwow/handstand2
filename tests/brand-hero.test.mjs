@@ -3,18 +3,18 @@ import assert from "node:assert/strict";
 import {readFileSync,existsSync} from "node:fs";
 const read=p=>readFileSync(new URL(p,import.meta.url),"utf8");
 const html=read("../vercel-app/index.html");
-const css=read("../vercel-app/brand-hero.css");
+const css=read("../vercel-app/app.css");
 const manifest=JSON.parse(read("../vercel-app/app.webmanifest"));
 
 test("brand hero follows the approved athlete-first direction without fabricated video results",()=>{
- assert.match(html,/movalyt\.css/);
+ assert.match(html,/app\.css/);
  assert.match(html,/movalyt-mark\.svg/);
- assert.match(html,/class="premium-hero"/);
- assert.match(html,/class="studio-photo"/);
+ assert.match(html,/class="home-hero"/);
+ assert.match(html,/class="home-photo"/);
  assert.match(html,/movalyt-handstand-ai/);
  assert.match(html,/נכס AI מקורי/);
  assert.match(html,/צילום הדגמה בלבד/);
- assert.match(html,/ללא קשר לנתוני משתמש/);
+ assert.match(html,/ללא קשר לנתוני\s+משתמש/);
  assert.doesNotMatch(html,/href="\.\/training\.html"/);
 });
 test("analysis and saved data DOM contracts remain intact",()=>{
@@ -28,8 +28,8 @@ test("analysis and saved data DOM contracts remain intact",()=>{
  assert.doesNotMatch(html,/id="aiConsent"/);
 });
 test("responsive design and new icon variants are bundled with the athlete app",()=>{
- assert.match(css,/@media\(max-width:740px\)/);
- assert.match(css,/@media\(max-width:380px\)/);
+ assert.match(css,/max-width:\s*600px/);
+ assert.match(css,/max-width:\s*350px/);
  assert.match(css,/prefers-reduced-motion/);
  for(const name of ["icon-180.png","icon-192.png","icon-512.png"]){
   assert.ok(existsSync(new URL("../vercel-app/"+name,import.meta.url)));
