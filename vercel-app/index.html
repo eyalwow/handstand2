@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#070b09">
 <link rel="manifest" href="./app.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
@@ -197,13 +197,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 
 .coach-strength{padding:12px 15px;border-inline-start:3px solid #B6FF4A;background:#22311c;border-radius:10px;font-size:15px}.skeleton-control{margin:12px 0}.skeleton-control label{display:flex;align-items:center;gap:9px;font-size:14px}.skeleton-control input{width:22px;height:22px;accent-color:#B6FF4A}.coach-drills{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.coach-drills{grid-template-columns:1fr}.coach-observation{padding:14px}.coach-summary{font-size:17px}}
 </style>
-<link rel="stylesheet" href="./editorial.css">
-<link rel="stylesheet" href="./analysis-first.css">
-<link rel="stylesheet" href="./sports-finish.css">
-<link rel="stylesheet" href="./brand-hero.css">
-<link rel="stylesheet" href="./hero-composition.css">
-<link rel="stylesheet" href="./capture.css">
-<link rel="stylesheet" href="./cinematic-app.css">
+<link rel="stylesheet" href="./movalyt.css">
 <link rel="icon" type="image/svg+xml" href="./assets/brand/movalyt-icon.svg">
 
 </head>
@@ -215,11 +209,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
  <a class="brand-name" href="#home" aria-label="MOVALYT — בית"><span class="brand-mark" aria-hidden="true"><img src="./assets/brand/movalyt-mark.svg" alt="" width="42" height="42"></span><span class="brand-lockup"><strong class="brand-product">MOVALYT</strong><small class="brand-tagline">MOVE  ·  ANALYZE  ·  IMPROVE</small></span></a>
  <a class="brand-caption" href="#history">הניתוחים שלי <span aria-hidden="true">↗</span></a>
 </header>
-<section id="homeView" aria-labelledby="home-title">
+<section id="homeView" aria-labelledby="home-title"><span id="home"></span>
  <div class="analysis-workspace">
  <section class="premium-hero" aria-label="ניתוח עמידת ידיים">
    <div class="studio-photo">
-    <img class="hero-athlete" src="./assets/photography/handstand-isabella-mendes.jpg" width="1400" height="2114" fetchpriority="high" alt="ספורטאית מבצעת עמידת ידיים מלאה בחדר כושר" data-fallback="./assets/photography/handstand-isabella-mendes.jpg">
+    <img class="hero-athlete" src="./assets/photography/movalyt-handstand-ai.webp" width="1024" height="1536" fetchpriority="high" alt="צילום AI מקורי — ספורטאי בעמידת ידיים בחדר כושר" data-fallback="./assets/photography/movalyt-handstand-ai.webp">
    </div>
    <div class="hero-darken" aria-hidden="true"></div>
    <div class="hero-copy start-session">
@@ -249,10 +243,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
  </section>
  <section class="movement-picker" aria-labelledby="movement-heading"><div class="section-title"><div><span class="section-kicker">SUPPORTED NOW</span><h2 id="movement-heading">תרגילים לניתוח</h2></div><span class="only-one">עמידת ידיים בלבד</span></div><a class="supported-movement" href="#analyze"><span class="movement-symbol" aria-hidden="true">↟</span><span><strong>עמידת ידיים</strong><small>קו גוף · כתפיים · יציבות</small></span><span class="available">נתח עכשיו ←</span></a><p class="coming-movements">בפיתוח <span>פלאנץ׳</span><span>מתח</span><small>התרגילים הנוספים עדיין אינם זמינים לניתוח.</small></p></section>
  </div>
- <details class="photo-credit"><summary>קרדיט לצילום</summary><a href="https://www.pexels.com/photo/woman-doing-exercise-at-gym-348489/" target="_blank" rel="noopener noreferrer">Isabella Mendes / Pexels</a>. צילום הדגמה בלבד, ללא קשר לנתוני משתמש.</details>
+ <details class="photo-credit"><summary>קרדיט לצילום</summary>נכס AI מקורי שנוצר עבור MOVALYT. צילום הדגמה בלבד, ללא קשר לנתוני משתמש.</details>
 </section>
-<section id="historyView" aria-labelledby="history-title" hidden><span id="history"></span><a class="back" href="#home">→ חזרה לבית</a><h1 id="history-title" tabindex="-1">הניתוחים שלי</h1><p class="history-note">מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.</p><div id="history-list" aria-live="polite"></div><a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a></section>
-<section id="analyzerView" aria-labelledby="analyzer-title" hidden>
+<section id="historyView" aria-labelledby="history-title" hidden><span id="history"></span><a class="back" href="#home">→ חזרה לבית</a><h1 id="history-title" tabindex="-1">הניתוחים שלי</h1><p class="history-note">מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.</p><div id="historyChart" class="history-chart"></div><h2>הניתוחים האחרונים</h2><div id="history-list" aria-live="polite"></div><a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a></section>
+<section id="analyzerView" aria-labelledby="analyzer-title" hidden><span id="analyze"></span><span id="results"></span><span id="replay"></span><span id="processing"></span>
  <div class="analyzer-heading">
   <a class="back" href="#home">→ חזרה לבית</a>
   <span class="analyzer-kicker">ניתוח טכניקה</span>
@@ -262,11 +256,18 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <section class="upload-panel" aria-labelledby="upload-title">
 <div class="section-head"><h2 id="upload-title">מוכנים לנתח?</h2><span class="available">עמידת ידיים בלבד</span></div>
 <div class="capture-guide capture-guide-rebuilt">
- <figure class="capture-photo"><img src="./assets/photography/handstand-isabella-mendes.jpg" width="1400" height="2114" alt="ספורטאית בעמידת ידיים בחדר כושר" decoding="async"><figcaption>צילום הדגמה · Isabella Mendes / Pexels</figcaption></figure>
+ <figure class="capture-photo"><img src="./assets/photography/movalyt-handstand-ai.webp" width="1024" height="1536" alt="צילום AI מקורי — ספורטאי בעמידת ידיים" decoding="async"><figcaption>צילום AI מקורי · להמחשה בלבד</figcaption></figure>
  <div class="capture-copy"><span class="sport-label">YOUR NEXT ATTEMPT</span><h3>צלם את התנועה שלך.</h3><p>צילום מהצד באור ברור, כשהידיים והרגליים בפריים. טלפון יציב וכמה שניות של החזקה.</p><small>עד שתי דקות · ליד קיר ובמרחב פנוי לפי הצורך.</small></div>
  </div>
 
-<div class="capture-actions"><label class="pick">בחר או צלם וידאו<input id="file" type="file" accept="video/*"></label><input id="cameraFile" class="capture-legacy-hidden" aria-label="קלט צילום חלופי" type="file" accept="video/*" capture="environment" hidden></div><p class="capture-note">בחלק ממכשירי האייפון והאנדרואיד בחירת וידאו מאפשרת גם צילום חדש. הניתוח יתחיל לאחר בחירת קובץ.</p>
+<div class="capture-tips"><span>◉ צילום מהצד</span><span>⌗ כל הגוף בפריים</span><span>☼ תאורה טובה</span><span>▣ טלפון יציב</span></div><div class="capture-actions"><label class="pick">בחר או צלם וידאו<input id="file" type="file" accept="video/*"></label><input id="cameraFile" class="capture-legacy-hidden" aria-label="קלט צילום חלופי" type="file" accept="video/*" capture="environment" hidden></div><div class="capture-options"><button id="openCamera" type="button">צילום במצלמה</button><button id="openGallery" type="button">בחירה מהגלריה</button></div><p class="capture-note">בחלק ממכשירי האייפון והאנדרואיד בחירת וידאו מאפשרת גם צילום חדש. הניתוח יתחיל לאחר בחירת קובץ.</p>
+<div id="analysisStage" hidden>
+ <h2 tabindex="-1">מנתח את התנועה שלך</h2>
+ <canvas id="analysisCanvas" aria-label="הפריים הנוכחי בניתוח"></canvas>
+ <div class="progress-readout"><span>התקדמות דגימת הפריימים</span><output id="analysisPercent">0%</output></div>
+ <ol class="analysis-steps"><li data-stage="decode">בדיקת הסרטון</li><li data-stage="model">טעינת מודל התנועה</li><li data-stage="scan">זיהוי נקודות גוף</li><li data-stage="scoring">ניתוח טכניקה</li><li data-stage="render">יצירת המשוב</li></ol>
+ <p class="note">הניתוח מתבצע במכשיר שלך. האחוז משקף פריימים שעובדו בפועל.</p>
+</div>
 <div id="status" role="status" aria-live="polite"></div>
 <button id="retryAnalysis" class="ctl" type="button" hidden>בחר וידאו לניסיון חוזר</button>
 <progress id="prog" value="0" max="1" aria-label="התקדמות הניתוח"></progress>
@@ -276,10 +277,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 <section id="out" aria-label="תוצאות הניתוח">
   <div class="results-heading"><strong>הניתוח שלך</strong><span>וידאו / מדידה / תרגול</span></div>
   <div id="replaySec">
-  <h2>הניסיון שלך</h2>
+  <div class="player-heading"><a href="#results" class="back">→ לתוצאות</a><h2 tabindex="-1" id="playerTitle">סרטון עם ניתוח</h2></div>
    <p class="note" id="replayTrimNotice">מקטע העמידה שנמדד</p>
   <div class="skeleton-control"><label><input id="showSkeleton" type="checkbox" checked> הצגת קווי שלד</label></div>
-  <canvas id="cv"></canvas>
+  <canvas id="cv"></canvas><div class="skeleton-control"><label><input id="showAngles" type="checkbox"> הצגת זוויות מפרקים</label></div><div id="jointMetrics" class="joint-metrics" hidden></div>
   <div id="replayMoments" class="replay-moments" aria-label="רגעים לצפייה" hidden></div>
   <div dir="ltr" style="margin-top:12px"><input id="scrub" type="range" min="0" max="1" step="0.01" value="0" style="width:100%;accent-color:var(--acc)" aria-label="מיקום בסרטון"></div>
   <div style="display:flex;gap:8px;margin-top:8px">
@@ -289,21 +290,21 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
    <button id="spd" class="ctl">מהירות ×1</button>
   </div>
   <p id="tlLabel" class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
-  <canvas id="tl" style="cursor:pointer"></canvas>
+  <canvas id="tl" style="cursor:pointer"></canvas><div id="playerMetrics" class="result-metrics"></div>
   <p class="note">הסימון מציג הערכה של מנח הגוף. אם הזיהוי חלקי, כדאי לנסות צילום ברור יותר.</p>
   </div>
   <div id="holdSec" style="display:none">
    <h2 class="metric-title">מדדי טכניקה</h2>
     <p class="radar-subtitle">ככל שהצורה מתקרבת לקצה בכל כיוון, כך המדד טוב יותר.</p>
-    <div class="radar-wrap"><svg id="scoreRadar" viewBox="0 0 380 360" role="img" aria-label="מדדי הביצוע" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="score-ring" role="img" aria-label="ציון הטכניקה"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="ring-track" cx="100" cy="100" r="86"/><circle id="scoreArc" cx="100" cy="100" r="86" pathLength="100"/></svg><div class="ring-number"><strong id="ringScore"></strong><span>מתוך 100</span></div></div><h2 id="resultQuality"></h2><div class="radar-wrap"><svg id="scoreRadar" viewBox="0 0 380 360" role="img" aria-label="מדדי הביצוע" preserveAspectRatio="xMidYMid meet"></svg>
       <div class="radar-center" aria-label="ציון כללי"><span class="score" id="score"></span><span class="radar-out-of">מתוך 100</span></div>
     </div>
     <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
     <p class="hold-duration" id="holdDuration" hidden></p>
-    <div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div>
+    <div id="resultMetrics" class="result-metrics"></div><div id="resultHighlights" class="result-highlights"></div><a href="#replay" class="feature-action replay-action">▷ צפה בסרטון עם הניתוח</a><details class="measurement-details"><summary>פירוט המדדים שנמדדו</summary><div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div></details>
   </div>
   <p id="measurementNotice" class="tips" hidden></p>
-  <section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
+  <details id="feedbackDetails" class="measurement-details"><summary>משוב מלא ותרגילים להמשך</summary><section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
    <div class="coach-topline"><span class="coach-kicker">המשוב שלך</span><span class="coach-badge" id="coachBadge"></span></div>
    <h2>מכאן לתרגול</h2>
    <p id="coachStrength" class="coach-strength"></p>
@@ -314,7 +315,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
    <p class="note">תרגלו לצד קיר ובמרחב פנוי. אם מופיע כאב, הפסיקו את התרגיל.</p>
    <p class="coach-quality" id="coachQuality"></p>
    <section class="cloud-choice"><h3>משוב ענן מורחב</h3><p id="cloudNotice">אינו זמין בגרסה זו. הניתוח והמשוב המקומי ממשיכים לעבוד.</p><button id="cloudRequest" type="button" class="ctl">מידע על משוב ענן</button><button id="revokeCloudConsent" type="button" class="ctl">ביטול הסכמה קודמת</button></section><a class="feature-action next-attempt" href="#analyze" onclick="document.getElementById('upload-title').scrollIntoView()">צילום ניסיון נוסף ←</a><div class="coach-ai-action"><p class="gemini-status" id="geminiStatus" role="status" aria-live="polite"></p></div>
-  </section>
+  </section></details>
 
 </section>
 </section>
@@ -322,21 +323,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 </main>
 <nav class="app-nav" aria-label="ניווט באפליקציה"><a id="navHome" href="#home" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>בית</span></a><a id="navAnalyze" href="#analyze"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg><span>ניתוח</span></a><a id="navHistory" href="#history"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4v6h6M4 10a8 8 0 1 1 0 5m8-8v5l3 2"/></svg><span>הניתוחים שלי</span></a></nav>
 <noscript><p>כדי לנתח סרטון יש להפעיל JavaScript בדפדפן.</p></noscript>
-<script>
-(function(){
- function showScreen(){
-  const route=location.hash==="#analyze"?"analyze":location.hash==="#history"?"history":"home";
-  for(const [view,key,nav] of [["homeView","home","navHome"],["analyzerView","analyze","navAnalyze"],["historyView","history","navHistory"]]){
-   document.getElementById(view).hidden=route!==key;
-   const link=document.getElementById(nav);if(route===key)link.setAttribute("aria-current","page");else link.removeAttribute("aria-current");
-  }
-  window.scrollTo({top:0,behavior:"auto"});
- }
- window.addEventListener("hashchange",()=>{showScreen();document.getElementById(location.hash==="#analyze"?"analyzer-title":location.hash==="#history"?"history-title":"home-title").focus({preventScroll:true})});
- showScreen();
-})();
-</script>
+
 <script type="module">
+import {analysisUI,drawPose} from "./movalyt-ui.js";
 import {overallHandstandScore,observedEntryWindow,observedExerciseWindow} from "./handstand-summary.js";
 import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
 import {reportAnalysisTiming} from "./analysis-performance.js";
@@ -454,35 +443,36 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
  poseRuntime=new PoseRuntime({initOptions:{preferredDelegate:"CPU"}});
  $("retryAnalysis").hidden=true;$("analyzerView").setAttribute("aria-busy","true");
  $("file").disabled=true;$("cameraFile").disabled=true;
- LAST=null;
+ LAST=null;analysisUI.start();
   resetCoachFeedback();
  const st=$("status"),pg=$("prog"),v=$("v"),cancel=$("cancelAnalysis");$("out").style.display="none";pg.style.display="block";pg.value=0;cancel.hidden=false;
  try{
-  const decodeStarted=performance.now();st.textContent="בודק את הסרטון...";
+  analysisUI.stage("decode");const decodeStarted=performance.now();st.textContent="בודק את הסרטון...";
   v.muted=true;if(videoObjectUrl)URL.revokeObjectURL(videoObjectUrl);videoObjectUrl=URL.createObjectURL(file);
   await loadVideo(v,videoObjectUrl,controller.signal);
   timing.decodeMs=performance.now()-decodeStarted;
   if(v.duration>120){timing.outcome="too-long";pg.style.display="none";st.textContent="הסרטון ארוך מדי לניתוח. נסו לבחור סרטון של עד שתי דקות.";return}
   const w=v.videoWidth,h=v.videoHeight,fps=10,times=sampleTimes(v.duration,fps),n=times.length;
+  analysisUI.preview(v,w,h);
   if(!w||!h||!(n>0))throw Object.assign(new Error("הסרטון קצר מדי או שאינו ניתן לפענוח."),{code:"video-decode"});
   const cvs=document.createElement("canvas");const sc=Math.min(1,480/Math.max(w,h));cvs.width=Math.round(w*sc);cvs.height=Math.round(h*sc);const cx=cvs.getContext("2d");
-  timing.stage="model";st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";const modelStarted=performance.now();
+  analysisUI.stage("model");timing.stage="model";st.textContent="טוען מודל (בפעם הראשונה לוקח כמה שניות)...";const modelStarted=performance.now();
   const ready=await poseRuntime.init(controller.signal);timing.modelMs=performance.now()-modelStarted;timing.poseDelegate=ready.delegate;timing.execution=ready.execution;
   analysisTimer=setTimeout(()=>controller.abort(new DOMException("הניתוח עבר את מגבלת הזמן.","TimeoutError")),analysisTimeoutMs(v.duration));
   let fr=null,poseMs=0,poseRoundTripMs=0,frameExtractionMs=0,poseFrames=0;let sampledTimes=[];
   const det=async timestamp=>{const extractionStarted=performance.now(),bitmap=await createImageBitmap(cvs);frameExtractionMs+=performance.now()-extractionStarted;const started=performance.now();
    const result=await poseRuntime.detect(bitmap,controller.signal,timestamp);poseRoundTripMs+=performance.now()-started;poseMs+=result.inferenceMs;poseFrames++;
-   return result.landmarks?result.landmarks.map(p=>({x:p.x*w,y:p.y*h,v:p.v})):null};
-  timing.stage="scan";st.textContent="מנתח את הסרטון...";
+   const landmarks=result.landmarks?result.landmarks.map(p=>({x:p.x*w,y:p.y*h,v:p.v})):null;analysisUI.frame(cvs,landmarks,w,h);return landmarks};
+  analysisUI.stage("scan");timing.stage="scan";st.textContent="מנתח את הסרטון...";
   const samplingStarted=performance.now();
   timing.capturePath="fixed-sequential-seek";
   const sampled=await scanVideoFrames({video:v,times,signal:controller.signal,
    capture:async timestamp=>{cx.drawImage(v,0,0,cvs.width,cvs.height);return det(timestamp)},
-   onProgress:value=>{pg.value=value;st.textContent="מנתח את הסרטון... "+Math.round(value*100)+"%"}});
+   onProgress:value=>{analysisUI.progress(value);pg.value=value;st.textContent="מנתח את הסרטון... "+Math.round(value*100)+"%"}});
   fr=sampled.frames;sampledTimes=sampled.timestamps;
   timing.scanMs=performance.now()-samplingStarted;timing.poseMs=poseMs;timing.poseRoundTripMs=poseRoundTripMs;timing.workerOverheadMs=Math.max(0,poseRoundTripMs-poseMs);timing.frameExtractionMs=frameExtractionMs;timing.samplingWaitMs=Math.max(0,timing.scanMs-poseRoundTripMs-frameExtractionMs);timing.poseFrames=poseFrames;
   pg.style.display="none";
-  timing.stage="scoring";const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
+  analysisUI.stage("scoring");timing.stage="scoring";const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
   const res=reliableResult(measuredHold,fps)?measuredHold:null;
   const entryFrames=observedEntryWindow(fr,fps,res);
   const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
@@ -499,7 +489,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   st.textContent="";
   $("measurementNotice").hidden=reliable;
   $("holdSec").style.display=reliable?"block":"none";
-  timing.stage="render";if(reliable){
+  analysisUI.stage("render");timing.stage="render";if(reliable){
    const renderStarted=performance.now();
    await show(res,fr,v,w,h,overall);
    if(controller.signal.aborted)throw controller.signal.reason;
@@ -526,7 +516,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   else if(err?.code==="video-decode"){timing.outcome="decode-error";st.textContent=err.message+" נסו לשמור עותק MP4 תואם ולבחור אותו שוב."}
   else if(timing.stage==="model"){timing.outcome="model-error";st.textContent="רכיב ניתוח התנועה לא נטען. בדקו את החיבור לרשת ונסו שוב. לא הוצגה תוצאה."}
   else st.textContent="לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."}
- finally{clearTimeout(analysisTimer);poseRuntime?.terminate();v.pause();$("analyzerView").removeAttribute("aria-busy");if(activeAnalysis===controller)activeAnalysis=null;cancel.hidden=true;timing.totalMs=performance.now()-analysisStarted;reportAnalysisTiming(timing);$("file").disabled=false;$("cameraFile").disabled=false;e.target.value=""}
+ finally{analysisUI.finish(timing.outcome);clearTimeout(analysisTimer);poseRuntime?.terminate();v.pause();$("analyzerView").removeAttribute("aria-busy");if(activeAnalysis===controller)activeAnalysis=null;cancel.hidden=true;timing.totalMs=performance.now()-analysisStarted;reportAnalysisTiming(timing);$("file").disabled=false;$("cameraFile").disabled=false;e.target.value=""}
 });
 $("cancelAnalysis").addEventListener("click",()=>{if(activeAnalysis&&!activeAnalysis.signal.aborted){activeAnalysis.abort(new DOMException("הניתוח בוטל על ידי המשתמש.","AbortError"));poseRuntime?.terminate()}});
 $("retryAnalysis").addEventListener("click",()=>$("file").click());
@@ -567,6 +557,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
  const draw=p=>{
   p=Math.max(start,Math.min(end,p));c.drawImage(v,0,0,w,h);
   const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
+  analysisUI.joints(f0,f1,a);
   if($("showSkeleton").checked&&(f0||f1)){
    const A=f0||f1,B=f1||f0;
    const pt=q=>A[q]&&B[q]&&A[q].v>=.5&&B[q].v>=.5
@@ -577,10 +568,10 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
     if(!u||!v)return;c.beginPath();c.strokeStyle=col;c.lineWidth=width;c.lineCap="round";c.lineJoin="round";c.setLineDash(dash);
     c.moveTo(...u);c.lineTo(...v);c.stroke();c.setLineDash([]);
    };
-   const thick=Math.max(3,w/220),thin=Math.max(1.5,w/440);
+   const thick=Math.max(1.5,w/340),thin=Math.max(1,w/560);
    sidePoints.forEach(ch=>{
-    [[0,1],[1,2],[0,3],[3,4],[4,5],[5,6]].forEach(([u,v])=>line(ch[u],ch[v],"#B6FF4A",thick));
-    ch.filter(Boolean).forEach(p=>{c.beginPath();c.fillStyle="#B6FF4A";c.strokeStyle="#101910";c.lineWidth=thin;c.arc(p[0],p[1],Math.max(3.5,w/190),0,Math.PI*2);c.fill();c.stroke()});
+    [[0,1],[1,2],[0,3],[3,4],[4,5],[5,6]].forEach(([u,v])=>line(ch[u],ch[v],"#C4FF64",thick));
+    ch.filter(Boolean).forEach(p=>{c.beginPath();c.fillStyle="#C4FF64";c.strokeStyle="#101910";c.lineWidth=thin;c.arc(p[0],p[1],Math.max(3.5,w/190),0,Math.PI*2);c.fill();c.stroke()});
    });
    // Dashed shoulder/hip guides are visual connections, not measured joint angles.
    line(sidePoints[0][0],sidePoints[1][0],"rgba(214,255,159,.7)",thin,[thick,thick]);
@@ -611,6 +602,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
  sl.oninput=()=>{v.pause();goTo(+sl.value)};
  tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo(start+(e.clientX-r.left)/r.width*(end-start))};
  $("showSkeleton").onchange=()=>draw(posOf());
+ $("showAngles").onchange=()=>draw(posOf());
  pb.textContent="נגן";$("spd").textContent="מהירות ×1";
  await seek(v,.05+Math.max(start,Math.min(end,mid))/fps);draw(Math.max(start,Math.min(end,mid)));
 }
@@ -648,7 +640,7 @@ function drawScoreRadar(res,overall){
  });
 }
 async function show(res,fr,v,w,h,overall){
- $("score").textContent=overall;
+ $("score").textContent=overall;analysisUI.result(overall,res);
  $("hold").textContent="ציון טכניקה בלבד · "+(res?"הגרף מציג את מדדי ההחזקה שנמדדו.":"לא נמדדה החזקה מספקת.");
  $("holdDuration").hidden=!res;
  if(res)$("holdDuration").textContent="זמן החזקה מזוהה: "+(Math.round(res.hold*10)/10).toFixed(1)+" שניות (הערכה מתוך הדגימות)";
@@ -661,7 +653,6 @@ async function show(res,fr,v,w,h,overall){
 }
 
 </script>
-<script>document.querySelector(".hero-athlete")?.addEventListener("error", function(){if(!this.dataset.triedFallback){this.dataset.triedFallback="1";this.src=this.dataset.fallback;this.alt="ספורטאית מדגימה עמידת ידיים בחדר כושר";}});</script>
 <script type="module" src="./home-ui.js"></script>
 </body>
 </html>

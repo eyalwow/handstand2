@@ -7,12 +7,12 @@ const css=read("../vercel-app/brand-hero.css");
 const manifest=JSON.parse(read("../vercel-app/app.webmanifest"));
 
 test("brand hero follows the approved athlete-first direction without fabricated video results",()=>{
- assert.match(html,/brand-hero\.css/);
+ assert.match(html,/movalyt\.css/);
  assert.match(html,/movalyt-mark\.svg/);
  assert.match(html,/class="premium-hero"/);
  assert.match(html,/class="studio-photo"/);
- assert.match(html,/handstand-isabella-mendes/);
- assert.match(html,/Isabella Mendes \/ Pexels/);
+ assert.match(html,/movalyt-handstand-ai/);
+ assert.match(html,/נכס AI מקורי/);
  assert.match(html,/צילום הדגמה בלבד/);
  assert.match(html,/ללא קשר לנתוני משתמש/);
  assert.doesNotMatch(html,/href="\.\/training\.html"/);
