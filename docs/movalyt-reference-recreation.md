@@ -96,3 +96,16 @@ icons, screen spacing and desktop composition still differ. Physical iPhone and
 Android capture, moving-video pose alignment, rotated metadata/codecs and a live
 Preview phone check remain required. No merge, production deploy, SSO change or
 paid service is authorized or performed.
+
+## Delivery status
+
+Draft PR: https://github.com/eyalwow/handstand2/pull/29
+
+MOVALYT Preview (requires the project's existing Vercel login):
+https://handstand-lab-coach-git-ui-movalyt-referenc-ae8ec2-eyalwen-6443.vercel.app/vercel-app/
+
+GitHub's `test` check and `Vercel – handstand-lab-coach` deployment succeeded.
+The unauthenticated live check redirected to `vercel.com/login`; no live-device
+validation or public access is claimed and no SSO/protection setting was changed.
+The separate `Vercel – handstand-coach-demo` check fails, as it also does on the
+base PR #28 head. That project was not edited or repaired in this task.

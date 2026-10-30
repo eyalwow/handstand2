@@ -1211,3 +1211,18 @@ body[data-screen="replay"] .analyzer-heading {
     margin-bottom: 14px;
   }
 }
+body[data-screen="results"] #scoreArc {
+  animation: reveal-score .7s ease-out both;
+}
+@keyframes reveal-score {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: var(--score-offset); }
+}
+@media (min-width:900px) {
+  .premium-hero .hero-athlete {
+    mask-image: linear-gradient(90deg, transparent, black 9%, black 89%, transparent);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body[data-screen="results"] #scoreArc { animation: none; }
+}

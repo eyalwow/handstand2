@@ -70,6 +70,7 @@ with tempfile.TemporaryDirectory(prefix='movalyt-ui-qa-') as temporary:
    page.set_viewport_size({'width':width,'height':844 if width<1000 else 900})
    page.locator('#file').set_input_files(str(fixture))
    page.wait_for_function("Number(document.getElementById('analysisPercent').textContent.replace('%',''))>0&&document.body.dataset.screen==='processing'",timeout=90000)
+   assert not page.evaluate('document.documentElement.scrollWidth>innerWidth')
    page.screenshot(path=str(out/f'processing-{width}.png'),full_page=True)
    page.wait_for_function("document.body.dataset.screen==='results'",timeout=120000)
    for route in ['results','replay','history']:
@@ -81,6 +82,7 @@ with tempfile.TemporaryDirectory(prefix='movalyt-ui-qa-') as temporary:
     page.evaluate("location.hash='replay'");page.wait_for_timeout(200)
     page.locator('#showAngles').check();assert page.locator('#jointMetrics p').count()>0;page.locator('#showAngles').uncheck();page.locator('#showSkeleton').uncheck();assert not page.locator('#showSkeleton').is_checked();page.locator('#showSkeleton').check();page.locator('#play').click();page.wait_for_timeout(250);page.locator('#play').click();page.locator('#spd').click();assert '0.5' in page.locator('#spd').inner_text()
     print('PASS playback, speed and skeleton toggle')
+  assert not errors,errors
   b.close()
  
  server.shutdown();server.server_close()

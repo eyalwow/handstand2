@@ -181,6 +181,7 @@ export const analysisUI = {
   result(score, res) {
     $("ringScore").textContent = score;
     $("scoreArc").style.strokeDashoffset = 100 - score;
+    $("scoreArc").style.setProperty("--score-offset", 100 - score);
     document
       .querySelector(".score-ring")
       ?.setAttribute("aria-label", `ציון טכניקה ${score} מתוך 100`);
