@@ -23,6 +23,7 @@ jobs:
         run: node --check preview/ai-feedback.js
       - name: Check Vercel modules
         run: |
+          node --check vercel-app/analysis-history.js
           node --check vercel-app/movalyt-ui.js
           node --check vercel-app/ai-feedback.js
           node --check vercel-app/analysis-performance.js

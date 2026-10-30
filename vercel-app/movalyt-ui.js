@@ -1,3 +1,4 @@
+import { readAnalysisHistory } from "./analysis-history.js";
 const $ = (id) => document.getElementById(id);
 let busy = false,
   available = false,
@@ -15,10 +16,17 @@ function route() {
     screen = "processing";
   if (screen === "processing" && !busy)
     screen = available ? (scored ? "results" : "replay") : "analyze";
-  if (["results", "replay"].includes(screen) && !available) screen = "analyze";
+  if (["results", "replay"].includes(screen) && !available) {
+    screen = "analyze";
+    $("sessionNotice").hidden = false;
+  }
   document.body.dataset.screen = screen;
   $("analyzer-title").textContent =
-    screen === "results" ? "תוצאה" : "ניתוח עמידת ידיים";
+    screen === "results"
+      ? "תוצאה"
+      : screen === "processing"
+        ? "מנתח את הסרטון"
+        : "ניתוח עמידת ידיים";
   $("homeView").hidden = screen !== "home";
   $("historyView").hidden = screen !== "history";
   $("analyzerView").hidden = ["home", "history"].includes(screen);
@@ -43,13 +51,52 @@ function route() {
         : screen === "replay"
           ? $("playerTitle")
           : screen === "processing"
-            ? $("analysisStage").querySelector("h2")
+            ? $("analyzer-title")
             : $("analyzer-title");
   heading.focus({ preventScroll: true });
 }
 window.addEventListener("hashchange", route);
 $("openCamera").onclick = () => $("cameraFile").click();
 $("openGallery").onclick = () => $("file").click();
+const about = $("aboutDialog");
+$("aboutButton").onclick = () => about.showModal();
+$("closeAbout").onclick = () => about.close();
+$("aboutAnalyze").addEventListener("click", () => about.close());
+about.addEventListener("click", (event) => {
+  if (event.target !== about) return;
+  const box = about.getBoundingClientRect();
+  if (
+    event.clientX < box.left ||
+    event.clientX > box.right ||
+    event.clientY < box.top ||
+    event.clientY > box.bottom
+  )
+    about.close();
+});
+for (const [id, showGraph] of [
+  ["historyGraphTab", true],
+  ["historyListTab", false],
+]) {
+  $(id).onclick = () => {
+    $("historyChart").hidden = !showGraph;
+    $("historyGraphTab").setAttribute("aria-pressed", String(showGraph));
+    $("historyListTab").setAttribute("aria-pressed", String(!showGraph));
+  };
+}
+function viewportChanged() {
+  const height = window.visualViewport?.height || window.innerHeight;
+  document.documentElement.style.setProperty("--visual-height", height + "px");
+  const editing = document.activeElement?.matches(
+    'input:not([type="file"]):not([type="checkbox"]):not([type="range"]),textarea,[contenteditable="true"]',
+  );
+  document.body.dataset.keyboard =
+    editing && window.innerHeight - height > 150 ? "open" : "closed";
+}
+window.visualViewport?.addEventListener("resize", viewportChanged);
+window.addEventListener("resize", viewportChanged);
+document.addEventListener("focusin", viewportChanged);
+document.addEventListener("focusout", viewportChanged);
+viewportChanged();
 export function drawPose(ctx, landmarks, width, height) {
   if (!landmarks) return;
   const point = (i) => (landmarks[i]?.v >= 0.5 ? landmarks[i] : null);
@@ -93,6 +140,13 @@ export function drawPose(ctx, landmarks, width, height) {
   ctx.restore();
 }
 export const analysisUI = {
+  playback(current, duration) {
+    const format = (seconds) => {
+      const value = Math.max(0, Math.floor(seconds || 0));
+      return Math.floor(value / 60) + ":" + String(value % 60).padStart(2, "0");
+    };
+    $("playerTime").textContent = format(current) + " / " + format(duration);
+  },
   joints(first, second, amount) {
     const host = $("jointMetrics");
     host.hidden = !$("showAngles").checked;
@@ -140,6 +194,7 @@ export const analysisUI = {
     busy = true;
     available = false;
     scored = false;
+    $("sessionNotice").hidden = true;
     $("analysisStage").hidden = false;
     this.progress(0);
     this.stage("decode");
@@ -206,7 +261,40 @@ export const analysisUI = {
         title.textContent = label;
         const value = document.createElement("strong");
         value.textContent = Math.round(res.sc[key]);
-        card.append(title, value);
+        const svg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg",
+        );
+        svg.setAttribute("viewBox", "0 0 32 32");
+        svg.setAttribute("aria-hidden", "true");
+        svg.classList.add("metric-icon");
+        const circle = document.createElementNS(svg.namespaceURI, "circle");
+        for (const [name, value] of Object.entries({
+          cx: 16,
+          cy: 16,
+          r: 13,
+          fill: "none",
+          stroke: "currentColor",
+          "stroke-width": 1.4,
+        }))
+          circle.setAttribute(name, value);
+        const path = document.createElementNS(svg.namespaceURI, "path");
+        path.setAttribute(
+          "d",
+          {
+            banana: "M16 7v18m-6-13 6 4 6-4m-11 8 5-4 5 4",
+            shoulder: "M8 23v-8l5-5h6l5 5v8M12 7v11h8V7",
+            elbow: "m9 23 3-9 5 2 5-9M9 23h13",
+            lean: "M7 23h18M16 7v16M10 12l6-5 6 5",
+          }[key],
+        );
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", "currentColor");
+        path.setAttribute("stroke-width", "1.8");
+        path.setAttribute("stroke-linecap", "round");
+        path.setAttribute("stroke-linejoin", "round");
+        svg.append(circle, path);
+        card.append(svg, title, value);
         target.append(card);
       }
   },
@@ -247,21 +335,7 @@ function historyChart() {
   host.replaceChildren();
   let entries;
   try {
-    const raw = JSON.parse(
-      localStorage.getItem("handstand-lab-analyses-v1") || "[]",
-    );
-    if (!Array.isArray(raw)) throw Error();
-    entries = raw
-      .filter(
-        (x) =>
-          x &&
-          /^(v2-|v3-fixed-)/.test(x.model) &&
-          Number.isFinite(x.score) &&
-          x.score >= 0 &&
-          x.score <= 100 &&
-          Number.isFinite(Date.parse(x.date)),
-      )
-      .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+    entries = readAnalysisHistory(localStorage).slice().reverse();
   } catch {
     host.textContent = "הגרף אינו זמין. הנתונים השמורים לא שונו.";
     return;
@@ -302,7 +376,7 @@ function historyChart() {
     });
     make(
       "text",
-      { x: 5, y: y + 4, fill: "#a9b5aa", "font-size": 10 },
+      { x: 5, y: y + 4, fill: "#a9b5aa", "font-size": 14 },
       String(score),
     );
   }
@@ -310,13 +384,37 @@ function historyChart() {
     entries.length === 1 ? 280 : 45 + (i * 480) / (entries.length - 1),
     200 - e.score * 1.7,
   ]);
-  if (points.length > 1)
+  if (points.length > 1) {
+    const defs = document.createElementNS(ns, "defs"),
+      gradient = document.createElementNS(ns, "linearGradient");
+    gradient.id = "historyFill";
+    gradient.setAttribute("x2", "0");
+    gradient.setAttribute("y2", "1");
+    for (const [offset, opacity] of [
+      ["0%", ".22"],
+      ["100%", "0"],
+    ]) {
+      const stop = document.createElementNS(ns, "stop");
+      stop.setAttribute("offset", offset);
+      stop.setAttribute("stop-color", "#c4ff64");
+      stop.setAttribute("stop-opacity", opacity);
+      gradient.append(stop);
+    }
+    defs.append(gradient);
+    svg.prepend(defs);
+    make("polygon", {
+      points: [[points[0][0], 200], ...points, [points.at(-1)[0], 200]]
+        .map((p) => p.join(","))
+        .join(" "),
+      fill: "url(#historyFill)",
+    });
     make("polyline", {
       points: points.map((p) => p.join(",")).join(" "),
       fill: "none",
       stroke: "#c4ff64",
       "stroke-width": 2.5,
     });
+  }
   points.forEach(([x, y], i) => {
     make("circle", { cx: x, cy: y, r: 4, fill: "#c4ff64" });
     const date = new Intl.DateTimeFormat("he-IL", {
@@ -330,7 +428,7 @@ function historyChart() {
           x,
           y: 225,
           fill: "#a9b5aa",
-          "font-size": 10,
+          "font-size": 14,
           "text-anchor": "middle",
         },
         date,
@@ -339,6 +437,29 @@ function historyChart() {
     title.textContent = date + ": " + Math.round(entries[i].score);
     svg.lastChild.append(title);
   });
+  const [lastX, lastY] = points.at(-1),
+    badgeX = Math.min(lastX + 6, 510),
+    badgeY = Math.max(4, lastY - 26);
+  make("rect", {
+    x: badgeX,
+    y: badgeY,
+    width: 36,
+    height: 25,
+    rx: 6,
+    fill: "#c4ff64",
+  });
+  make(
+    "text",
+    {
+      x: badgeX + 18,
+      y: badgeY + 18,
+      fill: "#101713",
+      "text-anchor": "middle",
+      "font-size": 16,
+      "font-weight": 800,
+    },
+    String(Math.round(entries.at(-1).score)),
+  );
   host.append(svg);
   const note = document.createElement("p");
   note.className = "note";

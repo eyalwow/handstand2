@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#070b09">
+<meta name="theme-color" content="#050908">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="./app.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <title>MOVALYT — ניתוח תנועה</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+
+<link rel="preload" href="./assets/fonts/rubik-hebrew-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 :root{
   color-scheme:dark;
@@ -207,7 +209,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 
 <header class="brand" aria-label="MOVALYT">
  <a class="brand-name" href="#home" aria-label="MOVALYT — בית"><span class="brand-mark" aria-hidden="true"><img src="./assets/brand/movalyt-mark.svg" alt="" width="42" height="42"></span><span class="brand-lockup"><strong class="brand-product">MOVALYT</strong><small class="brand-tagline">MOVE  ·  ANALYZE  ·  IMPROVE</small></span></a>
- <a class="brand-caption" href="#history">הניתוחים שלי <span aria-hidden="true">↗</span></a>
+ <button id="aboutButton" class="brand-caption icon-button" type="button" aria-label="אודות MOVALYT"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m9 3 1-2h4l1 2 3 2 2 1v4l-2 1v3l2 1v4l-3 1-2 3h-4l-1-3-3-1-2-2v-3l2-2V9L3 7V4l3-1z"/><circle cx="12" cy="12" r="3"/></svg></button>
 </header>
 <section id="homeView" aria-labelledby="home-title"><span id="home"></span>
  <div class="analysis-workspace">
@@ -219,16 +221,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
    <div class="hero-copy start-session">
      <span class="hero-eyebrow"><span class="hero-live-dot" aria-hidden="true"></span> MOVALYT / FORM ANALYSIS</span>
      <h1 id="home-title" tabindex="-1">ניתוח תנועה<br>שמוביל אותך<br><em>לרמה הבאה.</em></h1>
-     <p>העלה סרטון. קבל ניתוח טכניקה המבוסס על התנועה שלך. ראה את הביצוע, גלה נקודות לשיפור ועקוב אחרי ההתקדמות.</p>
-     <div class="hero-cta-row"><a class="feature-action" href="#analyze" aria-label="נתח תרגיל — בחר או צלם וידאו"><span>בחר או צלם וידאו</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M19 12H5m0 0 6-6m-6 6 6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span class="hero-trust"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="m12 3 8 4v5c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V7l8-4Z" stroke="currentColor" stroke-width="1.7"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.8"/></svg> הניתוח המקומי לא שולח את הסרטון לענן</span></div>
+     <p>העלו וידאו. קבלו ניתוח מדויק<br>של הטכניקה שלכם בעמידת ידיים.</p>
+     <div class="hero-cta-row"><a class="feature-action" href="#analyze" aria-label="נתח תרגיל — בחר או צלם וידאו"><span>בחר או צלם וידאו</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="13" rx="3"/><path d="m16 10 6-3v11l-6-3"/></svg></a><span class="hero-trust"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="m12 3 8 4v5c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V7l8-4Z" stroke="currentColor" stroke-width="1.7"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.8"/></svg> הניתוח המקומי לא שולח את הסרטון לענן</span></div>
    </div>
-   <div class="hero-stage" aria-label="שלבי הניתוח">
-    <div class="hero-stage-item"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="8" width="26" height="20" rx="3" stroke="currentColor" stroke-width="1.8"/><circle cx="16" cy="18" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M11 8 13 5h6l2 3" stroke="currentColor" stroke-width="1.8"/></svg><span><strong>צלם</strong><small>וידאו מהצד</small></span></div>
-    <div class="hero-stage-item"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 26V5m0 21h22M9 20l6-8 5 4 7-11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>ראה את התנועה</strong><small>שלד ומדדים</small></span></div>
-    <div class="hero-stage-item"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m7 17 6 6L26 9" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>דע מה לתקן</strong><small>משוב מקומי</small></span></div>
-   </div>
+   <div class="hero-stage" aria-label="מה מקבלים בניתוח"><div class="hero-stage-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="m12 12 8-9M16 3h4v4"/></svg><span><strong>ציון טכניקה</strong><small>מתוך 100</small></span></div><div class="hero-stage-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-5m7 5V9m7 11V3"/></svg><span><strong>ניתוח מפורט</strong><small>ומשוב</small></span></div><div class="hero-stage-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m14 2-9 12h7l-2 8 9-12h-7z"/></svg><span><strong>עקבו אחר</strong><small>ההתקדמות שלכם</small></span></div></div>
  </section></div>
- <div class="home-content">
+ <details class="home-more"><summary>עוד על הניתוח וההתקדמות שלכם</summary><div class="home-content">
  <section class="home-activity" aria-labelledby="recent-heading">
   <div class="section-title"><div><span class="section-kicker">YOUR PROGRESS</span><h2 id="recent-heading">הביצוע האחרון שלך</h2></div><a href="#history">כל הניתוחים ←</a></div>
   <div id="home-analysis-history" class="empty-analysis">עוד לא ניתחת ניסיון. הסרטון הראשון יהיה נקודת ההתחלה שלך.</div>
@@ -243,45 +241,43 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
  </section>
  <section class="movement-picker" aria-labelledby="movement-heading"><div class="section-title"><div><span class="section-kicker">SUPPORTED NOW</span><h2 id="movement-heading">תרגילים לניתוח</h2></div><span class="only-one">עמידת ידיים בלבד</span></div><a class="supported-movement" href="#analyze"><span class="movement-symbol" aria-hidden="true">↟</span><span><strong>עמידת ידיים</strong><small>קו גוף · כתפיים · יציבות</small></span><span class="available">נתח עכשיו ←</span></a><p class="coming-movements">בפיתוח <span>פלאנץ׳</span><span>מתח</span><small>התרגילים הנוספים עדיין אינם זמינים לניתוח.</small></p></section>
  </div>
- <details class="photo-credit"><summary>קרדיט לצילום</summary>נכס AI מקורי שנוצר עבור MOVALYT. צילום הדגמה בלבד, ללא קשר לנתוני משתמש.</details>
+ </details><details class="photo-credit"><summary>קרדיט לצילום</summary>נכס AI מקורי שנוצר עבור MOVALYT. צילום הדגמה בלבד, ללא קשר לנתוני משתמש.</details>
 </section>
-<section id="historyView" aria-labelledby="history-title" hidden><span id="history"></span><a class="back" href="#home">→ חזרה לבית</a><h1 id="history-title" tabindex="-1">הניתוחים שלי</h1><p class="history-note">מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.</p><div id="historyChart" class="history-chart"></div><h2>הניתוחים האחרונים</h2><div id="history-list" aria-live="polite"></div><a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a></section>
+<section id="historyView" aria-labelledby="history-title" hidden><span id="history"></span><a class="back icon-button" href="#home" aria-label="חזרה לבית"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5-7 7 7 7"/></svg></a><h1 id="history-title" tabindex="-1">היסטוריה</h1><p class="history-note">מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.</p><div class="history-switch" role="group" aria-label="תצוגת היסטוריה"><button id="historyGraphTab" type="button" aria-pressed="true">גרף</button><button id="historyListTab" type="button" aria-pressed="false">רשימה</button></div><div id="historyChart" class="history-chart"></div><h2>הניתוחים האחרונים</h2><div id="history-list" aria-live="polite"></div><a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a></section>
 <section id="analyzerView" aria-labelledby="analyzer-title" hidden><span id="analyze"></span><span id="results"></span><span id="replay"></span><span id="processing"></span>
  <div class="analyzer-heading">
-  <a class="back" href="#home">→ חזרה לבית</a>
+  <a class="back icon-button" href="#home" aria-label="חזרה לבית"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5-7 7 7 7"/></svg></a>
   <span class="analyzer-kicker">ניתוח טכניקה</span>
   <h1 id="analyzer-title" tabindex="-1">ניתוח עמידת ידיים</h1>
   <p>ניתוח עמידת ידיים ומשוב מקומי. הווידאו נשאר במכשיר.</p>
  </div>
-<section class="upload-panel" aria-labelledby="upload-title">
+<p id="sessionNotice" class="note" hidden>אחרי רענון צריך לבחור את הסרטון שוב. המדידות השמורות עדיין זמינות בהיסטוריה.</p><section class="upload-panel" aria-labelledby="upload-title">
 <div class="section-head"><h2 id="upload-title">מוכנים לנתח?</h2><span class="available">עמידת ידיים בלבד</span></div>
 <div class="capture-guide capture-guide-rebuilt">
  <figure class="capture-photo"><img src="./assets/photography/movalyt-handstand-ai.webp" width="1024" height="1536" alt="צילום AI מקורי — ספורטאי בעמידת ידיים" decoding="async"><figcaption>צילום AI מקורי · להמחשה בלבד</figcaption></figure>
- <div class="capture-copy"><span class="sport-label">YOUR NEXT ATTEMPT</span><h3>צלם את התנועה שלך.</h3><p>צילום מהצד באור ברור, כשהידיים והרגליים בפריים. טלפון יציב וכמה שניות של החזקה.</p><small>עד שתי דקות · ליד קיר ובמרחב פנוי לפי הצורך.</small></div>
+<div class="capture-tips" aria-label="הנחיות צילום"><span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="m8 6 2-3h4l2 3"/><circle cx="12" cy="13" r="4"/></svg>צלמו מהצד</span><span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><path d="M12 7v10M8 11h8"/></svg>כל הגוף בתמונה</span><span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/></svg>תאורה טובה</span><span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M10 18h4M3 9v6m18-6v6"/></svg>טלפון יציב</span></div> <div class="capture-copy"><span class="sport-label">YOUR NEXT ATTEMPT</span><h3>כך תצלמו בצורה הטובה ביותר</h3><p>עמדו במרחק של 2–3 מטרים, כך שכל הגוף יופיע בתמונה. צלמו לאורך התרגיל.</p><small>עד שתי דקות · ליד קיר ובמרחב פנוי לפי הצורך.</small></div>
  </div>
 
-<div class="capture-tips"><span>◉ צילום מהצד</span><span>⌗ כל הגוף בפריים</span><span>☼ תאורה טובה</span><span>▣ טלפון יציב</span></div><div class="capture-actions"><label class="pick">בחר או צלם וידאו<input id="file" type="file" accept="video/*"></label><input id="cameraFile" class="capture-legacy-hidden" aria-label="קלט צילום חלופי" type="file" accept="video/*" capture="environment" hidden></div><div class="capture-options"><button id="openCamera" type="button">צילום במצלמה</button><button id="openGallery" type="button">בחירה מהגלריה</button></div><p class="capture-note">בחלק ממכשירי האייפון והאנדרואיד בחירת וידאו מאפשרת גם צילום חדש. הניתוח יתחיל לאחר בחירת קובץ.</p>
+<div class="capture-actions"><label class="pick"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="13" rx="3"/><path d="m16 10 6-3v11l-6-3"/></svg>בחר או צלם וידאו<input id="file" type="file" accept="video/*"></label><input id="cameraFile" class="capture-legacy-hidden" aria-label="קלט צילום חלופי" type="file" accept="video/*" capture="environment" hidden></div><div class="capture-options"><button id="openCamera" type="button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="m8 6 2-3h4l2 3"/><circle cx="12" cy="13" r="4"/></svg>מצלמה</button><button id="openGallery" type="button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1"/><path d="m3 17 5-5 4 4 4-5 5 6"/></svg>גלריה</button></div><p class="capture-note">הסרטון נשאר במכשיר. בחירת קובץ מתחילה את הניתוח המקומי.</p>
 <div id="analysisStage" hidden>
- <h2 tabindex="-1">מנתח את התנועה שלך</h2>
+ <h2 class="visually-hidden" tabindex="-1">מנתח את התנועה שלך</h2>
  <canvas id="analysisCanvas" aria-label="הפריים הנוכחי בניתוח"></canvas>
- <div class="progress-readout"><span>התקדמות דגימת הפריימים</span><output id="analysisPercent">0%</output></div>
- <ol class="analysis-steps"><li data-stage="decode">בדיקת הסרטון</li><li data-stage="model">טעינת מודל התנועה</li><li data-stage="scan">זיהוי נקודות גוף</li><li data-stage="scoring">ניתוח טכניקה</li><li data-stage="render">יצירת המשוב</li></ol>
- <p class="note">הניתוח מתבצע במכשיר שלך. האחוז משקף פריימים שעובדו בפועל.</p>
+ <div class="progress-readout"><span>התקדמות הסריקה</span><output id="analysisPercent">0%</output></div>
+ <progress id="prog" value="0" max="1" aria-label="התקדמות הניתוח"></progress><ol class="analysis-steps"><li data-stage="decode">בדיקת הסרטון</li><li data-stage="model">טעינת מודל התנועה</li><li data-stage="scan">זיהוי נקודות גוף</li><li data-stage="scoring">ניתוח טכניקה</li><li data-stage="render">יצירת המשוב</li></ol>
+ <p class="note">הניתוח מתבצע במכשיר שלך. משך העיבוד תלוי באורך הסרטון ובמכשיר.</p>
 </div>
 <div id="status" role="status" aria-live="polite"></div>
 <button id="retryAnalysis" class="ctl" type="button" hidden>בחר וידאו לניסיון חוזר</button>
-<progress id="prog" value="0" max="1" aria-label="התקדמות הניתוח"></progress>
+
 <button id="cancelAnalysis" class="cancel-analysis" type="button" hidden>ביטול הניתוח</button>
 <video id="v" muted playsinline preload="auto"></video>
 </section>
 <section id="out" aria-label="תוצאות הניתוח">
   <div class="results-heading"><strong>הניתוח שלך</strong><span>וידאו / מדידה / תרגול</span></div>
   <div id="replaySec">
-  <div class="player-heading"><a href="#results" class="back">→ לתוצאות</a><h2 tabindex="-1" id="playerTitle">סרטון עם ניתוח</h2></div>
-   <p class="note" id="replayTrimNotice">מקטע העמידה שנמדד</p>
-  <div class="skeleton-control"><label><input id="showSkeleton" type="checkbox" checked> הצגת קווי שלד</label></div>
-  <canvas id="cv"></canvas><div class="skeleton-control"><label><input id="showAngles" type="checkbox"> הצגת זוויות מפרקים</label></div><div id="jointMetrics" class="joint-metrics" hidden></div>
-  <div id="replayMoments" class="replay-moments" aria-label="רגעים לצפייה" hidden></div>
+  <div class="player-heading"><a href="#results" class="back icon-button" aria-label="חזרה לתוצאות"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5-7 7 7 7"/></svg></a><h2 tabindex="-1" id="playerTitle">סרטון עם ניתוח</h2></div>
+  <div class="player-surface"><div class="skeleton-control"><label><input id="showSkeleton" type="checkbox" checked> הצגת קווי שלד</label></div>
+  <canvas id="cv"></canvas></div><div class="player-toolbar"><div class="skeleton-control"><label><input id="showAngles" type="checkbox"> הצגת זוויות מפרקים</label></div><output id="playerTime" aria-label="זמן הסרטון"></output></div><div id="jointMetrics" class="joint-metrics" hidden></div><div id="replayMoments" class="replay-moments" aria-label="רגעים לצפייה" hidden></div>
   <div dir="ltr" style="margin-top:12px"><input id="scrub" type="range" min="0" max="1" step="0.01" value="0" style="width:100%;accent-color:var(--acc)" aria-label="מיקום בסרטון"></div>
   <div style="display:flex;gap:8px;margin-top:8px">
    <button id="prev" class="ctl">פריים קודם</button>
@@ -290,7 +286,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
    <button id="spd" class="ctl">מהירות ×1</button>
   </div>
   <p id="tlLabel" class="hold" style="margin:14px 0 0">כמה טוב היה הקו שלך לאורך הזמן. לחץ על הגרף כדי לקפוץ לרגע:</p>
-  <canvas id="tl" style="cursor:pointer"></canvas><div id="playerMetrics" class="result-metrics"></div>
+  <canvas id="tl" style="cursor:pointer"></canvas><div id="playerMetrics" class="result-metrics"></div>   <p class="note" id="replayTrimNotice">מקטע העמידה שנמדד</p>
+
   <p class="note">הסימון מציג הערכה של מנח הגוף. אם הזיהוי חלקי, כדאי לנסות צילום ברור יותר.</p>
   </div>
   <div id="holdSec" style="display:none">
@@ -301,7 +298,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
     </div>
     <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
     <p class="hold-duration" id="holdDuration" hidden></p>
-    <div id="resultMetrics" class="result-metrics"></div><div id="resultHighlights" class="result-highlights"></div><a href="#replay" class="feature-action replay-action">▷ צפה בסרטון עם הניתוח</a><details class="measurement-details"><summary>פירוט המדדים שנמדדו</summary><div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div></details>
+    <div id="resultMetrics" class="result-metrics"></div><div id="resultHighlights" class="result-highlights"></div><a href="#replay" class="feature-action replay-action"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="13" rx="3"/><path d="m16 10 6-3v11l-6-3"/></svg>צפה בסרטון עם הניתוח</a><details class="measurement-details"><summary>פירוט המדדים שנמדדו</summary><div id="scoreBreakdown" class="score-breakdown" aria-label="הסבר מדדי הציון"></div></details>
   </div>
   <p id="measurementNotice" class="tips" hidden></p>
   <details id="feedbackDetails" class="measurement-details"><summary>משוב מלא ותרגילים להמשך</summary><section id="coachPanel" class="coach-panel" aria-label="המשוב שלך" hidden>
@@ -321,7 +318,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset
 </section>
 <p class="footer">MOVALYT <span class="footer-dot" aria-hidden="true"></span> MOVEMENT / ANALYSIS</p>
 </main>
-<nav class="app-nav" aria-label="ניווט באפליקציה"><a id="navHome" href="#home" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>בית</span></a><a id="navAnalyze" href="#analyze"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg><span>ניתוח</span></a><a id="navHistory" href="#history"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4v6h6M4 10a8 8 0 1 1 0 5m8-8v5l3 2"/></svg><span>הניתוחים שלי</span></a></nav>
+<dialog id="aboutDialog" aria-labelledby="aboutTitle"><button id="closeAbout" class="icon-button" type="button" aria-label="סגירה">×</button><img src="./assets/brand/movalyt-mark.svg" width="48" height="48" alt=""><h2 id="aboutTitle">MOVALYT</h2><p>ניתוח טכניקה בעמידת ידיים — במכשיר שלכם.</p><p>הסרטון ונקודות הגוף אינם נשלחים לענן. ההיסטוריה כוללת מדידות בלבד ונשמרת בדפדפן הזה.</p><p>כרגע נתמכת עמידת ידיים בלבד. משוב Gemini בענן אינו פעיל.</p><a class="feature-action" href="#analyze" id="aboutAnalyze">לניתוח ניסיון חדש</a></dialog><nav class="app-nav" aria-label="ניווט באפליקציה"><a id="navHome" href="#home" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span>בית</span></a><a id="navAnalyze" href="#analyze"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg><span>נתח תרגיל</span></a><a id="navHistory" href="#history"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4v6h6M4 10a8 8 0 1 1 0 5m8-8v5l3 2"/></svg><span>היסטוריה</span></a></nav>
 <noscript><p>כדי לנתח סרטון יש להפעיל JavaScript בדפדפן.</p></noscript>
 
 <script type="module">
@@ -583,7 +580,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
   tc.strokeStyle="#B6FF4A";tc.lineWidth=2.5;let pen=false;tc.beginPath();
   ser.forEach((s,q)=>{if(s==null){pen=false;return}pen?tc.lineTo(X(q),Y(s)):tc.moveTo(X(q),Y(s));pen=true});tc.stroke();
   tc.strokeStyle="#ef4444";tc.lineWidth=2;tc.beginPath();tc.moveTo(X(p),4);tc.lineTo(X(p),116);tc.stroke();
-  sl.value=p};
+  sl.value=p;analysisUI.playback(v.currentTime,v.duration)};
  let rate=1,busy=false,pend=null;
  const posOf=()=>(v.currentTime-.05)*fps;
  const loop=()=>{if(v.currentTime>=(.05+end/fps)){v.pause();v.currentTime=.05+start/fps;draw(start);return}draw(posOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};

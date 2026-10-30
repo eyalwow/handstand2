@@ -22,3 +22,12 @@ is a new approximation with a different pose/camera/lighting. Both hero and
 capture reference use this asset; user playback always uses the uploaded video.
 No fallback to the previous athlete is configured. Previous licensed assets are
 retained for attribution/recovery but are not the new hero.
+
+### Mobile refinement
+
+The WebP was replaced after one edit generation using the original generated PNG
+as input. New source: `/workspace/generated_images/exec-522bbd3f-351b-4274-bff0-58ed02242a62.png`
+(outside the checkout). Darker industrial background, subdued windows and stronger
+side lighting; all feet/palms inspected. The exact photo from the approved mockup
+is still unavailable. This is a new approximation, not the original reference.
+No further generation attempts or paid external service were used.

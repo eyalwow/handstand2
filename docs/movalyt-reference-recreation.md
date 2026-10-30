@@ -1,3 +1,5 @@
+> Continued by [the mobile refinement report](movalyt-mobile-refinement.md), including real motion tests. This document records the previous iteration.
+
 # MOVALYT reference recreation — draft review
 
 Base: exact PR #28 head `9d046e680878682f710f9c3a5a99d63dfaa7cfc1`.
