@@ -28,8 +28,8 @@ test("no fake analysis in demo, no training navigation, privacy boundary stays i
 });
 test("photo uses full width with native ratio and breakpoints cover small phones", () => {
  assert.match(html, /movalyt\.css/);
- assert.match(css, /object-fit:cover/);
- assert.match(css, /@media\(max-width:350px\)/);
- assert.match(css, /@media\(max-width:600px\)/);
+ assert.match(css, /object-fit:\s*cover/);
+ assert.match(css, /@media\s*\(max-width:\s*350px\)/);
+ assert.match(css, /@media\s*\(max-width:\s*600px\)/);
  assert.match(css, /prefers-reduced-motion/);
 });
