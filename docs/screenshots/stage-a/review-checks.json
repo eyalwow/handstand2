@@ -1,0 +1,40 @@
+{
+  "stage": "A — visual approval only",
+  "activeApplicationChanged": false,
+  "screens": [
+    {
+      "screen": "welcome",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "screen": "home",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "screen": "upload",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "screen": "player",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "checks": [
+    "Four real DOM viewport captures at 390×844",
+    "No horizontal overflow at 320/390/430",
+    "Real MediaPipe photo-landmark overlay and visibility toggle",
+    "Angles from AI photo landmarks; sample metric cards explicitly labeled",
+    "Review dialog and keyboard dismissal",
+    "No storage writes or active engine/API imports",
+    "No uncaught JavaScript errors"
+  ],
+  "unrun": [
+    "Physical phones",
+    "Live video analysis, capture/upload integration",
+    "Full onboarding, choice persistence, catalog and application wiring: Stage B, pending approval"
+  ]
+}

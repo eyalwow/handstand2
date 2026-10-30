@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#050908" />
+    <title>MOVALYT — אישור עיצוב · שלב א</title>
+    <link
+      rel="icon"
+      href="../assets/brand/movalyt-icon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="preload"
+      href="../assets/fonts/rubik-hebrew-600-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="review.css" />
+  </head>
+  <body>
+    <svg
+      class="symbol-library"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="m14 5-7 7 7 7" />
+      </symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24">
+        <path
+          d="m9 4 1-2h4l1 2 3 2 2 1v4l-2 1v3l2 1v4l-3 1-2 2h-4l-1-3-3-1-2-2v-3l2-2V9L3 7V4l3-1z"
+        />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24">
+        <rect x="3" y="6" width="13" height="13" rx="3" />
+        <path d="m16 10 5-3v11l-5-3" />
+      </symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24">
+        <rect x="3" y="6" width="18" height="15" rx="3" />
+        <path d="m8 6 2-3h4l2 3" />
+        <circle cx="12" cy="13" r="4" />
+      </symbol>
+      <symbol id="i-gallery" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <circle cx="8" cy="8" r="1" />
+        <path d="m3 17 5-5 4 4 4-5 5 6" />
+      </symbol>
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="m3 10 9-7 9 7v11h-6v-7H9v7H3z" />
+      </symbol>
+      <symbol id="i-history" viewBox="0 0 24 24">
+        <path d="M3 4v6h6M3 10a9 9 0 1 1 0 5m9-9v6l3 2" />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M5 20v-5m7 5V9m7 11V3" />
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24">
+        <path d="m14 2-9 12h7l-2 8 9-12h-7z" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12 5 5L20 6" />
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8" />
+        <circle cx="12" cy="12" r="4" />
+        <path d="m12 12 8-9M16 3h4v4" />
+      </symbol>
+      <symbol id="i-pose" viewBox="0 0 24 24">
+        <circle cx="12" cy="5" r="2" />
+        <path d="M12 7v9m-6-5 6 2 6-2m-10 10 4-5 4 5" />
+      </symbol>
+      <symbol id="i-frame" viewBox="0 0 24 24">
+        <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"
+        />
+      </symbol>
+      <symbol id="i-stable" viewBox="0 0 24 24">
+        <rect x="7" y="2" width="10" height="20" rx="2" />
+        <path d="M10 18h4M3 9v6m18-6v6" />
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24">
+        <path d="m9 5 11 7-11 7z" />
+      </symbol>
+      <symbol id="i-expand" viewBox="0 0 24 24">
+        <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24">
+        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z" />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+      <symbol id="i-angle" viewBox="0 0 24 24">
+        <path d="M4 20h17M4 20 15 4M8 13a9 9 0 0 1 7 7" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v6m0-10v1" />
+      </symbol>
+    </svg>
+    <header class="review-tools">
+      <strong>שלב א · הצעה לאישור עיצוב</strong>
+      <p>סקיצה נפרדת. המוצר הפעיל ומנוע הניתוח לא שונו.</p>
+      <nav aria-label="ארבעת המסכים לאישור">
+        <a href="#welcome">Welcome</a><a href="#home">בית</a
+        ><a href="#upload">העלאה</a><a href="#player">נגן</a>
+      </nav>
+      <a class="full-view" href="?capture=1#welcome">פתיחה בגודל מלא</a>
+    </header>
+    <main class="app" aria-label="סקיצת MOVALYT — שלב א בלבד">
+      <section
+        class="screen welcome"
+        data-screen="welcome"
+        aria-labelledby="welcome-title"
+      >
+        <img
+          class="welcome-photo"
+          src="assets/front-lever.webp"
+          width="1024"
+          height="1536"
+          alt="צילום AI מקורי: ספורטאית מבצעת Front Lever בחדר כושר תעשייתי"
+        />
+        <div class="welcome-shade"></div>
+        <header class="floating-header">
+          <a class="brand" href="#welcome" aria-label="MOVALYT"
+            ><img
+              src="../assets/brand/movalyt-mark.svg"
+              width="34"
+              height="34"
+              alt=""
+            /><span>MOVALYT</span></a
+          ><span class="micro-label">MOVE. ANALYZE. IMPROVE.</span>
+        </header>
+        <div class="welcome-caption">
+          <span class="small-line"></span> FRONT LEVER <span>· בקרוב</span>
+        </div>
+        <div class="welcome-copy">
+          <span class="eyebrow">כל תנועה מתחילה בהחלטה.</span>
+          <h1 id="welcome-title" tabindex="-1">
+            כל תנועה.<br /><em>יותר מדויקת.</em>
+          </h1>
+          <p>לראות את הטכניקה שלך.<br />להבין מה לשפר. להתקדם בביטחון.</p>
+        </div>
+        <div class="welcome-actions">
+          <div class="step-dots" aria-label="סקיצה של מסך הפתיחה">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <a class="primary" href="#home"
+            >מתחילים<svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-arrow" /></svg></a
+          ><a class="skip" href="#home">דלגו לאפליקציה</a
+          ><small>כרגע מנתחים עמידת ידיים. תרגילים נוספים בדרך.</small>
+        </div>
+      </section>
+      <section
+        class="screen home"
+        data-screen="home"
+        aria-labelledby="home-title"
+        hidden
+      >
+        <div class="home-page">
+          <div class="home-hero">
+            <img
+              class="home-photo"
+              src="../assets/photography/movalyt-handstand-ai.webp"
+              width="1024"
+              height="1536"
+              alt="צילום AI מקורי: ספורטאי בעמידת ידיים"
+            />
+            <div class="home-shade"></div>
+            <header class="floating-header">
+              <a class="brand" href="#welcome" aria-label="MOVALYT"
+                ><img
+                  src="../assets/brand/movalyt-mark.svg"
+                  width="34"
+                  height="34"
+                  alt=""
+                /><span>MOVALYT</span></a
+              ><button
+                class="icon-button"
+                type="button"
+                data-info
+                aria-label="מידע על סקיצת העיצוב"
+              >
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <use href="#i-gear" />
+                </svg>
+              </button>
+            </header>
+            <span class="discipline"
+              ><i></i> HANDSTAND <span>ניתוח טכניקה</span></span
+            >
+            <div class="home-copy">
+              <h1 id="home-title" tabindex="-1">
+                ניתוח תנועה<br />שמוביל אותך<br /><em>לרמה הבאה.</em>
+              </h1>
+              <p>
+                הטכניקה שלך, מזווית חדשה.<br />וידאו אחד. תובנות שאפשר ליישם.
+              </p>
+            </div>
+          </div>
+          <a class="primary home-primary" href="#upload"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-video" /></svg
+            >בחר או צלם וידאו</a
+          >
+          <div class="benefits">
+            <article>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-target" /></svg
+              ><strong>ציון טכניקה</strong><small>מדידה מתוך 100</small>
+            </article>
+            <article>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-pose" /></svg
+              ><strong>משוב ברור</strong><small>לדעת מה לשפר</small>
+            </article>
+            <article>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-chart" /></svg
+              ><strong>התקדמות</strong><small>ניסיון אחרי ניסיון</small>
+            </article>
+          </div>
+        </div>
+        <nav class="app-nav" aria-label="סקיצת ניווט">
+          <a href="#home" aria-current="page"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-home" /></svg
+            ><span>בית</span></a
+          ><a href="#upload"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-video" /></svg
+            ><span>נתח תרגיל</span></a
+          ><button type="button" disabled title="היסטוריה אינה חלק משלב א">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-history" /></svg
+            ><span>היסטוריה</span>
+          </button>
+        </nav>
+      </section>
+      <section
+        class="screen upload"
+        data-screen="upload"
+        aria-labelledby="upload-title"
+        hidden
+      >
+        <header class="page-header">
+          <a href="#home" class="icon-button back" aria-label="חזרה לבית"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-arrow" /></svg
+          ></a>
+          <h1 id="upload-title" tabindex="-1">העלאת סרטון</h1>
+          <span class="chapter">01</span>
+        </header>
+        <div class="screen-scroll upload-content">
+          <div class="upload-intro">
+            <span class="eyebrow">HANDSTAND / עמידת ידיים</span>
+            <h2>זווית טובה.<br /><em>תמונה ברורה של הטכניקה.</em></h2>
+          </div>
+          <div class="capture-visual">
+            <img
+              src="assets/capture-handstand.webp"
+              width="1024"
+              height="1536"
+              alt="צילום AI להמחשת זווית צילום, אינו מצלמה חיה"
+            />
+            <div class="capture-visual-copy">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-frame" /></svg
+              ><strong>מהצד.<br />כל הגוף.<br />כל התנועה.</strong
+              ><span>צילום לדוגמה · AI</span>
+            </div>
+          </div>
+          <div class="capture-guidelines" aria-label="הנחיות צילום">
+            <div>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-camera" /></svg
+              ><span><strong>צילום מהצד</strong><small>בגובה הגוף</small></span>
+            </div>
+            <div>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-frame" /></svg
+              ><span
+                ><strong>כל הגוף בפריים</strong
+                ><small>מכפות הידיים עד הרגליים</small></span
+              >
+            </div>
+            <div>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-sun" /></svg
+              ><span
+                ><strong>תאורה ברורה</strong
+                ><small>ללא אור חזק מאחור</small></span
+              >
+            </div>
+            <div>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-stable" /></svg
+              ><span
+                ><strong>טלפון יציב</strong
+                ><small>מרחק של כ־2–3 מטרים</small></span
+              >
+            </div>
+          </div>
+          <a
+            class="primary"
+            href="#player"
+            aria-label="סקיצת עיצוב: מעבר להצעת הנגן בלבד"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-video" /></svg
+            >בחר או צלם וידאו</a
+          >
+          <div class="capture-alternatives">
+            <button type="button" disabled>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-camera" /></svg
+              >מצלמה</button
+            ><button type="button" disabled>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-gallery" /></svg
+              >גלריה
+            </button>
+          </div>
+          <p class="private-note">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-check" /></svg
+            >הווידאו שלך נשאר במכשיר שלך.
+          </p>
+        </div>
+        <nav class="app-nav" aria-label="סקיצת ניווט">
+          <a href="#home"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-home" /></svg
+            ><span>בית</span></a
+          ><a href="#upload" aria-current="page"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-video" /></svg
+            ><span>נתח תרגיל</span></a
+          ><button type="button" disabled title="היסטוריה אינה חלק משלב א">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-history" /></svg
+            ><span>היסטוריה</span>
+          </button>
+        </nav>
+      </section>
+      <section
+        class="screen player"
+        data-screen="player"
+        aria-labelledby="player-title"
+        hidden
+      >
+        <header class="page-header">
+          <a
+            href="#upload"
+            class="icon-button back"
+            aria-label="חזרה לסקיצת ההעלאה"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-arrow" /></svg
+          ></a>
+          <h1 id="player-title" tabindex="-1">התנועה שלך. בפוקוס.</h1>
+          <button
+            class="icon-button"
+            type="button"
+            data-info
+            aria-label="מידע על הדגמת העיצוב"
+          >
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-info" />
+            </svg>
+          </button>
+        </header>
+        <div class="screen-scroll player-content">
+          <div class="demo-notice">הדגמת עיצוב · תמונת AI · לא ניתוח משתמש</div>
+          <div class="video-stage">
+            <div class="video-backdrop"></div>
+            <div class="pose-stage">
+              <img
+                src="assets/capture-handstand.webp"
+                width="1024"
+                height="1536"
+                alt="תמונת AI להדגמת עיצוב הנגן"
+              /><svg
+                id="poseOverlay"
+                viewBox="0 0 1024 1536"
+                aria-label="נקודות MediaPipe שנמדדו על תמונת ההדגמה"
+              ></svg>
+            </div>
+            <div class="video-topbar">
+              <span class="video-tag">HANDSTAND</span
+              ><button
+                class="skeleton-switch"
+                id="skeletonToggle"
+                type="button"
+                aria-pressed="true"
+              >
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <use href="#i-pose" /></svg
+                >שלד
+              </button>
+            </div>
+            <span class="frame-label">צילום הדגמה · MediaPipe</span
+            ><button
+              class="icon-button expand"
+              type="button"
+              disabled
+              aria-label="מסך מלא — פקד עיצוב שאינו פעיל"
+            >
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-expand" />
+              </svg>
+            </button>
+          </div>
+          <div class="transport">
+            <button
+              type="button"
+              class="play-button"
+              disabled
+              aria-label="ניגון אינו פעיל בסקיצת העיצוב"
+            >
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-play" />
+              </svg>
+            </button>
+            <div class="timeline">
+              <input
+                type="range"
+                value="38"
+                min="0"
+                max="100"
+                disabled
+                aria-label="ציר זמן להדגמת עיצוב בלבד"
+              />
+              <div>
+                <span>דוגמת נגן</span><span dir="ltr">00:04 / 00:10</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="speed"
+              disabled
+              aria-label="מהירות ניגון לדוגמה"
+            >
+              1×
+            </button>
+          </div>
+          <div
+            class="analysis-tabs"
+            role="group"
+            aria-label="סקיצת תצוגת מדדים"
+          >
+            <button id="metricsTab" type="button" aria-pressed="true">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-target" /></svg
+              >מדדי טכניקה</button
+            ><button id="anglesTab" type="button" aria-pressed="false">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-angle" /></svg
+              >זוויות מפרקים
+            </button>
+          </div>
+          <div class="metric-context">
+            <span id="metricHeading">הנקודות שעושות את ההבדל</span
+            ><small>נתוני דוגמה</small>
+          </div>
+          <div class="metric-grid" id="sampleMetrics">
+            <article>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-target" /></svg
+              ><span>קו גוף</span><strong>94<small>/100</small></strong>
+            </article>
+            <article>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-pose" /></svg
+              ><span>כתפיים</span><strong>88<small>/100</small></strong>
+            </article>
+            <article>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-angle" /></svg
+              ><span>מרפקים</span><strong>90<small>/100</small></strong>
+            </article>
+            <article>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-chart" /></svg
+              ><span>איזון</span><strong>86<small>/100</small></strong>
+            </article>
+          </div>
+          <div class="metric-grid angle-grid" id="sampleAngles" hidden></div>
+          <div class="technical-feedback">
+            <span class="feedback-icon"
+              ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-check" /></svg
+            ></span>
+            <div>
+              <strong>הגוף בקו. מכאן מדייקים.</strong>
+              <p>
+                שמרו את הצלעות אסופות לאורך כל ההחזקה כדי לצמצם את הקשת בגב.
+              </p>
+              <small>דוגמת משוב בלבד · לא תוצאת משתמש</small>
+            </div>
+          </div>
+        </div>
+        <nav class="app-nav" aria-label="סקיצת ניווט">
+          <a href="#home"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-home" /></svg
+            ><span>בית</span></a
+          ><a href="#upload" aria-current="page"
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-video" /></svg
+            ><span>נתח תרגיל</span></a
+          ><button type="button" disabled title="היסטוריה אינה חלק משלב א">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <use href="#i-history" /></svg
+            ><span>היסטוריה</span>
+          </button>
+        </nav>
+      </section>
+    </main>
+    <aside class="review-note">
+      <strong>עצירה לאישור עיצוב.</strong> ארבעת המסכים הם הצעת שלב א בלבד.
+      פקדים מושבתים ונתוני דוגמה מסומנים במפורש. אין העלאה, ניתוח או שמירת
+      בחירות בעמוד הזה.
+    </aside>
+    <dialog id="reviewInfo">
+      <button
+        id="closeInfo"
+        type="button"
+        class="icon-button"
+        aria-label="סגירה"
+      >
+        ×
+      </button>
+      <h2>אישור עיצוב — שלב א</h2>
+      <p>
+        זהו אזור סקיצות נפרד מהמוצר הפעיל. ה־Welcome, הבית, ההעלאה והנגן מוצגים
+        לאישור חזותי בלבד.
+      </p>
+      <p>
+        התמונות מקוריות ונוצרו ב־AI. ציוני הנגן הם נתוני דוגמה. שכבת השלד נמדדה
+        ב־MediaPipe על תמונת ההדגמה, ולא על סרטון משתמש.
+      </p>
+      <p>
+        המשך ההיכרות, קטלוג התרגילים וחיבור האינטראקציות יבוצעו רק אחרי אישור
+        העיצוב.
+      </p>
+    </dialog>
+    <script type="module" src="review.js"></script>
+  </body>
+</html>
