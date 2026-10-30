@@ -1,0 +1,48 @@
+{
+  "browser": "webkit",
+  "viewport_widths": [
+    320,
+    375,
+    390,
+    430
+  ],
+  "viewport_heights": {
+    "320": 640,
+    "375": 812,
+    "390": 844,
+    "430": 932
+  },
+  "physical_device": false,
+  "passed": [
+    "320: home, upload, empty history, no horizontal overflow",
+    "375: home, upload, empty history, no horizontal overflow",
+    "390: home, upload, empty history, no horizontal overflow",
+    "430: home, upload, empty history, no horizontal overflow",
+    "dialog close/focus return, reduced motion, simulated top/bottom safe areas",
+    "real MP4 upload and cancellation without history writes"
+  ],
+  "failed": [
+    "לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."
+  ],
+  "unrun": [
+    "Any steps after the failure above; not counted as passed"
+  ],
+  "uncaught_js_errors": [],
+  "console_errors": [
+    "AbortError: הניתוח בוטל על ידי המשתמש.",
+    "Error: undefined is not an object (evaluating 'GLctx.activeTexture')"
+  ],
+  "last_timing": {
+    "kind": "video-analysis",
+    "outcome": "error",
+    "capturePath": "fixed-sequential-seek",
+    "stage": "scan",
+    "decodeMs": 39,
+    "modelMs": 290,
+    "poseDelegate": "CPU",
+    "execution": "worker",
+    "errorName": "Error",
+    "errorCode": null,
+    "totalMs": 379
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "browser": "webkit",
+  "viewport_widths": [
+    320,
+    375,
+    390,
+    430
+  ],
+  "viewport_heights": {
+    "320": 640,
+    "375": 812,
+    "390": 844,
+    "430": 932
+  },
+  "physical_device": false,
+  "passed": [
+    "Full first-run onboarding, goal/multiple interests, completion persistence, reload, settings replay and Welcome skip",
+    "320: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "375: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "390: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "430: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "dialog close/focus return, reduced motion, simulated top/bottom safe areas"
+  ],
+  "failed": [],
+  "unrun": [
+    "Media inference/player/results: deliberately excluded; known Linux WebKit GLctx.activeTexture limitation, no physical device"
+  ],
+  "uncaught_js_errors": [],
+  "console_errors": [],
+  "last_timing": null
+}

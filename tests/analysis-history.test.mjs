@@ -2,12 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
-const code=readFileSync(new URL('../vercel-app/home-ui.js',import.meta.url),'utf8');
+import {readAnalysisHistory} from '../vercel-app/analysis-history.js';
+const code=readFileSync(new URL('../vercel-app/home-ui.js',import.meta.url),'utf8').replace('import {readAnalysisHistory} from "./analysis-history.js";','');
 function openHistory(raw){
  const nodes={};class Element{constructor(){this.children=[];this.textContent=''}replaceChildren(){this.children=[];this.textContent=''}append(...items){this.children.push(...items)}setAttribute(){}}
  const text=node=>node.textContent+node.children.map(text).join(' ');
  let writes=0;const storage={getItem:()=>raw,setItem(){writes++},removeItem(){writes++}};
- runInNewContext(code,{document:{getElementById:id=>nodes[id]??=(new Element()),createElement:()=>new Element()},localStorage:storage,window:{addEventListener(){}},Intl,Date});
+ runInNewContext(code,{readAnalysisHistory,document:{getElementById:id=>nodes[id]??=(new Element()),createElement:()=>new Element()},localStorage:storage,window:{addEventListener(){}},Intl,Date});
  return {recent:text(nodes['home-analysis-history']),history:text(nodes['history-list']),writes};
 }
 test('fresh and corrupt analysis history never seeds or overwrites user storage',()=>{
