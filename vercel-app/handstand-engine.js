@@ -152,7 +152,8 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   pg.style.display="none";
   analysisUI.stage("scoring");timing.stage="scoring";const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
   const res=reliableResult(measuredHold,fps)?measuredHold:null;
-  const entryFrames=observedEntryWindow(fr,fps,res);
+  const legacyEntryTrace={};
+  const entryFrames=observedEntryWindow(fr,fps,res,legacyEntryTrace);
   const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
   if(ent && ent.arch===null) ent.total=(ent.sc.reach*.4+ent.sc.shoulder*.2+ent.sc.elbow*.15)/.75;
   const overall=overallHandstandScore(res,ent);
@@ -160,7 +161,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   const timeline=analyzeHandstandTimeline({frames:fr,timestamps:poseTimes,width:w,height:h,hold:res,entry:ent});
   const reliable=overall!==null;
   // Local diagnostics only; no file bytes or poses leave the browser.
-  window.dispatchEvent(new CustomEvent("movalyt:analysis-diagnostic",{detail:{input:{bytes:file.size,type:file.type,duration:v.duration},sampling:"fixed-sequential-v1",delegate:ready.delegate,execution:ready.execution,timestamps:sampledTimes,score:overall,timeline,hold:res?{start:res.diagnostics.startFrame,end:res.diagnostics.endFrame,seconds:res.hold,metrics:res.val,scores:res.sc}:null,entry:ent?{total:ent.total,scores:ent.sc}:null}}));
+  window.dispatchEvent(new CustomEvent("movalyt:analysis-diagnostic",{detail:{input:{bytes:file.size,type:file.type,duration:v.duration},sampling:"fixed-sequential-v1",delegate:ready.delegate,execution:ready.execution,timestamps:sampledTimes,score:overall,legacyEntryTrace,timeline,hold:res?{start:res.diagnostics.startFrame,end:res.diagnostics.endFrame,seconds:res.hold,metrics:res.val,scores:res.sc}:null,entry:ent?{total:ent.total,scores:ent.sc}:null}}));
   if(controller.signal.aborted)throw controller.signal.reason;
 
   timing.scoringMs=performance.now()-scoringStarted;
@@ -188,7 +189,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
     ?"בפיסוק הרגליים קשה לנו להעריך את קו הגוף בצורה הוגנת. נסו סרטון נוסף עם רגליים קרובות, כשהגוף כולו בפריים."
     :"לא הצלחנו למדוד את העמידה בביטחון. נסו לצלם מהצד, עם כל הגוף בפריים והחזקה ברורה של כמה שניות.";
    await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1],null,poseTimes);
-   $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
+   $("out").style.display="block";
    timing.outcome="unreliable";
   }
  }catch(err){pg.style.display="none";console.error(err);timing.errorName=err?.name;timing.errorCode=err?.code;$("out").style.display="none";$("retryAnalysis").hidden=false;
@@ -245,7 +246,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames,poseTimes=fr.map((_,i)
   const time=mediaTime;
   const rawPose=poseAtTime(fr,poseTimes,time);
   analysisUI.joints(rawPose,rawPose,0);
-  if($("showSkeleton").checked)drawPoseOverlay(c,poseAtTime(displayFrames,poseTimes,time),{width:w,height:h});
+  if($("showSkeleton").checked)drawPoseOverlay(c,poseAtTime(displayFrames,poseTimes,time),{width:w,height:h,advanced:$("advancedOverlay").checked});
   tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
   [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
   tc.strokeStyle="#B6FF4A";tc.lineWidth=2.5;let pen=false;tc.beginPath();
@@ -255,7 +256,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames,poseTimes=fr.map((_,i)
  let rate=1,busy=false,pend=null;
  const frameTime=p=>{const i=Math.floor(p),j=Math.min(N-1,i+1);return poseTimes[i]+(poseTimes[j]-poseTimes[i])*(p-i)};
  const posOf=(t=v.currentTime)=>{let i=0;while(i<N-1&&poseTimes[i+1]<=t)i++;return i<N-1?i+(t-poseTimes[i])/(poseTimes[i+1]-poseTimes[i]):i;};
- const schedule=()=>{if(disposed||v.paused)return;if(v.requestVideoFrameCallback)videoFrameHandle=v.requestVideoFrameCallback(loop);else animationHandle=requestAnimationFrame(loop);};
+ const schedule=()=>{if(disposed||v.paused)return;if(v.requestVideoFrameCallback&&v.getClientRects().length)videoFrameHandle=v.requestVideoFrameCallback(loop);else animationHandle=requestAnimationFrame(loop);};
  const loop=(_now,metadata)=>{videoFrameHandle=null;animationHandle=null;if(disposed||v.paused)return;const time=metadata?.mediaTime??v.currentTime;if(time>=frameTime(end)){v.pause();void goTo(start);return}draw(posOf(time),time);schedule();};
  const goTo=async p=>{if(disposed)return;pend=p;if(busy)return;busy=true;try{while(pend!=null&&!disposed){const q=Math.max(start,Math.min(end,pend));pend=null;await seek(v,frameTime(q));if(!disposed)draw(q)}}finally{busy=false}};
  const moments=$("replayMoments");moments.replaceChildren();moments.hidden=!windowFrames;
@@ -273,6 +274,7 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames,poseTimes=fr.map((_,i)
  tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo(start+(e.clientX-r.left)/r.width*(end-start))};
  $("showSkeleton").onchange=()=>draw(posOf());
  $("showAngles").onchange=()=>draw(posOf());
+ $("advancedOverlay").onchange=()=>draw(posOf());
  if(typeof ResizeObserver==="function"){resizeObserver=new ResizeObserver(()=>{const box=cv.getBoundingClientRect();if(!disposed&&v.paused&&v.readyState>=2&&box.width>0&&box.height>0)draw(posOf())});resizeObserver.observe(cv);}
  pb.textContent="נגן";$("spd").textContent="מהירות ×1";
  await seek(v,frameTime(Math.max(start,Math.min(end,mid))));draw(Math.max(start,Math.min(end,mid)));
@@ -306,7 +308,7 @@ function drawScoreRadar(res,overall){
   const name=document.createElement("span");name.textContent=v.label;
   const number=document.createElement("strong");number.textContent=Math.round(v.score)+"/100";
   head.append(name,number);item.append(head);
-  const bar=document.createElement("div");bar.className="bar";const fill=document.createElement("i");fill.style.width=v.score+"%";fill.style.background="var(--acc)";bar.append(fill);item.append(bar);
+  const bar=document.createElement("div");bar.className="bar";const fill=document.createElement("i");fill.style.width=v.score+"%";fill.style.background="var(--lime)";bar.append(fill);item.append(bar);
   const reason=document.createElement("p");reason.textContent=v.description;item.append(reason);detail.append(item);
  });
 }
@@ -321,5 +323,5 @@ async function show(res,fr,v,w,h,overall,poseTimes){
  const trim=observedExerciseWindow(fr,fps,res);
  if(trim){trim.start=0;trim.end=fr.length-1;trim.observedStart=false;trim.observedEnd=false;trim.fullVideo=true;}
  await replay(fr,v,w,h,k,null,fps,res?.mid||Math.floor(fr.length/2),trim,poseTimes);
- $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
+ $("out").style.display="block";
 }

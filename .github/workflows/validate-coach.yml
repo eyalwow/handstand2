@@ -26,6 +26,7 @@ jobs:
           node --check vercel-app/analysis-history.js
           node --check vercel-app/movalyt-ui.js
           node --check vercel-app/handstand-engine.js
+          node --check vercel-app/handstand-entry.js
           node --check vercel-app/handstand-temporal.js
           node --check vercel-app/handstand-fall.js
           node --check vercel-app/handstand-coaching.js
@@ -55,4 +56,4 @@ jobs:
       - name: Run analyzer, privacy, API, and training tests
         run: node --test tests/*.test.*
       - name: Check Chromium smoke test harness
-        run: python3 -m py_compile scripts/smoke-mediapipe-worker.py scripts/verify-intelligent-handstand.py scripts/verify-movalyt-ui.py
+        run: python3 -m py_compile scripts/smoke-mediapipe-worker.py scripts/verify-intelligent-handstand.py scripts/verify-movalyt-ui.py scripts/verify-pr30-refinement.py

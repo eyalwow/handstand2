@@ -1,5 +1,8 @@
 # MOVALYT — intelligent handstand analysis
 
+> Initial PR #30 snapshot. The [mobile refinement](pr30-mobile-fixes.md) supersedes
+> the overlay, entry-observation and report layout described below.
+
 Based on PR #29 HEAD `d39701c`, on `feat/intelligent-handstand-analysis`.
 [Policy written before implementation](handstand-analysis-policy.md).
 No additional model, cloud API, paid service or personal video was used.

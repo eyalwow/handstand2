@@ -352,7 +352,12 @@ def run_browser(playwright, name, url, video):
             page.locator("#showAngles").check()
             assert page.locator("#jointMetrics p").count() >= 2
             page.locator("#showAngles").uncheck()
-            assert page.locator("#playerMetrics article").count() >= 4
+            assert page.locator("#resultMetrics article").count() >= 4
+            assert not page.locator("#playerMetrics").is_visible()
+            page.evaluate("location.hash='results'")
+            assert not page.locator("#advancedReport").evaluate("el=>el.open")
+            assert page.locator("#coachDrills article").count() == 2
+            page.evaluate("location.hash='replay'")
             assert not page.locator("#coachPanel").evaluate(
                 "element=>element.closest('details')!==null"
             )
@@ -362,8 +367,12 @@ def run_browser(playwright, name, url, video):
             assert (
                 page.locator("#expandPlayer").get_attribute("aria-expanded") == "false"
             )
+            before_play = page.locator("#cv").evaluate("c=>c.toDataURL()")
             page.locator("#play").click()
             page.wait_for_timeout(450)
+            assert (
+                page.locator("#cv").evaluate("c=>c.toDataURL()") != before_play
+            ), "Canvas must move during actual playback"
             assert not page.locator("#v").evaluate("(video)=>video.paused")
             page.locator("#play").click()
             page.locator("#spd").click()

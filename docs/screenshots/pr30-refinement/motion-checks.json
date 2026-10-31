@@ -1,0 +1,9 @@
+{
+  "fixture": "existing public UCF101 HandstandWalking g04 c01",
+  "personal_media": false,
+  "video_seconds": 2.766667,
+  "encoded_frames": 83,
+  "distinct_frame_hashes": 83,
+  "render_source": "actual application playback canvas with default minimal overlay",
+  "paid_service": false
+}

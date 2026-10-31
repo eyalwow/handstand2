@@ -118,14 +118,12 @@ export function buildIntelligentCoaching(timeline, hold, entry) {
       "המשיכו לבנות עקביות בין ניסיונות, תוך שמירה על אותו מנח ויציאה נשלטת.";
     headline = "נמדדה החזקה ממושכת יותר במנח עקבי.";
   }
-  if (e?.kind === "possible-balance-loss")
-    priority += " בסיום נראו סימנים אפשריים לאיבוד איזון; הסיבה אינה ודאית.";
   const evidence = [];
   if (timeline?.ascent)
     evidence.push({
       start: timeline.ascent.start,
       end: timeline.ascent.end,
-      text: "נצפה מעבר מהעלייה להגעה לאנך.",
+      text: "נצפה רצף הכנה, עלייה והגעה לאנך.",
     });
   else
     evidence.push({ text: "העלייה אינה נצפית ברצף אמין; אין הערכה מלאה שלה." });

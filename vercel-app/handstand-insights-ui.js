@@ -5,122 +5,97 @@ const el = (tag, text, cls) => {
   if (cls) node.className = cls;
   return node;
 };
-const stamp = (t) => (Number.isFinite(t) ? t.toFixed(1) + " שנ׳" : null);
+const evidenceText = (item) =>
+  (Number.isFinite(item.start)
+    ? `${item.start.toFixed(1)}–${item.end.toFixed(1)} שנ׳: `
+    : "") + item.text;
 let latest = null;
 export function resetHandstandInsights() {
   latest = null;
-  for (const id of ["resultInsights", "playerInsights"]) {
-    const host = $(id);
-    host.replaceChildren();
-    host.hidden = true;
-  }
+  $("advancedReport").open = false;
+  $("advancedOverlay").checked = false;
+  document.querySelector(".overlay-options").open = false;
+  for (const id of [
+    "resultInsights",
+    "playerInsights",
+    "advancedEvidence",
+    "coachObservations",
+    "coachDrills",
+  ])
+    $(id).replaceChildren();
+  $("resultInsights").hidden = true;
+  $("playerInsights").hidden = true;
+  $("reportTarget").hidden = true;
 }
 export function renderHandstandInsights(timeline, plan) {
   latest = { timeline, plan };
-  for (const id of ["resultInsights", "playerInsights"]) {
-    const host = $(id);
-    host.hidden = false;
-    host.replaceChildren();
-    host.append(el("h3", "הניסיון שלך, מעבר לציון"));
-    const grid = el("div", null, "temporal-grid");
-    for (const [label, value] of [
-      [
-        "עלייה",
-        timeline.ascent
-          ? "נצפתה · " + Math.round(timeline.ascent.score) + "/100"
-          : "לא נצפתה בביטחון",
-      ],
-      ["הגעה לאנך", timeline.reach ? "נצפתה" : "לא נצפתה בביטחון"],
-      [
-        "החזקה נצפית",
-        timeline.hold
-          ? (timeline.hold.censored ? "מקטע של כ־" : "כ־") +
-            timeline.hold.seconds.toFixed(1) +
-            " שנ׳"
-          : "לא נמדדה בביטחון",
-      ],
-      [
-        "שליטה",
-        timeline.control
-          ? timeline.control.status === "variable"
-            ? "תנועה משמעותית"
-            : "תנועה מצומצמת במקטע"
-          : "אין רצף מספיק",
-      ],
-    ]) {
-      const card = el("article");
-      card.append(el("small", label), el("strong", value));
-      grid.append(card);
-    }
-    host.append(grid);
-    host.append(el("p", plan.ending, "ending-evidence"));
-    if (timeline.hold?.censored)
-      host.append(
-        el(
-          "p",
-          "לא נצפו שני גבולות ההחזקה. הזמן מתייחס למקטע שנראה, ולא בהכרח להחזקה המלאה.",
-          "note",
-        ),
-      );
-    host.append(
-      el(
-        "p",
-        "הציון נשאר לפי המנוע הקיים; זמן ושליטה מוצגים בנפרד. תמיכה בקיר אינה מזוהה.",
-        "note",
-      ),
-    );
-  }
-  $("resultQuality").textContent = plan.headline;
-  $("holdDuration").hidden = true; // The legacy inverted-window duration is not the new observed interval.
-  $("coachBadge").textContent = "ניתוח מקומי לאורך זמן";
-  $("coachStrength").textContent = "מה עבד טוב: " + plan.strength;
-  $("coachSummary").textContent = "העדיפות לשיפור: " + plan.priority;
+  $("resultQuality").hidden = true;
+  const h = timeline.hold;
+  $("holdDuration").hidden = false;
+  $("holdDuration").textContent = h
+    ? "מקטע החזקה שנמדד: כ־" +
+      h.seconds.toFixed(1) +
+      " שניות" +
+      (h.censored ? " · ההחזקה המלאה אינה ידועה" : "")
+    : "משך ההחזקה לא נמדד בביטחון";
+  $("coachBadge").textContent = "ניתוח מקומי";
+  $("coachStrength").textContent = plan.strength;
+  $("coachSummary").textContent = plan.priority;
   const observations = $("coachObservations");
   observations.replaceChildren();
-  const evidence = el("article", null, "coach-observation");
-  evidence.append(el("h3", "הראיות בסרטון", "coach-observation-title"));
-  for (const item of plan.evidence)
-    evidence.append(
-      el(
-        "p",
-        (stamp(item.start)
-          ? stamp(item.start) + "–" + stamp(item.end) + ": "
-          : "") + item.text,
-        "coach-observation-finding",
-      ),
+  const facts = plan.evidence.filter(
+    (item) => !item.text.startsWith("נצפו כ־"),
+  );
+  for (const item of facts.slice(0, 2))
+    observations.append(
+      el("p", evidenceText(item), "coach-observation-finding"),
     );
-  observations.append(evidence);
-  const cause = el("article", null, "coach-observation");
-  cause.append(
-    el("h3", "הסבר אפשרי, עם גבולות ברורים", "coach-observation-title"),
-    el("p", plan.explanation, "coach-observation-finding"),
-  );
-  observations.append(cause);
-  const target = el("article", null, "coach-observation");
-  target.append(
-    el("h3", "לאימון הבא", "coach-observation-title"),
-    el(
-      "p",
-      plan.target?.text ||
-        "צלמו ניסיון מלא מהצד, כולל עלייה ויציאה, כשהגוף כולו בפריים. אין בסיס מספיק ליעד זמן אישי.",
-      "coach-observation-cue",
-    ),
-  );
-  observations.append(target);
+  observations.append(el("p", plan.ending, "ending-evidence"));
+  if (timeline.ending?.possibleExplanation)
+    observations.append(el("p", plan.explanation, "coach-observation-cue"));
   const drills = $("coachDrills");
   drills.replaceChildren();
   for (const [i, d] of plan.drills.entries()) {
     const card = el("article", null, "coach-drill");
     card.append(
-      el("h3", i + 1 + ". " + d.name, "coach-drill-name"),
+      el("h4", `${i + 1}. ${d.name}`, "coach-drill-name"),
       el("p", d.instruction, "coach-drill-focus"),
     );
     drills.append(card);
   }
-  const disclosure = drills.closest("details");
-  if (disclosure) disclosure.open = true;
+  $("reportTarget").hidden = !plan.target;
+  $("reportTargetText").textContent = plan.target?.text || "";
+  const details = $("advancedEvidence");
+  details.replaceChildren();
+  for (const item of facts.slice(2))
+    details.append(el("p", evidenceText(item), "note"));
+  const scope = $("resultInsights");
+  scope.replaceChildren();
+  scope.hidden = false;
+  scope.append(
+    el(
+      "p",
+      timeline.ascent
+        ? Number.isFinite(timeline.ascent.score)
+          ? "עלייה נצפתה. מדד הטכניקה של העלייה: " +
+            Math.round(timeline.ascent.score) +
+            "/100."
+          : "עלייה נצפתה. לא חושב לה ציון טכניקה נפרד; הציון הכללי מבוסס על מדדי ההחזקה."
+        : "לא נצפה מעבר מלא מהכנה לעמידה בביטחון.",
+      "note",
+    ),
+  );
+  scope.append(
+    el(
+      "p",
+      "הציון מתייחס לטכניקה לפי המנוע הקיים. משך החזקה ותמיכת קיר אינם כלולים בו כמדדי סיבולת או עצמאות.",
+      "note",
+    ),
+  );
   $("coachQuality").textContent = plan.limitations;
   $("coachPanel").hidden = false;
+  $("playerInsights").hidden = true;
+  $("playerInsights").replaceChildren();
 }
 $("revokeCloudConsent")?.addEventListener("click", () =>
   queueMicrotask(() => {

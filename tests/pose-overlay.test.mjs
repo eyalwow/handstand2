@@ -66,9 +66,10 @@ test("renderer uses measured endpoints, confidence, bounds and CSS-sized thicker
   f[12].x = -50;
   drawPoseOverlay(ctx, f, { width: 640, height: 800 });
   assert.ok(lines.some(([a, b]) => a[0] === 100 && b[0] === 120));
-  assert.ok(widths[0] >= 5.6);
+  assert.ok(widths[0] >= 4.2 && widths[0] <= 5.6);
+  assert.ok(widths.slice(0, lines.length).every((w) => w === widths[0]));
   assert.ok(!lines.some(([a, b]) => a[0] < 0 || b[0] < 0));
-  assert.ok(arcs.every(([, , r]) => r >= 8));
+  assert.ok(arcs.every(([, , r]) => r >= 4 && r < 6));
 });
 test("contain/cover, portrait/landscape and quarter rotations preserve exact coordinates", () => {
   assert.deepEqual(
@@ -123,4 +124,44 @@ test("contain/cover, portrait/landscape and quarter rotations preserve exact coo
     ),
     { x: 100, y: 0 },
   );
+});
+
+test("minimal default draws exactly 12 core joints; only advanced mode includes face, hands and feet", () => {
+  const frame = Array.from({ length: 33 }, (_, i) => ({
+    x: 10 + i * 10,
+    y: 100 + i * 5,
+    v: 1,
+  }));
+  function draw(advanced) {
+    const arcs = [],
+      lines = [];
+    const ctx = {
+      canvas: { getBoundingClientRect: () => ({ width: 320, height: 400 }) },
+      save() {},
+      restore() {},
+      beginPath() {},
+      moveTo() {},
+      lineTo(x, y) {
+        lines.push([x, y]);
+      },
+      stroke() {},
+      fill() {},
+      arc(x, y, r) {
+        arcs.push([x, y, r]);
+      },
+    };
+    drawPoseOverlay(ctx, frame, { width: 640, height: 800, advanced });
+    return { arcs, lines };
+  }
+  const normal = draw(false),
+    advanced = draw(true);
+  assert.equal(normal.arcs.length, 12);
+  assert.equal(advanced.arcs.length, 33);
+  for (const i of [0, 17, 19, 21, 29, 30, 31, 32])
+    assert.ok(!normal.arcs.some(([x]) => x === frame[i].x));
+  for (const [x, y] of normal.arcs)
+    assert.ok(frame.some((p) => p.x === x && p.y === y));
+  frame[29].v = 0.2;
+  assert.equal(draw(true).arcs.length, 32);
+  assert.equal(draw(false).arcs.length, 12);
 });

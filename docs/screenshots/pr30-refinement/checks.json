@@ -1,0 +1,40 @@
+{
+  "physical_device": false,
+  "private_video": false,
+  "cases": [
+    {
+      "label": "before",
+      "score": 71,
+      "sample_count": 42,
+      "ascent": false,
+      "entryDiagnostics": null,
+      "legacyEntryTrace": null,
+      "default_joints": 14,
+      "line_widths": [
+        4.363636493682861
+      ]
+    },
+    {
+      "label": "after",
+      "score": 71,
+      "sample_count": 42,
+      "ascent": false,
+      "entryDiagnostics": {
+        "reason": "no-reliable-preparation"
+      },
+      "legacyEntryTrace": {
+        "endFrame": 2,
+        "startFrame": -1,
+        "searchStartFrame": 0,
+        "reason": "no-standing-in-two-second-window"
+      },
+      "default_joints": 12,
+      "line_widths": [
+        3.200000047683716
+      ],
+      "advanced_joints": 33
+    }
+  ],
+  "uncaught": [],
+  "failed": []
+}

@@ -115,3 +115,16 @@ three-sample velocity burst (>0.18 body lengths/s or >45°/s), plus prior drift
 are engineering defaults for describing visible motion, not validated coaching
 or biological boundaries. They do not alter numerical scores. Camera-specific
 calibration is deliberately not claimed; labeled independent footage is required.
+
+### PR #30 observation refinement
+
+Entry phase observability is now independent of numeric entry-score eligibility.
+A separate local observer requires visible preparation, measured ankle rise and
+three complete near-vertical samples. It preserves the existing 0.65 evidence
+confidence, eight valid samples and 80% coverage. Its observation never changes
+the numeric score or fills missing landmarks. A pelvis can stay at the same
+image height while the body rotates into a handstand, so the legacy 15% upward
+pelvis displacement gate is not used to claim whether the phase was seen. It
+remains unchanged in the legacy score path; missing entry grades stay missing.
+Default overlay now shows only 12 core joints; all-point mode is opt-in. The
+canonical report puts detailed metrics in collapsed advanced details.

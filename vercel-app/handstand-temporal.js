@@ -1,3 +1,4 @@
+import { observeHandstandEntry } from "./handstand-entry.js";
 import { analyzeHandstandEnding } from "./handstand-fall.js";
 export const TEMPORAL_POLICY = Object.freeze({
   version: "temporal-v1",
@@ -209,18 +210,16 @@ export function analyzeHandstandTimeline({
   const reach = reachRun
     ? { start: reachRun[0].t, end: reachRun.at(-1).t }
     : null;
-  let ascent = null;
-  if (reachRun && Number.isFinite(entry?.total)) {
-    const end = reachRun[0].i,
-      window = samples.slice(Math.max(0, end - 30), end + 1);
-    const connected = continuousRuns(window, () => true).find(
-      (r) => r.at(-1).i === end,
-    );
-    const first = connected?.find((s) => s.standing);
-    if (first && reach.start - first.t >= 0.5)
-      ascent = { start: first.t, end: reach.start, score: entry.total };
-  }
-  if (!run) return { ...unknown, quality: "partial", reach, ascent };
+  const entryObservation = observeHandstandEntry(samples);
+  const ascent = entryObservation.ascent
+    ? {
+        ...entryObservation.ascent,
+        score: Number.isFinite(entry?.total) ? entry.total : null,
+      }
+    : null;
+  const entryDiagnostics = entryObservation.diagnostics;
+  if (!run)
+    return { ...unknown, quality: "partial", reach, ascent, entryDiagnostics };
   const first = run[0],
     last = run.at(-1),
     before = samples[first.i - 1],
@@ -266,6 +265,7 @@ export function analyzeHandstandTimeline({
     quality: "measured",
     reach,
     ascent,
+    entryDiagnostics,
     hold: interval,
     control,
     ending: analyzeHandstandEnding({

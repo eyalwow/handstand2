@@ -2567,3 +2567,93 @@ body[data-screen="results"] #scoreArc {
 body[data-expanded="true"] #playerInsights {
   display: none;
 }
+.overlay-options {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.overlay-options > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.advanced-overlay-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  flex-wrap: wrap;
+}
+.advanced-overlay-control input {
+  accent-color: var(--lime);
+  width: 18px;
+  height: 18px;
+}
+.advanced-overlay-control small {
+  font-size: 10px;
+}
+/* One canonical report. Playback links to it instead of repeating its content. */
+body[data-screen="replay"] #coachPanel {
+  display: none;
+}
+#resultMetrics,
+#resultHighlights,
+#playerMetrics,
+#playerMetricsHeading,
+#measurementNotice {
+  display: none;
+}
+.report-duration {
+  color: var(--lime);
+  font-size: 16px;
+  text-align: center;
+  margin: 8px 0 24px;
+  line-height: 1.7;
+}
+.report-section {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.report-section > h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+.report-section p {
+  line-height: 1.9;
+}
+.report-section .coach-strength,
+.report-section .coach-summary {
+  margin: 0;
+}
+#coachDrills {
+  display: grid;
+  gap: 10px;
+}
+#coachDrills .coach-drill {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  background: var(--panel);
+}
+.coach-drill > h4 {
+  margin: 0 0 8px;
+}
+#advancedReport {
+  margin-top: 20px;
+}
+#advancedReport > summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--lime);
+}
+#advancedReport .handstand-insights {
+  margin: 10px 0;
+}
+.report-link {
+  margin: 14px 0;
+}

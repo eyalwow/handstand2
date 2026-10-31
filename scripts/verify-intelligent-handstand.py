@@ -219,9 +219,11 @@ try:
                 )
                 assert page.locator("#coachDrills article").count() == 2
                 assert page.locator("#coachDrills").evaluate(
-                    '(el)=>el.closest("details").open'
+                    '(el)=>!el.closest("details")'
                 )
-                assert page.locator("#playerInsights").is_visible()
+                assert not page.locator("#advancedReport").evaluate("el=>el.open")
+                page.evaluate("location.hash='replay'")
+                assert not page.locator("#playerInsights").is_visible()
                 page.locator("#showAngles").check()
                 assert page.locator("#jointMetrics p").count() > 0
                 page.locator("#showAngles").uncheck()

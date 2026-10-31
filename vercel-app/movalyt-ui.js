@@ -104,6 +104,7 @@ function route() {
     "aria-label",
     scored ? "חזרה לתוצאות" : "חזרה להעלאה",
   );
+  $("reportLink").hidden = !scored;
   activate(screen);
   $("analyzer-title").textContent =
     screen === "results"
@@ -443,28 +444,6 @@ export const analysisUI = {
       }
   },
   finish(outcome) {
-    const highlights = $("resultHighlights");
-    highlights.replaceChildren();
-    if (outcome === "scored") {
-      const strength = $("coachStrength").textContent;
-      if (strength) {
-        const p = document.createElement("p");
-        p.className = "strength";
-        p.textContent = "✓ " + strength;
-        highlights.append(p);
-      }
-      for (const finding of document.querySelectorAll(
-        "#coachObservations .coach-observation-finding",
-      )) {
-        const p = document.createElement("p");
-        p.className = "improvement";
-        p.textContent = finding.textContent;
-        highlights.append(p);
-      }
-      $("playerMetrics").replaceChildren(
-        ...Array.from($("resultMetrics").children, (c) => c.cloneNode(true)),
-      );
-    }
     busy = false;
     available = ["scored", "unreliable"].includes(outcome);
     scored = outcome === "scored";

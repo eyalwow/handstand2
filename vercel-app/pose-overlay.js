@@ -5,17 +5,43 @@ export const POSE_CONNECTIONS = Object.freeze([
   [11, 23],
   [23, 25],
   [25, 27],
-  [27, 31],
   [12, 14],
   [14, 16],
   [12, 24],
   [24, 26],
   [26, 28],
-  [28, 32],
   [11, 12],
   [23, 24],
 ]);
-const JOINTS = [...new Set(POSE_CONNECTIONS.flat())];
+export const CORE_JOINTS = Object.freeze([
+  11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28,
+]);
+export const ADVANCED_CONNECTIONS = Object.freeze([
+  ...POSE_CONNECTIONS,
+  [0, 1],
+  [1, 2],
+  [2, 3],
+  [3, 7],
+  [0, 4],
+  [4, 5],
+  [5, 6],
+  [6, 8],
+  [9, 10],
+  [15, 17],
+  [15, 19],
+  [15, 21],
+  [17, 19],
+  [16, 18],
+  [16, 20],
+  [16, 22],
+  [18, 20],
+  [27, 29],
+  [29, 31],
+  [27, 31],
+  [28, 30],
+  [30, 32],
+  [28, 32],
+]);
 const confident = (p) =>
   p &&
   Number.isFinite(p.v) &&
@@ -92,7 +118,7 @@ export function poseAtTime(frames, times, time) {
 export function drawPoseOverlay(
   ctx,
   points,
-  { width, height, displayWidth } = {},
+  { width, height, displayWidth, advanced = false } = {},
 ) {
   if (!points || !(width > 0 && height > 0)) return;
   const rect = ctx.canvas.getBoundingClientRect?.();
@@ -102,7 +128,7 @@ export function drawPoseOverlay(
       ? Math.min(rect.width, (rect.height * width) / height)
       : rect?.width) ||
     width;
-  const cssLine = Math.max(2.8, Math.min(4, cssWidth / 110)),
+  const cssLine = Math.max(2.1, Math.min(2.8, cssWidth / 150)),
     ratio = width / Math.max(1, cssWidth),
     line = cssLine * ratio;
   const valid = (p) =>
@@ -113,9 +139,8 @@ export function drawPoseOverlay(
   ctx.lineWidth = line;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
-  ctx.shadowColor = "#C4FF6433";
-  ctx.shadowBlur = ratio * 1.5;
-  for (const [a, b] of POSE_CONNECTIONS) {
+  ctx.shadowBlur = 0;
+  for (const [a, b] of advanced ? ADVANCED_CONNECTIONS : POSE_CONNECTIONS) {
     const p = points[a],
       q = points[b];
     if (!valid(p) || !valid(q)) continue;
@@ -125,14 +150,16 @@ export function drawPoseOverlay(
     ctx.stroke();
   }
   ctx.shadowBlur = 0;
-  for (const i of JOINTS) {
+  for (const i of advanced
+    ? Array.from({ length: 33 }, (_, i) => i)
+    : CORE_JOINTS) {
     const p = points[i];
     if (!valid(p)) continue;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, Math.max(4, cssLine * 1.3) * ratio, 0, 2 * Math.PI);
+    ctx.arc(p.x, p.y, (advanced ? 1.65 : 2.35) * ratio, 0, 2 * Math.PI);
     ctx.fill();
     ctx.strokeStyle = "#101713";
-    ctx.lineWidth = ratio * 1.1;
+    ctx.lineWidth = ratio * 0.75;
     ctx.stroke();
   }
   ctx.restore();
