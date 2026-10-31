@@ -56,4 +56,4 @@ jobs:
       - name: Run analyzer, privacy, API, and training tests
         run: node --test tests/*.test.*
       - name: Check Chromium smoke test harness
-        run: python3 -m py_compile scripts/smoke-mediapipe-worker.py scripts/verify-intelligent-handstand.py scripts/verify-movalyt-ui.py scripts/verify-pr30-refinement.py
+        run: python3 -m py_compile scripts/smoke-mediapipe-worker.py scripts/verify-intelligent-handstand.py scripts/verify-movalyt-ui.py scripts/verify-pr30-refinement.py scripts/verify-apple-design.py

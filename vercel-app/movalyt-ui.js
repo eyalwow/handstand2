@@ -104,14 +104,31 @@ function route() {
     "aria-label",
     scored ? "חזרה לתוצאות" : "חזרה להעלאה",
   );
+  $("navAnalyze").href = busy
+    ? "#processing"
+    : available
+      ? scored
+        ? "#results"
+        : "#replay"
+      : "#analyze";
+  const analyzerBack = document.querySelector(".analyzer-heading .back");
+  analyzerBack.href = screen === "analyze" ? "#home" : "#analyze";
+  analyzerBack.setAttribute(
+    "aria-label",
+    screen === "analyze"
+      ? "חזרה לבית"
+      : screen === "processing"
+        ? "ביטול וחזרה לבחירת סרטון"
+        : "חזרה לבחירת סרטון",
+  );
   $("reportLink").hidden = !scored;
   activate(screen);
   $("analyzer-title").textContent =
     screen === "results"
-      ? "תוצאה"
+      ? "תוצאות הניתוח"
       : screen === "processing"
-        ? "מנתח את הסרטון"
-        : "העלאת סרטון";
+        ? "מנתחים את התנועה"
+        : "ניתוח עמידת ידיים";
   if (screen !== "replay") {
     $("v").pause();
     setExpanded(false);
@@ -136,7 +153,6 @@ $("watchSkeleton").addEventListener("click", () => {
   $("showSkeleton").dispatchEvent(new Event("change"));
 });
 $("openCamera").onclick = () => $("cameraFile").click();
-$("openGallery").onclick = () => $("file").click();
 const about = $("aboutDialog");
 $("aboutButton").onclick = () => {
   renderPreferences();
@@ -266,15 +282,6 @@ export const analysisUI = {
           )
         : 0) + "%",
     );
-    const video = $("v"),
-      backdrop = $("replayBackdrop");
-    if (video.readyState >= 2) {
-      if (backdrop.width !== 128) {
-        backdrop.width = 128;
-        backdrop.height = 128;
-      }
-      backdrop.getContext("2d").drawImage(video, 0, 0, 128, 128);
-    }
   },
   joints(first, second, amount) {
     const host = $("jointMetrics");

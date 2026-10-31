@@ -305,7 +305,7 @@ def run_browser(playwright, name, url, video):
                     page.locator("#retryAnalysis").click()
                 else:
                     page.evaluate("location.hash='analyze'")
-                    page.locator("#openGallery").click()
+                    page.locator(".pick").click()
             chooser.value.set_files(str(video))
             page.wait_for_function(
                 "document.body.dataset.screen !== 'processing' || document.getElementById('prog').value > 0",

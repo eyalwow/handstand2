@@ -1,0 +1,43 @@
+{
+  "physical_device": false,
+  "cases": [
+    {
+      "label": "before",
+      "width": 390,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 10
+    },
+    {
+      "label": "after",
+      "width": 320,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13
+    },
+    {
+      "label": "after",
+      "width": 375,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13
+    },
+    {
+      "label": "after",
+      "width": 390,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13
+    },
+    {
+      "label": "after",
+      "width": 430,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13
+    },
+    {
+      "label": "after-portrait",
+      "width": 390,
+      "fixture": "portrait.mp4",
+      "capture_metadata_px": 13
+    }
+  ],
+  "failed": [],
+  "uncaught": []
+}

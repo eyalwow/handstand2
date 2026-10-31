@@ -32,12 +32,27 @@ export function renderHandstandInsights(timeline, plan) {
   $("resultQuality").hidden = true;
   const h = timeline.hold;
   $("holdDuration").hidden = false;
-  $("holdDuration").textContent = h
-    ? "מקטע החזקה שנמדד: כ־" +
-      h.seconds.toFixed(1) +
-      " שניות" +
-      (h.censored ? " · ההחזקה המלאה אינה ידועה" : "")
-    : "משך ההחזקה לא נמדד בביטחון";
+  const duration = $("holdDuration");
+  duration.replaceChildren();
+  duration.append(el("span", "רצף החזקה שנמדד", "duration-label"));
+  if (h) {
+    const value = el("strong", null, "duration-value"),
+      number = el("bdi", h.seconds.toFixed(1)),
+      unit = el("span", "שנ׳");
+    number.dir = "ltr";
+    value.append(number, unit);
+    duration.append(
+      value,
+      el(
+        "small",
+        h.censored
+          ? "מקטע נצפה בלבד; ההחזקה המלאה אינה ידועה."
+          : "מתוך הסרטון שנותח.",
+        "duration-note",
+      ),
+    );
+  } else
+    duration.append(el("strong", "לא נמדד בביטחון", "duration-unavailable"));
   $("coachBadge").textContent = "ניתוח מקומי";
   $("coachStrength").textContent = plan.strength;
   $("coachSummary").textContent = plan.priority;

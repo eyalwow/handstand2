@@ -1,0 +1,67 @@
+{
+  "physical_device": false,
+  "cases": [
+    {
+      "label": "after",
+      "width": 320,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13,
+      "score": 71,
+      "sample_count": 42,
+      "report_body_px": 17,
+      "skeleton_cta_before_bottom_nav": true,
+      "player_clock_px": 15,
+      "flow": "native picker \u2192 real inference \u2192 results CTA \u2192 synchronized skeleton playback"
+    },
+    {
+      "label": "after",
+      "width": 375,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13,
+      "score": 71,
+      "sample_count": 42,
+      "report_body_px": 17,
+      "skeleton_cta_before_bottom_nav": true,
+      "player_clock_px": 15,
+      "flow": "native picker \u2192 real inference \u2192 results CTA \u2192 synchronized skeleton playback"
+    },
+    {
+      "label": "after",
+      "width": 390,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13,
+      "score": 71,
+      "sample_count": 42,
+      "report_body_px": 17,
+      "skeleton_cta_before_bottom_nav": true,
+      "player_clock_px": 15,
+      "flow": "native picker \u2192 real inference \u2192 results CTA \u2192 synchronized skeleton playback"
+    },
+    {
+      "label": "after",
+      "width": 430,
+      "fixture": "motion.mp4",
+      "capture_metadata_px": 13,
+      "score": 71,
+      "sample_count": 42,
+      "report_body_px": 17,
+      "skeleton_cta_before_bottom_nav": true,
+      "player_clock_px": 15,
+      "flow": "native picker \u2192 real inference \u2192 results CTA \u2192 synchronized skeleton playback"
+    },
+    {
+      "label": "after-portrait",
+      "width": 390,
+      "fixture": "portrait.mp4",
+      "capture_metadata_px": 13,
+      "score": 71,
+      "sample_count": 42,
+      "report_body_px": 17,
+      "skeleton_cta_before_bottom_nav": true,
+      "player_clock_px": 15,
+      "flow": "native picker \u2192 real inference \u2192 results CTA \u2192 synchronized skeleton playback"
+    }
+  ],
+  "failed": [],
+  "uncaught": []
+}
