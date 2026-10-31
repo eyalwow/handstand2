@@ -6,8 +6,10 @@ import {analysisUI} from "./movalyt-ui.js";
 import {overallHandstandScore,observedEntryWindow,observedExerciseWindow} from "./handstand-summary.js";
 import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
 import {reportAnalysisTiming} from "./analysis-performance.js";
-import {PoseRuntime,analysisTimeoutMs} from "./pose-runtime.js";
-import {sampleTimes,loadVideo,seekVideoFrame,scanVideoFrames} from "./video-sampling.js";
+import {PoseRuntime,analysisTimeoutMs,sampleTimes,loadVideo,seekVideoFrame,scanVideoFrames} from "./analysis-pipeline.js";
+import {selectedExerciseId} from './analysis-selection.js';
+import {analyzeFrontLever} from './front-lever-analysis.js';
+import {renderFrontLever,persistFrontLever} from './front-lever-ui.js';
 const $=id=>document.getElementById(id);
 setupCoach();
 let stopReplay=()=>{};
@@ -116,12 +118,17 @@ let videoObjectUrl=null;
 for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change",async e=>{
  if(activeAnalysis)return;
  const file=e.target.files[0];if(!file)return;
+ const exerciseId=selectedExerciseId();
+ const sideViewConfirmed=$('frontLeverSideView').checked;
+ if(exerciseId!=='handstand'&&!sideViewConfirmed){$('status').textContent='יש לאשר צילום צד יציב לפני הניתוח הניסיוני.';e.target.value='';return;}
  const timing={kind:"video-analysis",outcome:"error",capturePath:"none",stage:"decode"},analysisStarted=performance.now();
  const controller=new AbortController();activeAnalysis=controller;let analysisTimer;
  poseRuntime=new PoseRuntime({initOptions:{preferredDelegate:"CPU"}});
  $("retryAnalysis").hidden=true;$("analyzerView").setAttribute("aria-busy","true");
  $("file").disabled=true;$("cameraFile").disabled=true;
  stopReplay();LAST=null;analysisUI.start();
+ $('frontLeverReport').hidden=true;$('frontLeverReport').replaceChildren();
+ $('exerciseSelect').disabled=true;$('frontLeverSideView').disabled=true;
   resetCoachFeedback();
  const st=$("status"),pg=$("prog"),v=$("v"),cancel=$("cancelAnalysis");$("out").style.display="none";pg.style.display="block";pg.value=0;cancel.hidden=false;
  try{
@@ -150,6 +157,23 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   fr=sampled.frames;sampledTimes=sampled.timestamps;
   timing.scanMs=performance.now()-samplingStarted;timing.poseMs=poseMs;timing.poseRoundTripMs=poseRoundTripMs;timing.workerOverheadMs=Math.max(0,poseRoundTripMs-poseMs);timing.frameExtractionMs=frameExtractionMs;timing.samplingWaitMs=Math.max(0,timing.scanMs-poseRoundTripMs-frameExtractionMs);timing.poseFrames=poseFrames;
   pg.style.display="none";
+  if(exerciseId!=='handstand'){
+   const started=performance.now(),poseTimes=sampledTimes.map(t=>t.actual);
+   const result=analyzeFrontLever({frames:fr,timestamps:poseTimes,width:w,height:h,exerciseId,sideViewConfirmed});
+   timing.scoringMs=performance.now()-started;
+   if(controller.signal.aborted)throw controller.signal.reason;
+   renderFrontLever(result,$('frontLeverReport'));$('frontLeverReport').hidden=false;
+   $('holdSec').style.display='none';$('measurementNotice').hidden=true;
+   st.textContent='';
+   if(fr.some(Boolean)){
+    await replay(fr,v,w,h,K[sideOf(fr)],null,fps,0,null,poseTimes);
+    if(controller.signal.aborted)throw controller.signal.reason;
+    $('replayTrimNotice').textContent='הסרטון המלא · Front Lever ניסיוני, ללא אימות הווריאציה וללא ציון.';
+    $('out').style.display='block';timing.outcome='unreliable';
+   }else{timing.outcome='no-pose';st.textContent='לא זוהה גוף. נסו צילום צד ברור עם כל הגוף בפריים.';}
+   persistFrontLever(result,$('frontLeverReport'));
+   return;
+  }
   analysisUI.stage("scoring");timing.stage="scoring";const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
   const res=reliableResult(measuredHold,fps)?measuredHold:null;
   const legacyEntryTrace={};
@@ -192,13 +216,13 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
    $("out").style.display="block";
    timing.outcome="unreliable";
   }
- }catch(err){pg.style.display="none";console.error(err);timing.errorName=err?.name;timing.errorCode=err?.code;$("out").style.display="none";$("retryAnalysis").hidden=false;
+ }catch(err){$('frontLeverReport').hidden=true;$('frontLeverReport').replaceChildren();pg.style.display="none";console.error(err);timing.errorName=err?.name;timing.errorCode=err?.code;$("out").style.display="none";$("retryAnalysis").hidden=false;
   if(err?.name==="AbortError"){timing.outcome="cancelled";st.textContent="הניתוח בוטל. לא נשמרה ולא הוצגה תוצאה."}
   else if(err?.name==="TimeoutError"){timing.outcome="timeout";st.textContent="הניתוח נעצר כי העיבוד ארך יותר מדי. לא הוצגה תוצאה; אפשר לנסות סרטון קצר יותר."}
   else if(err?.code==="video-decode"){timing.outcome="decode-error";st.textContent=err.message+" נסו לשמור עותק MP4 תואם ולבחור אותו שוב."}
   else if(timing.stage==="model"){timing.outcome="model-error";st.textContent="רכיב ניתוח התנועה לא נטען. בדקו את החיבור לרשת ונסו שוב. לא הוצגה תוצאה."}
   else st.textContent="לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."}
- finally{analysisUI.finish(timing.outcome);clearTimeout(analysisTimer);poseRuntime?.terminate();v.pause();$("analyzerView").removeAttribute("aria-busy");if(activeAnalysis===controller)activeAnalysis=null;cancel.hidden=true;timing.totalMs=performance.now()-analysisStarted;reportAnalysisTiming(timing);$("file").disabled=false;$("cameraFile").disabled=false;e.target.value=""}
+ finally{analysisUI.finish(timing.outcome);clearTimeout(analysisTimer);poseRuntime?.terminate();v.pause();$("analyzerView").removeAttribute("aria-busy");if(activeAnalysis===controller)activeAnalysis=null;cancel.hidden=true;timing.totalMs=performance.now()-analysisStarted;reportAnalysisTiming(timing);$("file").disabled=false;$("cameraFile").disabled=false;$('exerciseSelect').disabled=false;$('frontLeverSideView').disabled=false;e.target.value=""}
 });
 $("cancelAnalysis").addEventListener("click",()=>{if(activeAnalysis&&!activeAnalysis.signal.aborted){activeAnalysis.abort(new DOMException("הניתוח בוטל על ידי המשתמש.","AbortError"));poseRuntime?.terminate()}});
 $("retryAnalysis").addEventListener("click",()=>$("file").click());

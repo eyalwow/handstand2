@@ -6,9 +6,11 @@ import { readAnalysisHistory } from "./analysis-history.js";
 import {
   ANALYSIS_CATALOG,
   HANDSTAND_METRICS,
+  EXERCISE_FAMILIES,
   exerciseById,
 } from "./analysis-catalog.js";
 import { analysisFor } from "./analysis-registry.js";
+import {selectedExerciseId,selectExercise} from './analysis-selection.js';
 import { GOALS } from "./onboarding-data.js";
 import { createOnboarding, renderOnboardingPose } from "./onboarding-ui.js";
 import {
@@ -128,7 +130,7 @@ function route() {
       ? "תוצאות הניתוח"
       : screen === "processing"
         ? "מנתחים את התנועה"
-        : "ניתוח עמידת ידיים";
+        : "ניתוח " + exerciseById(selectedExerciseId()).name;
   if (screen !== "replay") {
     $("v").pause();
     setExpanded(false);
@@ -196,22 +198,48 @@ function renderPreferences() {
 }
 $("catalogCount").textContent =
   ANALYSIS_CATALOG.length + " תרגילים. כיוון אחד: להתקדם.";
-for (const exercise of ANALYSIS_CATALOG) {
-  const config = analysisFor(exercise.id),
+const exerciseSelect=$('exerciseSelect');
+for(const exercise of ANALYSIS_CATALOG.filter(x=>analysisFor(x.id,{allowExperimental:true}))){
+  const option=document.createElement('option');option.value=exercise.id;
+  option.textContent=exercise.name+(exercise.experimental?' · ניסיוני, טרם אומת':'');exerciseSelect.append(option);
+}
+function updateSelection(id){
+  if(busy||!selectExercise(id))return;
+  exerciseSelect.value=id;available=false;scored=false;
+  $('out').style.display='none';$('frontLeverReport').hidden=true;$('frontLeverReport').replaceChildren();
+  resetHandstandInsights();
+  const exercise=exerciseById(id),experimental=!!exercise.experimental;
+  $('exerciseFilming').textContent=exercise.filming;
+  $('frontLeverConsent').hidden=!experimental;$('frontLeverSideView').checked=false;
+  document.body.dataset.exerciseFamily=exercise.familyId;
+  document.querySelector('.upload-intro .eyebrow').textContent=exercise.name+' · '+(experimental?'בדיקה ניסיונית ללא ציון':'ניתוח במכשיר');
+  $('status').textContent='';route();
+}
+exerciseSelect.addEventListener('change',()=>updateSelection(exerciseSelect.value));
+updateSelection('handstand');
+for (const [familyId,familyName] of Object.entries(EXERCISE_FAMILIES)) {
+ const familyHeading=document.createElement('h2');familyHeading.className='catalog-family';familyHeading.textContent=familyName;$('catalogGrid').append(familyHeading);
+ for (const exercise of ANALYSIS_CATALOG.filter(x=>x.familyId===familyId)) {
+  const config = analysisFor(exercise.id,{allowExperimental:true}),
     card = document.createElement(config ? "a" : "article");
   card.className = "exercise-card";
   card.dataset.exercise = exercise.id;
   card.dataset.status = exercise.status;
   if (config) {
     card.href = "#analyze";
-    card.setAttribute("aria-label", exercise.name + " — ניתוח זמין");
+    card.setAttribute("aria-label", exercise.name + (exercise.experimental?' — בדיקה ניסיונית, טרם אומתה':' — ניתוח זמין'));
+    card.addEventListener('click',event=>{if(busy){event.preventDefault();return;}updateSelection(exercise.id);});
   }
   card.append(
     exerciseArtwork(exercise),
     statusBadge(exercise),
     exerciseCaption(exercise),
   );
+  const info=document.createElement('span');info.className='catalog-info';
+  info.textContent=exercise.difficulty+' · '+(exercise.experimental?'בדיקה ניסיונית ללא ציון. ':'')+exercise.filming;
+  card.append(info);
   $("catalogGrid").append(card);
+ }
 }
 for (const [id, showGraph] of [
   ["historyGraphTab", true],

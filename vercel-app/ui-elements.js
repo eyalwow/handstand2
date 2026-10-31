@@ -48,6 +48,6 @@ export function exerciseCaption(exercise) {
 export function statusBadge(exercise) {
   const badge = document.createElement("span");
   badge.className = "exercise-status " + exercise.status;
-  badge.textContent = exercise.status === "available" ? "ניתוח זמין" : "בקרוב";
+  badge.textContent = exercise.experimental ? "בקרוב · בדיקה ניסיונית" : exercise.status === "available" ? "ניתוח זמין" : "בקרוב";
   return badge;
 }

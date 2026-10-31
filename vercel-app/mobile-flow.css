@@ -891,3 +891,11 @@ body[data-expanded="true"] #replaySec .player-surface {
   background: var(--panel);
   border-radius: 6px;
 }
+.catalog-family { grid-column: 1 / -1; margin-block: 1.5rem .3rem; }
+.exercise-card .catalog-info { display:block; padding:.75rem; font-size:.8rem; line-height:1.6; color:var(--muted, #b5c2b9); }
+#exerciseSelect { width:100%; max-width:100%; min-height:48px; padding:.65rem; border-radius:12px; background:#16221b; color:#f4f7f5; border:1px solid #536458; font:inherit; }
+#frontLeverConsent { display:block; font-size:.9rem; line-height:1.7; margin-block:1rem; }
+#frontLeverConsent[hidden] { display:none; }
+.front-lever-report { padding:1.25rem; margin-block:1rem; background:#142019; border:1px solid #536458; border-radius:18px; overflow-wrap:anywhere; }
+body[data-exercise-family="front-lever"] .capture-visual,
+body[data-exercise-family="front-lever"] .capture-tips { display:none; }
