@@ -1,0 +1,11 @@
+{
+  "private_media_or_pose_data_in_repository": false,
+  "legacy_gate_failure_confirmed_locally": "pelvis-rise-below-fifteen-percent",
+  "new_observation_independent_of_numeric_grade": true,
+  "full_side_video_regression": "passed",
+  "starts_inverted_regression": "rejected as expected",
+  "partial_ascent_regression": "rejected as expected",
+  "confidence_threshold_lowered": false,
+  "numeric_score_preserved": true,
+  "physical_phone": false
+}

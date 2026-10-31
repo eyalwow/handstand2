@@ -1,0 +1,18 @@
+{
+  "baseline": "8f54f990936479b322bdd818fcd8a3fbaf850175",
+  "scoring_constants_and_reliability_block_byte_identical": true,
+  "numeric_formula_unchanged": true,
+  "byte_identical_modules": [
+    "pose-worker.js",
+    "pose-runtime.js",
+    "pose-main.js",
+    "video-sampling.js",
+    "ai-feedback.js",
+    "server-gemini.js",
+    "api/coach.js",
+    "onboarding-data.js",
+    "onboarding-ui.js",
+    "analysis-history.js",
+    "handstand-fall.js"
+  ]
+}

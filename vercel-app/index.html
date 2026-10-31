@@ -25,9 +25,10 @@
       href="./assets/fonts/rubik-hebrew-600-normal.woff2"
       as="font"
       type="font/woff2"
-      crossorigin
+      crossorigin=""
     />
     <link rel="stylesheet" href="./app.css" />
+    <link rel="stylesheet" href="./mobile-flow.css" />
   </head>
   <body>
     <svg
@@ -113,15 +114,15 @@
         <path d="M12 11v6m0-10v1"></path>
       </symbol></svg
     ><a class="skip-link" href="#mainContent">דילוג לתוכן</a>
-    <p id="storageNotice" class="storage-notice" role="status" hidden></p>
+    <p id="storageNotice" class="storage-notice" role="status" hidden=""></p>
     <main id="mainContent" class="mobile-app" tabindex="-1">
       <section
         id="onboardingView"
         class="view onboarding-view"
         aria-label="היכרות עם MOVALYT"
-        hidden
+        hidden=""
       >
-        <header id="onboardingHeader" class="onboard-header" hidden>
+        <header id="onboardingHeader" class="onboard-header" hidden="">
           <button
             id="onboardingBack"
             class="icon-button"
@@ -129,7 +130,7 @@
             aria-label="חזרה לשלב הקודם"
           >
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <use href="#i-arrow" />
+              <use href="#i-arrow"></use>
             </svg></button
           ><span id="onboardingStepLabel"></span
           ><button id="onboardingSkip" class="text-button" type="button">
@@ -175,7 +176,7 @@
           </div>
           <div class="welcome-actions">
             <button class="primary" id="welcomeStart" type="button">
-              מתחילים<svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+              מתחילים<svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
                 <use href="#i-arrow"></use>
               </svg></button
             ><button class="skip" id="welcomeSkip" type="button">
@@ -183,7 +184,7 @@
             ><small>בלי הרשמה. בלי מנוי. מתחילים בעמידת ידיים.</small>
           </div>
         </section>
-        <article id="onboardingGoals" class="onboard-step" hidden>
+        <article id="onboardingGoals" class="onboard-step" hidden="">
           <div class="onboard-body">
             <span class="eyebrow">הכיוון שלך</span>
             <h1 tabindex="-1">לאן תרצה<br /><em>לקחת את התנועה?</em></h1>
@@ -193,7 +194,7 @@
             </fieldset>
           </div>
         </article>
-        <article id="onboardingExercises" class="onboard-step" hidden>
+        <article id="onboardingExercises" class="onboard-step" hidden="">
           <div class="onboard-body">
             <span class="eyebrow">התרגול שלך</span>
             <h1 tabindex="-1">מה היית רוצה<br /><em>לדייק או ללמוד?</em></h1>
@@ -206,7 +207,7 @@
             </fieldset>
           </div>
         </article>
-        <article id="onboardingExplain" class="onboard-step" hidden>
+        <article id="onboardingExplain" class="onboard-step" hidden="">
           <div class="onboard-body">
             <span class="eyebrow">התנועה שלך, במבט חדש</span>
             <h1 tabindex="-1">לראות את הפרטים.<br /><em>להבין מה לשפר.</em></h1>
@@ -254,7 +255,7 @@
             </p>
           </div>
         </article>
-        <article id="onboardingFinish" class="onboard-step" hidden>
+        <article id="onboardingFinish" class="onboard-step" hidden="">
           <div class="onboard-body">
             <span class="eyebrow">מוכנים לניסיון הראשון</span>
             <h1 tabindex="-1">הצעד הבא<br /><em>הוא שלך.</em></h1>
@@ -270,7 +271,7 @@
             <div id="chosenInterests" class="interest-chips"></div>
             <div class="available-note">
               <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-check" /></svg
+                <use href="#i-check"></use></svg
               ><span
                 >ניתוח עמידת ידיים זמין כבר עכשיו.<small
                   >שאר התרגילים הם תחומי עניין לעתיד.</small
@@ -279,7 +280,7 @@
             </div>
           </div>
         </article>
-        <footer id="onboardingFooter" class="onboard-footer" hidden>
+        <footer id="onboardingFooter" class="onboard-footer" hidden="">
           <p id="onboardingError" role="status"></p>
           <div
             class="onboard-progress"
@@ -322,7 +323,7 @@
                 id="aboutButton"
                 type="button"
               >
-                <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
                   <use href="#i-gear"></use>
                 </svg>
               </button>
@@ -343,41 +344,40 @@
             </div>
           </div>
           <a class="primary home-primary" href="#analyze"
-            ><svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <use href="#i-video"></use></svg
             >בחר או צלם וידאו</a
           >
           <div class="benefits">
             <article>
-              <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
                 <use href="#i-target"></use></svg
               ><strong>ציון טכניקה</strong><small>מדידה מתוך 100</small>
             </article>
             <article>
-              <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
                 <use href="#i-pose"></use></svg
               ><strong>משוב ברור</strong><small>לדעת מה לשפר</small>
             </article>
             <article>
-              <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
                 <use href="#i-chart"></use></svg
               ><strong>התקדמות</strong><small>ניסיון אחרי ניסיון</small>
             </article>
           </div>
         </div>
-
         <section aria-labelledby="recent-heading" class="home-recent">
           <h2 id="recent-heading">הניסיון האחרון שלך</h2>
           <div id="home-analysis-history"></div>
           <a class="quiet-link" href="#catalog">גלו את קטלוג התרגילים ←</a>
         </section>
       </section>
-      <section id="catalogView" class="view catalog-view" hidden>
+      <section id="catalogView" class="view catalog-view" hidden="">
         <span id="catalog"></span>
         <header class="page-header">
           <a class="icon-button back" href="#home" aria-label="חזרה"
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <use href="#i-arrow" /></svg
+              <use href="#i-arrow"></use></svg
           ></a>
           <h1 id="catalog-title" tabindex="-1">התנועה הבאה שלך</h1>
         </header>
@@ -394,31 +394,30 @@
         id="analyzerView"
         class="view analyzer"
         aria-labelledby="analyzer-title"
-        hidden
+        hidden=""
       >
         <span id="analyze"></span><span id="results"></span
         ><span id="replay"></span><span id="processing"></span>
         <header class="page-header analyzer-heading">
           <a class="icon-button back" href="#home" aria-label="חזרה"
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <use href="#i-arrow" /></svg
+              <use href="#i-arrow"></use></svg
           ></a>
           <h1 id="analyzer-title" tabindex="-1">העלאת סרטון</h1>
           <a class="icon-button" href="#catalog" aria-label="קטלוג התרגילים"
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <use href="#i-pose" /></svg
+              <use href="#i-pose"></use></svg
           ></a>
         </header>
-        <p id="sessionNotice" class="storage-notice" hidden>
+        <p id="sessionNotice" class="storage-notice" hidden="">
           אחרי רענון צריך לבחור את הסרטון שוב. המדידות השמורות עדיין זמינות
           בהיסטוריה.
         </p>
         <section class="upload-panel" aria-labelledby="upload-title">
           <div class="upload-intro capture-only">
-            <span class="eyebrow">HANDSTAND / עמידת ידיים</span>
-            <h2 id="upload-title">
-              זווית טובה.<br /><em>תמונה ברורה של הטכניקה.</em>
-            </h2>
+            <span class="eyebrow">עמידת ידיים · ניתוח במכשיר</span>
+            <h2 id="upload-title">נתחיל מהתנועה שלך.</h2>
+            <p class="upload-description">צלמו מהצד, כשכל הגוף בפריים.</p>
           </div>
           <div class="capture-visual capture-only">
             <img
@@ -429,74 +428,73 @@
             />
             <div class="capture-visual-copy">
               <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-frame" /></svg
-              ><strong>מהצד.<br />כל הגוף.<br />כל התנועה.</strong
-              ><span>צילום לדוגמה · AI</span>
+                <use href="#i-frame"></use></svg
+              ><strong>כל הגוף.<br />כל התנועה.</strong>
             </div>
-          </div>
-          <div class="capture-guidelines capture-only">
-            <div>
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-camera" /></svg
-              ><span><strong>צילום מהצד</strong><small>בגובה הגוף</small></span>
-            </div>
-            <div>
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-frame" /></svg
-              ><span
-                ><strong>כל הגוף בפריים</strong
-                ><small>מכפות הידיים עד הרגליים</small></span
-              >
-            </div>
-            <div>
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-sun" /></svg
-              ><span
-                ><strong>תאורה ברורה</strong
-                ><small>ללא אור חזק מאחור</small></span
-              >
-            </div>
-            <div>
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-stable" /></svg
-              ><span
-                ><strong>טלפון יציב</strong
-                ><small>מרחק של כ־2–3 מטרים</small></span
-              >
-            </div>
+            <span class="capture-image-credit">צילום לדוגמה · AI</span>
           </div>
           <label class="primary pick capture-only"
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <use href="#i-video" /></svg
-            >בחר או צלם וידאו<input
-              id="file"
-              type="file"
-              accept="video/*" /></label
+              <use href="#i-video"></use></svg
+            >בחירת סרטון<input id="file" type="file" accept="video/*" /></label
           ><input
             id="cameraFile"
             type="file"
             accept="video/*"
             capture="environment"
-            hidden
+            hidden=""
             aria-label="צילום וידאו במצלמה"
           />
           <div class="capture-alternatives capture-only">
             <button id="openCamera" type="button">
               <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-camera" /></svg
-              >מצלמה</button
-            ><button id="openGallery" type="button">
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-gallery" /></svg
-              >גלריה
+                <use href="#i-camera"></use></svg
+              >צילום וידאו חדש
             </button>
           </div>
           <p class="private-note capture-only">
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <use href="#i-check" /></svg
+              <use href="#i-check"></use></svg
             >הווידאו נשאר במכשיר.
           </p>
-          <div id="analysisStage" hidden>
+          <details class="capture-tips capture-only">
+            <summary>הנחיות לצילום טוב</summary>
+            <div class="capture-guidelines">
+              <div>
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <use href="#i-camera"></use></svg
+                ><span
+                  ><strong>צילום מהצד</strong><small>בגובה הגוף</small></span
+                >
+              </div>
+              <div>
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <use href="#i-frame"></use></svg
+                ><span
+                  ><strong>כל הגוף בפריים</strong
+                  ><small>מכפות הידיים עד הרגליים</small></span
+                >
+              </div>
+              <div>
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <use href="#i-sun"></use></svg
+                ><span
+                  ><strong>תאורה ברורה</strong
+                  ><small>ללא אור חזק מאחור</small></span
+                >
+              </div>
+              <div>
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <use href="#i-stable"></use></svg
+                ><span
+                  ><strong>טלפון יציב</strong
+                  ><small>מרחק של כ־2–3 מטרים</small></span
+                >
+              </div>
+            </div>
+          </details>
+
+          <div id="analysisStage" hidden="">
             <canvas
               id="analysisCanvas"
               aria-label="הפריים הנוכחי בניתוח"
@@ -523,20 +521,25 @@
             </p>
           </div>
           <div id="status" role="status" aria-live="polite"></div>
-          <button id="retryAnalysis" class="secondary" type="button" hidden>
+          <button id="retryAnalysis" class="secondary" type="button" hidden="">
             בחר וידאו לניסיון חוזר</button
-          ><button id="cancelAnalysis" class="secondary" type="button" hidden>
+          ><button
+            id="cancelAnalysis"
+            class="secondary"
+            type="button"
+            hidden=""
+          >
             ביטול הניתוח</button
-          ><video id="v" muted playsinline preload="auto"></video>
+          ><video id="v" muted="" playsinline="" preload="auto"></video>
         </section>
         <section id="out" aria-label="תוצאות הניתוח">
           <div id="replaySec">
             <header class="page-header player-heading">
               <a class="icon-button back" href="#results" aria-label="חזרה"
                 ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                  <use href="#i-arrow" /></svg
+                  <use href="#i-arrow"></use></svg
               ></a>
-              <h2 id="playerTitle" tabindex="-1">התנועה שלך. בפוקוס.</h2>
+              <h2 id="playerTitle" tabindex="-1">הסרטון עם השלד</h2>
               <button
                 id="expandPlayer"
                 class="icon-button"
@@ -544,36 +547,18 @@
                 aria-label="הגדלת הסרטון"
               >
                 <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                  <use href="#i-expand" />
+                  <use href="#i-expand"></use>
                 </svg>
               </button>
             </header>
             <div class="player-surface">
-              <canvas id="replayBackdrop" aria-hidden="true"></canvas
-              ><canvas
+              <canvas
                 id="cv"
                 aria-label="הסרטון המנותח עם נקודות הגוף"
-              ></canvas
-              ><label class="skeleton-control"
-                ><input id="showSkeleton" type="checkbox" checked /><svg
-                  class="icon"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                >
-                  <use href="#i-pose" /></svg
-                >שלד</label
-              >
+              ></canvas>
             </div>
-            <div class="transport" dir="ltr">
-              <button
-                id="play"
-                class="play-button"
-                type="button"
-                aria-label="נגן"
-              >
-                נגן
-              </button>
-              <div class="timeline">
+            <div class="playback-controls">
+              <div class="timeline" dir="ltr">
                 <input
                   id="scrub"
                   type="range"
@@ -582,12 +567,15 @@
                   step="0.01"
                   value="0"
                   aria-label="מיקום בסרטון"
-                /><output id="playerTime"></output>
+                />
+                <div class="playback-meta">
+                  <output id="playerTime"></output
+                  ><button id="spd" class="speed" type="button">
+                    מהירות ×1
+                  </button>
+                </div>
               </div>
-              <button id="spd" class="speed" type="button">מהירות ×1</button>
-            </div>
-            <div class="player-tools">
-              <div class="frame-controls">
+              <div class="transport frame-controls" dir="ltr">
                 <button
                   id="prev"
                   class="icon-button"
@@ -595,102 +583,129 @@
                   aria-label="פריים קודם"
                 >
                   <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                    <use href="#i-arrow" />
-                  </svg></button
-                ><span>פריים</span
-                ><button
+                    <use href="#i-arrow" /></svg
+                  ><span class="control-caption">פריים קודם</span>
+                </button>
+                <button
+                  id="play"
+                  class="play-button"
+                  type="button"
+                  aria-label="נגן"
+                >
+                  נגן
+                </button>
+                <button
                   id="next"
                   class="icon-button"
                   type="button"
                   aria-label="פריים הבא"
                 >
                   <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                    <use href="#i-arrow" />
-                  </svg>
+                    <use href="#i-arrow" /></svg
+                  ><span class="control-caption">פריים הבא</span>
                 </button>
               </div>
-              <label class="angle-switch"
+            </div>
+            <div class="player-tools player-display-controls">
+              <label class="skeleton-control"
+                ><input id="showSkeleton" type="checkbox" checked="" /><svg
+                  class="icon"
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                >
+                  <use href="#i-pose"></use></svg
+                >שלד</label
+              ><label class="angle-switch"
                 ><input id="showAngles" type="checkbox" /><svg
                   class="icon"
                   aria-hidden="true"
                   viewBox="0 0 24 24"
                 >
-                  <use href="#i-angle" /></svg
+                  <use href="#i-angle"></use></svg
                 >זוויות מפרקים</label
               >
             </div>
-            <div id="jointMetrics" class="metric-grid angle-grid" hidden></div>
-            <div id="replayMoments" class="replay-moments" hidden></div>
-            <h3 class="section-label" id="playerMetricsHeading">
+            <details class="overlay-options">
+              <summary>עוד אפשרויות תצוגה</summary>
+              <label class="advanced-overlay-control"
+                ><input id="advancedOverlay" type="checkbox" />שלד מתקדם
+                <small>כל נקודות הזיהוי האמינות</small></label
+              >
+              <div id="replayMoments" class="replay-moments" hidden=""></div>
+            </details>
+            <div
+              id="jointMetrics"
+              class="metric-grid angle-grid"
+              hidden=""
+            ></div>
+
+            <section
+              id="playerInsights"
+              class="handstand-insights"
+              hidden=""
+              aria-label="שלבי התרגיל והשליטה"
+            ></section>
+            <a class="secondary report-link" href="#results" id="reportLink"
+              >לתוצאות ולהמלצות</a
+            >
+            <h3 class="section-label" hidden="" id="playerMetricsHeading">
               מדדי הטכניקה שלך
             </h3>
-            <div id="playerMetrics" class="result-metrics metric-grid"></div>
+            <div
+              class="result-metrics metric-grid"
+              hidden=""
+              id="playerMetrics"
+            ></div>
             <p id="replayTrimNotice" class="note"></p>
             <p id="tlLabel" class="hold">קו הגוף לאורך התנועה</p>
             <canvas id="tl"></canvas>
           </div>
           <div id="holdSec" style="display: none">
-            <h2 class="metric-title">מדדי טכניקה</h2>
-            <p class="radar-subtitle">
-              ככל שהצורה מתקרבת לקצה בכל כיוון, כך המדד טוב יותר.
-            </p>
-            <div aria-label="ציון הטכניקה" class="score-ring" role="img">
-              <svg aria-hidden="true" viewBox="0 0 200 200">
-                <circle class="ring-track" cx="100" cy="100" r="86"></circle>
-                <circle
-                  cx="100"
-                  cy="100"
-                  id="scoreArc"
-                  pathlength="100"
-                  r="86"
-                ></circle>
-              </svg>
-              <div class="ring-number">
-                <strong id="ringScore"></strong><span>מתוך 100</span>
+            <div class="result-summary">
+              <div aria-label="ציון הטכניקה" class="score-ring" role="img">
+                <svg aria-hidden="true" viewBox="0 0 200 200">
+                  <circle class="ring-track" cx="100" cy="100" r="86"></circle>
+                  <circle
+                    cx="100"
+                    cy="100"
+                    id="scoreArc"
+                    pathlength="100"
+                    r="86"
+                  ></circle>
+                </svg>
+                <div class="ring-number">
+                  <strong id="ringScore"></strong><span>מתוך 100</span>
+                </div>
               </div>
+              <p class="report-duration" hidden="" id="holdDuration"></p>
             </div>
-            <h2 id="resultQuality"></h2>
-            <div class="radar-wrap">
+
+            <a
+              id="watchSkeleton"
+              class="feature-action replay-action"
+              href="#replay"
+            >
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <use href="#i-play" />
+              </svg>
+              צפה בסרטון עם שלד
+            </a>
+            <h2 hidden="" id="resultQuality"></h2>
+            <div hidden="" id="legacyScoreElements">
               <svg
                 aria-label="מדדי הביצוע"
                 id="scoreRadar"
                 preserveaspectratio="xMidYMid meet"
                 role="img"
                 viewBox="0 0 380 360"
-              ></svg>
-              <div aria-label="ציון כללי" class="radar-center">
-                <span class="score" id="score"></span
-                ><span class="radar-out-of">מתוך 100</span>
-              </div>
+              ></svg
+              ><span class="score" id="score"></span>
+              <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
+              <div class="result-metrics" id="resultMetrics"></div>
+              <div class="result-highlights" id="resultHighlights"></div>
             </div>
-            <p class="radar-score-note" id="hold">ציון טכניקה בלבד</p>
-            <p class="hold-duration" hidden="" id="holdDuration"></p>
-            <div class="result-metrics" id="resultMetrics"></div>
-            <div class="result-highlights" id="resultHighlights"></div>
-            <a class="feature-action replay-action" href="#replay"
-              ><svg
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.7"
-                viewBox="0 0 24 24"
-              >
-                <rect height="13" rx="3" width="14" x="2" y="6"></rect>
-                <path d="m16 10 6-3v11l-6-3"></path></svg
-              >צפה בסרטון עם הניתוח</a
-            >
-            <details class="measurement-details">
-              <summary>פירוט המדדים שנמדדו</summary>
-              <div
-                aria-label="הסבר מדדי הציון"
-                class="score-breakdown"
-                id="scoreBreakdown"
-              ></div>
-            </details>
           </div>
-          <p id="measurementNotice" class="note" hidden></p>
+          <p id="measurementNotice" class="note" hidden=""></p>
           <section
             aria-label="המשוב שלך"
             class="coach-panel"
@@ -698,34 +713,52 @@
             id="coachPanel"
           >
             <div class="coach-topline">
-              <span class="coach-kicker">המשוב שלך</span
-              ><span class="coach-badge" id="coachBadge"></span>
+              <span class="coach-badge" id="coachBadge"></span>
             </div>
-            <h2>מכאן לתרגול</h2>
-            <p class="coach-strength" id="coachStrength"></p>
-            <p class="coach-summary" id="coachSummary"></p>
-            <div class="coach-observations" id="coachObservations"></div>
-
+            <h2 class="visually-hidden">ניתוח הביצוע</h2>
+            <section class="report-section report-strength">
+              <h3>מה בוצע טוב</h3>
+              <p class="coach-strength" id="coachStrength"></p>
+            </section>
+            <section class="report-section report-focus">
+              <h3>הנקודה המרכזית לשיפור</h3>
+              <p class="coach-summary" id="coachSummary"></p>
+            </section>
+            <section class="report-section report-evidence">
+              <h3>מה המדידות מראות</h3>
+              <div class="coach-observations" id="coachObservations"></div>
+            </section>
+            <section class="report-section report-practice">
+              <h3>שני תרגילים מומלצים</h3>
+              <div class="coach-drills" id="coachDrills"></div>
+            </section>
+            <section class="report-section" hidden="" id="reportTarget">
+              <h3>יעד לאימון הבא</h3>
+              <p id="reportTargetText"></p>
+            </section>
+            <details class="measurement-details" id="advancedReport">
+              <summary>פירוט מדדים מתקדם</summary>
+              <section
+                id="resultInsights"
+                class="handstand-insights"
+                hidden=""
+                aria-label="שלבי התרגיל והשליטה"
+              ></section>
+              <div
+                aria-label="הסבר מדדי הציון"
+                class="score-breakdown"
+                id="scoreBreakdown"
+              ></div>
+              <div id="advancedEvidence"></div>
+              <p class="coach-quality" id="coachQuality"></p>
+              <p class="gemini-status" id="geminiStatus"></p>
+            </details>
             <p class="note">
               תרגלו לצד קיר ובמרחב פנוי. אם מופיע כאב, הפסיקו את התרגיל.
             </p>
-            <p class="coach-quality" id="coachQuality"></p>
             <a class="feature-action next-attempt" href="#analyze"
               >צילום ניסיון נוסף ←</a
             >
-            <div class="coach-ai-action">
-              <p
-                aria-live="polite"
-                class="gemini-status"
-                id="geminiStatus"
-                role="status"
-              ></p>
-            </div>
-            <details class="advanced-drills">
-              <summary>תרגילים להמשך</summary>
-              <h3>תרגילים להמשך</h3>
-              <div class="coach-drills" id="coachDrills"></div>
-            </details>
           </section>
         </section>
       </section>
@@ -802,7 +835,7 @@
           id="revokeCloudConsent"
           type="button"
           class="text-button"
-          hidden
+          hidden=""
         >
           ביטול הסכמה קודמת
         </button>
@@ -818,7 +851,7 @@
         ><svg aria-hidden="true" viewBox="0 0 24 24">
           <rect height="14" rx="3" width="18" x="3" y="5"></rect>
           <path d="m10 9 5 3-5 3z"></path></svg
-        ><span>נתח תרגיל</span></a
+        ><span>ניתוח</span></a
       ><a href="#history" id="navHistory"
         ><svg aria-hidden="true" viewBox="0 0 24 24">
           <path d="M4 4v6h6M4 10a8 8 0 1 1 0 5m8-8v5l3 2"></path></svg

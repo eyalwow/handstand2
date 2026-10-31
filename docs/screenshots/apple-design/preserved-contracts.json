@@ -1,0 +1,80 @@
+{
+  "baseline": "e03320e714c424b958445eab09aa382b3dd731fb",
+  "files": [
+    {
+      "file": "vercel-app/handstand-engine.js",
+      "unchanged": true,
+      "sha256": "1022d229473f481728f2097ba2dc00c626bd7aed3fb3673a7310d1f66bdbc632"
+    },
+    {
+      "file": "vercel-app/pose-overlay.js",
+      "unchanged": true,
+      "sha256": "93afabc2faefc1899d03d751fa84ec52cc405f23de9349ec90a20259ed796736"
+    },
+    {
+      "file": "vercel-app/handstand-temporal.js",
+      "unchanged": true,
+      "sha256": "8eb6c40bf00fb81d477899297d88791a0e10e54a7ed366e80dbcf41406607802"
+    },
+    {
+      "file": "vercel-app/handstand-entry.js",
+      "unchanged": true,
+      "sha256": "ae4e1d86cf02af2d78f6a32ef9b9a89549df0f95fc38cc4126fbfd7abadbfea0"
+    },
+    {
+      "file": "vercel-app/handstand-summary.js",
+      "unchanged": true,
+      "sha256": "91725d5a877f0afd87dddbe51721d13ed5ab0925b80b730cbb714ffb77f02730"
+    },
+    {
+      "file": "vercel-app/handstand-coaching.js",
+      "unchanged": true,
+      "sha256": "89c9e077b01203171ae93e8eb947e9a54b63b721d958c20c6ead9ca09194695f"
+    },
+    {
+      "file": "vercel-app/handstand-fall.js",
+      "unchanged": true,
+      "sha256": "7c2d875b3ab5603a1ac3ae1bb6c98b8dfb990ff096a6af505c0cfe13ab8ec578"
+    },
+    {
+      "file": "vercel-app/ai-feedback.js",
+      "unchanged": true,
+      "sha256": "27a3ea356a42635ad37cd7a7931c8c11e6e6290ed5952d5e5cb3a1c19b28cca3"
+    },
+    {
+      "file": "vercel-app/pose-worker.js",
+      "unchanged": true,
+      "sha256": "b611373de35f1bab566ecca24284e48d913da34056cf13f6f1001ea931c83d5c"
+    },
+    {
+      "file": "vercel-app/pose-runtime.js",
+      "unchanged": true,
+      "sha256": "ee3ad8be5cf922a82c5ad12b312fb08ff108c7e3b600b1787f41ff04b12dea9c"
+    },
+    {
+      "file": "vercel-app/pose-main.js",
+      "unchanged": true,
+      "sha256": "5a2316bc9f7a6dd9a680c768f58d8833dc440ed594b01c3f8a692ec8be340593"
+    },
+    {
+      "file": "vercel-app/video-sampling.js",
+      "unchanged": true,
+      "sha256": "273fec540b48c8f1307f41882fdf5c018c17605b9e2f9ee2e440882a15d36ab9"
+    },
+    {
+      "file": "vercel-app/analysis-history.js",
+      "unchanged": true,
+      "sha256": "ab58f542a24e24650ed7d192ad688e4e351a1ec842fdcf4a4aa823c9b2452330"
+    },
+    {
+      "file": "vercel-app/onboarding-ui.js",
+      "unchanged": true,
+      "sha256": "d58f7e902711cfd3244ed05ed8bdd5c6327595b849e50c55b289099817eba36e"
+    },
+    {
+      "file": "vercel-app/api/coach.js",
+      "unchanged": true,
+      "sha256": "9cafc3de621cdc3647060bc39fc25a988af2546c147a3a15b38bbb62ed3ac8c6"
+    }
+  ]
+}

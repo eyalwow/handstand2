@@ -1,3 +1,7 @@
+import {analyzeHandstandTimeline} from "./handstand-temporal.js";
+import {buildIntelligentCoaching} from "./handstand-coaching.js";
+import {renderHandstandInsights} from "./handstand-insights-ui.js";
+import {smoothDisplayTrack,poseAtTime,drawPoseOverlay} from "./pose-overlay.js";
 import {analysisUI} from "./movalyt-ui.js";
 import {overallHandstandScore,observedEntryWindow,observedExerciseWindow} from "./handstand-summary.js";
 import {setupCoach,resetCoachFeedback,showCoachFeedback} from "./ai-feedback.js";
@@ -6,6 +10,7 @@ import {PoseRuntime,analysisTimeoutMs} from "./pose-runtime.js";
 import {sampleTimes,loadVideo,seekVideoFrame,scanVideoFrames} from "./video-sampling.js";
 const $=id=>document.getElementById(id);
 setupCoach();
+let stopReplay=()=>{};
 const K={L:{ear:7,shoulder:11,elbow:13,wrist:15,hip:23,ankle:27},R:{ear:8,shoulder:12,elbow:14,wrist:16,hip:24,ankle:28}};
 const TH={banana:[.03,.12],lean:[3,15],shoulder:[8,35],elbow:[8,30],sway:[.01,.05]};
 const WT={banana:.3,lean:.2,shoulder:.2,elbow:.15,sway:.15};
@@ -116,7 +121,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
  poseRuntime=new PoseRuntime({initOptions:{preferredDelegate:"CPU"}});
  $("retryAnalysis").hidden=true;$("analyzerView").setAttribute("aria-busy","true");
  $("file").disabled=true;$("cameraFile").disabled=true;
- LAST=null;analysisUI.start();
+ stopReplay();LAST=null;analysisUI.start();
   resetCoachFeedback();
  const st=$("status"),pg=$("prog"),v=$("v"),cancel=$("cancelAnalysis");$("out").style.display="none";pg.style.display="block";pg.value=0;cancel.hidden=false;
  try{
@@ -135,7 +140,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   let fr=null,poseMs=0,poseRoundTripMs=0,frameExtractionMs=0,poseFrames=0;let sampledTimes=[];
   const det=async timestamp=>{const extractionStarted=performance.now(),bitmap=await createImageBitmap(cvs);frameExtractionMs+=performance.now()-extractionStarted;const started=performance.now();
    const result=await poseRuntime.detect(bitmap,controller.signal,timestamp);poseRoundTripMs+=performance.now()-started;poseMs+=result.inferenceMs;poseFrames++;
-   const landmarks=result.landmarks?result.landmarks.map(p=>({x:p.x*w,y:p.y*h,v:p.v})):null;analysisUI.frame(cvs,landmarks,w,h);return landmarks};
+   const landmarks=result.landmarks?result.landmarks.map(p=>({x:p.x*w,y:p.y*h,v:p.v})):null;analysisUI.frame(cvs,landmarks,w,h,v.currentTime);return landmarks};
   analysisUI.stage("scan");timing.stage="scan";st.textContent="מנתח את הסרטון...";
   const samplingStarted=performance.now();
   timing.capturePath="fixed-sequential-seek";
@@ -147,13 +152,16 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   pg.style.display="none";
   analysisUI.stage("scoring");timing.stage="scoring";const scoringStarted=performance.now();LAST={fr,fps,v,w,h};const measuredHold=analyze(fr,fps);
   const res=reliableResult(measuredHold,fps)?measuredHold:null;
-  const entryFrames=observedEntryWindow(fr,fps,res);
+  const legacyEntryTrace={};
+  const entryFrames=observedEntryWindow(fr,fps,res,legacyEntryTrace);
   const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
   if(ent && ent.arch===null) ent.total=(ent.sc.reach*.4+ent.sc.shoulder*.2+ent.sc.elbow*.15)/.75;
   const overall=overallHandstandScore(res,ent);
+  const poseTimes=sampledTimes.map(t=>t.actual);
+  const timeline=analyzeHandstandTimeline({frames:fr,timestamps:poseTimes,width:w,height:h,hold:res,entry:ent});
   const reliable=overall!==null;
   // Local diagnostics only; no file bytes or poses leave the browser.
-  window.dispatchEvent(new CustomEvent("movalyt:analysis-diagnostic",{detail:{input:{bytes:file.size,type:file.type,duration:v.duration},sampling:"fixed-sequential-v1",delegate:ready.delegate,execution:ready.execution,timestamps:sampledTimes,score:overall,hold:res?{start:res.diagnostics.startFrame,end:res.diagnostics.endFrame,seconds:res.hold,metrics:res.val,scores:res.sc}:null,entry:ent?{total:ent.total,scores:ent.sc}:null}}));
+  window.dispatchEvent(new CustomEvent("movalyt:analysis-diagnostic",{detail:{input:{bytes:file.size,type:file.type,duration:v.duration},sampling:"fixed-sequential-v1",delegate:ready.delegate,execution:ready.execution,timestamps:sampledTimes,score:overall,legacyEntryTrace,timeline,hold:res?{start:res.diagnostics.startFrame,end:res.diagnostics.endFrame,seconds:res.hold,metrics:res.val,scores:res.sc}:null,entry:ent?{total:ent.total,scores:ent.sc}:null}}));
   if(controller.signal.aborted)throw controller.signal.reason;
 
   timing.scoringMs=performance.now()-scoringStarted;
@@ -164,9 +172,10 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   $("holdSec").style.display=reliable?"block":"none";
   analysisUI.stage("render");timing.stage="render";if(reliable){
    const renderStarted=performance.now();
-   await show(res,fr,v,w,h,overall);
+   await show(res,fr,v,w,h,overall,poseTimes);
    if(controller.signal.aborted)throw controller.signal.reason;
    showCoachFeedback(res,ent);
+   renderHandstandInsights(timeline,buildIntelligentCoaching(timeline,res,ent));
    $("measurementNotice").hidden=false;
     $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"הציון משקף טכניקת גוף בלבד; אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
    timing.renderMs=performance.now()-renderStarted;timing.outcome="scored";
@@ -179,8 +188,8 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
    $("measurementNotice").textContent=measuredHold?.diagnostics.legsApart
     ?"בפיסוק הרגליים קשה לנו להעריך את קו הגוף בצורה הוגנת. נסו סרטון נוסף עם רגליים קרובות, כשהגוף כולו בפריים."
     :"לא הצלחנו למדוד את העמידה בביטחון. נסו לצלם מהצד, עם כל הגוף בפריים והחזקה ברורה של כמה שניות.";
-   await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1],null);
-   $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
+   await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1],null,poseTimes);
+   $("out").style.display="block";
    timing.outcome="unreliable";
   }
  }catch(err){pg.style.display="none";console.error(err);timing.errorName=err?.name;timing.errorCode=err?.code;$("out").style.display="none";$("retryAnalysis").hidden=false;
@@ -218,7 +227,12 @@ const DRILLS={
  sway:["החזקות קצרות בקיר: 8 x 10 שניות עם מנוחה בין סט לסט","תרגול יציאה בטוחה (גלגול קדימה) כדי לא לפחד ולהתמקד באיזון"]};
 const KEEP={banana:"קו גוף ישר: האגן מעל הכתפיים והקרסוליים. תמשיך לכווץ ישבן ובטן.",lean:"איזון טוב מעל הידיים. תמשיך עם לחץ עדין באצבעות.",
  shoulder:"כתפיים פתוחות. תמשיך לדחוף גבוה, אוזניים בין הידיים.",elbow:"ידיים נעולות וישרות. תמשיך לדחוף את הרצפה.",sway:"יציבות טובה, כמעט בלי התנדנדות. תשמור על לחץ קבוע."};
-async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
+async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames,poseTimes=fr.map((_,i)=>.05+i/fps)){
+ stopReplay();
+ const displayFrames=smoothDisplayTrack(fr,poseTimes);
+ let disposed=false,videoFrameHandle=null,animationHandle=null,resizeObserver=null;
+ const cancelFrame=()=>{if(videoFrameHandle!==null)v.cancelVideoFrameCallback?.(videoFrameHandle);if(animationHandle!==null)cancelAnimationFrame(animationHandle);videoFrameHandle=null;animationHandle=null;};
+ stopReplay=()=>{disposed=true;cancelFrame();resizeObserver?.disconnect();};
  ser=fr.map(()=>null);
  v.pause();const has=ser.some(x=>x!=null);$("tl").style.display=has?"block":"none";$("tlLabel").style.display=has?"block":"none";
  const cv=$("cv");cv.width=w;cv.height=h;const c=cv.getContext("2d"),tl=$("tl"),tc=tl.getContext("2d"),sl=$("scrub");
@@ -226,31 +240,13 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
  const N=ser.length,X=i=>i/Math.max(1,N-1)*600,Y=s=>112-s;
  const start=windowFrames?.start??0,end=windowFrames?.end??N-1;
  sl.min=start;sl.max=end;sl.step=.01;
- $("replayTrimNotice").textContent=windowFrames?(windowFrames.observedStart&&windowFrames.observedEnd?"ניגון הקטע מתחילת העלייה שזוהתה עד הירידה שזוהתה.":"מוצג מקטע סביב ההחזקה. "+(!windowFrames.observedStart?"תחילת העלייה לא זוהתה בביטחון. ":"")+(!windowFrames.observedEnd?"הירידה לא זוהתה בביטחון.":"")):"גבולות התרגיל אינם מזוהים בביטחון; מוצג הסרטון המלא.";
- const draw=p=>{
+ $("replayTrimNotice").textContent=windowFrames?.fullVideo?"מוצג הסרטון המלא לבדיקת ההחזקה והיציאה.":windowFrames?(windowFrames.observedStart&&windowFrames.observedEnd?"ניגון הקטע מתחילת העלייה שזוהתה עד הירידה שזוהתה.":"מוצג הסרטון המלא לבדיקת ההחזקה והיציאה. "+(!windowFrames.observedStart?"תחילת העלייה לא זוהתה בביטחון. ":"")+(!windowFrames.observedEnd?"הירידה לא זוהתה בביטחון.":"")):"גבולות התרגיל אינם מזוהים בביטחון; מוצג הסרטון המלא.";
+ const draw=(p,mediaTime=v.currentTime)=>{
   p=Math.max(start,Math.min(end,p));c.drawImage(v,0,0,w,h);
-  const i0=Math.floor(p),i1=Math.min(N-1,i0+1),a=p-i0,f0=fr[i0],f1=fr[i1];
-  analysisUI.joints(f0,f1,a);
-  if($("showSkeleton").checked&&(f0||f1)){
-   const A=f0||f1,B=f1||f0;
-   const pt=q=>A[q]&&B[q]&&A[q].v>=.5&&B[q].v>=.5
-    ?[A[q].x+(B[q].x-A[q].x)*a,A[q].y+(B[q].y-A[q].y)*a]:null;
-   const sides=[[11,13,15,23,25,27,31],[12,14,16,24,26,28,32]];
-   const sidePoints=sides.map(ids=>ids.map(pt));
-   const line=(u,v,col,width,dash=[])=>{
-    if(!u||!v)return;c.beginPath();c.strokeStyle=col;c.lineWidth=width;c.lineCap="round";c.lineJoin="round";c.setLineDash(dash);
-    c.moveTo(...u);c.lineTo(...v);c.stroke();c.setLineDash([]);
-   };
-   const thick=Math.max(1.5,w/340),thin=Math.max(1,w/560);
-   sidePoints.forEach(ch=>{
-    [[0,1],[1,2],[0,3],[3,4],[4,5],[5,6]].forEach(([u,v])=>line(ch[u],ch[v],"#C4FF64",thick));
-    ch.filter(Boolean).forEach(p=>{c.beginPath();c.fillStyle="#C4FF64";c.strokeStyle="#101910";c.lineWidth=thin;c.arc(p[0],p[1],Math.max(3.5,w/190),0,Math.PI*2);c.fill();c.stroke()});
-   });
-   // Dashed shoulder/hip guides are visual connections, not measured joint angles.
-   line(sidePoints[0][0],sidePoints[1][0],"rgba(214,255,159,.7)",thin,[thick,thick]);
-   line(sidePoints[0][3],sidePoints[1][3],"rgba(214,255,159,.7)",thin,[thick,thick]);
-   const sv=ser[Math.round(p)];if(sv!=null){c.fillStyle="#fff";c.strokeStyle="#000";c.lineWidth=4;c.font="bold "+Math.round(h/14)+"px sans-serif";const t=String(Math.round(sv));c.strokeText(t,20,h/10);c.fillText(t,20,h/10)}
-  }
+  const time=mediaTime;
+  const rawPose=poseAtTime(fr,poseTimes,time);
+  analysisUI.joints(rawPose,rawPose,0);
+  if($("showSkeleton").checked)drawPoseOverlay(c,poseAtTime(displayFrames,poseTimes,time),{width:w,height:h,advanced:$("advancedOverlay").checked});
   tc.clearRect(0,0,600,120);tc.strokeStyle="rgba(128,138,160,.5)";tc.lineWidth=1;
   [0,50,80,100].forEach(g=>{tc.beginPath();tc.moveTo(0,Y(g));tc.lineTo(600,Y(g));tc.stroke()});
   tc.strokeStyle="#B6FF4A";tc.lineWidth=2.5;let pen=false;tc.beginPath();
@@ -258,17 +254,19 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
   tc.strokeStyle="#ef4444";tc.lineWidth=2;tc.beginPath();tc.moveTo(X(p),4);tc.lineTo(X(p),116);tc.stroke();
   sl.value=p;analysisUI.playback(v.currentTime,v.duration)};
  let rate=1,busy=false,pend=null;
- const posOf=()=>(v.currentTime-.05)*fps;
- const loop=()=>{if(v.currentTime>=(.05+end/fps)){v.pause();v.currentTime=.05+start/fps;draw(start);return}draw(posOf());if(!v.paused&&!v.ended)requestAnimationFrame(loop)};
- const goTo=async p=>{pend=p;if(busy)return;busy=true;while(pend!=null){const q=Math.max(start,Math.min(end,pend));pend=null;await seek(v,.05+q/fps);draw(q)}busy=false};
+ const frameTime=p=>{const i=Math.floor(p),j=Math.min(N-1,i+1);return poseTimes[i]+(poseTimes[j]-poseTimes[i])*(p-i)};
+ const posOf=(t=v.currentTime)=>{let i=0;while(i<N-1&&poseTimes[i+1]<=t)i++;return i<N-1?i+(t-poseTimes[i])/(poseTimes[i+1]-poseTimes[i]):i;};
+ const schedule=()=>{if(disposed||v.paused)return;if(v.requestVideoFrameCallback&&v.getClientRects().length)videoFrameHandle=v.requestVideoFrameCallback(loop);else animationHandle=requestAnimationFrame(loop);};
+ const loop=(_now,metadata)=>{videoFrameHandle=null;animationHandle=null;if(disposed||v.paused)return;const time=metadata?.mediaTime??v.currentTime;if(time>=frameTime(end)){v.pause();void goTo(start);return}draw(posOf(time),time);schedule();};
+ const goTo=async p=>{if(disposed)return;pend=p;if(busy)return;busy=true;try{while(pend!=null&&!disposed){const q=Math.max(start,Math.min(end,pend));pend=null;await seek(v,frameTime(q));if(!disposed)draw(q)}}finally{busy=false}};
  const moments=$("replayMoments");moments.replaceChildren();moments.hidden=!windowFrames;
  if(windowFrames){
   const points=[...(windowFrames.observedStart?[[start,"תחילת העלייה"]]:[]),[Math.max(start,Math.min(end,mid)),"רגע המדידה"],...(windowFrames.observedEnd?[[end,"סיום התנועה"]]:[])];
-  for(const [frame,label] of points){const button=document.createElement("button");button.type="button";button.className="moment-button";button.textContent=label+" · "+(.05+frame/fps).toFixed(1)+" שנ׳";button.onclick=()=>{v.pause();goTo(frame)};moments.append(button);}
+  for(const [frame,label] of points){const button=document.createElement("button");button.type="button";button.className="moment-button";button.textContent=label+" · "+frameTime(frame).toFixed(1)+" שנ׳";button.onclick=()=>{v.pause();goTo(frame)};moments.append(button);}
  }
  const pb=$("play");
- pb.onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=(.05+end/fps)||v.currentTime<(.05+start/fps))v.currentTime=.05+start/fps;v.playbackRate=rate;await v.play();pb.textContent="עצור";loop()}else v.pause()};
- v.onpause=()=>{pb.textContent="נגן"};
+ pb.onclick=async()=>{if(v.paused||v.ended){if(v.ended||v.currentTime>=frameTime(end)||v.currentTime<frameTime(start))await goTo(start);v.playbackRate=rate;await v.play();pb.textContent="עצור";schedule()}else v.pause()};
+ v.onpause=()=>{cancelFrame();pb.textContent="נגן"};
  $("prev").onclick=()=>{v.pause();goTo(Math.round(posOf())-1)};
  $("next").onclick=()=>{v.pause();goTo(Math.round(posOf())+1)};
  $("spd").onclick=()=>{rate=rate===1?.5:rate===.5?.25:1;v.playbackRate=rate;$("spd").textContent="מהירות ×"+rate};
@@ -276,8 +274,10 @@ async function replay(fr,v,w,h,k,ser,fps,mid,windowFrames){
  tl.onclick=e=>{const r=tl.getBoundingClientRect();v.pause();goTo(start+(e.clientX-r.left)/r.width*(end-start))};
  $("showSkeleton").onchange=()=>draw(posOf());
  $("showAngles").onchange=()=>draw(posOf());
+ $("advancedOverlay").onchange=()=>draw(posOf());
+ if(typeof ResizeObserver==="function"){resizeObserver=new ResizeObserver(()=>{const box=cv.getBoundingClientRect();if(!disposed&&v.paused&&v.readyState>=2&&box.width>0&&box.height>0)draw(posOf())});resizeObserver.observe(cv);}
  pb.textContent="נגן";$("spd").textContent="מהירות ×1";
- await seek(v,.05+Math.max(start,Math.min(end,mid))/fps);draw(Math.max(start,Math.min(end,mid)));
+ await seek(v,frameTime(Math.max(start,Math.min(end,mid))));draw(Math.max(start,Math.min(end,mid)));
 }
 function drawScoreRadar(res,overall){
  const svg=$("scoreRadar"),detail=$("scoreBreakdown"),ns="http://www.w3.org/2000/svg";
@@ -308,11 +308,11 @@ function drawScoreRadar(res,overall){
   const name=document.createElement("span");name.textContent=v.label;
   const number=document.createElement("strong");number.textContent=Math.round(v.score)+"/100";
   head.append(name,number);item.append(head);
-  const bar=document.createElement("div");bar.className="bar";const fill=document.createElement("i");fill.style.width=v.score+"%";fill.style.background="var(--acc)";bar.append(fill);item.append(bar);
+  const bar=document.createElement("div");bar.className="bar";const fill=document.createElement("i");fill.style.width=v.score+"%";fill.style.background="var(--lime)";bar.append(fill);item.append(bar);
   const reason=document.createElement("p");reason.textContent=v.description;item.append(reason);detail.append(item);
  });
 }
-async function show(res,fr,v,w,h,overall){
+async function show(res,fr,v,w,h,overall,poseTimes){
  $("score").textContent=overall;analysisUI.result(overall,res);
  $("hold").textContent="ציון טכניקה בלבד · "+(res?"הגרף מציג את מדדי ההחזקה שנמדדו.":"לא נמדדה החזקה מספקת.");
  $("holdDuration").hidden=!res;
@@ -321,6 +321,7 @@ async function show(res,fr,v,w,h,overall){
  const fps=res?.fps||10;
  const k=res?.k||K[sideOf(fr)];
  const trim=observedExerciseWindow(fr,fps,res);
- await replay(fr,v,w,h,k,null,fps,res?.mid||Math.floor(fr.length/2),trim);
- $("out").style.display="block";$("out").scrollIntoView({behavior:"smooth"});
+ if(trim){trim.start=0;trim.end=fr.length-1;trim.observedStart=false;trim.observedEnd=false;trim.fullVideo=true;}
+ await replay(fr,v,w,h,k,null,fps,res?.mid||Math.floor(fr.length/2),trim,poseTimes);
+ $("out").style.display="block";
 }

@@ -19,7 +19,8 @@ export function bestMeasuredStrength(hold,entry) {
   return candidates.sort((a,b)=>b.score-a.score)[0]||null;
 }
 // Require an observed transition, never relabel an already-held position as an entry.
-export function observedEntryWindow(fr,fps,hold) {
+export function observedEntryWindow(fr,fps,hold,trace={}) {
+  const reject=reason=>{trace.reason=reason;return null;};
   const stop=hold?.diagnostics?.startFrame ?? fr.length-1;
   const side=hold?.k || {wrist:15,elbow:13,shoulder:11,hip:23,ankle:27};
   const required=[side.wrist,side.elbow,side.shoulder,side.hip,side.ankle];
@@ -27,20 +28,25 @@ export function observedEntryWindow(fr,fps,hold) {
   const inverted=f=>valid(f)&&f[side.hip].y<f[side.shoulder].y&&f[side.ankle].y<f[side.shoulder].y&&f[side.wrist].y>f[side.shoulder].y;
   let end=-1;
   for(let i=0;i<=Math.min(fr.length-3,stop+3);i++) if(inverted(fr[i])&&inverted(fr[i+1])&&inverted(fr[i+2])){end=i+2;break;}
-  if(end<0)return null;
+  if(end<0)return reject("no-inversion-window");
   let start=-1;
   for(let i=Math.max(0,end-Math.round(2*fps));i<end-2;i++){
     const f=fr[i];
     if(valid(f)&&f[side.hip].y>f[side.shoulder].y&&f[side.ankle].y>f[side.shoulder].y&&f[side.wrist].y>f[side.shoulder].y){start=i;break;}
   }
-  if(start<0 || end-start<Math.ceil(.5*fps))return null;
+  trace.endFrame=end;trace.startFrame=start;trace.searchStartFrame=Math.max(0,end-Math.round(2*fps));
+  if(start<0)return reject("no-standing-in-two-second-window");
+  if(end-start<Math.ceil(.5*fps))return reject("transition-too-short");
   // Include the last pre-entry half-second so coverage is not based on a single frame.
   start=Math.max(0,start-Math.round(.3*fps));
   const segment=fr.slice(start,end+1),good=segment.filter(valid);
-  if(good.length<8||good.length/segment.length<.8)return null;
+  trace.validSamples=good.length;trace.samples=segment.length;
+  if(good.length<8||good.length/segment.length<.8)return reject("tracking-coverage");
   const first=good[0],last=good.at(-1);
   const body=Math.hypot(last[side.ankle].x-last[side.shoulder].x,last[side.ankle].y-last[side.shoulder].y);
-  if(body<=0 || first[side.hip].y-last[side.hip].y<body*.15)return null;
+  trace.hipRisePixels=first[side.hip].y-last[side.hip].y;trace.requiredHipRisePixels=body*.15;
+  if(body<=0 || trace.hipRisePixels<trace.requiredHipRisePixels)return reject("pelvis-rise-below-fifteen-percent");
+  trace.reason="scored-window-observed";
   return segment.map(f=>valid(f)?f:null);
 }
 

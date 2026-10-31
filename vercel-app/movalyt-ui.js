@@ -1,3 +1,7 @@
+import { drawPoseOverlay, smoothLivePose } from "./pose-overlay.js";
+import { resetHandstandInsights } from "./handstand-insights-ui.js";
+let lastLivePose = null,
+  lastLiveTime = null;
 import { readAnalysisHistory } from "./analysis-history.js";
 import {
   ANALYSIS_CATALOG,
@@ -93,13 +97,38 @@ function route() {
     screen = "analyze";
     $("sessionNotice").hidden = false;
   }
+  if (screen === "results" && available && !scored) screen = "replay";
+  const replayBack = $("replaySec").querySelector(".back");
+  replayBack.href = scored ? "#results" : "#analyze";
+  replayBack.setAttribute(
+    "aria-label",
+    scored ? "חזרה לתוצאות" : "חזרה להעלאה",
+  );
+  $("navAnalyze").href = busy
+    ? "#processing"
+    : available
+      ? scored
+        ? "#results"
+        : "#replay"
+      : "#analyze";
+  const analyzerBack = document.querySelector(".analyzer-heading .back");
+  analyzerBack.href = screen === "analyze" ? "#home" : "#analyze";
+  analyzerBack.setAttribute(
+    "aria-label",
+    screen === "analyze"
+      ? "חזרה לבית"
+      : screen === "processing"
+        ? "ביטול וחזרה לבחירת סרטון"
+        : "חזרה לבחירת סרטון",
+  );
+  $("reportLink").hidden = !scored;
   activate(screen);
   $("analyzer-title").textContent =
     screen === "results"
-      ? "תוצאה"
+      ? "תוצאות הניתוח"
       : screen === "processing"
-        ? "מנתח את הסרטון"
-        : "העלאת סרטון";
+        ? "מנתחים את התנועה"
+        : "ניתוח עמידת ידיים";
   if (screen !== "replay") {
     $("v").pause();
     setExpanded(false);
@@ -119,8 +148,11 @@ function route() {
   heading.focus({ preventScroll: true });
 }
 window.addEventListener("hashchange", route);
+$("watchSkeleton").addEventListener("click", () => {
+  $("showSkeleton").checked = true;
+  $("showSkeleton").dispatchEvent(new Event("change"));
+});
 $("openCamera").onclick = () => $("cameraFile").click();
-$("openGallery").onclick = () => $("file").click();
 const about = $("aboutDialog");
 $("aboutButton").onclick = () => {
   renderPreferences();
@@ -227,46 +259,7 @@ document.addEventListener("keydown", (event) => {
 });
 renderOnboardingPose();
 export function drawPose(ctx, landmarks, width, height) {
-  if (!landmarks) return;
-  const point = (i) => (landmarks[i]?.v >= 0.5 ? landmarks[i] : null);
-  ctx.save();
-  ctx.strokeStyle = "#C4FF64";
-  ctx.fillStyle = "#C4FF64";
-  ctx.lineWidth = Math.max(1.5, width / 340);
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.shadowColor = "#C4FF6440";
-  ctx.shadowBlur = 2;
-  for (const [a, b] of [
-    [11, 13],
-    [13, 15],
-    [11, 23],
-    [23, 25],
-    [25, 27],
-    [12, 14],
-    [14, 16],
-    [12, 24],
-    [24, 26],
-    [26, 28],
-    [11, 12],
-    [23, 24],
-  ]) {
-    const u = point(a),
-      v = point(b);
-    if (!u || !v) continue;
-    ctx.beginPath();
-    ctx.moveTo(u.x, u.y);
-    ctx.lineTo(v.x, v.y);
-    ctx.stroke();
-  }
-  for (const i of [11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28]) {
-    const p = point(i);
-    if (!p) continue;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, Math.max(3, width / 190), 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.restore();
+  drawPoseOverlay(ctx, landmarks, { width, height });
 }
 export const analysisUI = {
   playback(current, duration) {
@@ -289,23 +282,14 @@ export const analysisUI = {
           )
         : 0) + "%",
     );
-    const video = $("v"),
-      backdrop = $("replayBackdrop");
-    if (video.readyState >= 2) {
-      if (backdrop.width !== 128) {
-        backdrop.width = 128;
-        backdrop.height = 128;
-      }
-      backdrop.getContext("2d").drawImage(video, 0, 0, 128, 128);
-    }
   },
   joints(first, second, amount) {
     const host = $("jointMetrics");
     host.hidden = !$("showAngles").checked;
     host.replaceChildren();
     if (host.hidden) return;
-    const a = first || second,
-      b = second || first;
+    const a = first,
+      b = second;
     const point = (i) =>
       a?.[i]?.v >= 0.5 && b?.[i]?.v >= 0.5
         ? {
@@ -344,6 +328,9 @@ export const analysisUI = {
   },
   start() {
     busy = true;
+    resetHandstandInsights();
+    lastLivePose = null;
+    lastLiveTime = null;
     pendingRoute = null;
     for (const id of [
       "resultMetrics",
@@ -387,7 +374,7 @@ export const analysisUI = {
         .drawImage(video, 0, 0, canvas.width, canvas.height);
     } catch {}
   },
-  frame(source, landmarks, width, height) {
+  frame(source, landmarks, width, height, timestamp) {
     const canvas = $("analysisCanvas");
     canvas.width = source.width;
     canvas.height = source.height;
@@ -395,7 +382,14 @@ export const analysisUI = {
     ctx.drawImage(source, 0, 0);
     ctx.save();
     ctx.scale(source.width / width, source.height / height);
-    drawPose(ctx, landmarks, width, height);
+    const displayed = smoothLivePose(
+      lastLivePose,
+      landmarks,
+      timestamp - lastLiveTime,
+    );
+    drawPose(ctx, displayed, width, height);
+    lastLivePose = landmarks;
+    lastLiveTime = timestamp;
     ctx.restore();
   },
   result(score, res) {
@@ -461,28 +455,6 @@ export const analysisUI = {
       }
   },
   finish(outcome) {
-    const highlights = $("resultHighlights");
-    highlights.replaceChildren();
-    if (outcome === "scored") {
-      const strength = $("coachStrength").textContent;
-      if (strength) {
-        const p = document.createElement("p");
-        p.className = "strength";
-        p.textContent = "✓ " + strength;
-        highlights.append(p);
-      }
-      for (const finding of document.querySelectorAll(
-        "#coachObservations .coach-observation-finding",
-      )) {
-        const p = document.createElement("p");
-        p.className = "improvement";
-        p.textContent = finding.textContent;
-        highlights.append(p);
-      }
-      $("playerMetrics").replaceChildren(
-        ...Array.from($("resultMetrics").children, (c) => c.cloneNode(true)),
-      );
-    }
     busy = false;
     available = ["scored", "unreliable"].includes(outcome);
     scored = outcome === "scored";
