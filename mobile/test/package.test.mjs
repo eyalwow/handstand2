@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { Script } from 'node:vm';
 import { mobileRoot, sourceRoot, localizePoseAssets } from '../scripts/build-web.mjs';
 const text = path => readFile(resolve(mobileRoot, path), 'utf8');
 
@@ -25,7 +26,7 @@ test('packaged worker and compatibility runtime use local module/model/WASM defa
   for (const file of ['pose-worker.js', 'pose-main.js']) {
     const built = await text('www/' + file);
     assert.doesNotMatch(built, /https:\/\/(cdn\.jsdelivr\.net|storage\.googleapis\.com)/);
-    assert.match(built, /new URL\("\.\/vendor\/vision\/vision_bundle\.js",import\.meta\.url\)\.href/);
+    assert.match(built, /new URL\("\.\/vendor\/vision\/vision_bundle\.js",self\.location\.href\)\.href/);
     assert.match(built, /\.\/vendor\/vision\/wasm/);
     assert.match(built, /\.\/vendor\/model\/pose_landmarker_lite\.task/);
   }
@@ -34,6 +35,10 @@ test('packaged worker and compatibility runtime use local module/model/WASM defa
   assert.ok((await stat(resolve(wasm, 'vision_wasm_nosimd_internal.wasm'))).size > 1000000);
   // Changed upstream defaults must stop the adapter rather than leave a CDN URL.
   assert.throws(() => localizePoseAssets('changed defaults'), /review adapter/);
+  // Runtime intentionally creates a classic Worker, not a module Worker.
+  // import.meta would parse in the compatibility module but break that Worker.
+  const classicWorker = await text('www/pose-worker.js');
+  assert.doesNotThrow(() => new Script(classicWorker), 'classic worker must parse');
 });
 
 test('wrapper uses local origins without live server, mixed content or broad navigation', async () => {

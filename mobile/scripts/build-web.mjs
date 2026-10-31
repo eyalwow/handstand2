@@ -27,7 +27,7 @@ export function localizePoseAssets(source) {
   for (const [remote, local] of replacements) {
     const literal = JSON.stringify(remote);
     if (source.split(literal).length !== 2) throw new Error('Pose asset default changed: review adapter');
-    source = source.replace(literal, `new URL(${JSON.stringify(local)},import.meta.url).href`);
+    source = source.replace(literal, `new URL(${JSON.stringify(local)},self.location.href).href`);
   }
   return source;
 }
@@ -100,6 +100,7 @@ export async function buildWeb() {
   await writeFile(resolve(output, 'vendor/model/pose_landmarker_lite.task'), data);
   // Include redistributable dependency notices in the app, not just the repo.
   await cp(resolve(mobileRoot, 'THIRD_PARTY_NOTICES.md'), resolve(output, 'THIRD_PARTY_NOTICES.md'));
+  await cp(resolve(mobileRoot, 'licenses'), resolve(output, 'licenses'), { recursive: true });
   const files = [];
   for (const name of [...copied].sort()) {
     files.push({ file: name, sourceSha256: digest(await readFile(resolve(sourceRoot, name))),

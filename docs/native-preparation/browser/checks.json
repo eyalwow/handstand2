@@ -9,10 +9,16 @@
       "execution": "worker",
       "moving_video": true,
       "history_survives_reload": true
+    },
+    {
+      "app": "packaged",
+      "score": 71,
+      "sample_count": 42,
+      "execution": "worker",
+      "moving_video": true,
+      "history_survives_reload": true
     }
   ],
-  "uncaught": [
-    "Evaluating a string as JavaScript violates the following Content Security Policy directive because 'unsafe-eval' is not an allowed source of script: script-src 'self' 'wasm-unsafe-eval'\".\n"
-  ],
+  "uncaught": [],
   "external_package_requests": []
 }

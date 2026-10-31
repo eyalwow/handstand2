@@ -1,0 +1,151 @@
+{
+  "app": "athlete",
+  "mediaPipe": "0.10.14",
+  "modelSha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a",
+  "modules": [
+    {
+      "file": "ai-feedback.js",
+      "sourceSha256": "27a3ea356a42635ad37cd7a7931c8c11e6e6290ed5952d5e5cb3a1c19b28cca3",
+      "packagedSha256": "27a3ea356a42635ad37cd7a7931c8c11e6e6290ed5952d5e5cb3a1c19b28cca3",
+      "adapter": "identical"
+    },
+    {
+      "file": "analysis-catalog.js",
+      "sourceSha256": "298f3192d05968ac99c6c4090edda4114205a8df6caeadf81a277dbd4978a4cf",
+      "packagedSha256": "298f3192d05968ac99c6c4090edda4114205a8df6caeadf81a277dbd4978a4cf",
+      "adapter": "identical"
+    },
+    {
+      "file": "analysis-history.js",
+      "sourceSha256": "ab58f542a24e24650ed7d192ad688e4e351a1ec842fdcf4a4aa823c9b2452330",
+      "packagedSha256": "ab58f542a24e24650ed7d192ad688e4e351a1ec842fdcf4a4aa823c9b2452330",
+      "adapter": "identical"
+    },
+    {
+      "file": "analysis-performance.js",
+      "sourceSha256": "d15842bfd27116f9a7e33432bd762caeb14e746f376ee77678067e24385c5ab9",
+      "packagedSha256": "d15842bfd27116f9a7e33432bd762caeb14e746f376ee77678067e24385c5ab9",
+      "adapter": "identical"
+    },
+    {
+      "file": "analysis-registry.js",
+      "sourceSha256": "aeb0eef4911f5f6f9f8595926c87b859b71f9bd39758b3c0fc288707d37520cf",
+      "packagedSha256": "aeb0eef4911f5f6f9f8595926c87b859b71f9bd39758b3c0fc288707d37520cf",
+      "adapter": "identical"
+    },
+    {
+      "file": "campaign-artwork.js",
+      "sourceSha256": "2b86ab878c26e7efedc4a5ca7576e9d150cb0d9bddb9b8603df729c36e87e6a2",
+      "packagedSha256": "2b86ab878c26e7efedc4a5ca7576e9d150cb0d9bddb9b8603df729c36e87e6a2",
+      "adapter": "identical"
+    },
+    {
+      "file": "handstand-coaching.js",
+      "sourceSha256": "89c9e077b01203171ae93e8eb947e9a54b63b721d958c20c6ead9ca09194695f",
+      "packagedSha256": "89c9e077b01203171ae93e8eb947e9a54b63b721d958c20c6ead9ca09194695f",
+      "adapter": "identical"
+    },
+    {
+      "file": "handstand-engine.js",
+      "sourceSha256": "1022d229473f481728f2097ba2dc00c626bd7aed3fb3673a7310d1f66bdbc632",
+      "packagedSha256": "1022d229473f481728f2097ba2dc00c626bd7aed3fb3673a7310d1f66bdbc632",
+      "adapter": "identical"
+    },
+    {
+      "file": "handstand-entry.js",
+      "sourceSha256": "ae4e1d86cf02af2d78f6a32ef9b9a89549df0f95fc38cc4126fbfd7abadbfea0",
+      "packagedSha256": "ae4e1d86cf02af2d78f6a32ef9b9a89549df0f95fc38cc4126fbfd7abadbfea0",
+      "adapter": "identical"
+    },
+    {
+      "file": "handstand-fall.js",
+      "sourceSha256": "7c2d875b3ab5603a1ac3ae1bb6c98b8dfb990ff096a6af505c0cfe13ab8ec578",
+      "packagedSha256": "7c2d875b3ab5603a1ac3ae1bb6c98b8dfb990ff096a6af505c0cfe13ab8ec578",
+      "adapter": "identical"
+    },
+    {
+      "file": "handstand-insights-ui.js",
+      "sourceSha256": "d1bfa334ffc3016492f3f8300996b171afc361b8fdf37a8330009b483c4143e1",
+      "packagedSha256": "d1bfa334ffc3016492f3f8300996b171afc361b8fdf37a8330009b483c4143e1",
+      "adapter": "identical"
+    },
+    {
+      "file": "handstand-summary.js",
+      "sourceSha256": "91725d5a877f0afd87dddbe51721d13ed5ab0925b80b730cbb714ffb77f02730",
+      "packagedSha256": "91725d5a877f0afd87dddbe51721d13ed5ab0925b80b730cbb714ffb77f02730",
+      "adapter": "identical"
+    },
+    {
+      "file": "handstand-temporal.js",
+      "sourceSha256": "8eb6c40bf00fb81d477899297d88791a0e10e54a7ed366e80dbcf41406607802",
+      "packagedSha256": "8eb6c40bf00fb81d477899297d88791a0e10e54a7ed366e80dbcf41406607802",
+      "adapter": "identical"
+    },
+    {
+      "file": "home-ui.js",
+      "sourceSha256": "11cbed18175d61878e83053cceb079088309bb2961a21c2767888667a9f75c3d",
+      "packagedSha256": "11cbed18175d61878e83053cceb079088309bb2961a21c2767888667a9f75c3d",
+      "adapter": "identical"
+    },
+    {
+      "file": "movalyt-ui.js",
+      "sourceSha256": "2f5f1ed99cfec82083e32150ef961d4a1ea82241a4544be7388bf8025ce60933",
+      "packagedSha256": "2f5f1ed99cfec82083e32150ef961d4a1ea82241a4544be7388bf8025ce60933",
+      "adapter": "identical"
+    },
+    {
+      "file": "onboarding-data.js",
+      "sourceSha256": "647feeddf8dc2b475076da24bc2e763763c314da94111f461b2ea6a9ddcf6392",
+      "packagedSha256": "647feeddf8dc2b475076da24bc2e763763c314da94111f461b2ea6a9ddcf6392",
+      "adapter": "identical"
+    },
+    {
+      "file": "onboarding-ui.js",
+      "sourceSha256": "d58f7e902711cfd3244ed05ed8bdd5c6327595b849e50c55b289099817eba36e",
+      "packagedSha256": "d58f7e902711cfd3244ed05ed8bdd5c6327595b849e50c55b289099817eba36e",
+      "adapter": "identical"
+    },
+    {
+      "file": "pose-main.js",
+      "sourceSha256": "5a2316bc9f7a6dd9a680c768f58d8833dc440ed594b01c3f8a692ec8be340593",
+      "packagedSha256": "440b5a5ccdeb2c6b4893ae3e1c473f93561d67d0e361cb8882b60f929960083a",
+      "adapter": "asset URLs only"
+    },
+    {
+      "file": "pose-overlay.js",
+      "sourceSha256": "93afabc2faefc1899d03d751fa84ec52cc405f23de9349ec90a20259ed796736",
+      "packagedSha256": "93afabc2faefc1899d03d751fa84ec52cc405f23de9349ec90a20259ed796736",
+      "adapter": "identical"
+    },
+    {
+      "file": "pose-runtime.js",
+      "sourceSha256": "ee3ad8be5cf922a82c5ad12b312fb08ff108c7e3b600b1787f41ff04b12dea9c",
+      "packagedSha256": "ee3ad8be5cf922a82c5ad12b312fb08ff108c7e3b600b1787f41ff04b12dea9c",
+      "adapter": "identical"
+    },
+    {
+      "file": "pose-worker.js",
+      "sourceSha256": "b611373de35f1bab566ecca24284e48d913da34056cf13f6f1001ea931c83d5c",
+      "packagedSha256": "4d4f30a2a529e64d4678aaefec2209218791c8b150fb0cc0f1588934f65b39c6",
+      "adapter": "asset URLs only"
+    },
+    {
+      "file": "server-gemini.js",
+      "sourceSha256": "e0640dcebb26d5e7b248f925eb94643368629ae7380d84a9f6c76c440ee269bd",
+      "packagedSha256": "e0640dcebb26d5e7b248f925eb94643368629ae7380d84a9f6c76c440ee269bd",
+      "adapter": "identical"
+    },
+    {
+      "file": "ui-elements.js",
+      "sourceSha256": "d2e84ef07878ef720afe3766725da5786dbb77a3710ba89c5f0dc69161c66df1",
+      "packagedSha256": "d2e84ef07878ef720afe3766725da5786dbb77a3710ba89c5f0dc69161c66df1",
+      "adapter": "identical"
+    },
+    {
+      "file": "video-sampling.js",
+      "sourceSha256": "273fec540b48c8f1307f41882fdf5c018c17605b9e2f9ee2e440882a15d36ab9",
+      "packagedSha256": "273fec540b48c8f1307f41882fdf5c018c17605b9e2f9ee2e440882a15d36ab9",
+      "adapter": "identical"
+    }
+  ]
+}

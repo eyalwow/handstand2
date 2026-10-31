@@ -40,6 +40,7 @@ try:
     with sync_playwright() as p:
         browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True)
         for name,path in [('website','/vercel-app/'),('packaged','/mobile/www/')]:
+            print('Checking '+name,flush=True)
             ctx=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
             ctx.add_init_script("window.addEventListener('movalyt:analysis-diagnostic',e=>window.qaResult=e.detail)")
             if name=='website':
@@ -58,7 +59,8 @@ try:
             with page.expect_file_chooser() as chooser:page.locator('.pick').click()
             chooser.value.set_files(str(args.video))
             page.wait_for_function("() => document.body.dataset.screen==='processing'")
-            page.wait_for_function("() => document.body.dataset.screen==='results'",timeout=120000)
+            page.wait_for_function("() => document.body.dataset.screen!=='processing'",timeout=120000)
+            assert page.evaluate('document.body.dataset.screen')=='results',page.locator('#status').inner_text()
             result=page.evaluate('qaResult');assert 0<=result['score']<=100
             page.screenshot(path=str(args.out/f'{name}-results.png'))
             page.locator('#watchSkeleton').click()

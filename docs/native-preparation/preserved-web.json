@@ -1,0 +1,10 @@
+{
+  "base": "408c3923a85a7c311a0f3ba86303fbc77daa0594",
+  "verified_source_file_count": 189,
+  "changed": [],
+  "scope": [
+    "vercel-app/**",
+    "preview/**",
+    "index.html"
+  ]
+}

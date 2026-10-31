@@ -4,6 +4,6 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) document.querySelector('video#v')?.pause();
 });
 
-// Keep Back in Android's existing WebView history. At the root the normal
-// platform behavior applies; no listener overrides the OS exit gesture.
+// Android Back/exit keeps Capacitor's platform behavior; no App plugin or
+// listener is added here. Hash-route behavior still needs device testing.
 // Do not persist blob URLs: the existing history stores summaries only.

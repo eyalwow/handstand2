@@ -43,13 +43,17 @@ jobs:
   ios-unsigned-build:
     needs: package-check
     if: github.event.repository.private == false
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: {node-version: '22'}
-      - run: xcodebuild -version
+      - name: Require supported Xcode toolchain
+        run: |
+          xcodebuild -version
+          major=$(xcodebuild -version | awk '/Xcode/{split($2,v,".");print v[1]}')
+          test "$major" -ge 26
       - run: npm ci --ignore-scripts --no-fund --no-audit && npm run sync:ios
         working-directory: mobile
       - name: Build arm64 device app without signing, account or provisioning
