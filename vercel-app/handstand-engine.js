@@ -153,7 +153,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
    showCoachFeedback(res,ent);
    renderHandstandInsights(timeline,buildIntelligentCoaching(timeline,res,ent));
    $("measurementNotice").hidden=false;
-    $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"הציון משקף טכניקת גוף בלבד; אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
+    $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"זהו מדד טכניקה ויציבות דו־ממדי ניסיוני, שטרם כויל מול דירוג מאמן. משך ההחזקה מוצג בנפרד ואינו מוסיף נקודות. אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
    timing.renderMs=performance.now()-renderStarted;timing.outcome="scored";
     if(res?.hold>=2){
     try{const key="handstand-lab-analyses-v1",old=JSON.parse(localStorage.getItem(key)||"[]");
@@ -290,7 +290,9 @@ function drawScoreRadar(res,overall){
 }
 async function show(res,fr,v,w,h,overall,poseTimes){
  $("score").textContent=overall;analysisUI.result(overall,res);
- $("hold").textContent="ציון טכניקה בלבד · "+(res?"הגרף מציג את מדדי ההחזקה שנמדדו.":"לא נמדדה החזקה מספקת.");
+ $("hold").textContent=res
+  ?"מדדי החזקה ניסיוניים · טכניקה בלבד: "+Math.round(res.scoreDimensions.techniqueOnlyIndex)+"/100 · יציבות: "+Math.round(res.scoreDimensions.stabilityIndex)+"/100. משך ההחזקה אינו מוסיף נקודות."
+  :"לא נמדדה החזקה מספקת; לא מוצגים מדדי טכניקה ויציבות של ההחזקה.";
  $("holdDuration").hidden=!res;
  if(res)$("holdDuration").textContent="זמן החזקה מזוהה: "+(Math.round(res.hold*10)/10).toFixed(1)+" שניות (הערכה מתוך הדגימות)";
  drawScoreRadar(res,overall);

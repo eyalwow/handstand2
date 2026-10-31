@@ -29,6 +29,7 @@ parser.add_argument('--out', type=Path, required=True)
 parser.add_argument('--runs', type=int, default=3)
 parser.add_argument('--trace-dir', type=Path, help='Optional private raw inference traces, outside the repository')
 parser.add_argument('--phase', choices=['both','before','after'], default='both')
+parser.add_argument('--world-trace', action='store_true', help='Collect the model own 3D predictions for diagnosis only; never changes grading')
 args = parser.parse_args()
 if args.out.resolve().is_relative_to(ROOT):
     parser.error('--out must be outside the repository')
@@ -42,16 +43,16 @@ if not 1 <= args.runs <= 10:
     parser.error('use 1–10 runs (at least 3 for repeatability validation)')
 assert hashlib.sha256((args.assets/'model/package/pose_landmarker_lite.task').read_bytes()).hexdigest() == '59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a'
 
-INIT = """window.qaPoses=[];window.qaTiming=[];window.qaDiagnostic=null;
+INIT = """window.qaPoses=[];window.qaWorldPoses=[];window.qaTiming=[];window.qaDiagnostic=null;
 const BaseWorker=Worker;window.Worker=class extends BaseWorker {
  constructor(...args){super(...args);this.addEventListener('message',e=>{
-  if(e.data.type==='result')qaPoses.push(e.data.landmarks);
+  if(e.data.type==='result'){qaPoses.push(e.data.landmarks);qaWorldPoses.push(e.data.auditWorldLandmarks??null);}
  });}
 };
 window.addEventListener('movalyt:analysis-diagnostic',e=>qaDiagnostic=e.detail);
 window.addEventListener('movalyt:analysis-timing',e=>qaTiming.push(e.detail));
 """
-report = {'baseline': BASE, 'cases': [], 'errors': [], 'posts': [], 'limitations': ['Not physical iPhone validation; projected 2D technique is not anatomical ground truth.']}
+report = {'baseline': BASE, 'worldTrace':args.world_trace, 'cases': [], 'errors': [], 'posts': [], 'limitations': ['Not physical iPhone validation; projected 2D technique is not anatomical ground truth.']}
 with tempfile.TemporaryDirectory(prefix='handstand-baseline-') as name:
     baseline = Path(name)
     archive = baseline/'source.tar'
@@ -74,7 +75,12 @@ with tempfile.TemporaryDirectory(prefix='handstand-baseline-') as name:
 
         def do_GET(self):
             if urlsplit(self.path).path.endswith(('/pose-worker.js','/pose-main.js')):
-                content=Path(self.translate_path(self.path)).read_text().replace('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14','/vendor/vision').replace('https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1','/vendor/model').encode()
+                content=Path(self.translate_path(self.path)).read_text().replace('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14','/vendor/vision').replace('https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1','/vendor/model')
+                if args.world_trace and urlsplit(self.path).path.endswith('/pose-worker.js'):
+                    # Observe additional outputs from the same real inference.
+                    # No landmarks are supplied or replaced and production source is untouched.
+                    content=content.replace('landmarks:points?points.map', 'auditWorldLandmarks:result.worldLandmarks?.[0]??null,landmarks:points?points.map')
+                content=content.encode()
                 self.send_response(200);self.send_header('Content-Type','text/javascript');self.end_headers();self.wfile.write(content)
             else:
                 super().do_GET()
@@ -101,12 +107,12 @@ with tempfile.TemporaryDirectory(prefix='handstand-baseline-') as name:
                     page.locator('#welcomeSkip').click()
                     page.evaluate("location.hash='analyze'")
                     for i in range(args.runs):
-                        page.evaluate('qaPoses=[];qaDiagnostic=null')
+                        page.evaluate('qaPoses=[];qaWorldPoses=[];qaDiagnostic=null')
                         page.locator('#file').set_input_files(str(video.resolve()))
                         page.wait_for_function('n=>qaTiming.length>n',arg=i,timeout=500000)
                         result=page.evaluate('({diagnostic:qaDiagnostic,outcome:qaTiming.at(-1).outcome})')
                         if args.trace_dir:
-                            trace=page.evaluate('({poses:qaPoses,width:document.getElementById("v").videoWidth,height:document.getElementById("v").videoHeight,timestamps:qaDiagnostic?.timestamps})')
+                            trace=page.evaluate('({poses:qaPoses,worldPoses:qaWorldPoses,width:document.getElementById("v").videoWidth,height:document.getElementById("v").videoHeight,timestamps:qaDiagnostic?.timestamps})')
                             (args.trace_dir/f'case-{len(report["cases"])}-{label}-{i+1}.json').write_text(json.dumps(trace))
                         if result['diagnostic'] is None:
                             raise AssertionError(f'{label}: no diagnostics: {result}')

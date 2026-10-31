@@ -1,16 +1,15 @@
-import {analyzeHandstandTimeline, extractTemporalSamples, median} from './handstand-temporal.js';
+import {analyzeHandstandTimeline, extractTemporalSamples, median, quantile} from './handstand-temporal.js';
+import {HANDSTAND_SCORE_POLICY,projectedMetricScore,separateScoreDimensions} from './handstand-score-policy.js';
 
 export const HANDSTAND_MEASUREMENT_VERSION = 'handstand-v4-observed';
 // Keep the established technical bands. Duration never contributes points.
-const BANDS = {banana:[.045,.18], lean:[4.5,22.5], shoulder:[12,52.5], elbow:[12,45], sway:[.015,.075]};
-const WEIGHTS = {banana:.3, lean:.2, shoulder:.2, elbow:.15, sway:.15};
-const band = (x,[good,bad]) => Math.max(0,Math.min(100,100*(bad-x)/(bad-good)));
+const BANDS=HANDSTAND_SCORE_POLICY.bands;
 const distance = (a,b) => Math.hypot(a.x-b.x,a.y-b.y);
 const segments = [['shoulder','hip'],['hip','ankle'],['shoulder','elbow'],['elbow','wrist']];
 
 export function measureHandstand({frames,timestamps,width,height}={}) {
   const timeline = analyzeHandstandTimeline({frames,timestamps,width,height});
-  const diagnostics = {version:HANDSTAND_MEASUREMENT_VERSION, reason:'no-established-hold'};
+  const diagnostics = {version:HANDSTAND_MEASUREMENT_VERSION, reason:'no-established-hold',scorePolicy:HANDSTAND_SCORE_POLICY};
   if (!timeline.hold) return {hold:null,timeline,diagnostics};
   // The exact same selected side and interval drive timing and technique.
   const samples = extractTemporalSamples(frames,timestamps,{width,height});
@@ -46,8 +45,21 @@ export function measureHandstand({frames,timestamps,width,height}={}) {
   const center=median(metrics.map(m=>m.hipx));
   const val=Object.fromEntries(['banana','lean','shoulder','elbow'].map(n=>[n,median(metrics.map(m=>m[n]))]));
   val.sway=1.4826*median(metrics.map(m=>Math.abs(m.hipx-center)));
-  const sc=Object.fromEntries(Object.keys(BANDS).map(n=>[n,band(n==='banana'?median(metrics.map(m=>Math.abs(m.banana))):val[n],BANDS[n])]));
-  const total=Math.max(1,Object.keys(sc).reduce((sum,n)=>sum+sc[n]*WEIGHTS[n],0));
+  const sc=Object.fromEntries(Object.keys(BANDS).map(n=>[n,projectedMetricScore(n,n==='banana'?median(metrics.map(m=>Math.abs(m.banana))):val[n])]));
+  const dimensions=separateScoreDimensions(sc,timeline.hold.seconds),total=dimensions.combinedIndex;
+  // These percentiles describe observed variation, not anatomical uncertainty or
+  // a confidence interval. High visibility cannot validate the scoring policy.
+  const points={banana:['shoulder','hip','ankle'],lean:['wrist','ankle'],shoulder:['hip','shoulder','elbow'],elbow:['shoulder','elbow','wrist'],sway:['hip','wrist','shoulder','ankle']};
+  const metricEvidence=Object.fromEntries(Object.keys(BANDS).map(n=>{
+    const values=metrics.map(m=>n==='banana'?Math.abs(m.banana):n==='sway'?Math.abs(m.hipx-center):m[n]);
+    return [n,{validSamples:rows.length,intervalSamples:run.length,coverage:rows.length/run.length,
+      medianMinimumVisibility:median(rows.map(s=>Math.min(...points[n].map(k=>s.p[k].v)))),
+      observedP10:quantile(values,.1),observedP90:quantile(values,.9),
+      observedStatistic:n==='sway'?'absolute-centered-pelvis-offset':'per-frame-metric',
+      observedUnit:n==='banana'||n==='sway'?'body-length-ratio':'degrees',
+      scoreStatus:sc[n]===0?'zero-band-saturation':sc[n]===100?'full-band-saturation':'linear-band'}];
+  }));
+  Object.assign(diagnostics,{scoreDimensions:dimensions,metricEvidence});
   const k=Object.fromEntries(Object.entries(run[0].p).map(([name,p])=>[name,frames[startFrame].indexOf(p)]));
   k.ear=ear;
   // Preserve the existing consumer contract; third summaries use measured rows.
@@ -57,7 +69,7 @@ export function measureHandstand({frames,timestamps,width,height}={}) {
     return {phase:['start','middle','end'][j],pelvisOffsetPercent:Math.abs(m('banana'))*100,leanDegrees:m('lean'),shoulderDeficitDegrees:m('shoulder'),elbowDeficitDegrees:m('elbow')};
   });
   Object.assign(diagnostics,{reason:'measured',visibilityPercent:100*median(rows.map(s=>Math.min(...Object.values(s.p).map(p=>p.v)))),relaxed:false,legsApart:false,thirds});
-  const hold={val,sc,total,swayOk:true,k,series:frames.map(()=>null),fps:10,
+  const hold={val,sc,total,scoreDimensions:dimensions,swayOk:true,k,series:frames.map(()=>null),fps:10,
     hold:timeline.hold.seconds,mid:rows[Math.floor(rows.length/2)].i,diagnostics};
   return {hold,timeline,diagnostics};
 }
