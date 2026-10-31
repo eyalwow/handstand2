@@ -1,0 +1,176 @@
+name: MOVALYT native preparation
+on:
+  pull_request:
+    paths: ['mobile/**', '.github/workflows/native-preparation.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-preparation-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  package-check:
+    # Standard public-repository runners only; never run paid/private builds.
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm ci --ignore-scripts --no-fund --no-audit
+        working-directory: mobile
+      - run: npm run build && npm test
+        working-directory: mobile
+      - if: github.head_ref != 'feat/movalyt-capacitor-preparation'
+        run: node --test tests/*.test.*
+  android-build:
+    needs: package-check
+    if: github.event.repository.private == false && github.head_ref != 'feat/movalyt-capacitor-preparation' && github.ref != 'refs/heads/feat/movalyt-capacitor-preparation'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '21'}
+      - run: npm ci --ignore-scripts --no-fund --no-audit && npm run sync:android
+        working-directory: mobile
+      - run: bash gradlew assembleDebug --no-daemon
+        working-directory: mobile/android
+      - name: Confirm debug APK build (not a device test)
+        run: sha256sum mobile/android/app/build/outputs/apk/debug/app-debug.apk
+  ios-unsigned-build:
+    needs: package-check
+    # Only the first attempt of PR #31 can export an IPA.
+    if: github.event.repository.private == false && github.event_name == 'pull_request' && github.event.pull_request.number == 31 && github.head_ref == 'feat/movalyt-capacitor-preparation' && github.run_attempt == 1
+    permissions:
+      contents: read
+      actions: read
+    runs-on: macos-26
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Refuse a second live IPA artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          API_URL: ${{ github.api_url }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          url = f"{os.environ['API_URL']}/repos/{os.environ['REPOSITORY']}/actions/artifacts?name=MOVALYT-ios-release-unsigned&per_page=100"
+          request = urllib.request.Request(url, headers={
+              "Authorization": "Bearer " + os.environ["GH_TOKEN"],
+              "Accept": "application/vnd.github+json"})
+          with urllib.request.urlopen(request) as response:
+              data = json.load(response)
+          assert not any(not a["expired"] for a in data["artifacts"]), "An unexpired IPA artifact already exists; stop without another upload"
+          PY
+      - name: Require supported Xcode toolchain
+        run: |
+          xcodebuild -version
+          major=$(xcodebuild -version | awk '/Xcode/{split($2,v,".");print v[1]}')
+          test "$major" -ge 26
+      - run: npm ci --ignore-scripts --no-fund --no-audit && npm run sync:ios
+        working-directory: mobile
+      - name: Build arm64 device app without signing, account or provisioning
+        run: >-
+          xcodebuild -project mobile/ios/App/App.xcodeproj -scheme App
+          -configuration Release -sdk iphoneos -destination 'generic/platform=iOS'
+          -derivedDataPath /tmp/movalyt-derived
+          ARCHS=arm64 ONLY_ACTIVE_ARCH=NO ENABLE_DEBUG_DYLIB=NO
+          CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=
+          build
+      - name: Package and inspect Release IPA for local re-signing
+        run: |
+          mkdir -p /tmp/movalyt-ipa/Payload
+          ditto /tmp/movalyt-derived/Build/Products/Release-iphoneos/App.app /tmp/movalyt-ipa/Payload/App.app
+          python3 - <<'PY'
+          import hashlib, pathlib, plistlib, re, subprocess, zipfile, os
+          root = pathlib.Path("/tmp/movalyt-ipa")
+          app = root / "Payload/App.app"
+          info = plistlib.loads((app / "Info.plist").read_bytes())
+          assert info["CFBundleIdentifier"] == "app.movalyt.athlete.dev"
+          assert info["CFBundlePackageType"] == "APPL"
+          assert info["CFBundleSupportedPlatforms"] == ["iPhoneOS"]
+          assert tuple(map(int, info["MinimumOSVersion"].split("."))) <= (27, 0, 1)
+          executable = app / info["CFBundleExecutable"]
+          assert executable.is_file()
+          assert not list(app.rglob("*.debug.dylib")), "Xcode debug launcher is forbidden"
+          assert not list(app.rglob("__preview.dylib"))
+          assert not list(app.rglob("*.appex")), "No app extensions in this free-account package"
+          assert not list(app.rglob("embedded.mobileprovision"))
+          public = app / "public"
+          for name in ["index.html", "pose-worker.js", "vendor/vision/vision_bundle.js",
+                       "vendor/vision/wasm/vision_wasm_internal.wasm",
+                       "vendor/vision/wasm/vision_wasm_nosimd_internal.wasm"]:
+              assert (public / name).is_file(), name
+          model = public / "vendor/model/pose_landmarker_lite.task"
+          assert hashlib.sha256(model.read_bytes()).hexdigest() == "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a"
+          def command(*args):
+              return subprocess.check_output(args, text=True)
+          macho = []
+          for path in app.rglob("*"):
+              if not path.is_file():
+                  continue
+              kind = command("file", "-b", str(path))
+              if "Mach-O" not in kind:
+                  continue
+              macho.append(path)
+              assert command("lipo", "-archs", str(path)).strip() == "arm64", path
+              load = command("otool", "-l", str(path))
+              assert not re.search(r"cryptid\s+[1-9]", load), "Encrypted binary: " + str(path)
+              # iOS=2, iOS Simulator=7 in LC_BUILD_VERSION.
+              platforms = re.findall(r"\bplatform\s+(\S+)", load)
+              assert platforms and all(p in ("2", "IOS", "iOS") for p in platforms), (path, platforms)
+              assert "__debug_dylib" not in load, "Debug launcher dependency"
+              for line in command("otool", "-L", str(path)).splitlines()[1:]:
+                  dep = line.strip().split(" (")[0]
+                  if dep.startswith(("/System/Library/", "/usr/lib/")):
+                      continue
+                  candidates = []
+                  if dep.startswith("@rpath/"):
+                      suffix = dep[len("@rpath/"):]
+                      candidates = [app / "Frameworks" / suffix, path.parent / suffix, app / suffix]
+                  elif dep.startswith("@executable_path/"):
+                      candidates = [app / dep[len("@executable_path/"):]]
+                  elif dep.startswith("@loader_path/"):
+                      candidates = [path.parent / dep[len("@loader_path/"):]]
+                  # A dylib's own install name is included by otool -L.
+                  assert any(p.is_file() for p in candidates), (path, "Unresolved bundled dependency", dep)
+              print("Inspected", path.relative_to(app), "arm64 / iPhoneOS / unencrypted")
+          assert executable in macho
+          assert subprocess.run(["codesign", "--verify", str(app)], capture_output=True).returncode != 0, "Unexpected signed top-level app"
+          subprocess.run(["ditto", "-c", "-k", "--norsrc", "--keepParent", "Payload", "MOVALYT-unsigned.ipa"], cwd=root, check=True)
+          ipa = root / "MOVALYT-unsigned.ipa"
+          assert 0 < ipa.stat().st_size <= 100 * 1024 * 1024, "IPA exceeds 100 MiB; do not upload"
+          with zipfile.ZipFile(ipa) as archive:
+              assert archive.testzip() is None
+              names = archive.namelist()
+              assert all(n.startswith("Payload/") and ".." not in pathlib.PurePosixPath(n).parts for n in names)
+              assert "Payload/App.app/Info.plist" in names
+              assert "Payload/App.app/" + info["CFBundleExecutable"] in names
+              assert set(n for n in names if n.endswith(".app/Info.plist")) == {"Payload/App.app/Info.plist"}
+          digest = hashlib.sha256(ipa.read_bytes()).hexdigest()
+          print("IPA SHA-256:", digest, "bytes:", ipa.stat().st_size)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
+              summary.write(f"## Unsigned Release IPA\n\nSHA-256: {digest}\n\nSize: {ipa.stat().st_size} bytes; inspected {len(macho)} Mach-O files.\n\nPackaging checks passed. Signing, installation and native analysis on iPhone are **not verified**.\n")
+          PY
+      - name: Upload the single IPA for one day (stop if free quota blocks it)
+        id: ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: MOVALYT-ios-release-unsigned
+          path: /tmp/movalyt-ipa/MOVALYT-unsigned.ipa
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+      - name: Record artifact download
+        env:
+          ARTIFACT_URL: ${{ steps.ipa.outputs.artifact-url }}
+        run: |
+          echo "Download (GitHub login required; expires after one day): $ARTIFACT_URL" >> "$GITHUB_STEP_SUMMARY"

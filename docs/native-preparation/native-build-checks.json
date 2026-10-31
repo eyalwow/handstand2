@@ -1,0 +1,12 @@
+{
+  "source_commit": "780c922ddf18b76d2c5e2714c229522eb08444af",
+  "url": "https://github.com/eyalwow/handstand2/actions/runs/41223418905",
+  "package_checks": "success",
+  "android_debug_build": "success",
+  "ios_unsigned_device_build": "success",
+  "xcode": "26.6",
+  "architecture": "arm64",
+  "downloadable_artifact_retained": false,
+  "signed_install_tested": false,
+  "physical_device_tested": false
+}
