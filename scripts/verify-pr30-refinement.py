@@ -18,7 +18,16 @@ parser.add_argument("--held-start", type=float, default=4.5)
 parser.add_argument("--partial-end", type=float, default=3.5)
 parser.add_argument("--out", type=Path)
 parser.add_argument("--record-motion", action="store_true")
+parser.add_argument(
+    "--player-route-only",
+    action="store_true",
+    help="One upload → results → player regression at 390px",
+)
 args = parser.parse_args()
+if args.player_route_only and (
+    args.baseline or args.private_video or args.record_motion
+):
+    parser.error("The focused player check uses only one cached public video")
 cache = ROOT.parent / "movalyt-test-cache"
 out = (
     args.out
@@ -147,6 +156,77 @@ try:
                 "entryDiagnostics": result.get("timeline", {}).get("entryDiagnostics"),
                 "legacyEntryTrace": result.get("legacyEntryTrace"),
             }
+            if args.player_route_only:
+                assert page.evaluate("document.body.dataset.screen") == "results"
+                page.wait_for_timeout(800)
+                cta = page.get_by_role("link", name="צפה בסרטון עם שלד", exact=True)
+                assert cta.is_visible()
+                box = cta.bounding_box()
+                assert (
+                    box["height"] >= 48
+                    and 0 <= box["y"]
+                    and box["y"] + box["height"] < 770
+                )
+                page.screenshot(path=str(out / "results-390.png"))
+                # Use the actual user-facing link, never a hash assignment.
+                cta.click()
+                page.wait_for_function("document.body.dataset.screen==='replay'")
+                assert page.locator("#cv").is_visible()
+                assert page.locator("#showSkeleton").is_checked()
+                assert not page.locator("#advancedOverlay").is_checked()
+                assert page.locator("#v").evaluate(
+                    "v=>v.src.startsWith('blob:')&&v.videoWidth>0"
+                )
+                assert page.evaluate(
+                    "cv.width===v.videoWidth&&cv.height===v.videoHeight"
+                )
+                page.evaluate("qaArcs=[];qaLines=[]")
+                page.locator("#showSkeleton").uncheck()
+                no_pose = page.locator("#cv").evaluate("c=>c.toDataURL()")
+                assert page.evaluate("qaArcs.length") == 0
+                page.locator("#showSkeleton").check()
+                assert 0 < page.evaluate("qaArcs.length") <= 12
+                pose = page.locator("#cv").evaluate("c=>c.toDataURL()")
+                assert pose != no_pose
+                before = page.locator("#v").evaluate("v=>v.currentTime")
+                page.locator("#play").click()
+                page.wait_for_timeout(450)
+                assert not page.locator("#v").evaluate("v=>v.paused")
+                assert page.locator("#v").evaluate("v=>v.currentTime") > before + 0.15
+                assert page.locator("#cv").evaluate("c=>c.toDataURL()") != pose
+                assert page.evaluate("qaArcs.length") > 12
+                page.locator("#play").click()
+                assert page.locator("#v").evaluate("v=>v.paused")
+                page.locator("#spd").click()
+                assert page.locator("#v").evaluate("v=>v.playbackRate") == 0.5
+                paused = page.locator("#v").evaluate("v=>v.currentTime")
+                page.locator("#next").click()
+                page.wait_for_function("(t)=>v.currentTime>t+.04", arg=paused)
+                forward = page.locator("#v").evaluate("v=>v.currentTime")
+                page.locator("#prev").click()
+                page.wait_for_function("(t)=>v.currentTime<t-.04", arg=forward)
+                assert not page.evaluate(
+                    "document.documentElement.scrollWidth>innerWidth"
+                )
+                page.screenshot(path=str(out / "player-390.png"))
+                # Reopening via the CTA must also enable a previously hidden skeleton.
+                page.locator("#showSkeleton").uncheck()
+                page.locator("#reportLink").click()
+                page.get_by_role("link", name="צפה בסרטון עם שלד", exact=True).click()
+                page.wait_for_function("document.body.dataset.screen==='replay'")
+                assert page.locator("#showSkeleton").is_checked()
+                case["route"] = (
+                    "upload → real analysis → results CTA → original video with skeleton"
+                )
+                case["controls"] = (
+                    "play/pause, half speed, next/previous frames, skeleton off/on"
+                )
+                case["viewport"] = [390, 844]
+                case["default_overlay"] = "12 core joints; advanced off"
+                case["cta_initial_viewport"] = True
+                report["cases"].append(case)
+                context.close()
+                continue
             if label == "before":
                 page.wait_for_timeout(800)
                 page.evaluate("window.scrollTo({top:0,behavior:'instant'})")

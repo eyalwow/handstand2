@@ -131,6 +131,10 @@ function route() {
   heading.focus({ preventScroll: true });
 }
 window.addEventListener("hashchange", route);
+$("watchSkeleton").addEventListener("click", () => {
+  $("showSkeleton").checked = true;
+  $("showSkeleton").dispatchEvent(new Event("change"));
+});
 $("openCamera").onclick = () => $("cameraFile").click();
 $("openGallery").onclick = () => $("file").click();
 const about = $("aboutDialog");
