@@ -43,10 +43,26 @@ Ephemeral output SHA256 values from the actual logs:
 The existing unrelated `handstand-coach-demo` Vercel deployment check remains
 failed; `handstand-lab-coach` Preview passed. Neither project/settings was changed.
 
-The workflow logs SHA256/architecture but uploads **no artifact or cache**.
-The generated IPA/APK disappears with the runner. No billing/storage allowance or
-Apple account provisioning is assumed. See [Windows signing path and next owner
-actions](ios-windows.md) before any installable binary is promised.
+Those earlier Debug runs uploaded **no artifact or cache**; their output was ephemeral.
+The following Release run supersedes that export limitation.
+
+## Release download — 2026-10-31
+
+[Download the one-day artifact](https://github.com/eyalwow/handstand2/actions/runs/41224570201/artifacts/13051066783) (GitHub login required).
+Expires **2026-11-01 17:29 UTC / 19:29 Israel time**; save the inner IPA locally.
+[Single build run](https://github.com/eyalwow/handstand2/actions/runs/41224570201)
+at `64d553960655169b63e6ba2e8c06017866a42bf8` succeeded using Xcode 26.6.
+Four package checks, Release compilation, Mach-O/dependency/asset/ZIP checks and
+artifact upload passed. Android and broad repository tests were skipped.
+Inspected: App, Capacitor.framework/Capacitor and Cordova.framework/Cordova.
+
+IPA size: **13,350,123 bytes** (outer artifact ZIP: 13,350,277 bytes).
+IPA SHA-256: `3cb688b26eb3b390899e4e24be053f3c6fa2d7e93b69610c43484cffdbb7a9c6`.
+One upload succeeded under the owner's reported $0/Usage blocked budgets.
+No rerun was requested. **Local signing, installation, launch and analysis on
+iPhone 17 / iOS 27.0.1 remain unverified.**
+
+See [Windows installation and refresh instructions](ios-windows.md).
 
 ## Not performed
 
