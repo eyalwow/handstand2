@@ -48,7 +48,7 @@ export function createOnboarding({ onShow, onComplete }) {
       render();
     });
   }
-  for (const exercise of ANALYSIS_CATALOG) {
+  for (const exercise of ANALYSIS_CATALOG.filter(x=>!x.variation||x.id==='handstand')) {
     const label = document.createElement("label");
     label.className = "interest-card exercise-card";
     label.dataset.status = exercise.status;

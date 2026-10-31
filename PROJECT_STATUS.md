@@ -1,5 +1,13 @@
 # Handstand Lab — project status
 
+## MOVALYT exercise expansion — 2026-10-31 (Draft review only)
+
+- Stacked on PR #31 HEAD `9f92cef9767f92d392312bfa2c0bc2730ffe7aa6`; #29/#30/#31 were open Draft, not merged when checked. New branch `feat/movalyt-exercise-expansion`.
+- Analysis catalog preserves 20 existing IDs and adds 12 independent variations, family/difficulty/camera metadata. Five explicitly chosen Front Lever variants expose experimental, unvalidated 2D observations without a score. Planche/L-Sit remain Coming Soon. Shared local acquisition facade reuses Worker/MediaPipe/sampling/timing; Handstand scoring and legacy gates unchanged. Variation histories are separate from Handstand and from each other.
+- 97/97 Node tests pass, including positive/negative synthetic Front Lever poses and frozen Handstand score regressions. Local browser capture/selection/history checked at 390/320 widths. No real Front Lever video, native rebuild/IPA, real-video correctness or physical-device test of this feature; remain Draft. [Implementation, limits and required real footage](docs/exercise-expansion.md).
+- Owner reported successful install/open/upload/MediaPipe result on iPhone 17 / iOS 27.0.1 for the prior build. Earlier documentation's device-unverified status is superseded only for those owner-reported steps. Skeleton/player and Android are not confirmed by that report.
+- No merge, Production, Coach, SSO, account or paid-service changes. No native CI requested.
+
 ## MOVALYT iOS/repeatability continuation — 2026-10-29
 
 - Current work: `fix/movalyt-ios-repeatability`, based exactly on PR #26 (`7a53e0d`). Reproduced WebKit Worker canvas/`document` initialization failure; added a feature-based local compatibility path and verified actual human-photo inference. This does **not** establish successful iPhone video analysis.

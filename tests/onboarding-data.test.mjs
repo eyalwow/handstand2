@@ -22,10 +22,10 @@ function memory(initial = {}) {
     setItem: (key, value) => data.set(key, value),
   };
 }
-test("catalog has 20 distinct exercises but only Handstand has an actual analysis engine", () => {
-  assert.equal(ANALYSIS_CATALOG.length, 20);
-  assert.equal(new Set(ANALYSIS_CATALOG.map((x) => x.id)).size, 20);
-  assert.equal(Object.keys(ANALYSIS_ENGINES).length, 1);
+test("catalog preserves legacy exercises and separates experimental variations from validated availability", () => {
+  assert.equal(ANALYSIS_CATALOG.length, 32);
+  assert.equal(new Set(ANALYSIS_CATALOG.map((x) => x.id)).size, 32);
+  assert.equal(Object.keys(ANALYSIS_ENGINES).length, 2);
   for (const item of ANALYSIS_CATALOG) {
     assert.equal(Boolean(analysisFor(item.id)), item.id === "handstand");
     assert.equal(

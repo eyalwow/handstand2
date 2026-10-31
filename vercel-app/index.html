@@ -200,7 +200,7 @@
             <h1 tabindex="-1">מה היית רוצה<br /><em>לדייק או ללמוד?</em></h1>
             <p class="subline">
               אפשר לבחור כמה תרגילים כתחומי עניין. כרגע ניתן לנתח עמידת ידיים
-              בלבד; כל השאר מסומנים ״בקרוב״.
+              ו־Front Lever בבדיקה ניסיונית ללא ציון; שאר התרגילים מסומנים ״בקרוב״.
             </p>
             <fieldset id="interestChoices" class="exercise-grid">
               <legend class="visually-hidden">תחומי עניין בתרגילים</legend>
@@ -384,7 +384,7 @@
         <div class="view-body">
           <span id="catalogCount" class="eyebrow"></span>
           <p class="subline">
-            בחר עמידת ידיים לניתוח עכשיו. שאר התרגילים מוצגים לקראת ההמשך,
+            בחר עמידת ידיים לניתוח עכשיו. Front Lever זמין לבדיקה ניסיונית בלבד. שאר התרגילים מוצגים לקראת ההמשך,
             ועדיין אינם זמינים לניתוח.
           </p>
           <div id="catalogGrid" class="exercise-grid"></div>
@@ -415,6 +415,10 @@
         </p>
         <section class="upload-panel" aria-labelledby="upload-title">
           <div class="upload-intro capture-only">
+            <label for="exerciseSelect">התרגיל והווריאציה לניתוח</label>
+            <select id="exerciseSelect"></select>
+            <p id="exerciseFilming"></p>
+            <label id="frontLeverConsent" hidden><input type="checkbox" id="frontLeverSideView" /> הסרטון צולם מהצד במצלמה קבועה. ברור לי שזה ניתוח ניסיוני, ללא ציון וללא אימות הווריאציה.</label>
             <span class="eyebrow">עמידת ידיים · ניתוח במכשיר</span>
             <h2 id="upload-title">נתחיל מהתנועה שלך.</h2>
             <p class="upload-description">צלמו מהצד, כשכל הגוף בפריים.</p>
@@ -532,6 +536,7 @@
             ביטול הניתוח</button
           ><video id="v" muted="" playsinline="" preload="auto"></video>
         </section>
+        <section id="frontLeverReport" class="front-lever-report" hidden aria-live="polite"></section>
         <section id="out" aria-label="תוצאות הניתוח">
           <div id="replaySec">
             <header class="page-header player-heading">
@@ -790,6 +795,10 @@
         <div class="history-chart" id="historyChart"></div>
         <h2>הניתוחים האחרונים</h2>
         <div aria-live="polite" id="history-list"></div>
+        <h2>Front Lever · מדידות ניסיוניות לפי וריאציה</h2>
+        <label for="variationHistoryFilter">היסטוריית וריאציה</label>
+        <select id="variationHistoryFilter"></select>
+        <div id="variationHistory" aria-live="polite"></div>
         <a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a>
       </section>
     </main>
@@ -821,7 +830,7 @@
           הווידאו ונקודות הגוף נשארים במכשיר. ההיסטוריה כוללת מדידות בלבד, ללא
           הסרטונים.
         </p>
-        <p>כרגע נתמכת עמידת ידיים בלבד. משוב Gemini בענן נשאר חסום.</p>
+        <p>עמידת ידיים נתמכת. Front Lever בבדיקה ניסיונית ללא ציון. Planche ו־L-Sit בקרוב. משוב Gemini בענן נשאר חסום.</p>
         <p>
           הצילומים באפליקציה הם נכס AI מקורי. צילום הדגמה בלבד, ללא קשר לנתוני
           משתמש.
@@ -861,5 +870,6 @@
     <noscript><p>כדי לנתח סרטון יש להפעיל JavaScript בדפדפן.</p></noscript>
     <script type="module" src="./handstand-engine.js"></script>
     <script type="module" src="./home-ui.js"></script>
+    <script type="module" src="./variation-history-ui.js"></script>
   </body>
 </html>

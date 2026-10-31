@@ -5,10 +5,13 @@ export const ANALYSIS_ENGINES = Object.freeze({
     module: "./handstand-engine.js",
     metrics: HANDSTAND_METRICS,
   }),
+  'front-lever-observation-v1': Object.freeze({
+    familyId:'front-lever', module:'./front-lever-analysis.js', metrics:[], experimental:true,
+  }),
 });
-export function analysisFor(exerciseId) {
+export function analysisFor(exerciseId, {allowExperimental=false}={}) {
   const exercise = exerciseById(exerciseId);
-  return exercise?.status === "available"
+  return exercise && (exercise.status === "available" || (allowExperimental && exercise.experimental))
     ? ANALYSIS_ENGINES[exercise.engineId] || null
     : null;
 }
