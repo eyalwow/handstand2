@@ -1,80 +1,115 @@
-# iOS build and installation from Windows — evidence and limits
+# MOVALYT: Windows 11 → iPhone 17 (iOS 27.0.1)
 
-Research checked **2026-10-31** against the sources below, not third-party claims
-about an already working MOVALYT install. No Apple login, device pairing, signing
-or third-party sideloading executable was used. No external account was created.
+Checked 2026-10-31. This route uses Sideloadly and a free Apple Account.
+**A successful unsigned build is not proof of signing, installation, launch or native video analysis.**
+None of those device steps has been verified with MOVALYT.
 
-## What can be free
+## Cost and download boundary
 
-| Route | What it establishes | Limits / actual status |
-| --- | --- | --- |
-| GitHub Actions standard macOS runner in this PUBLIC repository | Xcode compiles a real arm64 device `.app`; wrap it as unsigned IPA without Apple account | Prepared and exercised through this PR's native CI; see validation report for actual result. Compute free for public standard runners; no larger runner/private fallback. Artifact storage is separately quota-limited, so uploads/caches are off. |
-| Sideloadly on Windows + free Apple Account | Vendor documents loading an IPA and signing/installing on a paired device, free7-day refresh | Plausible practical route, **MOVALYT installation unverified**. Requires local tool installation, Apple credentials/2FA and device trust; stop for owner action. No credentials in CI/chat. |
-| AltStore Classic + AltServer Windows | Official Windows guide documents Apple-account login, pairing/trust, install and Developer Mode; custom IPA sideloading is documented separately | Alternative, not AltStore PAL/store distribution. AltStore uses one of the limited app slots; MOVALYT resign/install is unverified. |
-| Apple Personal Team with Xcode on a borrowed Mac | Apple's directly documented free on-device path | Requires access to a Mac and account sign-in there; not available to this developer now. |
-| TestFlight / App Store / Xcode Cloud | Apple distribution/cloud services | Not this free-account route; Developer Program/App Store Connect membership required. Not enabled. |
-| Paid cloud builders, hosted Mac rental or unofficial macOS VM on Windows | No necessary advantage over existing public Actions for this task | Not activated or recommended as a free verified solution. |
+The owner reports that both Actions and Packages budgets are $0 with Usage blocked.
+Do not change those settings. Only standard public-repository runners are allowed.
+The PR #31 workflow attempts one IPA upload, limited to 100 MiB, retained for
+**one day**, only for this PR/head branch on its first run attempt. It refuses
+another upload while an unexpired artifact with the same name exists. No cache,
+APK, Release publication, Apple login or signing secret is uploaded. If quota
+blocks upload, stop; do not retry or enable billing.
 
-## Signing boundary
+The workflow's artifact is named `MOVALYT-ios-release-unsigned`. After a successful
+run, open the run linked from PR #31, find **Artifacts**, and download that item
+while signed into GitHub. Extract the outer ZIP in Windows: the file to select in
+Sideloadly is **MOVALYT-unsigned.ipa**, not the outer artifact ZIP. Keep the IPA
+locally for future refreshes after the one-day artifact expires. Compare its hash
+with the IPA SHA-256 in the job summary, optionally in PowerShell:
 
-**Unsigned IPA ≠ installable IPA.** A successful `xcodebuild` and ZIP structure
-prove compilation/packaging only. iOS needs a valid signing identity, device-bound
-provisioning and compatible entitlements. Do not try to install a simulator `.app`
-or rename an Android APK into an IPA. Do not use `-exportArchive` expecting free
-Apple development provisioning to appear in CI automatically.
+```powershell
+Get-FileHash .\MOVALYT-unsigned.ipa -Algorithm SHA256
+```
 
-Apple documents Personal Team limits: up to10 App IDs,3 registered devices,
-3 apps/device, and provisioning expiry7 days after issuance. App IDs/devices also
-expire after7 days. Exact sideloading success still depends on account eligibility,
-Apple's current provisioning behavior, device/iOS version and the sideload tool.
-Our bundle has no paid-only capabilities/app extensions to remove, but that alone
-is not proof that a specific account can sign it.
+## Packaging and evidence
 
-## Owner's next steps — do not automate account access
+The previous Debug output used an Xcode debug-launcher / App.debug.dylib layout.
+That is not evidence of an actual failure in Sideloadly, but it adds an unnecessary
+nested signing dependency. The workflow now builds **Release**, explicitly disables
+ENABLE_DEBUG_DYLIB, and targets the physical iPhoneOS arm64 platform.
 
-1. Review this Draft PR and CI's actual unsigned-device/Android results. Confirm
-   iPhone model/iOS version and Windows version. Do not send Apple credentials.
-2. Approve a way to retrieve the unsigned IPA: inspect the existing GitHub artifact
-   storage allowance and authorize a short-retention artifact for one build, or
-   arrange a borrowed Mac to execute the checked-in build recipe. Current CI
-   deletes the IPA with its ephemeral runner; logs alone cannot be installed.
-3. Choose whether to trust Sideloadly (simpler single-IPA route) or AltStore Classic.
-   On Windows the vendors require Apple-distributed iTunes/iCloud, not their
-   Microsoft Store variants. Their current installers/requirements must be checked
-   on the actual Windows machine; no installer was run here.
-4. Pair over USB, unlock iPhone, trust the Windows computer. Load the unsigned IPA
-   locally into the chosen tool and enter a free Apple Account/2FA only there.
-   This is the first account/credential boundary and needs the owner's action.
-   Tools process sensitive Apple login/provisioning data; review their trust model.
-5. If prompted, trust the development profile under Settings → General → VPN &
-   Device Management. Enable Developer Mode under Privacy & Security when the
-   current iOS requires it; expect a restart and device confirmation.
-6. Launch MOVALYT. First confirm page/Worker/model startup; then run the full
-   upload → inference → results → synchronized skeleton flow with a short clip.
-   Try camera cancellation/permission denial, playback speed/frame steps, portrait/
-   landscape/rotated input, safe areas, backgrounding and history after restart.
-   Keep camera permissions denied until deliberately testing capture.
-7. Refresh/re-sign before the7-day expiry. Preserve bundle ID/origin if expecting
-   summaries to survive updates. Reinstall/uninstall, origin or bundle-ID changes
-   can remove/strand local data. Export/migration is not implemented.
+Before upload it checks the compiled Info.plist, executable, minimum OS, local
+MediaPipe model/JS/WASM, all bundled Mach-O architectures and encryption flags,
+and resolves bundled non-system dynamic-library dependencies. It rejects debug
+dylibs, simulator platform binaries, provisioning profiles and app extensions,
+checks ZIP integrity and Payload/App.app structure, limits size and logs SHA-256.
+This establishes structural suitability as input to a re-signing tool; Sideloadly
+still has to create the account/device-specific certificate, profile and signatures.
+An App Store receipt, pre-existing Apple signature or CI provisioning profile is
+not needed for this source-built, unencrypted IPA. No paid capabilities are added.
 
-Until step6 succeeds, **there is no verified installable MOVALYT IPA and no
-verified native iPhone analysis**. A failed signing/device test must be diagnosed
-rather than described as a successful free path.
+The vendor currently advertises iOS 27+ support (site version 0.71.0 when checked).
+It does **not** establish a MOVALYT/iPhone 17/iOS 27.0.1 test. No special 27.0.1-only
+procedure was found in the vendor FAQ/changelog. Do not lower the minimum OS,
+inject tweaks, enable JIT, or jailbreak to make this app install.
 
-## Primary sources
+## Install locally — owner performs all Apple steps
 
-- [Capacitor8 environment](https://capacitorjs.com/docs/getting-started/environment-setup):
-  Node22+, macOS for iOS builds, Xcode26+, Android Studio2025.2.1+.
-- [Apple account overview / Personal Team](https://developer.apple.com/support/compare-memberships/):
-  “Provisioning profiles … will expire7 days from issuance” and Personal Team limits.
-  This official URL currently redirects to Account Help.
-- [GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions):
-  standard runners free in public repositories; artifact storage shares a limited pool.
-- [GitHub hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners):
-  standard macOS labels and public-repository free compute. Larger runners are distinct.
-- [Sideloadly official site / FAQ](https://sideloadly.io/): “works with free Apple IDs”,
-  “valid for7 days”; Windows iTunes/iCloud requirements. Vendor evidence, not Apple
-  endorsement or a MOVALYT installation test.
-- [AltStore Classic Windows guide](https://faq.altstore.io/altstore-classic/how-to-install-altstore-windows):
-  Apple-distributed iTunes/iCloud, USB trust, Apple Account and Developer Mode steps.
+1. Download the current Windows installer only from [sideloadly.io](https://sideloadly.io/).
+   Use the matching Windows architecture. Follow its Windows prerequisites:
+   Apple-distributed desktop iTunes and iCloud, using the vendor's official links;
+   Microsoft Store variants are not the documented standard setup. Restart if required.
+   No Mac or paid Apple Developer membership is needed for this proposed route.
+2. Connect the iPhone 17 with a USB data cable. Unlock it, choose **Trust This
+   Computer**, and enter the phone passcode on the phone. Confirm iTunes can see it.
+3. Open Sideloadly, choose the connected iPhone, and drag **MOVALYT-unsigned.ipa**
+   into the IPA area. Use **Apple ID sideload** (not normal install or ad-hoc sign).
+   Keep the default app settings; do not inject dylibs or add entitlements.
+   Use the free local/iTunes anisette path; do not subscribe to paid remote options.
+4. Enter your Apple Account and any password/2FA prompt **locally in Sideloadly**.
+   Press **Start** and wait for signing and installation to finish. Never put these
+   credentials in GitHub, CI, this document or chat. Do not send unredacted logs.
+5. If iOS reports an untrusted developer, open **Settings → General → VPN & Device
+   Management → Developer App → your Apple Account → Trust**, and confirm.
+6. Enable **Settings → Privacy & Security → Developer Mode**, restart when asked,
+   then confirm **Turn On** and the passcode on the phone. If the setting is absent,
+   complete the initial pairing/install attempt and recheck. Do not disable device
+   security or install unrelated configuration profiles.
+7. Launch MOVALYT. First check that the UI loads; then select a short local video,
+   run analysis and check results plus synchronized skeleton playback. Check
+   cancelled picker, denied camera permission, background/resume and history after
+   reopening. WKWebView model/Worker/WASM behavior remains a separate device test.
+
+## Refresh before seven days
+
+Free-account apps expire after seven days; the vendor documents a limit of three
+active sideloaded apps. Reconnect and sideload the same IPA with the **same Apple
+Account and same effective bundle ID**, preferably on day six. Do not uninstall
+first: uninstalling can remove MOVALYT's local summaries. No migration/export is
+implemented. Keep a note of any bundle ID Sideloadly assigns.
+
+Optional automatic refresh needs the Sideloadly daemon running and the phone
+reachable by USB, or Wi-Fi sync configured initially through iTunes. It is not
+an on-phone-only renewal service. Manual USB refresh is the baseline.
+
+## Troubleshooting
+
+| Symptom | Next action |
+| --- | --- |
+| No device | Unlock phone, verify Trust and iTunes detection, try another data cable/USB port; repair the vendor's documented Apple drivers and restart. |
+| Quota/storage upload failure | Stop. Keep $0 budgets and Usage blocked; no paid fallback. No downloadable IPA exists unless upload actually succeeded. |
+| IPA rejected immediately | Extract the outer artifact ZIP, select the inner .ipa and compare SHA-256. Keep the original package. |
+| Authentication/anisette failure | Update from the official vendor site, check local iTunes/iCloud setup and local anisette; follow the current FAQ. Do not purchase remote anisette or share credentials. |
+| Three-app/App-ID limit | Review existing free-account sideloaded apps/weekly App-ID limit; avoid repeatedly changing identifiers. |
+| Untrusted Developer / Developer Mode required | Follow steps 5–6 on the phone; reconnect and retry only the local install after resolving the prompt. |
+| Expired app | Re-sign locally using the same account/ID and saved IPA. Avoid uninstalling. |
+| Invalid signature, missing library, crash at launch | Record the exact error and redacted log. Report signing/install as failed; do not equate CI success with device success. |
+| UI opens but analysis fails | Report as native runtime failure and capture a redacted error. Do not alter scoring or weaken CSP as a workaround. |
+
+## Primary references
+
+- [Sideloadly site](https://sideloadly.io/): Windows download and free-account install route.
+- [Sideloadly FAQ](https://sideloadly.io/faq): iOS 27+, USB/Wi-Fi, Trust, Developer Mode,
+  seven-day refresh and three-app limit.
+- [Sideloadly changelog](https://sideloadly.io/changelog): current signing-engine fixes.
+- [Apple Developer Mode](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device).
+- [Apple membership comparison](https://developer.apple.com/support/compare-memberships/).
+- [GitHub billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions):
+  public standard compute and pooled artifact allowance.
+- [Artifact action](https://github.com/actions/upload-artifact): retention and download URL.
+- [AltStore Classic Windows alternative](https://faq.altstore.io/altstore-classic/how-to-install-altstore-windows):
+  requires AltServer and also uses an app slot; not AltStore PAL. Not tested with MOVALYT.
