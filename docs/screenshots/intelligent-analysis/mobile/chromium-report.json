@@ -1,0 +1,83 @@
+{
+  "browser": "chromium",
+  "viewport_widths": [
+    320,
+    375,
+    390,
+    430
+  ],
+  "viewport_heights": {
+    "320": 640,
+    "375": 812,
+    "390": 844,
+    "430": 932
+  },
+  "physical_device": false,
+  "passed": [
+    "Full first-run onboarding, goal/multiple interests, completion persistence, reload, settings replay and Welcome skip",
+    "320: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "375: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "390: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "430: six-state shell, 20-item catalog/one available engine, onboarding steps, no horizontal overflow",
+    "dialog close/focus return, reduced motion, simulated top/bottom safe areas",
+    "real MP4 upload and cancellation without history writes",
+    "320: real motion, progress, results, moving skeleton, replay, speed, angles, history/reload",
+    "375: real motion, progress, results, moving skeleton, replay, speed, angles, history/reload",
+    "390: real motion, progress, results, moving skeleton, replay, speed, angles, history/reload",
+    "430: real motion, progress, results, moving skeleton, replay, speed, angles, history/reload",
+    "No-pose retry clears previous measured cards/score and never adds fake history",
+    "Unavailable preference storage still permits entry with an explicit unsaved notice",
+    "1440: basic desktop usability/overflow smoke only"
+  ],
+  "failed": [],
+  "unrun": [],
+  "analyses": [
+    {
+      "width": 320,
+      "score": 71,
+      "execution": "worker",
+      "sample_count": 42
+    },
+    {
+      "width": 375,
+      "score": 71,
+      "execution": "worker",
+      "sample_count": 42
+    },
+    {
+      "width": 390,
+      "score": 71,
+      "execution": "worker",
+      "sample_count": 42
+    },
+    {
+      "width": 430,
+      "score": 71,
+      "execution": "worker",
+      "sample_count": 42
+    }
+  ],
+  "uncaught_js_errors": [],
+  "console_errors": [
+    "AbortError: הניתוח בוטל על ידי המשתמש."
+  ],
+  "last_timing": {
+    "kind": "video-analysis",
+    "outcome": "no-pose",
+    "capturePath": "fixed-sequential-seek",
+    "stage": "scoring",
+    "decodeMs": 13.4,
+    "modelMs": 202.9,
+    "poseDelegate": "CPU",
+    "execution": "worker",
+    "scanMs": 671.6,
+    "poseMs": 585.8,
+    "poseRoundTripMs": 592.2,
+    "workerOverheadMs": 6.4,
+    "frameExtractionMs": 0.8,
+    "samplingWaitMs": 78.6,
+    "poseFrames": 19,
+    "scoringMs": 0.9,
+    "totalMs": 898.1
+  }
+}

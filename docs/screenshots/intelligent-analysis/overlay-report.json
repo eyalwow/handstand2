@@ -1,0 +1,313 @@
+{
+  "physical_device": false,
+  "cases": [
+    {
+      "case": "before",
+      "fixture": "motion.mp4",
+      "score": 71,
+      "sample_count": 42,
+      "decoded_size": [
+        480,
+        360
+      ],
+      "timeline": null,
+      "visible_lines": 14
+    },
+    {
+      "case": "after",
+      "fixture": "motion.mp4",
+      "score": 71,
+      "sample_count": 42,
+      "decoded_size": [
+        480,
+        360
+      ],
+      "timeline": {
+        "version": "temporal-v1",
+        "quality": "measured",
+        "reach": {
+          "start": 0.05,
+          "end": 4.15
+        },
+        "ascent": null,
+        "hold": {
+          "start": 3.15,
+          "end": 4.15,
+          "seconds": 1.0000000000000004,
+          "samples": 11,
+          "startObserved": true,
+          "endObserved": false,
+          "censored": true
+        },
+        "control": {
+          "pelvisRangePercent": 17.401821386382824,
+          "pelvisMadPercent": 3.3835680356581173,
+          "tiltRangeDegrees": 6.268535896745991,
+          "status": "variable",
+          "start": 3.15,
+          "end": 4.15
+        },
+        "ending": {
+          "kind": "video-ended",
+          "at": 4.15,
+          "windowStart": 3.15,
+          "windowEnd": 4.15,
+          "evidence": [
+            {
+              "key": "pelvis",
+              "start": 3.15,
+              "end": 4.15,
+              "value": 0.2,
+              "unit": "% body length"
+            }
+          ],
+          "possibleExplanation": null,
+          "metrics": {
+            "pelvisDriftPercent": 0.2,
+            "pelvisSpeedPercentPerSecond": 0.3,
+            "direction": "small",
+            "tiltChangeDegrees": -5.1,
+            "shoulderChangeDegrees": 6.4,
+            "bodyLineChangePercent": 4.8,
+            "legSeparationChange": 0,
+            "growingOscillation": null,
+            "observedWindowSeconds": 1
+          },
+          "reason": "\u05d4\u05e1\u05e8\u05d8\u05d5\u05df \u05de\u05e1\u05ea\u05d9\u05d9\u05dd \u05dc\u05e4\u05e0\u05d9 \u05e9\u05e0\u05d9\u05ea\u05df \u05dc\u05e8\u05d0\u05d5\u05ea \u05d0\u05ea \u05d4\u05d9\u05e6\u05d9\u05d0\u05d4."
+        }
+      },
+      "max_endpoint_distance_from_measured_pixels": 0.0,
+      "source_line_width_pixels": 4.363636493682861,
+      "visible_lines": 14
+    },
+    {
+      "case": "portrait",
+      "fixture": "portrait.mp4",
+      "score": 71,
+      "sample_count": 42,
+      "decoded_size": [
+        400,
+        720
+      ],
+      "timeline": {
+        "version": "temporal-v1",
+        "quality": "measured",
+        "reach": {
+          "start": 0.05,
+          "end": 4.15
+        },
+        "ascent": null,
+        "hold": {
+          "start": 3.25,
+          "end": 4.15,
+          "seconds": 0.9000000000000004,
+          "samples": 10,
+          "startObserved": true,
+          "endObserved": false,
+          "censored": true
+        },
+        "control": {
+          "pelvisRangePercent": 8.672720272185275,
+          "pelvisMadPercent": 2.980706073479658,
+          "tiltRangeDegrees": 5.462223697118732,
+          "status": "variable",
+          "start": 3.25,
+          "end": 4.15
+        },
+        "ending": {
+          "kind": "video-ended",
+          "at": 4.15,
+          "windowStart": 3.25,
+          "windowEnd": 4.15,
+          "evidence": [
+            {
+              "key": "pelvis",
+              "start": 3.25,
+              "end": 4.15,
+              "value": 3.3,
+              "unit": "% body length"
+            }
+          ],
+          "possibleExplanation": null,
+          "metrics": {
+            "pelvisDriftPercent": 3.3,
+            "pelvisSpeedPercentPerSecond": 4.8,
+            "direction": "screen-right",
+            "tiltChangeDegrees": -2.6,
+            "shoulderChangeDegrees": 1.2,
+            "bodyLineChangePercent": 3.6,
+            "legSeparationChange": 0,
+            "growingOscillation": null,
+            "observedWindowSeconds": 0.9
+          },
+          "reason": "\u05d4\u05e1\u05e8\u05d8\u05d5\u05df \u05de\u05e1\u05ea\u05d9\u05d9\u05dd \u05dc\u05e4\u05e0\u05d9 \u05e9\u05e0\u05d9\u05ea\u05df \u05dc\u05e8\u05d0\u05d5\u05ea \u05d0\u05ea \u05d4\u05d9\u05e6\u05d9\u05d0\u05d4."
+        }
+      },
+      "max_endpoint_distance_from_measured_pixels": 0.0,
+      "source_line_width_pixels": 4.688644886016846,
+      "visible_lines": 14
+    },
+    {
+      "case": "rotation",
+      "fixture": "rotation-metadata.mp4",
+      "score": 73,
+      "sample_count": 42,
+      "decoded_size": [
+        400,
+        720
+      ],
+      "timeline": {
+        "version": "temporal-v1",
+        "quality": "measured",
+        "reach": {
+          "start": 0.05,
+          "end": 4.15
+        },
+        "ascent": null,
+        "hold": {
+          "start": 0.05,
+          "end": 0.75,
+          "seconds": 0.7,
+          "samples": 8,
+          "startObserved": false,
+          "endObserved": true,
+          "censored": true
+        },
+        "control": {
+          "pelvisRangePercent": 7.485550070981595,
+          "pelvisMadPercent": 2.5823418855504263,
+          "tiltRangeDegrees": 3.0920817905952784,
+          "status": "limited-motion",
+          "start": 0.05,
+          "end": 0.75
+        },
+        "ending": {
+          "kind": "unclear",
+          "at": 0.75,
+          "windowStart": 0.05,
+          "windowEnd": 2.75,
+          "evidence": [
+            {
+              "key": "pelvis",
+              "start": 0.05,
+              "end": 0.75,
+              "value": -8.6,
+              "unit": "% body length"
+            }
+          ],
+          "possibleExplanation": null,
+          "metrics": {
+            "pelvisDriftPercent": -8.6,
+            "pelvisSpeedPercentPerSecond": -14.4,
+            "direction": "screen-left",
+            "tiltChangeDegrees": -4.4,
+            "shoulderChangeDegrees": 2.4,
+            "bodyLineChangePercent": -2.4,
+            "legSeparationChange": 0,
+            "growingOscillation": null,
+            "observedWindowSeconds": 0.7
+          },
+          "reason": "\u05dc\u05d0 \u05e0\u05e6\u05e4\u05ea\u05d4 \u05d9\u05e6\u05d9\u05d0\u05d4 \u05d1\u05e8\u05d5\u05e8\u05d4 \u05d5\u05e8\u05e6\u05d9\u05e4\u05d4 \u05de\u05de\u05e0\u05d7 \u05d4\u05e2\u05de\u05d9\u05d3\u05d4. \u05ea\u05e0\u05d5\u05e2\u05d4 \u05d1\u05ea\u05d5\u05da \u05d4\u05e2\u05de\u05d9\u05d3\u05d4 \u05d0\u05d9\u05e0\u05d4 \u05d4\u05d5\u05db\u05d7\u05d4 \u05dc\u05d0\u05d9\u05d1\u05d5\u05d3 \u05d0\u05d9\u05d6\u05d5\u05df."
+        }
+      },
+      "max_endpoint_distance_from_measured_pixels": 0.0,
+      "source_line_width_pixels": 4.688644886016846,
+      "visible_lines": 14
+    },
+    {
+      "case": "sideways",
+      "fixture": "sideways.mp4",
+      "score": null,
+      "sample_count": 42,
+      "decoded_size": [
+        720,
+        400
+      ],
+      "timeline": {
+        "version": "temporal-v1",
+        "quality": "partial",
+        "hold": null,
+        "reach": null,
+        "ascent": null,
+        "control": null,
+        "ending": {
+          "kind": "not-observed",
+          "evidence": [],
+          "reason": "\u05d0\u05d9\u05df \u05e8\u05e6\u05e3 \u05d6\u05d9\u05d4\u05d5\u05d9 \u05d0\u05de\u05d9\u05df \u05de\u05e1\u05e4\u05d9\u05e7."
+        }
+      },
+      "max_endpoint_distance_from_measured_pixels": 0.0,
+      "source_line_width_pixels": 6.545454502105713,
+      "visible_lines": 14
+    },
+    {
+      "case": "cropped",
+      "fixture": "cropped.mp4",
+      "score": 71,
+      "sample_count": 42,
+      "decoded_size": [
+        360,
+        260
+      ],
+      "timeline": {
+        "version": "temporal-v1",
+        "quality": "measured",
+        "reach": {
+          "start": 0.05,
+          "end": 3.15
+        },
+        "ascent": null,
+        "hold": {
+          "start": 0.15,
+          "end": 1.45,
+          "seconds": 1.3,
+          "samples": 14,
+          "startObserved": true,
+          "endObserved": true,
+          "censored": false
+        },
+        "control": {
+          "pelvisRangePercent": 13.980422578615082,
+          "pelvisMadPercent": 4.3892941494231135,
+          "tiltRangeDegrees": 5.099544919415581,
+          "status": "variable",
+          "start": 0.15,
+          "end": 1.45
+        },
+        "ending": {
+          "kind": "unclear",
+          "at": 1.45,
+          "windowStart": 0.15,
+          "windowEnd": 3.15,
+          "evidence": [
+            {
+              "key": "pelvis",
+              "start": 0.15,
+              "end": 1.45,
+              "value": 2.2,
+              "unit": "% body length"
+            }
+          ],
+          "possibleExplanation": null,
+          "metrics": {
+            "pelvisDriftPercent": 2.2,
+            "pelvisSpeedPercentPerSecond": 2.2,
+            "direction": "screen-right",
+            "tiltChangeDegrees": -1.7,
+            "shoulderChangeDegrees": -12.7,
+            "bodyLineChangePercent": 1.4,
+            "legSeparationChange": 0,
+            "growingOscillation": null,
+            "observedWindowSeconds": 1.3
+          },
+          "reason": "\u05dc\u05d0 \u05e0\u05e6\u05e4\u05ea\u05d4 \u05d9\u05e6\u05d9\u05d0\u05d4 \u05d1\u05e8\u05d5\u05e8\u05d4 \u05d5\u05e8\u05e6\u05d9\u05e4\u05d4 \u05de\u05de\u05e0\u05d7 \u05d4\u05e2\u05de\u05d9\u05d3\u05d4. \u05ea\u05e0\u05d5\u05e2\u05d4 \u05d1\u05ea\u05d5\u05da \u05d4\u05e2\u05de\u05d9\u05d3\u05d4 \u05d0\u05d9\u05e0\u05d4 \u05d4\u05d5\u05db\u05d7\u05d4 \u05dc\u05d0\u05d9\u05d1\u05d5\u05d3 \u05d0\u05d9\u05d6\u05d5\u05df."
+        }
+      },
+      "max_endpoint_distance_from_measured_pixels": 0.6074017780041887,
+      "source_line_width_pixels": 3.2727272510528564,
+      "visible_lines": 13
+    }
+  ],
+  "failed": [],
+  "uncaught_errors": []
+}

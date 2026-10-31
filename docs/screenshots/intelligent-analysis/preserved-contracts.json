@@ -1,0 +1,19 @@
+{
+  "baseline": "d39701c",
+  "scoring_constants_and_reliability_block_byte_identical": true,
+  "byte_identical_files": [
+    "pose-worker.js",
+    "pose-runtime.js",
+    "pose-main.js",
+    "video-sampling.js",
+    "handstand-summary.js",
+    "ai-feedback.js",
+    "server-gemini.js",
+    "api/coach.js",
+    "onboarding-data.js",
+    "onboarding-ui.js",
+    "analysis-history.js"
+  ],
+  "node_tests": 83,
+  "physical_device": false
+}

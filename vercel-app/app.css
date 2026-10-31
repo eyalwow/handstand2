@@ -2524,3 +2524,46 @@ body[data-screen="results"] #scoreArc {
     animation: none;
   }
 }
+/* Evidence-based handstand insights; independent of the legacy score ring. */
+.handstand-insights {
+  margin: 20px 0;
+  text-align: start;
+}
+.handstand-insights > h3 {
+  font-size: 16px;
+  margin: 0 0 12px;
+}
+.temporal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.temporal-grid article {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  min-width: 0;
+}
+.temporal-grid small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+.temporal-grid strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--lime);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.ending-evidence {
+  margin: 12px 0 8px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+body[data-expanded="true"] #playerInsights {
+  display: none;
+}
