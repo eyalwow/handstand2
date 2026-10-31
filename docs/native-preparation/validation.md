@@ -31,6 +31,18 @@ requirement even though compilation succeeded. The final workflow therefore uses
 **macos26 and explicitly requires Xcode26+**; see the PR checks for the final run.
 Do not treat the initial run alone as supported-toolchain validation.
 
+**Final source run at780c922: all3 jobs passed**
+([run41223418905](https://github.com/eyalwow/handstand2/actions/runs/41223418905)).
+macOS26 selected **Xcode26.6** and produced a device Mach-O arm64 app/unsigned IPA.
+The Android Debug APK also compiled successfully. Package/repository tests passed.
+Ephemeral output SHA256 values from the actual logs:
+
+- IPA: `e061b0997313a7ae57f1f4ee4c01d2fd0cc48ed74155b6d7c9a85bdfbc6efd3a`
+- APK: `527c4f09e7015f5bf0f658b821dcecc0fc4e6f7ef54d147ead5784ced6cd571e`
+
+The existing unrelated `handstand-coach-demo` Vercel deployment check remains
+failed; `handstand-lab-coach` Preview passed. Neither project/settings was changed.
+
 The workflow logs SHA256/architecture but uploads **no artifact or cache**.
 The generated IPA/APK disappears with the runner. No billing/storage allowance or
 Apple account provisioning is assumed. See [Windows signing path and next owner
