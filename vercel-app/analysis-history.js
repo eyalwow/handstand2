@@ -8,7 +8,7 @@ export function readAnalysisHistory(storage) {
       (entry) =>
         entry &&
         typeof entry.model === "string" &&
-        /^(v2-|v3-fixed-)/.test(entry.model) &&
+        /^(v2-|v3-fixed-|v4-observed-)/.test(entry.model) &&
         Number.isFinite(entry.score) &&
         entry.score >= 0 &&
         entry.score <= 100 &&

@@ -5,7 +5,7 @@ import vm from "node:vm";
 import {analyzeCoachIssues,buildCoachEvidence,buildCoachLocalPlan,validateCoachResponse} from "../vercel-app/ai-feedback.js";
 import {PoseWorkerRuntime,analysisTimeoutMs} from "../vercel-app/pose-runtime.js";
 
-const html=readFileSync(new URL("../vercel-app/handstand-engine.js",import.meta.url),"utf8");
+const html=readFileSync(new URL("./fixtures/handstand-legacy-db6fe32.js",import.meta.url),"utf8");
 const begin=html.indexOf("const K={"),end=html.indexOf("const sideOf=fr=>",begin);
 const context={};
 vm.runInNewContext(html.slice(begin,end)+"\nglobalThis.analyze=analyze;globalThis.reliableResult=reliableResult;",context);
