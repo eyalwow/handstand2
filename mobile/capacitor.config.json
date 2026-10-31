@@ -1,0 +1,21 @@
+{
+  "appId": "app.movalyt.athlete.dev",
+  "appName": "MOVALYT",
+  "webDir": "www",
+  "backgroundColor": "#050908",
+  "server": {
+    "hostname": "localhost",
+    "iosScheme": "capacitor",
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "ios": {
+    "contentInset": "never",
+    "allowsLinkPreview": false,
+    "preferredContentMode": "mobile",
+    "scrollEnabled": true
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}

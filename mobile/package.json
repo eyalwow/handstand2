@@ -1,0 +1,28 @@
+{
+  "name": "movalyt-athlete-native",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build-web.mjs",
+    "sync": "npm run build && cap sync",
+    "sync:android": "npm run build && cap sync android",
+    "sync:ios": "npm run build && cap sync ios",
+    "open:android": "cap open android",
+    "open:ios": "cap open ios",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.6.0",
+    "@capacitor/core": "8.6.0",
+    "@capacitor/ios": "8.6.0",
+    "@mediapipe/tasks-vision": "0.10.14"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.0",
+    "https-proxy-agent": "7.0.6"
+  }
+}

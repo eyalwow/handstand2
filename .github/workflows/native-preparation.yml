@@ -1,0 +1,75 @@
+name: MOVALYT native preparation
+on:
+  pull_request:
+    paths: ['mobile/**', '.github/workflows/native-preparation.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-preparation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  package-check:
+    # Standard public-repository runners only; never run paid/private builds.
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm ci --ignore-scripts --no-fund --no-audit
+        working-directory: mobile
+      - run: npm run build && npm test
+        working-directory: mobile
+      - run: node --test tests/*.test.*
+  android-build:
+    needs: package-check
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '21'}
+      - run: npm ci --ignore-scripts --no-fund --no-audit && npm run sync:android
+        working-directory: mobile
+      - run: bash gradlew assembleDebug --no-daemon
+        working-directory: mobile/android
+      - name: Confirm debug APK build (not a device test)
+        run: sha256sum mobile/android/app/build/outputs/apk/debug/app-debug.apk
+  ios-unsigned-build:
+    needs: package-check
+    if: github.event.repository.private == false
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: xcodebuild -version
+      - run: npm ci --ignore-scripts --no-fund --no-audit && npm run sync:ios
+        working-directory: mobile
+      - name: Build arm64 device app without signing, account or provisioning
+        run: >-
+          xcodebuild -project mobile/ios/App/App.xcodeproj -scheme App
+          -configuration Debug -sdk iphoneos -destination 'generic/platform=iOS'
+          -derivedDataPath /tmp/movalyt-derived
+          CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=
+          build
+      - name: Package and inspect unsigned IPA (not directly installable)
+        run: |
+          mkdir -p /tmp/movalyt-ipa/Payload
+          ditto /tmp/movalyt-derived/Build/Products/Debug-iphoneos/App.app /tmp/movalyt-ipa/Payload/App.app
+          cd /tmp/movalyt-ipa
+          ditto -c -k --sequesterRsrc --keepParent Payload MOVALYT-unsigned.ipa
+          file Payload/App.app/App
+          /usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' Payload/App.app/Info.plist
+          test -f Payload/App.app/public/vendor/model/pose_landmarker_lite.task
+          shasum -a 256 MOVALYT-unsigned.ipa
+          if codesign --verify Payload/App.app 2>/dev/null; then echo 'Unexpected signed app'; exit 1; fi
+    # Intentionally no artifact upload/cache: pooled storage can be billable even
+    # in a public repo. Logs prove compilation only. Retention/export needs the
+    # owner's storage/quota approval first; never place Apple credentials in CI.
