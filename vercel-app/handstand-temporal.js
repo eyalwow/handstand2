@@ -224,9 +224,23 @@ export function analyzeHandstandTimeline({
     last = run.at(-1),
     before = samples[first.i - 1],
     after = samples[last.i + 1];
-  const startObserved = !!(before && !before.hold && first.t - before.t <= 0.2),
-    endObserved = !!(after && !after.hold && after.t - last.t <= 0.2);
   const scale = median(run.map((s) => s.scale));
+  const ending = analyzeHandstandEnding({
+    samples,
+    run,
+    scale,
+    videoEnd: timestamps.at(-1),
+  });
+  const startObserved = !!(before && !before.hold && first.t - before.t <= 0.2),
+    // A failed motion/tilt gate can split a still-inverted hold. Reuse the
+    // ending observer's sustained-departure evidence before claiming its end.
+    // This flag never extends a run or changes eligibility, duration or scores.
+    endObserved = !!(
+      after &&
+      !after.hold &&
+      after.t - last.t <= 0.2 &&
+      Number.isFinite(ending.timeToDepartureSeconds)
+    );
   const offsets = run.map((s) => s.hipOffset / scale),
     center = median(offsets),
     spread = quantile(offsets, 0.9) - quantile(offsets, 0.1);
@@ -268,11 +282,6 @@ export function analyzeHandstandTimeline({
     entryDiagnostics,
     hold: interval,
     control,
-    ending: analyzeHandstandEnding({
-      samples,
-      run,
-      scale,
-      videoEnd: timestamps.at(-1),
-    }),
+    ending,
   };
 }

@@ -1,5 +1,12 @@
 # Handstand Lab — project status
 
+## Handstand calibration audit — 2026-10-31 (Draft only)
+
+- Separate branch `fix/handstand-calibration-audit`, stacked exactly on PR #32 HEAD `fceaedef`; #29–#32 remain open Drafts, no merge.
+- Fixed a reproduced temporal boundary-certainty bug: a motion-gate failure while still inverted no longer certifies an observed end without the existing sustained-departure evidence. No run extension, numeric score/duration formula, sampling or threshold change.
+- 101/101 Node tests pass, including a regression that failed before the fix and visible/brief/missing/weak departure cases. Actual private-video MediaPipe CPU Worker and repeated full local application uploads verified; private numerical evidence and contact sheets stay outside the repository. Varying nearby short intervals split at the ankle-velocity gate without an observed departure. Identical-pose replay confirms unchanged numeric duration; inference/input variation and the exact original duration remain unresolved, not claimed fixed.
+- Distinct legacy scoring and displayed temporal windows, 2D camera limitations and unresolved physical/native validation are documented in [the audit](docs/handstand-calibration.md). No private media/poses/dumps, Front Lever, Coach, SSO, Capacitor, Production, paid service or native CI changes.
+
 ## MOVALYT exercise expansion — 2026-10-31 (Draft review only)
 
 - Stacked on PR #31 HEAD `9f92cef9767f92d392312bfa2c0bc2730ffe7aa6`; #29/#30/#31 were open Draft, not merged when checked. New branch `feat/movalyt-exercise-expansion`.
