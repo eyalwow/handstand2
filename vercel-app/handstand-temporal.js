@@ -1,7 +1,7 @@
 import { observeHandstandEntry } from "./handstand-entry.js";
 import { analyzeHandstandEnding } from "./handstand-fall.js";
 export const TEMPORAL_POLICY = Object.freeze({
-  version: "temporal-v1",
+  version: "temporal-v2",
   confidence: 0.65,
   maxGapSeconds: 0.2,
   minHoldSeconds: 0.5,
@@ -10,6 +10,7 @@ export const TEMPORAL_POLICY = Object.freeze({
   holdDegrees: 25,
   shortHoldSeconds: 5,
   maxVerticalTransitionBodyLengthsPerSecond: 0.45,
+  minRetainedVerticalExtension: 0.85,
   variablePelvisRangeBodyLengths: 0.08,
   variableTiltRangeDegrees: 12,
 });
@@ -134,6 +135,7 @@ export function extractTemporalSamples(
       reach: inverted && Math.abs(tilted) <= TEMPORAL_POLICY.reachDegrees,
     };
   });
+  for (const s of samples) if (s) s.postureHold = s.hold;
   // A vertically moving kick/descent can be inverted without being a hold.
   for (let i = 0; i < samples.length; i++) {
     const s = samples[i];
@@ -167,6 +169,35 @@ export function extractTemporalSamples(
       : s;
   });
 }
+// Motion establishes a hold; it does not veto each later balance correction.
+// Unknown frames and visible departures still break the interval. A substantial
+// loss of vertical extension also ends it, even before the ankles pass the hips.
+export function establishedHoldRuns(samples) {
+  const runs = [];
+  let seed = [], run = null, extension = null;
+  for (const s of samples) {
+    if (run) {
+      if (s?.postureHold && s.t - run.at(-1).t <= TEMPORAL_POLICY.maxGapSeconds + 1e-9 &&
+          s.p.wrist.y - s.p.ankle.y >= extension * TEMPORAL_POLICY.minRetainedVerticalExtension) {
+        run.push(s);
+        continue;
+      }
+      runs.push(run);
+      run = null;
+    }
+    if (!s?.hold || (seed.length && s.t - seed.at(-1).t > TEMPORAL_POLICY.maxGapSeconds + 1e-9)) seed = [];
+    if (!s?.hold) continue;
+    seed.push(s);
+    if (seed.length >= TEMPORAL_POLICY.minHoldSamples &&
+        seed.at(-1).t - seed[0].t >= TEMPORAL_POLICY.minHoldSeconds - 1e-9) {
+      run = seed;
+      extension = median(seed.map(s => s.p.wrist.y - s.p.ankle.y));
+      seed = [];
+    }
+  }
+  if (run) runs.push(run);
+  return runs;
+}
 export function analyzeHandstandTimeline({
   frames,
   timestamps,
@@ -196,10 +227,10 @@ export function analyzeHandstandTimeline({
   if (!samples.length) return unknown;
   const good = samples.filter(Boolean);
   if (good.length < 6) return unknown;
-  const candidates = continuousRuns(samples, (s) => s.hold).filter(
+  const candidates = establishedHoldRuns(samples).filter(
     (run) =>
       run.length >= TEMPORAL_POLICY.minHoldSamples &&
-      run.at(-1).t - run[0].t >= TEMPORAL_POLICY.minHoldSeconds,
+      run.at(-1).t - run[0].t >= TEMPORAL_POLICY.minHoldSeconds - 1e-9,
   );
   const run = candidates.sort(
     (a, b) => b.at(-1).t - b[0].t - (a.at(-1).t - a[0].t),
@@ -270,6 +301,8 @@ export function analyzeHandstandTimeline({
     end: last.t,
     seconds: last.t - first.t,
     samples: run.length,
+    startFrame: first.i,
+    endFrame: last.i,
     startObserved,
     endObserved,
     censored: !startObserved || !endObserved,

@@ -198,7 +198,7 @@ test("clipped start is not re-labeled an ascent; isolated tracking spike is not 
 });
 test("score parity with legacy engine: 3s/20s, sway and arch keep the same existing formula", () => {
   const source = readFileSync(
-      new URL("../vercel-app/handstand-engine.js", import.meta.url),
+      new URL("./fixtures/handstand-legacy-db6fe32.js", import.meta.url),
       "utf8",
     ),
     ctx = {};
@@ -296,7 +296,7 @@ test("only sustained visible departure certifies the end; a brief or occluded ex
 
 test("frozen d39701c legacy baseline values remain 100/100/90/85 for short/long/sway/arch", () => {
   const source = readFileSync(
-      new URL("../vercel-app/handstand-engine.js", import.meta.url),
+      new URL("./fixtures/handstand-legacy-db6fe32.js", import.meta.url),
       "utf8",
     ),
     context = {};
