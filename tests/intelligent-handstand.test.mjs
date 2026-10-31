@@ -271,6 +271,27 @@ test("a motion gate ending during inverted leg/hand adjustments is not by itself
   const t = timeline(data);
   assert.notEqual(t.ending.kind, "possible-balance-loss");
   assert.equal(t.ending.possibleExplanation, null);
+  // A motion-gate failure is an end of measured evidence, not an observed exit.
+  assert.equal(t.hold.endObserved, false);
+  assert.equal(t.hold.censored, true);
+  assert.equal(buildIntelligentCoaching(t, hold, entry).target, null);
+});
+
+test("only sustained visible departure certifies the end; a brief or occluded exit stays censored", () => {
+  for (const [tail, expected] of [
+    [Array.from({length: 8}, standing), true],
+    [Array.from({length: 3}, standing), false],
+    [[null, ...Array.from({length: 8}, standing)], false],
+    [Array.from({length: 8}, () => standing().map(p => ({...p, v: .2}))), false],
+  ]) {
+    const data = attempt(3, {ending: "cut"});
+    data.frames.push(...tail);
+    data.timestamps = data.frames.map((_, i) => i / 10);
+    const result = timeline(data);
+    assert.equal(result.hold.endObserved, expected);
+    assert.equal(result.hold.censored, !expected);
+    if (!expected) assert.equal(buildIntelligentCoaching(result, hold, entry).target, null);
+  }
 });
 
 test("frozen d39701c legacy baseline values remain 100/100/90/85 for short/long/sway/arch", () => {
