@@ -4,6 +4,11 @@ Based exactly on Draft #33, `db6fe32a82e8e1388140f924c718d817ae5c62cd`.
 This supersedes the numerical-policy freeze in the historical v1 audit for this
 new draft only. It does not claim a validated calibration or release readiness.
 
+Follow-up: [compressed-source validation](handstand-compressed-validation.md)
+records the repeated authorized compressed-video runs, the observed support
+lowering fix, and why the measured body-line zero is retained. The initial
+114-test/public-fixture results below describe the first checkpoint of this draft.
+
 ## Changes and criteria
 
 - Handstand acquisition waits for `requestVideoFrameCallback` after each seek,
@@ -122,9 +127,9 @@ Public moving source: `sumith2425/UCF101`,
 `7862ce384b0b15cbcda5d6741b5294933deec9635f54b0339793f19049458539`.
 Derived test clips and full numerical reports stay outside Git.
 
-The original `IMG_3410.mp4` is **not available in this environment**. It has been
-requested again. Its required three MediaPipe runs and the explanation of its
-specific zero remain blocked on that file. No 18s/85 target was encoded.
+The original uncompressed `IMG_3410.mp4` exceeds the file-transfer limit. A
+subsequently supplied compressed copy is now validated in the linked follow-up;
+it is not byte-identical validation of the original. No 18s/85 target is encoded.
 
 Reproduce locally, after extracting the two npm packages described in the runner:
 

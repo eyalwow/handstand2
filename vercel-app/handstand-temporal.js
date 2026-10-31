@@ -1,7 +1,7 @@
 import { observeHandstandEntry } from "./handstand-entry.js";
 import { analyzeHandstandEnding } from "./handstand-fall.js";
 export const TEMPORAL_POLICY = Object.freeze({
-  version: "temporal-v2",
+  version: "temporal-v3",
   confidence: 0.65,
   maxGapSeconds: 0.2,
   minHoldSeconds: 0.5,
@@ -11,6 +11,12 @@ export const TEMPORAL_POLICY = Object.freeze({
   shortHoldSeconds: 5,
   maxVerticalTransitionBodyLengthsPerSecond: 0.45,
   minRetainedVerticalExtension: 0.85,
+  supportLoweringWindowSeconds: 0.6,
+  supportLoweringShoulderDrop: 0.025,
+  supportLoweringElbowClosureDegrees: 10,
+  supportLoweringMaxWristDrift: 0.03,
+  supportRecoveryHeightSlack: 0.01,
+  supportRecoveryElbowSlackDegrees: 5,
   variablePelvisRangeBodyLengths: 0.08,
   variableTiltRangeDegrees: 12,
 });
@@ -156,7 +162,7 @@ export function extractTemporalSamples(
       s.hold = false;
   }
   // Reject isolated tracking teleports; do not fill the resulting gap.
-  return samples.map((s, i) => {
+  const observed = samples.map((s, i) => {
     const a = samples[i - 1],
       b = samples[i + 1];
     if (!s || !a || !b || b.t - a.t > 0.4) return s;
@@ -168,25 +174,72 @@ export function extractTemporalSamples(
       ? null
       : s;
   });
+  for (let i = 0; i < observed.length; i++)
+    if (observed[i]) observed[i].supportLowering = supportLoweringEvidence(observed, i);
+  return observed;
+}
+// A progressively lowering support is a dynamic exit phase, even while the
+// ankles remain above the hips. Constant bent arms remain a technique issue.
+// Require coordinated, sustained changes relative to nearly anchored wrists;
+// one joint jump, camera translation or a quick correction is not enough.
+export function supportLoweringEvidence(samples, index) {
+  const first = samples[index];
+  if (!first?.inverted) return null;
+  const window = [];
+  for (let i = index; i < samples.length; i++) {
+    const s = samples[i];
+    if (!s?.inverted || !Number.isFinite(s.elbow) ||
+        [s.p.shoulder,s.p.wrist].some(p=>Math.hypot(p.x-s.p.elbow.x,p.y-s.p.elbow.y)<s.scale*.025) ||
+        (window.length && s.t-window.at(-1).t > TEMPORAL_POLICY.maxGapSeconds+1e-9)) return null;
+    window.push(s);
+    if (s.t-first.t >= TEMPORAL_POLICY.supportLoweringWindowSeconds-1e-9) break;
+  }
+  if (window.length<6 || window.at(-1).t-first.t<TEMPORAL_POLICY.supportLoweringWindowSeconds-1e-9) return null;
+  const scale=median(window.map(s=>s.scale));
+  const height=s=>s.p.shoulder.y-s.p.wrist.y;
+  if (height(window[1])-height(first)<=scale*.001 || first.elbow-window[1].elbow<=.5) return null;
+  const start=window.slice(0,2),end=window.slice(-2);
+  const drop=(median(end.map(height))-median(start.map(height)))/scale;
+  const closure=median(start.map(s=>s.elbow))-median(end.map(s=>s.elbow));
+  const wristDrift=Math.max(...window.map(s=>Math.hypot(s.p.wrist.x-first.p.wrist.x,s.p.wrist.y-first.p.wrist.y)))/scale;
+  const trend=window.slice(1).filter((s,i)=>height(s)>=height(window[i])-scale*.003 && s.elbow<=window[i].elbow+1).length/(window.length-1);
+  if (drop<TEMPORAL_POLICY.supportLoweringShoulderDrop || closure<TEMPORAL_POLICY.supportLoweringElbowClosureDegrees ||
+      wristDrift>TEMPORAL_POLICY.supportLoweringMaxWristDrift || trend<.8) return null;
+  return {start:first.t,end:window.at(-1).t,samples:window.length,
+    shoulderDropBodyLengths:drop,elbowClosureDegrees:closure,wristDriftBodyLengths:wristDrift};
 }
 // Motion establishes a hold; it does not veto each later balance correction.
 // Unknown frames and visible departures still break the interval. A substantial
 // loss of vertical extension also ends it, even before the ankles pass the hips.
 export function establishedHoldRuns(samples) {
   const runs = [];
-  let seed = [], run = null, extension = null;
+  let seed = [], run = null, extension = null, supportReset = null;
   for (const s of samples) {
+    if (supportReset) {
+      if (s && !s.inverted) supportReset=null;
+      else if (!s || s.t<supportReset.notBefore ||
+          s.p.wrist.y-s.p.shoulder.y<supportReset.height-s.scale*TEMPORAL_POLICY.supportRecoveryHeightSlack ||
+          s.elbow<supportReset.elbow-TEMPORAL_POLICY.supportRecoveryElbowSlackDegrees) {
+        seed=[];
+        continue;
+      } else supportReset=null;
+    }
     if (run) {
-      if (s?.postureHold && s.t - run.at(-1).t <= TEMPORAL_POLICY.maxGapSeconds + 1e-9 &&
+      if (s?.postureHold && !s.supportLowering && s.t - run.at(-1).t <= TEMPORAL_POLICY.maxGapSeconds + 1e-9 &&
           s.p.wrist.y - s.p.ankle.y >= extension * TEMPORAL_POLICY.minRetainedVerticalExtension) {
         run.push(s);
         continue;
       }
+      if (s?.supportLowering) {
+        const tail=run.slice(-6);
+        supportReset={notBefore:s.supportLowering.end,
+          height:median(tail.map(x=>x.p.wrist.y-x.p.shoulder.y)),elbow:median(tail.map(x=>x.elbow))};
+      }
       runs.push(run);
       run = null;
     }
-    if (!s?.hold || (seed.length && s.t - seed.at(-1).t > TEMPORAL_POLICY.maxGapSeconds + 1e-9)) seed = [];
-    if (!s?.hold) continue;
+    if (!s?.hold || s.supportLowering || (seed.length && s.t - seed.at(-1).t > TEMPORAL_POLICY.maxGapSeconds + 1e-9)) seed = [];
+    if (!s?.hold || s.supportLowering) continue;
     seed.push(s);
     if (seed.length >= TEMPORAL_POLICY.minHoldSamples &&
         seed.at(-1).t - seed[0].t >= TEMPORAL_POLICY.minHoldSeconds - 1e-9) {
@@ -256,21 +309,22 @@ export function analyzeHandstandTimeline({
     before = samples[first.i - 1],
     after = samples[last.i + 1];
   const scale = median(run.map((s) => s.scale));
-  const ending = analyzeHandstandEnding({
+  const supportLowering = after?.supportLowering || null;
+  let ending = analyzeHandstandEnding({
     samples,
     run,
     scale,
     videoEnd: timestamps.at(-1),
   });
+  if (supportLowering) ending={...ending,kind:"unclear",possibleExplanation:null,supportLowering,
+    reason:"נצפתה הנמכה רציפה של הכתפיים ביחס לכפות הידיים יחד עם כיפוף מתמשך במרפקים. שלב ההנמכה אינו נכלל בזמן ההחזקה; אי אפשר לקבוע את כוונת היציאה."};
   const startObserved = !!(before && !before.hold && first.t - before.t <= 0.2),
-    // A failed motion/tilt gate can split a still-inverted hold. Reuse the
-    // ending observer's sustained-departure evidence before claiming its end.
-    // This flag never extends a run or changes eligibility, duration or scores.
+    // A failed motion/tilt gate alone cannot certify an end. Require a sustained
+    // departure or the separate coordinated support-lowering observation.
     endObserved = !!(
       after &&
-      !after.hold &&
       after.t - last.t <= 0.2 &&
-      Number.isFinite(ending.timeToDepartureSeconds)
+      (supportLowering || (!after.hold && Number.isFinite(ending.timeToDepartureSeconds)))
     );
   const offsets = run.map((s) => s.hipOffset / scale),
     center = median(offsets),
@@ -303,6 +357,7 @@ export function analyzeHandstandTimeline({
     samples: run.length,
     startFrame: first.i,
     endFrame: last.i,
+    endReason: supportLowering ? "support-lowering" : "posture-or-tracking-boundary",
     startObserved,
     endObserved,
     censored: !startObserved || !endObserved,

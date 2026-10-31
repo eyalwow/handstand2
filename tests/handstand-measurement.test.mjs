@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {measureHandstand} from '../vercel-app/handstand-measurement.js';
-import {analyzeHandstandTimeline} from '../vercel-app/handstand-temporal.js';
+import {analyzeHandstandTimeline,extractTemporalSamples,establishedHoldRuns} from '../vercel-app/handstand-temporal.js';
 import {scanHandstandFrames} from '../vercel-app/handstand-sampling.js';
 import {readAnalysisHistory} from '../vercel-app/analysis-history.js';
 
@@ -43,6 +43,62 @@ test('slow progressive leg lowering is bounded against the initial established e
   const result=measureHandstand(data(frames));
   assert.ok(result.timeline.hold.seconds<4);
   assert.ok(result.timeline.hold.endFrame<frames.length-1);
+});
+function supportLoweringFrames({recover=false,translate=false}={}) {
+  return [...held(31),...Array.from({length:20},(_,i)=>{
+    const step=recover?Math.max(0,3-Math.abs(i-2)):i+1;
+    const f=pose({elbowX:300+step*2,elbowY:600+step*2});
+    for(const s of [0,1]){f[11+s].y+=step*5;f[23+s].y+=step*5;}
+    return translate?pose().map(p=>({...p,y:p.y+step*5})):f;
+  })];
+}
+test('sustained support lowering ends the hold before inversion is lost',()=>{
+  const input=data(supportLoweringFrames()),result=measureHandstand(input);
+  assert.ok(result.hold.hold<=3.2);
+  assert.equal(result.timeline.hold.endReason,'support-lowering');
+  assert.equal(result.timeline.hold.endObserved,true);
+  assert.notEqual(result.timeline.ending.kind,'possible-balance-loss');
+  const runs=establishedHoldRuns(extractTemporalSamples(input.frames,input.timestamps,input));
+  assert.equal(runs.length,1,'continued lowering must not establish another hold');
+});
+test('occluded or collapsed support evidence cannot certify coordinated lowering',()=>{
+  for(const collapse of [false,true]) {
+    const input=data(supportLoweringFrames());
+    input.frames=input.frames.map(f=>f.map(p=>({...p})));
+    for(let i=31;i<input.frames.length;i++)for(const side of [0,1]) {
+      if(collapse) input.frames[i][13+side]={...input.frames[i][11+side]};
+      else input.frames[i][13+side].v=.2;
+    }
+    const result=measureHandstand(input);
+    assert.notEqual(result.timeline.hold?.endReason,'support-lowering');
+    assert.equal(result.timeline.hold?.endObserved,false);
+  }
+});
+test('a recovered support or a new attempt can establish another hold after lowering',()=>{
+  for(const reset of [[],[pose({hipY:600,ankleY:740})]]) {
+    const frames=[...supportLoweringFrames(),...reset,...held(51)];
+    const result=measureHandstand(data(frames));
+    assert.ok(result.timeline.hold.seconds>=4.8 && result.timeline.hold.seconds<=5);
+    assert.ok(result.timeline.hold.start>=5.1);
+  }
+});
+test('constant bent arms, a brief correction and camera translation do not imply support lowering',()=>{
+  const bent=held(81,{elbowX:330});
+  assert.equal(measureHandstand(data(bent)).timeline.hold.seconds,8);
+  for(const options of [{recover:true},{translate:true}]) {
+    const result=measureHandstand(data(supportLoweringFrames(options)));
+    assert.equal(result.timeline.hold.seconds,5);
+    assert.notEqual(result.timeline.hold.endReason,'support-lowering');
+  }
+});
+test('a finite measured body-line deviation beyond the zero band stays zero; weak hidden-side arms are excluded',()=>{
+  const frames=held(81,{hipX:390});
+  for(const f of frames)f[13].v=.4;
+  const result=measureHandstand(data(frames));
+  assert.equal(result.hold.k.shoulder,12);
+  assert.equal(result.hold.sc.banana,0);
+  assert.ok(result.hold.val.banana>=.18);
+  assert.ok(Number.isFinite(result.hold.total)&&result.hold.total>=1);
 });
 test('low visibility, nonfinite, repeated source times, upright and split legs do not receive a grade',()=>{
   for(const frames of [held(31,{vis:.5}),held(31,{hipY:600,ankleY:740}),held().map(f=>{f[28].x=550;return f}),held().map(f=>{f[11].x=NaN;f[12].x=NaN;return f})])assert.equal(measureHandstand(data(frames)).hold,null);

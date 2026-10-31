@@ -27,13 +27,19 @@ parser.add_argument('--negative', type=Path, action='append', default=[])
 parser.add_argument('--assets', type=Path, required=True)
 parser.add_argument('--out', type=Path, required=True)
 parser.add_argument('--runs', type=int, default=3)
+parser.add_argument('--trace-dir', type=Path, help='Optional private raw inference traces, outside the repository')
+parser.add_argument('--phase', choices=['both','before','after'], default='both')
 args = parser.parse_args()
 if args.out.resolve().is_relative_to(ROOT):
     parser.error('--out must be outside the repository')
+if args.trace_dir:
+    if args.trace_dir.resolve().is_relative_to(ROOT):
+        parser.error('--trace-dir must be outside the repository')
+    args.trace_dir.mkdir(parents=True,exist_ok=True)
 if not args.video and not args.negative:
     parser.error('provide --video or --negative')
-if not 3 <= args.runs <= 10:
-    parser.error('use 3–10 runs')
+if not 1 <= args.runs <= 10:
+    parser.error('use 1–10 runs (at least 3 for repeatability validation)')
 assert hashlib.sha256((args.assets/'model/package/pose_landmarker_lite.task').read_bytes()).hexdigest() == '59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a'
 
 INIT = """window.qaPoses=[];window.qaTiming=[];window.qaDiagnostic=null;
@@ -84,6 +90,8 @@ with tempfile.TemporaryDirectory(prefix='handstand-baseline-') as name:
                 case={'inputSha256':hashlib.sha256(video.read_bytes()).hexdigest(),'negative':negative,'before':[],'after':[]}
                 report['cases'].append(case)
                 for label,prefix in [('before','/baseline'),('after','')]:
+                    if args.phase!='both' and args.phase!=label:
+                        continue
                     context=browser.new_context(viewport={'width':390,'height':844})
                     context.add_init_script(INIT)
                     page=context.new_page()
@@ -97,6 +105,9 @@ with tempfile.TemporaryDirectory(prefix='handstand-baseline-') as name:
                         page.locator('#file').set_input_files(str(video.resolve()))
                         page.wait_for_function('n=>qaTiming.length>n',arg=i,timeout=500000)
                         result=page.evaluate('({diagnostic:qaDiagnostic,outcome:qaTiming.at(-1).outcome})')
+                        if args.trace_dir:
+                            trace=page.evaluate('({poses:qaPoses,width:document.getElementById("v").videoWidth,height:document.getElementById("v").videoHeight,timestamps:qaDiagnostic?.timestamps})')
+                            (args.trace_dir/f'case-{len(report["cases"])}-{label}-{i+1}.json').write_text(json.dumps(trace))
                         if result['diagnostic'] is None:
                             raise AssertionError(f'{label}: no diagnostics: {result}')
                         if label=='after':
@@ -118,8 +129,9 @@ with tempfile.TemporaryDirectory(prefix='handstand-baseline-') as name:
                         print(json.dumps({'case':len(report['cases']),'phase':label,'run':i+1,'seconds':d['timeline']['hold']['seconds'] if d['timeline']['hold'] else None,'score':d['score'],'scores':d['hold']['scores'] if d['hold'] else None,'outcome':result['outcome']}),flush=True)
                     case[label+'Identical']=all(r==case[label][0] for r in case[label])
                     context.close()
-                assert case['afterIdentical'], 'new inference diagnostics varied across runs'
-                if negative:
+                if case['after']:
+                    assert case['afterIdentical'], 'new inference diagnostics varied across runs'
+                if negative and case['after']:
                     assert all(r['diagnostic']['score'] is None and r['diagnostic']['timeline']['hold'] is None for r in case['after']), 'negative acquired a hold or score'
             browser.close()
             assert not report['errors'], report['errors']
