@@ -67,3 +67,15 @@ Next analyzer work needs original positive and negative clips, reviewed phase bo
 - WebKit executable is absent in this environment, so WebKit was attempted but did not run. Physical WKWebView/iPhone and Android WebView, native picker/HEVC/rotation/safe areas, approved-image performance and animation acceptance remain unverified.
 
 No merge, Production, SSO/protection change, paid service, personal media commit, IPA or Handstand Coach change.
+
+## Remote Draft and Preview verification
+
+Draft [PR #35](https://github.com/eyalwow/handstand2/pull/35), target `fix/handstand-reliable-measurement`. Application source `d3c7018ebf9f6a31b3cccfe78e9843cde820afb7`: [GitHub validation passed](https://github.com/eyalwow/handstand2/actions/runs/41336418925). No native workflow ran. This follow-up changes documentation only and uses `[skip ci]`.
+
+Athlete Preview **READY**, target `null` (Preview), deployment `dpl_Cy9most3h4ZV4g17Ug5B8h1jfv6p`, project `handstand-lab-coach`, team `eyalwen-6443`:
+
+https://handstand-lab-coach-qlz63nqtr-eyalwen-6443.vercel.app/vercel-app/#catalog
+
+Authenticated HTTP fetch returns 200 for the page and `analysis-library-ui.js`, `analysis-catalog.js`, `analysis-media.js`; all three modules are byte-identical to the locally tested source. Live browser flows were verified locally, **not on this protected Preview**. Existing SSO is retained. The Vercel connector creates/reuses a temporary deployment-scoped share link for its authenticated HTTP fetch; no project/global protection setting was disabled.
+
+The separately linked `handstand-coach-demo` deployment still has its pre-existing failure. It is not the athlete Preview and no Coach/configuration change was made to address it.
