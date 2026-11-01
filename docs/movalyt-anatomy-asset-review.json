@@ -1,0 +1,4799 @@
+{
+  "style": "Premium Fitness Anatomy — MOVALYT",
+  "approved": 0,
+  "pending": 158,
+  "assets": [
+    {
+      "id": "handstand",
+      "name": "עמידת ידיים",
+      "familyId": "handstand",
+      "variation": "standard",
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "עמידת ידיים",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "זמן החזקה נצפה, קו גוף, כתפיים, מרפקים ויציבות.",
+        "מדד הטכניקה הדו־ממדי אינו ציון מאמן מכויל."
+      ],
+      "media": {
+        "id": "handstand",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עמידת ידיים",
+        "pose": "עמידת ידיים",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche",
+      "name": "פלאנץ׳",
+      "familyId": "planche",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "לפי וריאציה",
+      "pose": "פלאנץ׳",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "planche",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳",
+        "pose": "פלאנץ׳",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever",
+      "name": "פרונט לבר",
+      "familyId": "front-lever",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "לפי וריאציה",
+      "pose": "פרונט לבר",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "front-lever",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר",
+        "pose": "פרונט לבר",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "back-lever",
+      "name": "בק לבר",
+      "familyId": "back-lever",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "בק לבר",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "back-lever",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "בק לבר",
+        "pose": "בק לבר",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "muscle-up",
+      "name": "עליית כוח",
+      "familyId": "muscle-up",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "עליית כוח",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "muscle-up",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עליית כוח",
+        "pose": "עליית כוח",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "pull-up",
+      "name": "מתח",
+      "familyId": "pull-up",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "מתח",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "pull-up",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח",
+        "pose": "מתח",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "chin-up",
+      "name": "מתח באחיזה הפוכה",
+      "familyId": "chin-up",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "מתח באחיזה הפוכה",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "chin-up",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח באחיזה הפוכה",
+        "pose": "מתח באחיזה הפוכה",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "dip",
+      "name": "מקבילים",
+      "familyId": "dip",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "מקבילים",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "dip",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מקבילים",
+        "pose": "מקבילים",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "push-up",
+      "name": "שכיבת סמיכה",
+      "familyId": "push-up",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "שכיבת סמיכה",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "push-up",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבת סמיכה",
+        "pose": "שכיבת סמיכה",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "l-sit",
+      "name": "אל־סיט",
+      "familyId": "l-sit",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "לפי וריאציה",
+      "pose": "אל־סיט",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "l-sit",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "אל־סיט",
+        "pose": "אל־סיט",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "v-sit",
+      "name": "וי־סיט",
+      "familyId": "v-sit",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "וי־סיט",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "v-sit",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "וי־סיט",
+        "pose": "וי־סיט",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "human-flag",
+      "name": "דגל אנושי",
+      "familyId": "human-flag",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "דגל אנושי",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "human-flag",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דגל אנושי",
+        "pose": "דגל אנושי",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "dragon-flag",
+      "name": "דראגון פלאג",
+      "familyId": "dragon-flag",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "דראגון פלאג",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "dragon-flag",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דראגון פלאג",
+        "pose": "דראגון פלאג",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "pistol-squat",
+      "name": "סקוואט על רגל אחת",
+      "familyId": "pistol-squat",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "סקוואט על רגל אחת",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "pistol-squat",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט על רגל אחת",
+        "pose": "סקוואט על רגל אחת",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "hollow-body",
+      "name": "הולו בודי",
+      "familyId": "hollow-body",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "הולו בודי",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "hollow-body",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הולו בודי",
+        "pose": "הולו בודי",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "arch-hold",
+      "name": "ארץ׳ הולד",
+      "familyId": "arch-hold",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "ארץ׳ הולד",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "arch-hold",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "ארץ׳ הולד",
+        "pose": "ארץ׳ הולד",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "scapular-pull-up",
+      "name": "מתח שכמות",
+      "familyId": "scapular-pull-up",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "מתח שכמות",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "scapular-pull-up",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח שכמות",
+        "pose": "מתח שכמות",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "handstand-push-up",
+      "name": "שכיבת סמיכה בעמידת ידיים",
+      "familyId": "handstand-push-up",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "שכיבת סמיכה בעמידת ידיים",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "handstand-push-up",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבת סמיכה בעמידת ידיים",
+        "pose": "שכיבת סמיכה בעמידת ידיים",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "toes-to-bar",
+      "name": "רגליים למתח",
+      "familyId": "toes-to-bar",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "רגליים למתח",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "toes-to-bar",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "רגליים למתח",
+        "pose": "רגליים למתח",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "ring-support",
+      "name": "תמיכה על טבעות",
+      "familyId": "ring-support",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "תמיכה על טבעות",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
+      ],
+      "media": {
+        "id": "ring-support",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "תמיכה על טבעות",
+        "pose": "תמיכה על טבעות",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-tuck",
+      "name": "פלאנץ׳ · טאק",
+      "familyId": "planche",
+      "variation": "tuck",
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-tuck",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · טאק",
+        "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-tuck-band",
+      "name": "פלאנץ׳ · טאק עם גומיית עזר",
+      "familyId": "planche",
+      "variation": "tuck-band",
+      "assistance": "band",
+      "difficulty": "מתקדם",
+      "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-tuck-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · טאק עם גומיית עזר",
+        "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-advanced-tuck",
+      "name": "פלאנץ׳ · אדוונס טאק",
+      "familyId": "planche",
+      "variation": "advanced-tuck",
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-advanced-tuck",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · אדוונס טאק",
+        "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-advanced-tuck-band",
+      "name": "פלאנץ׳ · אדוונס טאק עם גומיית עזר",
+      "familyId": "planche",
+      "variation": "advanced-tuck-band",
+      "assistance": "band",
+      "difficulty": "מתקדם",
+      "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-advanced-tuck-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · אדוונס טאק עם גומיית עזר",
+        "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-super-advanced-tuck",
+      "name": "פלאנץ׳ · סופר אדוונס טאק",
+      "familyId": "planche",
+      "variation": "super-advanced-tuck",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-super-advanced-tuck",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · סופר אדוונס טאק",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-super-advanced-tuck-band",
+      "name": "פלאנץ׳ · סופר אדוונס טאק עם גומיית עזר",
+      "familyId": "planche",
+      "variation": "super-advanced-tuck-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-super-advanced-tuck-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · סופר אדוונס טאק עם גומיית עזר",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-one-leg",
+      "name": "פלאנץ׳ · רגל אחת",
+      "familyId": "planche",
+      "variation": "one-leg",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-one-leg",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · רגל אחת",
+        "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-one-leg-band",
+      "name": "פלאנץ׳ · רגל אחת עם גומיית עזר",
+      "familyId": "planche",
+      "variation": "one-leg-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-one-leg-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · רגל אחת עם גומיית עזר",
+        "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-straddle",
+      "name": "פלאנץ׳ · סטראדל",
+      "familyId": "planche",
+      "variation": "straddle",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-straddle",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · סטראדל",
+        "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-straddle-band",
+      "name": "פלאנץ׳ · סטראדל עם גומיית עזר",
+      "familyId": "planche",
+      "variation": "straddle-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-straddle-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · סטראדל עם גומיית עזר",
+        "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-full",
+      "name": "פלאנץ׳ · מלא",
+      "familyId": "planche",
+      "variation": "full",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-full",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · מלא",
+        "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "planche-full-band",
+      "name": "פלאנץ׳ · מלא עם גומיית עזר",
+      "familyId": "planche",
+      "variation": "full-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
+        "כפות הרגליים באוויר; השלד לבדו אינו מוכיח היעדר תמיכה.",
+        "מנח אגן ורגליים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "planche-full-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנץ׳ · מלא עם גומיית עזר",
+        "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-tuck",
+      "name": "פרונט לבר · טאק",
+      "familyId": "front-lever",
+      "variation": "tuck",
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-tuck",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · טאק",
+        "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-tuck-band",
+      "name": "פרונט לבר · טאק עם גומיית עזר",
+      "familyId": "front-lever",
+      "variation": "tuck-band",
+      "assistance": "band",
+      "difficulty": "מתקדם",
+      "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-tuck-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · טאק עם גומיית עזר",
+        "pose": "ירכיים וברכיים כפופות קרוב לגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-advanced-tuck",
+      "name": "פרונט לבר · אדוונס טאק",
+      "familyId": "front-lever",
+      "variation": "advanced-tuck",
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-advanced-tuck",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · אדוונס טאק",
+        "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-advanced-tuck-band",
+      "name": "פרונט לבר · אדוונס טאק עם גומיית עזר",
+      "familyId": "front-lever",
+      "variation": "advanced-tuck-band",
+      "assistance": "band",
+      "difficulty": "מתקדם",
+      "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-advanced-tuck-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · אדוונס טאק עם גומיית עזר",
+        "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-super-advanced-tuck",
+      "name": "פרונט לבר · סופר אדוונס טאק",
+      "familyId": "front-lever",
+      "variation": "super-advanced-tuck",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-super-advanced-tuck",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · סופר אדוונס טאק",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-super-advanced-tuck-band",
+      "name": "פרונט לבר · סופר אדוונס טאק עם גומיית עזר",
+      "familyId": "front-lever",
+      "variation": "super-advanced-tuck-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-super-advanced-tuck-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · סופר אדוונס טאק עם גומיית עזר",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-one-leg",
+      "name": "פרונט לבר · רגל אחת",
+      "familyId": "front-lever",
+      "variation": "one-leg",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-one-leg",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · רגל אחת",
+        "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-one-leg-band",
+      "name": "פרונט לבר · רגל אחת עם גומיית עזר",
+      "familyId": "front-lever",
+      "variation": "one-leg-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-one-leg-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · רגל אחת עם גומיית עזר",
+        "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-straddle",
+      "name": "פרונט לבר · סטראדל",
+      "familyId": "front-lever",
+      "variation": "straddle",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-straddle",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · סטראדל",
+        "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-straddle-band",
+      "name": "פרונט לבר · סטראדל עם גומיית עזר",
+      "familyId": "front-lever",
+      "variation": "straddle-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-straddle-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · סטראדל עם גומיית עזר",
+        "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-full",
+      "name": "פרונט לבר · מלא",
+      "familyId": "front-lever",
+      "variation": "full",
+      "assistance": "none",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-full",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · מלא",
+        "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "front-lever-full-band",
+      "name": "פרונט לבר · מלא עם גומיית עזר",
+      "familyId": "front-lever",
+      "variation": "full-band",
+      "assistance": "band",
+      "difficulty": "מתקדם מאוד",
+      "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
+      "criteria": [
+        "ידיים ישרות והגוף מתחת למוט.",
+        "גו קרוב לאופק; זוויות כתף, מרפק ואגן בהיטל הצילום.",
+        "אחיזה, היעדר תמיכה ועומק אינם מאומתים על ידי השלד."
+      ],
+      "media": {
+        "id": "front-lever-full-band",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פרונט לבר · מלא עם גומיית עזר",
+        "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "l-sit-tuck",
+      "name": "אל־סיט · טאק",
+      "familyId": "l-sit",
+      "variation": "tuck",
+      "assistance": "none",
+      "difficulty": "בסיס",
+      "pose": "ברכיים מכונסות, ידיים ישרות וכפות הרגליים באוויר.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "ידיים ישרות ואגן באוויר.",
+        "מנח ברכיים וירכיים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "l-sit-tuck",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "אל־סיט · טאק",
+        "pose": "ברכיים מכונסות, ידיים ישרות וכפות הרגליים באוויר.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "l-sit-one-leg",
+      "name": "אל־סיט · רגל אחת",
+      "familyId": "l-sit",
+      "variation": "one-leg",
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "רגל אחת ישרה קדימה והשנייה כפופה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "ידיים ישרות ואגן באוויר.",
+        "מנח ברכיים וירכיים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "l-sit-one-leg",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "אל־סיט · רגל אחת",
+        "pose": "רגל אחת ישרה קדימה והשנייה כפופה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "l-sit-full",
+      "name": "אל־סיט · מלא",
+      "familyId": "l-sit",
+      "variation": "full",
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "רגליים ישרות קדימה, ידיים ישרות ואגן מעל המשטח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "ידיים ישרות ואגן באוויר.",
+        "מנח ברכיים וירכיים בהתאם לווריאציה שנבחרה."
+      ],
+      "media": {
+        "id": "l-sit-full",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "אל־סיט · מלא",
+        "pose": "רגליים ישרות קדימה, ידיים ישרות ואגן מעל המשטח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5e2-5dd-20-5d4-5e4-5e0-5d9-5dd-20-5dc-5e7-5d9-5e8",
+      "name": "עמידת ידיים עם הפנים לקיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "דחפו את הרצפה ושמרו דרך בטוחה לרדת.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5e2-5dd-20-5d4-5e4-5e0-5d9-5dd-20-5dc-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עמידת ידיים עם הפנים לקיר",
+        "pose": "דחפו את הרצפה ושמרו דרך בטוחה לרדת.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5e2-5dd-20-5d4-5d2-5d1-20-5dc-5e7-5d9-5e8",
+      "name": "עמידת ידיים עם הגב לקיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "עלו בעדינות ושמרו על כתפיים פעילות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5e2-5dd-20-5d4-5d2-5d1-20-5dc-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עמידת ידיים עם הגב לקיר",
+        "pose": "עלו בעדינות ושמרו על כתפיים פעילות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5dc-5d9-5d5-5ea-20-5e0-5e9-5dc-5d8-5d5-5ea-20-5dc-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd",
+      "name": "עליות נשלטות לעמידת ידיים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "בעטו ברגל מובילה ושלבו ירידה מבוקרת.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5dc-5d9-5d5-5ea-20-5e0-5e9-5dc-5d8-5d5-5ea-20-5dc-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עליות נשלטות לעמידת ידיים",
+        "pose": "בעטו ברגל מובילה ושלבו ירידה מבוקרת.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e0-5d9-5ea-5d5-5e7-20-5e2-5e7-5d1-5d9-5dd-20-5de-5d4-5e7-5d9-5e8",
+      "name": "ניתוק עקבים מהקיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "נתקו לשנייה והחזירו בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e0-5d9-5ea-5d5-5e7-20-5e2-5e7-5d1-5d9-5dd-20-5de-5d4-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "ניתוק עקבים מהקיר",
+        "pose": "נתקו לשנייה והחזירו בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e0-5d9-5ea-5d5-5e7-20-5d0-5e6-5d1-5e2-5d5-5ea-20-5de-5e7-5d9-5e8-20-5e2-5dd-20-5d4-5e4-5e0-5d9-5dd-20-5dc-5e7-5d9-5e8",
+      "name": "ניתוק אצבעות מקיר עם הפנים לקיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "התרחקו קלות מהקיר וחזרו ללא נפילה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e0-5d9-5ea-5d5-5e7-20-5d0-5e6-5d1-5e2-5d5-5ea-20-5de-5e7-5d9-5e8-20-5e2-5dd-20-5d4-5e4-5e0-5d9-5dd-20-5dc-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "ניתוק אצבעות מקיר עם הפנים לקיר",
+        "pose": "התרחקו קלות מהקיר וחזרו ללא נפילה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5dc-5d9-5db-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5db-5d9-5d5-5d5-5df-20-5d4-5e7-5d9-5e8",
+      "name": "הליכת ידיים לכיוון הקיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "התקדמו רק למרחק שניתן לחזור ממנו בבטחה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5dc-5d9-5db-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5db-5d9-5d5-5d5-5df-20-5d4-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הליכת ידיים לכיוון הקיר",
+        "pose": "התקדמו רק למרחק שניתן לחזור ממנו בבטחה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5e8-5de-5d5-5ea-20-5db-5ea-5e4-5d9-5d9-5dd-20-5d1-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5d9-5d3-20-5e7-5d9-5e8",
+      "name": "הרמות כתפיים בעמידת ידיים ליד קיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "דחפו גבוה דרך הכתפיים ללא כיפוף המרפקים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5e8-5de-5d5-5ea-20-5db-5ea-5e4-5d9-5d9-5dd-20-5d1-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5d9-5d3-20-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הרמות כתפיים בעמידת ידיים ליד קיר",
+        "pose": "דחפו גבוה דרך הכתפיים ללא כיפוף המרפקים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5e2-5d1-5e8-5ea-20-5de-5e9-5e7-5dc-20-5d1-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5d9-5d3-20-5e7-5d9-5e8",
+      "name": "העברת משקל בעמידת ידיים ליד קיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "העבירו משקל לאט מיד ליד תוך שליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5e2-5d1-5e8-5ea-20-5de-5e9-5e7-5dc-20-5d1-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5d9-5d3-20-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "העברת משקל בעמידת ידיים ליד קיר",
+        "pose": "העבירו משקל לאט מיד ליד תוך שליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5d7-5d5-5e4-5e9-5d9-5ea",
+      "name": "עמידת ידיים חופשית",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "תרגלו יציאה בטוחה ושמרו מרחב פנוי.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5d7-5d5-5e4-5e9-5d9-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עמידת ידיים חופשית",
+        "pose": "תרגלו יציאה בטוחה ושמרו מרחב פנוי.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5d6-5e7-5ea-20-5e6-5e4-5e8-5d3-5e2-20-5e2-5dc-20-5d4-5d9-5d3-5d9-5d9-5dd",
+      "name": "החזקת צפרדע על הידיים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "העבירו משקל לידיים בהדרגה והביטו מעט קדימה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5d6-5e7-5ea-20-5e6-5e4-5e8-5d3-5e2-20-5e2-5dc-20-5d4-5d9-5d3-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החזקת צפרדע על הידיים",
+        "pose": "העבירו משקל לידיים בהדרגה והביטו מעט קדימה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5d6-5e7-5ea-20-5e2-5d5-5e8-5d1",
+      "name": "החזקת עורב",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הישענו בהדרגה קדימה ושמרו אצבעות פרושות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5d6-5e7-5ea-20-5e2-5d5-5e8-5d1",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החזקת עורב",
+        "pose": "הישענו בהדרגה קדימה ושמרו אצבעות פרושות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5dc-5d9-5d9-5d4-20-5dc-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5de-5e4-5d9-5e1-5d5-5e7",
+      "name": "עלייה לעמידת ידיים מפיסוק",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "תרגלו רק לאחר שליטה בעמידה וביציאה בטוחה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5dc-5d9-5d9-5d4-20-5dc-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5de-5e4-5d9-5e1-5d5-5e7",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עלייה לעמידת ידיים מפיסוק",
+        "pose": "תרגלו רק לאחר שליטה בעמידה וביציאה בטוחה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5e9-5d9-5e4-5d5-5e2",
+      "name": "שכיבות סמיכה בשיפוע",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו גוף ישר והורידו חזה בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5e9-5d9-5e4-5d5-5e2",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה בשיפוע",
+        "pose": "שמרו גוף ישר והורידו חזה בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e2-5dc-20-5d4-5d1-5e8-5db-5d9-5d9-5dd",
+      "name": "שכיבות סמיכה על הברכיים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו קו מהכתפיים עד הברכיים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e2-5dc-20-5d4-5d1-5e8-5db-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה על הברכיים",
+        "pose": "שמרו קו מהכתפיים עד הברכיים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4",
+      "name": "שכיבות סמיכה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הורידו את החזה בשליטה ודחפו חזרה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה",
+        "pose": "הורידו את החזה בשליטה ודחפו חזרה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5d9-5e8-5d9-5d3-5d4",
+      "name": "שכיבות סמיכה בירידה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הניחו רגליים על משטח יציב ושמרו ליבה פעילה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5d9-5e8-5d9-5d3-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה בירידה",
+        "pose": "הניחו רגליים על משטח יציב ושמרו ליבה פעילה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e6-5e8-5d5-5ea",
+      "name": "שכיבות סמיכה צרות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "קרבו ידיים והישארו בטווח נוח לפרקי הידיים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e6-5e8-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה צרות",
+        "pose": "קרבו ידיים והישארו בטווח נוח לפרקי הידיים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e8-5d7-5d1-5d5-5ea",
+      "name": "שכיבות סמיכה רחבות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "מקמו ידיים מעט מעבר לרוחב כתפיים ושלטו בירידה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e8-5d7-5d1-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה רחבות",
+        "pose": "מקמו ידיים מעט מעבר לרוחב כתפיים ושלטו בירידה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5e7-5e6-5d1-20-5d0-5d9-5d8-5d9",
+      "name": "שכיבות סמיכה בקצב איטי",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "רדו לאט ושמרו על גוף יציב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5e7-5e6-5d1-20-5d0-5d9-5d8-5d9",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה בקצב איטי",
+        "pose": "רדו לאט ושמרו על גוף יציב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e4-5d9-5d9-5e7",
+      "name": "שכיבות סמיכה פייק",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הורידו ראש בעדינות בין הידיים ודחפו מעלה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e4-5d9-5d9-5e7",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה פייק",
+        "pose": "הורידו ראש בעדינות בין הידיים ודחפו מעלה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e4-5d9-5d9-5e7-20-5d1-5e8-5d2-5dc-5d9-5d9-5dd-20-5de-5d5-5d2-5d1-5d4-5d5-5ea",
+      "name": "שכיבות סמיכה פייק ברגליים מוגבהות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "שמרו משטח יציב והתקדמו בטווח נשלט.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e4-5d9-5d9-5e7-20-5d1-5e8-5d2-5dc-5d9-5d9-5dd-20-5de-5d5-5d2-5d1-5d4-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה פייק ברגליים מוגבהות",
+        "pose": "שמרו משטח יציב והתקדמו בטווח נשלט.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d3-5d9-5e4-5e1-20-5e2-5dd-20-5ea-5de-5d9-5db-5ea-20-5e8-5d2-5dc-5d9-5d9-5dd",
+      "name": "דיפס עם תמיכת רגליים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "היעזרו ברגליים ואל תכפו ירידה עמוקה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d3-5d9-5e4-5e1-20-5e2-5dd-20-5ea-5de-5d9-5db-5ea-20-5e8-5d2-5dc-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דיפס עם תמיכת רגליים",
+        "pose": "היעזרו ברגליים ואל תכפו ירידה עמוקה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d3-5d9-5e4-5e1-20-5d1-5de-5e7-5d1-5d9-5dc-5d9-5dd",
+      "name": "דיפס במקבילים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "רדו רק לעומק נוח ושמרו כתפיים יציבות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d3-5d9-5e4-5e1-20-5d1-5de-5e7-5d1-5d9-5dc-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דיפס במקבילים",
+        "pose": "רדו רק לעומק נוח ושמרו כתפיים יציבות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e2-5dc-20-5d8-5d1-5e2-5d5-5ea",
+      "name": "שכיבות סמיכה על טבעות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "ייצבו את הטבעות לפני כל ירידה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5e2-5dc-20-5d8-5d1-5e2-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה על טבעות",
+        "pose": "ייצבו את הטבעות לפני כל ירידה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5ea-5dc-5d9-5d9-5d4-20-5e4-5e1-5d9-5d1-5d9-5ea",
+      "name": "תלייה פסיבית",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "אחזו במוט עם אחיזה נוחה ורדו בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5ea-5dc-5d9-5d9-5d4-20-5e4-5e1-5d9-5d1-5d9-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "תלייה פסיבית",
+        "pose": "אחזו במוט עם אחיזה נוחה ורדו בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5ea-5dc-5d9-5d9-5d4-20-5e4-5e2-5d9-5dc-5d4",
+      "name": "תלייה פעילה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "דחפו בעדינות את הכתפיים הרחק מהאוזניים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5ea-5dc-5d9-5d9-5d4-20-5e4-5e2-5d9-5dc-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "תלייה פעילה",
+        "pose": "דחפו בעדינות את הכתפיים הרחק מהאוזניים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5e9-5d9-5db-5ea-20-5e9-5db-5de-5d5-5ea-20-5d1-5ea-5dc-5d9-5d9-5d4",
+      "name": "משיכת שכמות בתלייה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הניעו שכמות בלי לכופף מרפקים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5e9-5d9-5db-5ea-20-5e9-5db-5de-5d5-5ea-20-5d1-5ea-5dc-5d9-5d9-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "משיכת שכמות בתלייה",
+        "pose": "הניעו שכמות בלי לכופף מרפקים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d7-20-5d1-5e2-5d6-5e8-5ea-20-5d2-5d5-5de-5d9-5d9-5d4",
+      "name": "מתח בעזרת גומייה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "בחרו תמיכה שמאפשרת תנועה נשלטת.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d7-20-5d1-5e2-5d6-5e8-5ea-20-5d2-5d5-5de-5d9-5d9-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח בעזרת גומייה",
+        "pose": "בחרו תמיכה שמאפשרת תנועה נשלטת.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d7-20-5d1-5e2-5d6-5e8-5ea-20-5e8-5d2-5dc-5d9-5d9-5dd",
+      "name": "מתח בעזרת רגליים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "היעזרו ברגליים כדי להשלים טווח נוח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d7-20-5d1-5e2-5d6-5e8-5ea-20-5e8-5d2-5dc-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח בעזרת רגליים",
+        "pose": "היעזרו ברגליים כדי להשלים טווח נוח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d9-5e8-5d9-5d3-5d5-5ea-20-5d0-5d9-5d8-5d9-5d5-5ea-20-5de-5de-5ea-5d7",
+      "name": "ירידות איטיות ממתח",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "עלו בעזרת משטח יציב ורדו בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d9-5e8-5d9-5d3-5d5-5ea-20-5d0-5d9-5d8-5d9-5d5-5ea-20-5de-5de-5ea-5d7",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "ירידות איטיות ממתח",
+        "pose": "עלו בעזרת משטח יציב ורדו בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d7-20-5d1-5d0-5d7-5d9-5d6-5d4-20-5e2-5d9-5dc-5d9-5ea",
+      "name": "מתח באחיזה עילית",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "עלו בלי תנופה והורידו את הגוף בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d7-20-5d1-5d0-5d7-5d9-5d6-5d4-20-5e2-5d9-5dc-5d9-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח באחיזה עילית",
+        "pose": "עלו בלי תנופה והורידו את הגוף בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d7-20-5d1-5d0-5d7-5d9-5d6-5d4-20-5ea-5d7-5ea-5d9-5ea",
+      "name": "מתח באחיזה תחתית",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "משכו בלי להניף את הרגליים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d7-20-5d1-5d0-5d7-5d9-5d6-5d4-20-5ea-5d7-5ea-5d9-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח באחיזה תחתית",
+        "pose": "משכו בלי להניף את הרגליים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5de-5d5-5d8-20-5e0-5de-5d5-5da",
+      "name": "חתירה במוט נמוך",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו גוף ישר ומשכו חזה לכיוון המוט.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5de-5d5-5d8-20-5e0-5de-5d5-5da",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "חתירה במוט נמוך",
+        "pose": "שמרו גוף ישר ומשכו חזה לכיוון המוט.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5d8-5d1-5e2-5d5-5ea",
+      "name": "חתירה בטבעות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "שמרו גוף בקו אחד והתאימו שיפוע לקושי.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5d8-5d1-5e2-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "חתירה בטבעות",
+        "pose": "שמרו גוף בקו אחד והתאימו שיפוע לקושי.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5d2-5d5-5de-5d9-5d9-5d4-20-5d1-5d9-5e9-5d9-5d1-5d4",
+      "name": "חתירה בגומייה בישיבה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "משכו מרפקים לאחור ושמרו גו זקוף.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5d2-5d5-5de-5d9-5d9-5d4-20-5d1-5d9-5e9-5d9-5d1-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "חתירה בגומייה בישיבה",
+        "pose": "משכו מרפקים לאחור ושמרו גו זקוף.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5d9-5d3-20-5d0-5d7-5ea-20-5e2-5dd-20-5de-5e9-5e7-5d5-5dc-5ea",
+      "name": "חתירה ביד אחת עם משקולת",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "תמכו בגוף ומשכו את המשקל בלי לסובב גו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d7-5ea-5d9-5e8-5d4-20-5d1-5d9-5d3-20-5d0-5d7-5ea-20-5e2-5dd-20-5de-5e9-5e7-5d5-5dc-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "חתירה ביד אחת עם משקולת",
+        "pose": "תמכו בגוף ומשכו את המשקל בלי לסובב גו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5d6-5e7-5ea-20-5d4-5d5-5dc-5d5",
+      "name": "החזקת הולו",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "הצמידו גב תחתון לרצפה וכופפו ברכיים לפי הצורך.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5d6-5e7-5ea-20-5d4-5d5-5dc-5d5",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החזקת הולו",
+        "pose": "הצמידו גב תחתון לרצפה וכופפו ברכיים לפי הצורך.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d5-5dc-5d5-20-5e2-5dd-20-5d1-5e8-5db-5d9-5d9-5dd-20-5db-5e4-5d5-5e4-5d5-5ea",
+      "name": "הולו עם ברכיים כפופות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו גב תחתון קרוב לרצפה ונשמו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d5-5dc-5d5-20-5e2-5dd-20-5d1-5e8-5db-5d9-5d9-5dd-20-5db-5e4-5d5-5e4-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הולו עם ברכיים כפופות",
+        "pose": "שמרו גב תחתון קרוב לרצפה ונשמו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e0-5d3-5e0-5d5-5d3-20-5d4-5d5-5dc-5d5",
+      "name": "נדנוד הולו",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "התנדנדו קלות בלי לאבד את צורת הגוף.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e0-5d3-5e0-5d5-5d3-20-5d4-5d5-5dc-5d5",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "נדנוד הולו",
+        "pose": "התנדנדו קלות בלי לאבד את צורת הגוף.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e2-5dc-20-5d0-5de-5d5-5ea",
+      "name": "פלאנק על אמות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו גוף בקו ונשימה רגילה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e2-5dc-20-5d0-5de-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנק על אמות",
+        "pose": "שמרו גוף בקו ונשימה רגילה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e4-5dc-5d0-5e0-5e7-20-5d2-5d1-5d5-5d4",
+      "name": "פלאנק גבוה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "דחפו את הרצפה ושמרו אגן יציב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e4-5dc-5d0-5e0-5e7-20-5d2-5d1-5d5-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנק גבוה",
+        "pose": "דחפו את הרצפה ושמרו אגן יציב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e6-5d3",
+      "name": "פלאנק צד",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "שמרו אגן מורם וכתף יציבה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e6-5d3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנק צד",
+        "pose": "שמרו אגן מורם וכתף יציבה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d3-5d3-20-5d1-5d0-5d2",
+      "name": "דד באג",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "הרחיקו יד ורגל נגדית בלי להקשת את הגב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d3-5d3-20-5d1-5d0-5d2",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דד באג",
+        "pose": "הרחיקו יד ורגל נגדית בלי להקשת את הגב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d1-5d9-5e8-5d3-20-5d3-5d5-5d2",
+      "name": "בירד דוג",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "האריכו יד ורגל נגדית בלי לסובב אגן.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d1-5d9-5e8-5d3-20-5d3-5d5-5d2",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "בירד דוג",
+        "pose": "האריכו יד ורגל נגדית בלי לסובב אגן.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5db-5e4-5d9-5e4-5d5-5ea-20-5d1-5e8-5db-5d9-5d9-5dd-20-5d1-5ea-5dc-5d9-5d9-5d4",
+      "name": "כפיפות ברכיים בתלייה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הרימו ברכיים בלי תנופה והורידו לאט.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5db-5e4-5d9-5e4-5d5-5ea-20-5d1-5e8-5db-5d9-5d9-5dd-20-5d1-5ea-5dc-5d9-5d9-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "כפיפות ברכיים בתלייה",
+        "pose": "הרימו ברכיים בלי תנופה והורידו לאט.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5e8-5de-5d5-5ea-20-5e8-5d2-5dc-5d9-5d9-5dd-20-5d1-5ea-5dc-5d9-5d9-5d4",
+      "name": "הרמות רגליים בתלייה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "הימנעו מתנופה ושלטו בירידה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5e8-5de-5d5-5ea-20-5e8-5d2-5dc-5d9-5d9-5dd-20-5d1-5ea-5dc-5d9-5d9-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הרמות רגליים בתלייה",
+        "pose": "הימנעו מתנופה ושלטו בירידה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5d6-5e7-5ea-20-4c-20-5d1-5d9-5e9-5d9-5d1-5d4-20-5e2-5dc-20-5de-5e7-5d1-5d9-5dc-5d9-5dd",
+      "name": "החזקת L בישיבה על מקבילים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "הרימו רגליים רק בגובה שניתן לשלוט בו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5d6-5e7-5ea-20-4c-20-5d1-5d9-5e9-5d9-5d1-5d4-20-5e2-5dc-20-5de-5e7-5d1-5d9-5dc-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החזקת L בישיבה על מקבילים",
+        "pose": "הרימו רגליים רק בגובה שניתן לשלוט בו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5db-5e4-5d9-5e4-5d5-5ea-20-5d1-5d8-5df-20-5e7-5e6-5e8-5d5-5ea",
+      "name": "כפיפות בטן קצרות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "עלו בטווח קטן בלי למשוך את הצוואר.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5db-5e4-5d9-5e4-5d5-5ea-20-5d1-5d8-5df-20-5e7-5e6-5e8-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "כפיפות בטן קצרות",
+        "pose": "עלו בטווח קטן בלי למשוך את הצוואר.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5de-5e9-5e7-5dc-20-5d2-5d5-5e3",
+      "name": "סקוואט משקל גוף",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "רדו בקצב נוח עם ברכיים בכיוון האצבעות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5de-5e9-5e7-5dc-20-5d2-5d5-5e3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט משקל גוף",
+        "pose": "רדו בקצב נוח עם ברכיים בכיוון האצבעות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5dc-5db-5d9-5e1-5d0",
+      "name": "סקוואט לכיסא",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "געו קלות בכיסא וקומו בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5dc-5db-5d9-5e1-5d0",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט לכיסא",
+        "pose": "געו קלות בכיסא וקומו בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5d2-5d1-5d9-5e2",
+      "name": "סקוואט גביע",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "החזיקו משקל קרוב לחזה ורדו בטווח נוח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5d2-5d1-5d9-5e2",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט גביע",
+        "pose": "החזיקו משקל קרוב לחזה ורדו בטווח נוח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5de-5e4-5d5-5e6-5dc",
+      "name": "סקוואט מפוצל",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "פזרו משקל בין שתי הרגליים ורדו בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5de-5e4-5d5-5e6-5dc",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט מפוצל",
+        "pose": "פזרו משקל בין שתי הרגליים ורדו בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5d1-5d5-5dc-5d2-5e8-5d9-20-5de-5e4-5d5-5e6-5dc",
+      "name": "סקוואט בולגרי מפוצל",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הניחו רגל אחורית על משטח יציב ורדו בטווח נוח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5d1-5d5-5dc-5d2-5e8-5d9-20-5de-5e4-5d5-5e6-5dc",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט בולגרי מפוצל",
+        "pose": "הניחו רגל אחורית על משטח יציב ורדו בטווח נוח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5db-5e8-5e2-20-5dc-5d0-5d7-5d5-5e8",
+      "name": "מכרע לאחור",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "צעדו לאחור ושמרו יציבות בירידה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5db-5e8-5e2-20-5dc-5d0-5d7-5d5-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מכרע לאחור",
+        "pose": "צעדו לאחור ושמרו יציבות בירידה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5db-5e8-5e2-20-5dc-5e4-5e0-5d9-5dd",
+      "name": "מכרע לפנים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "צעדו קדימה ושמרו על ברך מיושרת לכיוון כף הרגל.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5db-5e8-5e2-20-5dc-5e4-5e0-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מכרע לפנים",
+        "pose": "צעדו קדימה ושמרו על ברך מיושרת לכיוון כף הרגל.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5db-5e8-5e2-20-5d4-5e6-5d9-5d3-5d4",
+      "name": "מכרע הצידה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "צעדו הצידה והשאירו את העקב על הרצפה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5db-5e8-5e2-20-5d4-5e6-5d9-5d3-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מכרע הצידה",
+        "pose": "צעדו הצידה והשאירו את העקב על הרצפה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5dc-5d9-5d9-5d4-20-5dc-5de-5d3-5e8-5d2-5d4",
+      "name": "עלייה למדרגה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "דחפו דרך כל כף הרגל ועלו בשליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5dc-5d9-5d9-5d4-20-5dc-5de-5d3-5e8-5d2-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עלייה למדרגה",
+        "pose": "דחפו דרך כל כף הרגל ועלו בשליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5dc-5d9-5d5-5ea-20-5ea-5d0-5d5-5de-5d9-5dd-20-5d1-5e2-5de-5d9-5d3-5d4",
+      "name": "עליות תאומים בעמידה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "עלו על כריות כפות הרגליים ורדו לאט.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5dc-5d9-5d5-5ea-20-5ea-5d0-5d5-5de-5d9-5dd-20-5d1-5e2-5de-5d9-5d3-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עליות תאומים בעמידה",
+        "pose": "עלו על כריות כפות הרגליים ורדו לאט.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5dc-5d9-5d5-5ea-20-5ea-5d0-5d5-5de-5d9-5dd-20-5d1-5e8-5d2-5dc-20-5d0-5d7-5ea",
+      "name": "עליות תאומים ברגל אחת",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "היעזרו בקיר לאיזון ובצעו בטווח נוח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5dc-5d9-5d5-5ea-20-5ea-5d0-5d5-5de-5d9-5dd-20-5d1-5e8-5d2-5dc-20-5d0-5d7-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עליות תאומים ברגל אחת",
+        "pose": "היעזרו בקיר לאיזון ובצעו בטווח נוח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea-20-5dc-5db-5d9-5e1-5d0",
+      "name": "סקוואט על רגל אחת לכיסא",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "רדו לכיסא בגובה המאפשר שליטה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea-20-5dc-5db-5d9-5e1-5d0",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט על רגל אחת לכיסא",
+        "pose": "רדו לכיסא בגובה המאפשר שליטה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d2-5e9-5e8-20-5d9-5e9-5d1-5df",
+      "name": "גשר ישבן",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "הרימו אגן באמצעות הישבן בלי להקשת את הגב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d2-5e9-5e8-20-5d9-5e9-5d1-5df",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "גשר ישבן",
+        "pose": "הרימו אגן באמצעות הישבן בלי להקשת את הגב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d2-5e9-5e8-20-5d9-5e9-5d1-5df-20-5d1-5e8-5d2-5dc-20-5d0-5d7-5ea",
+      "name": "גשר ישבן ברגל אחת",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "שמרו אגן מאוזן והרימו בטווח נשלט.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d2-5e9-5e8-20-5d9-5e9-5d1-5df-20-5d1-5e8-5d2-5dc-20-5d0-5d7-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "גשר ישבן ברגל אחת",
+        "pose": "שמרו אגן מאוזן והרימו בטווח נשלט.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d3-5d7-5d9-5e7-5ea-20-5d0-5d2-5df-20-5e2-5dd-20-5d2-5d1-20-5e2-5dc-20-5e1-5e4-5e1-5dc",
+      "name": "דחיקת אגן עם גב על ספסל",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "שמרו סנטר מעט פנימה והרימו ללא הקשת יתר.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d3-5d7-5d9-5e7-5ea-20-5d0-5d2-5df-20-5e2-5dd-20-5d2-5d1-20-5e2-5dc-20-5e1-5e4-5e1-5dc",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דחיקת אגן עם גב על ספסל",
+        "pose": "שמרו סנטר מעט פנימה והרימו ללא הקשת יתר.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d3-5d3-5dc-5d9-5e4-5d8-20-5e8-5d5-5de-5e0-5d9-20-5e2-5dd-20-5de-5e9-5e7-5d5-5dc-5d5-5ea",
+      "name": "דדליפט רומני עם משקולות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הניעו אגן לאחור ושמרו גב יציב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d3-5d3-5dc-5d9-5e4-5d8-20-5e8-5d5-5de-5e0-5d9-20-5e2-5dd-20-5de-5e9-5e7-5d5-5dc-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דדליפט רומני עם משקולות",
+        "pose": "הניעו אגן לאחור ושמרו גב יציב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d3-5d3-5dc-5d9-5e4-5d8-20-5e8-5d5-5de-5e0-5d9-20-5d1-5e8-5d2-5dc-20-5d0-5d7-5ea",
+      "name": "דדליפט רומני ברגל אחת",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "שמרו אגן ישר והיעזרו בתמיכה לפי הצורך.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d3-5d3-5dc-5d9-5e4-5d8-20-5e8-5d5-5de-5e0-5d9-20-5d1-5e8-5d2-5dc-20-5d0-5d7-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דדליפט רומני ברגל אחת",
+        "pose": "שמרו אגן ישר והיעזרו בתמיכה לפי הצורך.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5db-5e4-5d9-5e4-5ea-20-5d1-5e8-5da-20-5e2-5dd-20-5d2-5d5-5de-5d9-5d9-5d4",
+      "name": "כפיפת ברך עם גומייה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "כופפו את הברך לאט בלי להזיז אגן.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5db-5e4-5d9-5e4-5ea-20-5d1-5e8-5da-20-5e2-5dd-20-5d2-5d5-5de-5d9-5d9-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "כפיפת ברך עם גומייה",
+        "pose": "כופפו את הברך לאט בלי להזיז אגן.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e4-5ea-5d9-5d7-5ea-20-5d9-5e8-5da-20-5d1-5e9-5db-5d9-5d1-5d4-20-5e2-5dc-20-5d4-5e6-5d3",
+      "name": "פתיחת ירך בשכיבה על הצד",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "הרימו רגל עליונה בלי לגלגל אגן לאחור.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e4-5ea-5d9-5d7-5ea-20-5d9-5e8-5da-20-5d1-5e9-5db-5d9-5d1-5d4-20-5e2-5dc-20-5d4-5e6-5d3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פתיחת ירך בשכיבה על הצד",
+        "pose": "הרימו רגל עליונה בלי לגלגל אגן לאחור.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e6-5d3-5e4-5d4-20-5d1-5e9-5db-5d9-5d1-5d4-20-5e2-5dc-20-5d4-5e6-5d3",
+      "name": "צדפה בשכיבה על הצד",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו כפות רגליים יחד ופתחו ברך בטווח נוח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e6-5d3-5e4-5d4-20-5d1-5e9-5db-5d9-5d1-5d4-20-5e2-5dc-20-5d4-5e6-5d3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "צדפה בשכיבה על הצד",
+        "pose": "שמרו כפות רגליים יחד ופתחו ברך בטווח נוח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5dc-5d9-5db-5ea-20-5e6-5d3-20-5e2-5dd-20-5d2-5d5-5de-5d9-5d9-5d4",
+      "name": "הליכת צד עם גומייה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "צעדו צעדים קטנים ושמרו מתח קל בגומייה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5dc-5d9-5db-5ea-20-5e6-5d3-20-5e2-5dd-20-5d2-5d5-5de-5d9-5d9-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הליכת צד עם גומייה",
+        "pose": "צעדו צעדים קטנים ושמרו מתח קל בגומייה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5e8-5d7-5e7-5ea-20-5d9-5e8-5da-20-5d1-5e2-5de-5d9-5d3-5d4",
+      "name": "הרחקת ירך בעמידה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "היעזרו בתמיכה והרחיקו רגל בלי להטות גו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5e8-5d7-5e7-5ea-20-5d9-5e8-5da-20-5d1-5e2-5de-5d9-5d3-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הרחקת ירך בעמידה",
+        "pose": "היעזרו בתמיכה והרחיקו רגל בלי להטות גו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5d9-5d1-5d5-5d1-5d9-20-5e4-5e8-5e7-5d9-20-5d9-5d3-5d9-5d9-5dd",
+      "name": "סיבובי פרקי ידיים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "סובבו בעדינות והגדילו טווח בהדרגה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5d9-5d1-5d5-5d1-5d9-20-5e4-5e8-5e7-5d9-20-5d9-5d3-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סיבובי פרקי ידיים",
+        "pose": "סובבו בעדינות והגדילו טווח בהדרגה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5e2-5d1-5e8-5d5-5ea-20-5de-5e9-5e7-5dc-20-5e2-5dc-20-5db-5e4-5d5-5ea-20-5d4-5d9-5d3-5d9-5d9-5dd",
+      "name": "העברות משקל על כפות הידיים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "העבירו משקל קטן קדימה ואחורה ללא כאב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5e2-5d1-5e8-5d5-5ea-20-5de-5e9-5e7-5dc-20-5e2-5dc-20-5db-5e4-5d5-5ea-20-5d4-5d9-5d3-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "העברות משקל על כפות הידיים",
+        "pose": "העבירו משקל קטן קדימה ואחורה ללא כאב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5d9-5d1-5d5-5d1-5d9-20-5db-5ea-5e4-5d9-5d9-5dd",
+      "name": "סיבובי כתפיים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "נעו לאט בטווח נוח לשני הכיוונים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5d9-5d1-5d5-5d1-5d9-20-5db-5ea-5e4-5d9-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סיבובי כתפיים",
+        "pose": "נעו לאט בטווח נוח לשני הכיוונים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5dc-5e7-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5e2-5dc-20-5e7-5d9-5e8",
+      "name": "החלקת ידיים על קיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "החליקו ידיים מעלה בלי להקשת גב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5dc-5e7-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5e2-5dc-20-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החלקת ידיים על קיר",
+        "pose": "החליקו ידיים מעלה בלי להקשת גב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d9-5d7-5ea-20-5d7-5d6-5d4-20-5d1-5e4-5ea-5d7-20-5d3-5dc-5ea",
+      "name": "מתיחת חזה בפתח דלת",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "פנו מעט קדימה עד למתיחה עדינה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d9-5d7-5ea-20-5d7-5d6-5d4-20-5d1-5e4-5ea-5d7-20-5d3-5dc-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתיחת חזה בפתח דלת",
+        "pose": "פנו מעט קדימה עד למתיחה עדינה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5ea-5e0-5d5-5e2-5ea-20-5d7-5ea-5d5-5dc-20-5d5-5e4-5e8-5d4",
+      "name": "תנועת חתול ופרה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "עברו בעדינות בין קימור לקיעור תוך נשימה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5ea-5e0-5d5-5e2-5ea-20-5d7-5ea-5d5-5dc-20-5d5-5e4-5e8-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "תנועת חתול ופרה",
+        "pose": "עברו בעדינות בין קימור לקיעור תוך נשימה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5d9-5d1-5d5-5d1-20-5d1-5d9-5ea-20-5d7-5d6-5d4-20-5d1-5e2-5de-5d9-5d3-5ea-20-5e9-5e9",
+      "name": "סיבוב בית חזה בעמידת שש",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "סובבו גו בטווח נוח ושמרו אגן יציב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5d9-5d1-5d5-5d1-20-5d1-5d9-5ea-20-5d7-5d6-5d4-20-5d1-5e2-5de-5d9-5d3-5ea-20-5e9-5e9",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סיבוב בית חזה בעמידת שש",
+        "pose": "סובבו גו בטווח נוח ושמרו אגן יציב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d9-5d7-5ea-20-5db-5d5-5e4-5e4-5d9-20-5d9-5e8-5da-20-5d1-5db-5e8-5d9-5e2-5d4",
+      "name": "מתיחת כופפי ירך בכריעה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "הניעו אגן בעדינות קדימה בלי להקשת גב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d9-5d7-5ea-20-5db-5d5-5e4-5e4-5d9-20-5d9-5e8-5da-20-5d1-5db-5e8-5d9-5e2-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתיחת כופפי ירך בכריעה",
+        "pose": "הניעו אגן בעדינות קדימה בלי להקשת גב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d9-5d7-5ea-20-5ea-5d0-5d5-5de-5d9-5dd-20-5de-5d5-5dc-20-5e7-5d9-5e8",
+      "name": "מתיחת תאומים מול קיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו עקב אחורי על הרצפה והישענו בעדינות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d9-5d7-5ea-20-5ea-5d0-5d5-5de-5d9-5dd-20-5de-5d5-5dc-20-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתיחת תאומים מול קיר",
+        "pose": "שמרו עקב אחורי על הרצפה והישענו בעדינות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5ea-5e0-5d5-5e2-5ea-5d9-5d5-5ea-20-5e7-5e8-5e1-5d5-5dc-20-5de-5d5-5dc-20-5e7-5d9-5e8",
+      "name": "תנועתיות קרסול מול קיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "קרבו ברך לקיר בלי להרים עקב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5ea-5e0-5d5-5e2-5ea-5d9-5d5-5ea-20-5e7-5e8-5e1-5d5-5dc-20-5de-5d5-5dc-20-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "תנועתיות קרסול מול קיר",
+        "pose": "קרבו ברך לקיר בלי להרים עקב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5dc-5d9-5db-5d4-20-5d1-5de-5e7-5d5-5dd",
+      "name": "הליכה במקום",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "שמרו קצב נוח ותנועת זרועות טבעית.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5dc-5d9-5db-5d4-20-5d1-5de-5e7-5d5-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הליכה במקום",
+        "pose": "שמרו קצב נוח ותנועת זרועות טבעית.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e6-5e2-5d3-5d9-20-5e6-5d3",
+      "name": "צעדי צד",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "צעדו מצד לצד בקצב נוח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e6-5e2-5d3-5d9-20-5e6-5d3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "צעדי צד",
+        "pose": "צעדו מצד לצד בקצב נוח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5dc-5d9-5d9-5d4-20-5d5-5d9-5e8-5d9-5d3-5d4-20-5de-5de-5d3-5e8-5d2-5d4",
+      "name": "עלייה וירידה ממדרגה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "עלו ורדו בקצב נשלט.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5dc-5d9-5d9-5d4-20-5d5-5d9-5e8-5d9-5d3-5d4-20-5de-5de-5d3-5e8-5d2-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עלייה וירידה ממדרגה",
+        "pose": "עלו ורדו בקצב נשלט.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d2-5f3-5d0-5de-5e4-5d9-5e0-5d2-20-5d2-5f3-5e7-5e1",
+      "name": "ג׳אמפינג ג׳קס",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "נחתו ברכות ושמרו טווח נוח בכתפיים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d2-5f3-5d0-5de-5e4-5d9-5e0-5d2-20-5d2-5f3-5e7-5e1",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "ג׳אמפינג ג׳קס",
+        "pose": "נחתו ברכות ושמרו טווח נוח בכתפיים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d2-5f3-5d0-5de-5e4-5d9-5e0-5d2-20-5d2-5f3-5e7-5e1-20-5dc-5dc-5d0-20-5e7-5e4-5d9-5e6-5d4",
+      "name": "ג׳אמפינג ג׳קס ללא קפיצה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "צעדו רגל הצידה לסירוגין והניעו ידיים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d2-5f3-5d0-5de-5e4-5d9-5e0-5d2-20-5d2-5f3-5e7-5e1-20-5dc-5dc-5d0-20-5e7-5e4-5d9-5e6-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "ג׳אמפינג ג׳קס ללא קפיצה",
+        "pose": "צעדו רגל הצידה לסירוגין והניעו ידיים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5e8-5de-5ea-20-5d1-5e8-5db-5d9-5d9-5dd-20-5d1-5de-5e7-5d5-5dd",
+      "name": "הרמת ברכיים במקום",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הניעו רגליים לסירוגין בקצב שניתן לשלוט בו.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5e8-5de-5ea-20-5d1-5e8-5db-5d9-5d9-5dd-20-5d1-5de-5e7-5d5-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הרמת ברכיים במקום",
+        "pose": "הניעו רגליים לסירוגין בקצב שניתן לשלוט בו.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d8-5d9-5e4-5d5-5e1-20-5d4-5e8-5d9-5dd",
+      "name": "טיפוס הרים",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "בפלאנק גבוה קרבו ברכיים לסירוגין ושמרו אגן יציב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d8-5d9-5e4-5d5-5e1-20-5d4-5e8-5d9-5dd",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "טיפוס הרים",
+        "pose": "בפלאנק גבוה קרבו ברכיים לסירוגין ושמרו אגן יציב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e7-5e4-5d9-5e6-5d4-20-5d1-5d7-5d1-5dc",
+      "name": "קפיצה בחבל",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "קפצו נמוך ונחתו ברכות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e7-5e4-5d9-5e6-5d4-20-5d1-5d7-5d1-5dc",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "קפיצה בחבל",
+        "pose": "קפצו נמוך ונחתו ברכות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5e2-5dd-20-5e7-5e4-5d9-5e6-5d4",
+      "name": "סקוואט עם קפיצה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "נחתו ברכות ועצרו אם קשה לשלוט בנחיתה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5e2-5dd-20-5e7-5e4-5d9-5e6-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט עם קפיצה",
+        "pose": "נחתו ברכות ועצרו אם קשה לשלוט בנחיתה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d1-5d5-5e8-5e4-5d9-20-5dc-5dc-5d0-20-5e9-5db-5d9-5d1-5ea-20-5e1-5de-5d9-5db-5d4",
+      "name": "בורפי ללא שכיבת סמיכה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "עברו לעמידת פלאנק וחזרה בקצב נשלט.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d1-5d5-5e8-5e4-5d9-20-5dc-5dc-5d0-20-5e9-5db-5d9-5d1-5ea-20-5e1-5de-5d9-5db-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "בורפי ללא שכיבת סמיכה",
+        "pose": "עברו לעמידת פלאנק וחזרה בקצב נשלט.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5de-5d9-5d3-5d4-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea",
+      "name": "עמידה על רגל אחת",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "הביטו קדימה והיעזרו בקיר לפי הצורך.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5de-5d9-5d3-5d4-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עמידה על רגל אחת",
+        "pose": "הביטו קדימה והיעזרו בקיר לפי הצורך.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5de-5d9-5d3-5d4-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea-20-5e2-5dd-20-5d4-5d5-5e9-5d8-5ea-20-5e8-5d2-5dc",
+      "name": "עמידה על רגל אחת עם הושטת רגל",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הושיטו רגל לאט ושמרו אגן יציב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5de-5d9-5d3-5d4-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea-20-5e2-5dd-20-5d4-5d5-5e9-5d8-5ea-20-5e8-5d2-5dc",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עמידה על רגל אחת עם הושטת רגל",
+        "pose": "הושיטו רגל לאט ושמרו אגן יציב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5dc-5d9-5db-5d4-20-5e2-5e7-5d1-20-5dc-5e6-5d3-20-5d0-5d2-5d5-5d3-5dc",
+      "name": "הליכה עקב לצד אגודל",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "צעדו לאט לאורך קו והיעזרו בקיר לפי הצורך.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5dc-5d9-5db-5d4-20-5e2-5e7-5d1-20-5dc-5e6-5d3-20-5d0-5d2-5d5-5d3-5dc",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הליכה עקב לצד אגודל",
+        "pose": "צעדו לאט לאורך קו והיעזרו בקיר לפי הצורך.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e2-5de-5d9-5d3-5d4-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea-20-5d1-5e2-5d9-5e0-5d9-5d9-5dd-20-5e2-5e6-5d5-5de-5d5-5ea",
+      "name": "עמידה על רגל אחת בעיניים עצומות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "עמדו סמוך לתמיכה זמינה ועצמו עיניים רק כשאתם יציבים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e2-5de-5d9-5d3-5d4-20-5e2-5dc-20-5e8-5d2-5dc-20-5d0-5d7-5ea-20-5d1-5e2-5d9-5e0-5d9-5d9-5dd-20-5e2-5e6-5d5-5de-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "עמידה על רגל אחת בעיניים עצומות",
+        "pose": "עמדו סמוך לתמיכה זמינה ועצמו עיניים רק כשאתם יציבים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5e2-5d1-5e8-5ea-20-5de-5e9-5e7-5dc-20-5d1-5e2-5de-5d9-5d3-5d4",
+      "name": "העברת משקל בעמידה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתחיל",
+      "pose": "העבירו משקל מצד לצד בלי להרים כתפיים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5e2-5d1-5e8-5ea-20-5de-5e9-5e7-5dc-20-5d1-5e2-5de-5d9-5d3-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "העברת משקל בעמידה",
+        "pose": "העבירו משקל מצד לצד בלי להרים כתפיים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e6-5e2-5d3-5d9-20-5d3-5d5-5d1-20-5e7-5d3-5d9-5de-5d4",
+      "name": "צעדי דוב קדימה",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "התקדמו ביד ורגל נגדית תוך אגן יציב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e6-5e2-5d3-5d9-20-5d3-5d5-5d1-20-5e7-5d3-5d9-5de-5d4",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "צעדי דוב קדימה",
+        "pose": "התקדמו ביד ורגל נגדית תוך אגן יציב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e6-5e2-5d3-5d9-20-5d3-5d5-5d1-20-5dc-5d0-5d7-5d5-5e8",
+      "name": "צעדי דוב לאחור",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "נעו לאחור לאט והימנעו מהקשת הגב.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e6-5e2-5d3-5d9-20-5d3-5d5-5d1-20-5dc-5d0-5d7-5d5-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "צעדי דוב לאחור",
+        "pose": "נעו לאחור לאט והימנעו מהקשת הגב.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5dc-5d9-5db-5ea-20-5e1-5e8-5d8-5df",
+      "name": "הליכת סרטן",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "התקדמו בצעדים קטנים עם אגן מורם בנוחות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5dc-5d9-5db-5ea-20-5e1-5e8-5d8-5df",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "הליכת סרטן",
+        "pose": "התקדמו בצעדים קטנים עם אגן מורם בנוחות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e2-5dd-20-5e0-5d2-5d9-5e2-5d5-5ea-20-5db-5ea-5e3",
+      "name": "פלאנק עם נגיעות כתף",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "געו בכתף נגדית וצמצמו סיבוב אגן.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e2-5dd-20-5e0-5d2-5d9-5e2-5d5-5ea-20-5db-5ea-5e3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנק עם נגיעות כתף",
+        "pose": "געו בכתף נגדית וצמצמו סיבוב אגן.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e2-5dd-20-5d4-5e8-5de-5ea-20-5e8-5d2-5dc",
+      "name": "פלאנק עם הרמת רגל",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "הרימו רגל מעט ושמרו כתפיים ואגן יציבים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e4-5dc-5d0-5e0-5e7-20-5e2-5dd-20-5d4-5e8-5de-5ea-20-5e8-5d2-5dc",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "פלאנק עם הרמת רגל",
+        "pose": "הרימו רגל מעט ושמרו כתפיים ואגן יציבים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5d0-5e1-5dc-20-5d0-5e4-20-5d1-5de-5ea-5d7",
+      "name": "מאסל אפ במתח",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "תרגלו לאחר שליטה במתח ובדיפס ועם מרחב פנוי.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5d0-5e1-5dc-20-5d0-5e4-20-5d1-5de-5ea-5d7",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מאסל אפ במתח",
+        "pose": "תרגלו לאחר שליטה במתח ובדיפס ועם מרחב פנוי.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d7-20-5d1-5e7-5e9-5ea-20-5de-5e6-5d3-20-5dc-5e6-5d3",
+      "name": "מתח בקשת מצד לצד",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "עברו מצד לצד בשליטה וללא תנופה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d7-20-5d1-5e7-5e9-5ea-20-5de-5e6-5d3-20-5dc-5e6-5d3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח בקשת מצד לצד",
+        "pose": "עברו מצד לצד בשליטה וללא תנופה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5de-5ea-5d7-20-5d1-5d0-5d7-5d9-5d6-5d4-20-5de-5d3-5d5-5e8-5d2-5ea",
+      "name": "מתח באחיזה מדורגת",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "משכו עם יד אחת על המוט והשנייה נתמכת מתחתיה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5de-5ea-5d7-20-5d1-5d0-5d7-5d9-5d6-5d4-20-5de-5d3-5d5-5e8-5d2-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "מתח באחיזה מדורגת",
+        "pose": "משכו עם יד אחת על המוט והשנייה נתמכת מתחתיה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5d0-5e7-5d3-5d7",
+      "name": "סקוואט אקדח",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "השתמשו בתמיכה לפי הצורך ושמרו ירידה נשלטת.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e1-5e7-5d5-5d5-5d0-5d8-20-5d0-5e7-5d3-5d7",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "סקוואט אקדח",
+        "pose": "השתמשו בתמיכה לפי הצורך ושמרו ירידה נשלטת.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-4c-2d-73-69-74-20-5d1-5e8-5d2-5dc-5d9-5d9-5dd-20-5d9-5e9-5e8-5d5-5ea",
+      "name": "L-sit ברגליים ישרות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "המחשה להחזקה ברגליים ישרות על מקבילונים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-4c-2d-73-69-74-20-5d1-5e8-5d2-5dc-5d9-5d9-5dd-20-5d9-5e9-5e8-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "L-sit ברגליים ישרות",
+        "pose": "המחשה להחזקה ברגליים ישרות על מקבילונים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-4c-2d-73-69-74-20-5e2-5dd-20-5d1-5e8-5db-5d9-5d9-5dd-20-5db-5e4-5d5-5e4-5d5-5ea",
+      "name": "L-sit עם ברכיים כפופות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "בינוני",
+      "pose": "דחפו כתפיים מעלה והחזיקו ברכיים קרובות לחזה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-4c-2d-73-69-74-20-5e2-5dd-20-5d1-5e8-5db-5d9-5d9-5dd-20-5db-5e4-5d5-5e4-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "L-sit עם ברכיים כפופות",
+        "pose": "דחפו כתפיים מעלה והחזיקו ברכיים קרובות לחזה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5d6-5e7-5ea-20-5ea-5de-5d9-5db-5d4-20-5e2-5dc-20-5d8-5d1-5e2-5d5-5ea",
+      "name": "החזקת תמיכה על טבעות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "דחפו דרך הידיים וייצבו את הטבעות קרוב לגוף.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5d6-5e7-5ea-20-5ea-5de-5d9-5db-5d4-20-5e2-5dc-20-5d8-5d1-5e2-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החזקת תמיכה על טבעות",
+        "pose": "דחפו דרך הידיים וייצבו את הטבעות קרוב לגוף.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5d6-5e7-5ea-20-5d8-5d0-5e7-20-5e4-5e8-5d5-5e0-5d8-20-5dc-5d1-5e8",
+      "name": "החזקת טאק פרונט לבר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "כופפו ברכיים ושמרו כתפיים פעילות.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5d6-5e7-5ea-20-5d8-5d0-5e7-20-5e4-5e8-5d5-5e0-5d8-20-5dc-5d1-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החזקת טאק פרונט לבר",
+        "pose": "כופפו ברכיים ושמרו כתפיים פעילות.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d4-5d7-5d6-5e7-5ea-20-5d8-5d0-5e7-20-5e4-5dc-5d0-5e0-5e5-5f3",
+      "name": "החזקת טאק פלאנץ׳",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "הישענו לפנים בהדרגה רק עם בסיס כוח מתאים.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d4-5d7-5d6-5e7-5ea-20-5d8-5d0-5e7-20-5e4-5dc-5d0-5e0-5e5-5f3",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "החזקת טאק פלאנץ׳",
+        "pose": "הישענו לפנים בהדרגה רק עם בסיס כוח מתאים.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5ea-5de-5d9-5db-5ea-20-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5e7-5d9-5e8",
+      "name": "שכיבות סמיכה בתמיכת עמידת ידיים לקיר",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "תרגלו רק עם שליטה בעמידת ידיים ודרך ירידה בטוחה.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5e9-5db-5d9-5d1-5d5-5ea-20-5e1-5de-5d9-5db-5d4-20-5d1-5ea-5de-5d9-5db-5ea-20-5e2-5de-5d9-5d3-5ea-20-5d9-5d3-5d9-5d9-5dd-20-5dc-5e7-5d9-5e8",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "שכיבות סמיכה בתמיכת עמידת ידיים לקיר",
+        "pose": "תרגלו רק עם שליטה בעמידת ידיים ודרך ירידה בטוחה.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    },
+    {
+      "id": "training-5d3-5d9-5e4-5e1-20-5d1-5d8-5d1-5e2-5d5-5ea",
+      "name": "דיפס בטבעות",
+      "familyId": "training",
+      "variation": null,
+      "assistance": "none",
+      "difficulty": "מתקדם",
+      "pose": "ייצבו טבעות ורדו רק בטווח נשלט ונוח.",
+      "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
+      "criteria": [
+        "התרגיל קיים בספריית האימונים. מנוע ניתוח ייעודי טרם מומש."
+      ],
+      "media": {
+        "id": "training-5d3-5d9-5e4-5e1-20-5d1-5d8-5d1-5e2-5d5-5ea",
+        "style": "Premium Fitness Anatomy — MOVALYT",
+        "status": "pending-review",
+        "image": null,
+        "animation": null,
+        "alt": "דיפס בטבעות",
+        "pose": "ייצבו טבעות ורדו רק בטווח נשלט ונוח.",
+        "review": [
+          "same-athlete",
+          "anatomy",
+          "support",
+          "camera",
+          "grayscale",
+          "rights"
+        ]
+      }
+    }
+  ]
+}

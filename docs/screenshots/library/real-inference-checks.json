@@ -1,0 +1,50 @@
+{
+  "fixture": "v_HandstandWalking_g01_c01",
+  "sourceUrl": "https://huggingface.co/datasets/sumith2425/UCF101/resolve/main/test/HandstandWalking/v_HandstandWalking_g01_c01.avi",
+  "sourceSha256": "4ec92e1f4d3d4ea0b6a8f27b46cae754ebeb218c90c78164b367e31209a36a6a",
+  "derivative": "H.264 without resize, audio removed",
+  "baseline": "a9023c13f6a499b8cd0396cd2338d33d3a4c0051",
+  "realInference": true,
+  "physicalDevice": false,
+  "cases": [
+    {
+      "package": "pr34-baseline",
+      "score": null,
+      "seconds": null,
+      "samples": 42,
+      "delegate": "CPU",
+      "reason": "no-established-hold",
+      "playback": true,
+      "historyReload": true
+    },
+    {
+      "package": "website",
+      "score": null,
+      "seconds": null,
+      "samples": 42,
+      "delegate": "CPU",
+      "reason": "no-established-hold",
+      "playback": true,
+      "historyReload": true
+    },
+    {
+      "package": "native-web",
+      "score": null,
+      "seconds": null,
+      "samples": 42,
+      "delegate": "CPU",
+      "reason": "no-established-hold",
+      "playback": true,
+      "historyReload": true
+    }
+  ],
+  "pageErrors": [
+    "Evaluating a string as JavaScript violates the following Content Security Policy directive because 'unsafe-eval' is not an allowed source of script: script-src 'self' 'wasm-unsafe-eval'\".\n"
+  ],
+  "posts": [],
+  "nativeExternalRequests": [],
+  "limitations": [
+    "No established hold or fresh graded result on this public sample. Not a calibration or anatomical-accuracy check.",
+    "No physical device, real positive Front Lever or native codec acceptance."
+  ]
+}

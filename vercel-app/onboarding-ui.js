@@ -1,3 +1,4 @@
+import {analysisAvailabilityLabel} from './analysis-registry.js';
 import { ANALYSIS_CATALOG, exerciseById } from "./analysis-catalog.js";
 import {
   GOALS,
@@ -48,7 +49,7 @@ export function createOnboarding({ onShow, onComplete }) {
       render();
     });
   }
-  for (const exercise of ANALYSIS_CATALOG.filter(x=>!x.variation||x.id==='handstand')) {
+  for (const exercise of ANALYSIS_CATALOG.filter(x=>x.source!=='training'&&(!x.variation||x.id==='handstand'))) {
     const label = document.createElement("label");
     label.className = "interest-card exercise-card";
     label.dataset.status = exercise.status;
@@ -61,7 +62,7 @@ export function createOnboarding({ onShow, onComplete }) {
       "aria-label",
       exercise.name +
         " — תחום עניין" +
-        (exercise.status === "available" ? "" : " — הניתוח בקרוב"),
+        (" — " + analysisAvailabilityLabel(exercise.id)),
     );
     label.append(
       input,

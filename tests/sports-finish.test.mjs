@@ -11,7 +11,7 @@ test("sports home has a real analysis CTA, full-photo stage and correct source a
  assert.match(html, /class="home-hero"/);
  assert.match(html, /class="onboard-step"/);
  assert.match(html, /class="explain-steps"/);
- assert.match(html, /class="[^"]*home-primary[^"]*"[^>]*href="#analyze"/);
+ assert.match(html, /class="[^"]*home-primary[^"]*"[^>]*href="#catalog"/);
  assert.match(html, /movalyt-handstand-ai\.webp/);
  assert.match(html, /נכס AI מקורי/);
  assert.match(html, /צילום הדגמה בלבד/);

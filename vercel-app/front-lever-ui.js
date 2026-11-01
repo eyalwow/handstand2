@@ -6,7 +6,7 @@ const reasons={'choose-variation':'יש לבחור וריאציה מפורשת.'
 export function renderFrontLever(result, host) {
   host.replaceChildren();
   const add=(tag,text)=>{const node=document.createElement(tag);node.textContent=text;host.append(node);};
-  add('h2',exerciseById(result.exerciseId)?.name||'Front Lever');
+  add('h2',exerciseById(result.exerciseId)?.name||'פרונט לבר');
   add('p','ניתוח ניסיוני · טרם אומת בווידאו אמיתי · ללא ציון');
   add('p','הווריאציה נבחרה ידנית ואינה מאומתת אוטומטית. השלד אינו מוכיח תלייה, היעדר תמיכה או מנח בעומק.');
   if(result.status!=='observed'){add('p',reasons[result.reason]||'אין מדידה מספקת.');return;}

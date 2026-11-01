@@ -1,9 +1,11 @@
+import {readLibrarySelection} from './library-state.js';
 import {readVariationHistory} from './variation-history.js';
 import {ANALYSIS_CATALOG,exerciseById} from './analysis-catalog.js';
 const host=document.getElementById('variationHistory'),filter=document.getElementById('variationHistoryFilter');
 for(const exercise of ANALYSIS_CATALOG.filter(x=>x.experimental)){
   const option=document.createElement('option');option.value=exercise.id;option.textContent=exercise.name;filter.append(option);
 }
+try{const saved=readLibrarySelection(localStorage).exerciseId;if(exerciseById(saved)?.experimental)filter.value=saved;}catch{}
 function render(){
  host.replaceChildren();
  try {

@@ -1,3 +1,4 @@
+import {analysisAvailability,analysisAvailabilityLabel} from './analysis-registry.js';
 export function icon(name) {
   const node = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   node.classList.add("icon");
@@ -47,7 +48,7 @@ export function exerciseCaption(exercise) {
 }
 export function statusBadge(exercise) {
   const badge = document.createElement("span");
-  badge.className = "exercise-status " + exercise.status;
-  badge.textContent = exercise.experimental ? "בקרוב · בדיקה ניסיונית" : exercise.status === "available" ? "ניתוח זמין" : "בקרוב";
+  badge.className = "exercise-status " + analysisAvailability(exercise.id).status;
+  badge.textContent = analysisAvailabilityLabel(exercise.id);
   return badge;
 }
