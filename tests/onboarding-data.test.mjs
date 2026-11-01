@@ -23,8 +23,8 @@ function memory(initial = {}) {
   };
 }
 test("catalog preserves legacy exercises and separates experimental variations from validated availability", () => {
-  assert.equal(ANALYSIS_CATALOG.length, 32);
-  assert.equal(new Set(ANALYSIS_CATALOG.map((x) => x.id)).size, 32);
+  assert.ok(ANALYSIS_CATALOG.length >= 32);
+  assert.equal(new Set(ANALYSIS_CATALOG.map((x) => x.id)).size, ANALYSIS_CATALOG.length);
   assert.equal(Object.keys(ANALYSIS_ENGINES).length, 2);
   for (const item of ANALYSIS_CATALOG) {
     assert.equal(Boolean(analysisFor(item.id)), item.id === "handstand");

@@ -1,0 +1,32 @@
+{
+  "browser": "chromium",
+  "origin": "http://127.0.0.1:37353",
+  "path": "/vercel-app/",
+  "physicalDevice": false,
+  "cases": [
+    {
+      "width": 320,
+      "flow": "passed",
+      "overflow": false,
+      "catalog": 131,
+      "variants": 27
+    },
+    {
+      "width": 390,
+      "flow": "passed",
+      "overflow": false,
+      "catalog": 131,
+      "variants": 27
+    },
+    {
+      "width": 1440,
+      "flow": "passed",
+      "overflow": false,
+      "catalog": 131,
+      "variants": 27
+    }
+  ],
+  "errors": [],
+  "requestFailures": [],
+  "posts": []
+}

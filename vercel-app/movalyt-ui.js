@@ -1,3 +1,4 @@
+import {createAnalysisLibrary} from "./analysis-library-ui.js";
 import { drawPoseOverlay, smoothLivePose } from "./pose-overlay.js";
 import { resetHandstandInsights } from "./handstand-insights-ui.js";
 let lastLivePose = null,
@@ -6,7 +7,6 @@ import { readAnalysisHistory } from "./analysis-history.js";
 import {
   ANALYSIS_CATALOG,
   HANDSTAND_METRICS,
-  EXERCISE_FAMILIES,
   exerciseById,
 } from "./analysis-catalog.js";
 import { analysisFor } from "./analysis-registry.js";
@@ -23,6 +23,7 @@ let busy = false,
   available = false,
   scored = false,
   pendingRoute = null;
+let library = null;
 const stages = ["decode", "model", "scan", "scoring", "render"];
 const onboarding = createOnboarding({
   onShow() {
@@ -45,6 +46,8 @@ function activate(screen) {
     ["homeView", "home"],
     ["historyView", "history"],
     ["catalogView", "catalog"],
+    ["variationsView", "variations"],
+    ["guideView", "guide"],
     ["onboardingView", "onboarding"],
   ])
     $(id).hidden = screen !== key;
@@ -52,6 +55,8 @@ function activate(screen) {
     "home",
     "history",
     "catalog",
+    "variations",
+    "guide",
     "onboarding",
   ].includes(screen);
   $("holdSec").hidden = screen !== "results";
@@ -85,6 +90,8 @@ function route() {
       "replay",
       "history",
       "catalog",
+      "variations",
+      "guide",
     ].includes(screen)
   )
     screen = "home";
@@ -112,19 +119,20 @@ function route() {
       ? scored
         ? "#results"
         : "#replay"
-      : "#analyze";
+      : "#catalog";
   const analyzerBack = document.querySelector(".analyzer-heading .back");
-  analyzerBack.href = screen === "analyze" ? "#home" : "#analyze";
+  analyzerBack.href = screen === "analyze" ? "#guide" : "#analyze";
   analyzerBack.setAttribute(
     "aria-label",
     screen === "analyze"
-      ? "חזרה לבית"
+      ? "חזרה להנחיות צילום"
       : screen === "processing"
         ? "ביטול וחזרה לבחירת סרטון"
         : "חזרה לבחירת סרטון",
   );
   $("reportLink").hidden = !scored;
   activate(screen);
+  library?.render(screen);
   $("analyzer-title").textContent =
     screen === "results"
       ? "תוצאות הניתוח"
@@ -144,6 +152,8 @@ function route() {
         ? $("history-title")
         : screen === "catalog"
           ? $("catalog-title")
+          : screen === "variations" ? $("variations-title")
+          : screen === "guide" ? $("guide-title")
           : screen === "replay"
             ? $("playerTitle")
             : $("analyzer-title");
@@ -205,7 +215,7 @@ for(const exercise of ANALYSIS_CATALOG.filter(x=>analysisFor(x.id,{allowExperime
 }
 function updateSelection(id){
   if(busy||!selectExercise(id))return;
-  exerciseSelect.value=id;available=false;scored=false;
+  exerciseSelect.value=id;library?.sync(id);available=false;scored=false;
   $('out').style.display='none';$('frontLeverReport').hidden=true;$('frontLeverReport').replaceChildren();
   resetHandstandInsights();
   const exercise=exerciseById(id),experimental=!!exercise.experimental;
@@ -216,31 +226,8 @@ function updateSelection(id){
   $('status').textContent='';route();
 }
 exerciseSelect.addEventListener('change',()=>updateSelection(exerciseSelect.value));
-updateSelection('handstand');
-for (const [familyId,familyName] of Object.entries(EXERCISE_FAMILIES)) {
- const familyHeading=document.createElement('h2');familyHeading.className='catalog-family';familyHeading.textContent=familyName;$('catalogGrid').append(familyHeading);
- for (const exercise of ANALYSIS_CATALOG.filter(x=>x.familyId===familyId)) {
-  const config = analysisFor(exercise.id,{allowExperimental:true}),
-    card = document.createElement(config ? "a" : "article");
-  card.className = "exercise-card";
-  card.dataset.exercise = exercise.id;
-  card.dataset.status = exercise.status;
-  if (config) {
-    card.href = "#analyze";
-    card.setAttribute("aria-label", exercise.name + (exercise.experimental?' — בדיקה ניסיונית, טרם אומתה':' — ניתוח זמין'));
-    card.addEventListener('click',event=>{if(busy){event.preventDefault();return;}updateSelection(exercise.id);});
-  }
-  card.append(
-    exerciseArtwork(exercise),
-    statusBadge(exercise),
-    exerciseCaption(exercise),
-  );
-  const info=document.createElement('span');info.className='catalog-info';
-  info.textContent=exercise.difficulty+' · '+(exercise.experimental?'בדיקה ניסיונית ללא ציון. ':'')+exercise.filming;
-  card.append(info);
-  $("catalogGrid").append(card);
- }
-}
+updateSelection(selectedExerciseId());
+library = createAnalysisLibrary({onAnalyze:updateSelection,isBusy:()=>busy});
 for (const [id, showGraph] of [
   ["historyGraphTab", true],
   ["historyListTab", false],

@@ -343,7 +343,7 @@
               </p>
             </div>
           </div>
-          <a class="primary home-primary" href="#analyze"
+          <a class="primary home-primary" href="#catalog"
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <use href="#i-video"></use></svg
             >בחר או צלם וידאו</a
@@ -379,15 +379,42 @@
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <use href="#i-arrow"></use></svg
           ></a>
-          <h1 id="catalog-title" tabindex="-1">התנועה הבאה שלך</h1>
+          <h1 id="catalog-title" tabindex="-1">בחר תרגיל לניתוח</h1>
         </header>
         <div class="view-body">
+          <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
           <span id="catalogCount" class="eyebrow"></span>
-          <p class="subline">
-            בחר עמידת ידיים לניתוח עכשיו. Front Lever זמין לבדיקה ניסיונית בלבד. שאר התרגילים מוצגים לקראת ההמשך,
-            ועדיין אינם זמינים לניתוח.
-          </p>
-          <div id="catalogGrid" class="exercise-grid"></div>
+          <p class="subline">בחר מיומנות, ולאחר מכן את הווריאציה במידת הצורך.</p>
+          <p id="libraryNotice" class="storage-notice" role="status" hidden></p>
+          <div class="library-tools">
+            <label>חיפוש תרגיל<input id="librarySearch" type="search" placeholder="שם בעברית או באנגלית" autocomplete="off" /></label>
+            <label>הצגה<select id="libraryFilter"><option value="skills">מיומנויות מרכזיות</option><option value="all">כל הספרייה</option><option value="supported">זמין או ניסיוני</option><option value="training">ספריית האימונים</option></select></label>
+          </div>
+          <p id="catalogEmpty" role="status" hidden>לא נמצאו תרגילים. נסה שם אחר או שנה סינון.</p>
+          <div id="catalogGrid" class="library-grid"></div>
+        </div>
+      </section>
+      <section id="variationsView" class="view library-view" hidden aria-labelledby="variations-title">
+        <header class="page-header"><a class="icon-button back" href="#catalog" aria-label="חזרה לספרייה">→</a><h1 id="variations-title" tabindex="-1">בחר וריאציה</h1></header>
+        <div class="view-body">
+          <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
+          <p class="eyebrow">שלב 2 מתוך 3</p><p class="subline">בחר את המנח שאתה מבצע. רמות הקושי הן הכוונה כללית, ואינן הערכת מוכנות אישית.</p>
+          <div id="assistanceOptions" class="library-assistance" role="group" aria-label="עזרה בגומייה"><button type="button" data-assistance="none" aria-pressed="true">ללא גומייה</button><button type="button" data-assistance="band" aria-pressed="false">עם גומיית עזר</button></div>
+          <div id="variationGrid" class="library-grid variation-grid"></div>
+          <p id="selectedVariationName" role="status"></p>
+          <button type="button" id="variationContinue" class="primary">המשך להנחיות צילום ←</button>
+        </div>
+      </section>
+      <section id="guideView" class="view library-view" hidden aria-labelledby="guide-title">
+        <header class="page-header"><a id="guideBack" class="icon-button back" href="#catalog" aria-label="חזרה לבחירה">→</a><h1 id="guide-title" tabindex="-1"></h1></header>
+        <div class="view-body">
+          <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
+          <p class="eyebrow">לקראת הניתוח</p><p id="guideAvailability" class="library-status"></p>
+          <div id="guideArtwork" class="library-hero"></div><p id="guideDefinition" class="subline"></p>
+          <div class="guide-panels"><article><h2>הנחיות צילום</h2><p id="guideFilming"></p></article><article><h2>מנח ומדדים רלוונטיים</h2><ul id="guideCriteria"></ul></article></div>
+          <p id="guideLimit" class="library-limit"></p>
+          <div class="library-history"><h2>הביצועים שלך</h2><p id="guideHistory"></p><a id="guideHistoryLink" href="#history">פתח היסטוריה ←</a></div>
+          <button id="guideAnalyze" type="button" class="primary">התחל ניתוח</button>
         </div>
       </section>
       <section
@@ -417,6 +444,7 @@
           <div class="upload-intro capture-only">
             <label for="exerciseSelect">התרגיל והווריאציה לניתוח</label>
             <select id="exerciseSelect"></select>
+            <a href="#catalog" class="quiet-link">שינוי תרגיל או וריאציה ←</a>
             <p id="exerciseFilming"></p>
             <label id="frontLeverConsent" hidden><input type="checkbox" id="frontLeverSideView" /> הסרטון צולם מהצד במצלמה קבועה. ברור לי שזה ניתוח ניסיוני, ללא ציון וללא אימות הווריאציה.</label>
             <span class="eyebrow">עמידת ידיים · ניתוח במכשיר</span>
@@ -849,7 +877,7 @@
           ביטול הסכמה קודמת
         </button>
       </section>
-      <a id="aboutAnalyze" class="primary" href="#analyze">לניתוח ניסיון חדש</a>
+      <a id="aboutAnalyze" class="primary" href="#catalog">לניתוח ניסיון חדש</a>
     </dialog>
     <nav aria-label="ניווט באפליקציה" class="app-nav">
       <a aria-current="page" href="#home" id="navHome"

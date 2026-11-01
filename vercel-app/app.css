@@ -1866,3 +1866,44 @@ body[data-screen="replay"] #coachPanel {
 #measurementNotice {
   display: none;
 }
+
+/* MOVALYT analysis library: shared web / Capacitor, logical RTL dimensions. */
+body:is([data-screen="catalog"],[data-screen="variations"],[data-screen="guide"]){--lime:#d0fa29;background:radial-gradient(ellipse at 100% 0%,#26301755,transparent 38%),#080a0a;}
+.library-tools{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px;margin:24px 0;}
+.library-tools label{display:grid;gap:8px;color:#b8bfbb;font-size:.875rem;min-width:0;}
+.library-tools :is(input,select){width:100%;min-width:0;min-height:48px;border:1px solid #424741;border-radius:14px;padding:10px;background:#141717;color:#f5f6f3;font:inherit;}
+.library-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+.library-card{display:flex;flex-direction:column;position:relative;min-width:0;text-align:start;color:#f5f6f3;background:linear-gradient(145deg,#191c1c,#0c0f0f);border:1px solid #444a46;border-radius:24px;padding:0;overflow:hidden;font:inherit;cursor:pointer;transition:border-color .18s,transform .18s;}
+.library-card:hover{border-color:#d0fa29;transform:translateY(-2px);}
+.library-card:focus-visible,.library-assistance button:focus-visible{outline:3px solid #d0fa29;outline-offset:4px;}
+.library-card[aria-pressed="true"]{border:2px solid #d0fa29;box-shadow:0 0 0 2px #d0fa2920;}
+.library-card-content{padding:16px;display:flex;flex-direction:column;gap:10px;width:100%;}
+.library-card strong{font-size:1.3rem;line-height:1.5;overflow-wrap:anywhere;}
+.library-difficulty{color:#d0fa29;font-size:.8rem;}
+.library-measurement{color:#c8ceca;font-size:.875rem;line-height:1.5;}
+.library-status{color:#cbd5bf;font-size:.8rem;line-height:1.6;}
+.library-action{border:1px solid #b9de2c;border-radius:24px;padding:8px 12px;color:#d0fa29;margin-block-start:auto;font-size:.85rem;}
+.anatomy-media{margin:0;aspect-ratio:1.9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;background:radial-gradient(ellipse at 50% 100%,#272d2b,transparent 65%);overflow:hidden;}
+.anatomy-monogram{font-size:3rem;font-style:italic;font-weight:800;color:#8e999055;line-height:1;}
+.anatomy-media figcaption{font-size:.75rem;color:#aab5ad;}
+.anatomy-media :is(img,video){width:100%;height:100%;object-fit:contain;}
+.library-assistance{display:flex;flex-wrap:wrap;gap:12px;margin-block:24px;}
+.library-assistance button{border:1px solid #515b4b;border-radius:30px;background:#141818;color:#dce2d7;padding:12px 24px;font:inherit;min-height:48px;}
+.library-assistance button[aria-pressed="true"]{background:#d0fa29;color:#0a0b08;border-color:#d0fa29;}
+.library-view .primary{width:100%;margin-block:24px;min-height:58px;}
+.library-view button:disabled{cursor:default;opacity:.55;}
+.library-hero{border:1px solid #49504a;border-radius:24px;overflow:hidden;margin-block:24px;}
+.library-hero .anatomy-media{aspect-ratio:2.4;min-height:180px;}
+.guide-panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.guide-panels article,.library-history,.library-limit{border:1px solid #3d443e;border-radius:20px;padding:20px;background:#141818;line-height:1.8;}
+.guide-panels h2,.library-history h2{font-size:1.2rem;}
+.guide-panels ul{padding-inline-start:20px;}
+.library-limit{color:#cad4c5;margin-block:20px;}
+.library-history a{color:#d0fa29;display:inline-block;min-height:44px;padding-block:8px;}
+@media(max-width:700px){.library-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}.library-card strong{font-size:1.1rem;}.library-card-content{padding:12px;}.library-tools{grid-template-columns:minmax(0,1fr);}.guide-panels{grid-template-columns:1fr;}}
+@media(max-width:359px){.library-grid{grid-template-columns:minmax(0,1fr);}.library-card .anatomy-media{aspect-ratio:2.5;}.library-card-content{padding:16px;}}
+@media(prefers-reduced-motion:reduce){.library-card{transition:none;}.library-card:hover{transform:none;}}
+
+body[data-exercise-family="front-lever"] .capture-visual{display:none;}
+
+.library-brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-block:4px 24px;color:#f4f5f1;font-size:1.5rem;letter-spacing:.03em;}.library-brand span{height:1px;flex:1;background:linear-gradient(90deg,transparent,#d0fa29);}.library-brand span:last-child{transform:rotate(180deg);}.library-brand img{width:32px;height:32px;}
