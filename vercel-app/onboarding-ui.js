@@ -1,3 +1,4 @@
+import {analysisAvailabilityLabel} from './analysis-registry.js';
 import { ANALYSIS_CATALOG, exerciseById } from "./analysis-catalog.js";
 import {
   GOALS,
@@ -61,7 +62,7 @@ export function createOnboarding({ onShow, onComplete }) {
       "aria-label",
       exercise.name +
         " — תחום עניין" +
-        (exercise.status === "available" ? "" : " — הניתוח בקרוב"),
+        (" — " + analysisAvailabilityLabel(exercise.id)),
     );
     label.append(
       input,

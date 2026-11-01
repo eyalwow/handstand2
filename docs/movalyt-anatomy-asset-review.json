@@ -66,12 +66,12 @@
     },
     {
       "id": "front-lever",
-      "name": "מנוף קדמי",
+      "name": "פרונט לבר",
       "familyId": "front-lever",
       "variation": null,
       "assistance": "none",
       "difficulty": "לפי וריאציה",
-      "pose": "מנוף קדמי",
+      "pose": "פרונט לבר",
       "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
       "criteria": [
         "קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח."
@@ -82,8 +82,8 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי",
-        "pose": "מנוף קדמי",
+        "alt": "פרונט לבר",
+        "pose": "פרונט לבר",
         "review": [
           "same-athlete",
           "anatomy",
@@ -670,7 +670,7 @@
     },
     {
       "id": "planche-advanced-tuck",
-      "name": "פלאנץ׳ · טאק מתקדם",
+      "name": "פלאנץ׳ · אדוונס טאק",
       "familyId": "planche",
       "variation": "advanced-tuck",
       "assistance": "none",
@@ -688,7 +688,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "פלאנץ׳ · טאק מתקדם",
+        "alt": "פלאנץ׳ · אדוונס טאק",
         "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
         "review": [
           "same-athlete",
@@ -702,7 +702,7 @@
     },
     {
       "id": "planche-advanced-tuck-band",
-      "name": "פלאנץ׳ · טאק מתקדם עם גומיית עזר",
+      "name": "פלאנץ׳ · אדוונס טאק עם גומיית עזר",
       "familyId": "planche",
       "variation": "advanced-tuck-band",
       "assistance": "band",
@@ -720,7 +720,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "פלאנץ׳ · טאק מתקדם עם גומיית עזר",
+        "alt": "פלאנץ׳ · אדוונס טאק עם גומיית עזר",
         "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
         "review": [
           "same-athlete",
@@ -734,12 +734,12 @@
     },
     {
       "id": "planche-super-advanced-tuck",
-      "name": "פלאנץ׳ · טאק מתקדם מאוד",
+      "name": "פלאנץ׳ · סופר אדוונס טאק",
       "familyId": "planche",
       "variation": "super-advanced-tuck",
       "assistance": "none",
       "difficulty": "מתקדם מאוד",
-      "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
       "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.",
       "criteria": [
         "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
@@ -752,8 +752,8 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "פלאנץ׳ · טאק מתקדם מאוד",
-        "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "alt": "פלאנץ׳ · סופר אדוונס טאק",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
         "review": [
           "same-athlete",
           "anatomy",
@@ -766,12 +766,12 @@
     },
     {
       "id": "planche-super-advanced-tuck-band",
-      "name": "פלאנץ׳ · טאק מתקדם מאוד עם גומיית עזר",
+      "name": "פלאנץ׳ · סופר אדוונס טאק עם גומיית עזר",
       "familyId": "planche",
       "variation": "super-advanced-tuck-band",
       "assistance": "band",
       "difficulty": "מתקדם מאוד",
-      "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
       "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
       "criteria": [
         "מרפקים ישרים, כתפיים לפנים ביחס לכפות הידיים.",
@@ -784,8 +784,8 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "פלאנץ׳ · טאק מתקדם מאוד עם גומיית עזר",
-        "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "alt": "פלאנץ׳ · סופר אדוונס טאק עם גומיית עזר",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
         "review": [
           "same-athlete",
           "anatomy",
@@ -862,7 +862,7 @@
     },
     {
       "id": "planche-straddle",
-      "name": "פלאנץ׳ · פיסוק",
+      "name": "פלאנץ׳ · סטראדל",
       "familyId": "planche",
       "variation": "straddle",
       "assistance": "none",
@@ -880,7 +880,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "פלאנץ׳ · פיסוק",
+        "alt": "פלאנץ׳ · סטראדל",
         "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
         "review": [
           "same-athlete",
@@ -894,7 +894,7 @@
     },
     {
       "id": "planche-straddle-band",
-      "name": "פלאנץ׳ · פיסוק עם גומיית עזר",
+      "name": "פלאנץ׳ · סטראדל עם גומיית עזר",
       "familyId": "planche",
       "variation": "straddle-band",
       "assistance": "band",
@@ -912,7 +912,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "פלאנץ׳ · פיסוק עם גומיית עזר",
+        "alt": "פלאנץ׳ · סטראדל עם גומיית עזר",
         "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
         "review": [
           "same-athlete",
@@ -990,7 +990,7 @@
     },
     {
       "id": "front-lever-tuck",
-      "name": "מנוף קדמי · טאק",
+      "name": "פרונט לבר · טאק",
       "familyId": "front-lever",
       "variation": "tuck",
       "assistance": "none",
@@ -1008,7 +1008,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · טאק",
+        "alt": "פרונט לבר · טאק",
         "pose": "ירכיים וברכיים כפופות קרוב לגו.",
         "review": [
           "same-athlete",
@@ -1022,7 +1022,7 @@
     },
     {
       "id": "front-lever-tuck-band",
-      "name": "מנוף קדמי · טאק עם גומיית עזר",
+      "name": "פרונט לבר · טאק עם גומיית עזר",
       "familyId": "front-lever",
       "variation": "tuck-band",
       "assistance": "band",
@@ -1040,7 +1040,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · טאק עם גומיית עזר",
+        "alt": "פרונט לבר · טאק עם גומיית עזר",
         "pose": "ירכיים וברכיים כפופות קרוב לגו.",
         "review": [
           "same-athlete",
@@ -1054,7 +1054,7 @@
     },
     {
       "id": "front-lever-advanced-tuck",
-      "name": "מנוף קדמי · טאק מתקדם",
+      "name": "פרונט לבר · אדוונס טאק",
       "familyId": "front-lever",
       "variation": "advanced-tuck",
       "assistance": "none",
@@ -1072,7 +1072,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · טאק מתקדם",
+        "alt": "פרונט לבר · אדוונס טאק",
         "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
         "review": [
           "same-athlete",
@@ -1086,7 +1086,7 @@
     },
     {
       "id": "front-lever-advanced-tuck-band",
-      "name": "מנוף קדמי · טאק מתקדם עם גומיית עזר",
+      "name": "פרונט לבר · אדוונס טאק עם גומיית עזר",
       "familyId": "front-lever",
       "variation": "advanced-tuck-band",
       "assistance": "band",
@@ -1104,7 +1104,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · טאק מתקדם עם גומיית עזר",
+        "alt": "פרונט לבר · אדוונס טאק עם גומיית עזר",
         "pose": "אגן פתוח יותר מטאק; הברכיים נשארות כפופות.",
         "review": [
           "same-athlete",
@@ -1118,12 +1118,12 @@
     },
     {
       "id": "front-lever-super-advanced-tuck",
-      "name": "מנוף קדמי · טאק מתקדם מאוד",
+      "name": "פרונט לבר · סופר אדוונס טאק",
       "familyId": "front-lever",
       "variation": "super-advanced-tuck",
       "assistance": "none",
       "difficulty": "מתקדם מאוד",
-      "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
       "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.",
       "criteria": [
         "ידיים ישרות והגוף מתחת למוט.",
@@ -1136,8 +1136,8 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · טאק מתקדם מאוד",
-        "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "alt": "פרונט לבר · סופר אדוונס טאק",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
         "review": [
           "same-athlete",
           "anatomy",
@@ -1150,12 +1150,12 @@
     },
     {
       "id": "front-lever-super-advanced-tuck-band",
-      "name": "מנוף קדמי · טאק מתקדם מאוד עם גומיית עזר",
+      "name": "פרונט לבר · סופר אדוונס טאק עם גומיית עזר",
       "familyId": "front-lever",
       "variation": "super-advanced-tuck-band",
       "assistance": "band",
       "difficulty": "מתקדם מאוד",
-      "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+      "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
       "filming": "מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה. יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד. כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.",
       "criteria": [
         "ידיים ישרות והגוף מתחת למוט.",
@@ -1168,8 +1168,8 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · טאק מתקדם מאוד עם גומיית עזר",
-        "pose": "ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
+        "alt": "פרונט לבר · סופר אדוונס טאק עם גומיית עזר",
+        "pose": "ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.",
         "review": [
           "same-athlete",
           "anatomy",
@@ -1182,7 +1182,7 @@
     },
     {
       "id": "front-lever-one-leg",
-      "name": "מנוף קדמי · רגל אחת",
+      "name": "פרונט לבר · רגל אחת",
       "familyId": "front-lever",
       "variation": "one-leg",
       "assistance": "none",
@@ -1200,7 +1200,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · רגל אחת",
+        "alt": "פרונט לבר · רגל אחת",
         "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
         "review": [
           "same-athlete",
@@ -1214,7 +1214,7 @@
     },
     {
       "id": "front-lever-one-leg-band",
-      "name": "מנוף קדמי · רגל אחת עם גומיית עזר",
+      "name": "פרונט לבר · רגל אחת עם גומיית עזר",
       "familyId": "front-lever",
       "variation": "one-leg-band",
       "assistance": "band",
@@ -1232,7 +1232,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · רגל אחת עם גומיית עזר",
+        "alt": "פרונט לבר · רגל אחת עם גומיית עזר",
         "pose": "רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.",
         "review": [
           "same-athlete",
@@ -1246,7 +1246,7 @@
     },
     {
       "id": "front-lever-straddle",
-      "name": "מנוף קדמי · פיסוק",
+      "name": "פרונט לבר · סטראדל",
       "familyId": "front-lever",
       "variation": "straddle",
       "assistance": "none",
@@ -1264,7 +1264,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · פיסוק",
+        "alt": "פרונט לבר · סטראדל",
         "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
         "review": [
           "same-athlete",
@@ -1278,7 +1278,7 @@
     },
     {
       "id": "front-lever-straddle-band",
-      "name": "מנוף קדמי · פיסוק עם גומיית עזר",
+      "name": "פרונט לבר · סטראדל עם גומיית עזר",
       "familyId": "front-lever",
       "variation": "straddle-band",
       "assistance": "band",
@@ -1296,7 +1296,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · פיסוק עם גומיית עזר",
+        "alt": "פרונט לבר · סטראדל עם גומיית עזר",
         "pose": "שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.",
         "review": [
           "same-athlete",
@@ -1310,7 +1310,7 @@
     },
     {
       "id": "front-lever-full",
-      "name": "מנוף קדמי · מלא",
+      "name": "פרונט לבר · מלא",
       "familyId": "front-lever",
       "variation": "full",
       "assistance": "none",
@@ -1328,7 +1328,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · מלא",
+        "alt": "פרונט לבר · מלא",
         "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
         "review": [
           "same-athlete",
@@ -1342,7 +1342,7 @@
     },
     {
       "id": "front-lever-full-band",
-      "name": "מנוף קדמי · מלא עם גומיית עזר",
+      "name": "פרונט לבר · מלא עם גומיית עזר",
       "familyId": "front-lever",
       "variation": "full-band",
       "assistance": "band",
@@ -1360,7 +1360,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "מנוף קדמי · מלא עם גומיית עזר",
+        "alt": "פרונט לבר · מלא עם גומיית עזר",
         "pose": "שתי רגליים ישרות וצמודות בהמשך הגו.",
         "review": [
           "same-athlete",
@@ -1374,7 +1374,7 @@
     },
     {
       "id": "l-sit-tuck",
-      "name": "L-Sit · טאק",
+      "name": "אל־סיט · טאק",
       "familyId": "l-sit",
       "variation": "tuck",
       "assistance": "none",
@@ -1391,7 +1391,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "L-Sit · טאק",
+        "alt": "אל־סיט · טאק",
         "pose": "ברכיים מכונסות, ידיים ישרות וכפות הרגליים באוויר.",
         "review": [
           "same-athlete",
@@ -1405,7 +1405,7 @@
     },
     {
       "id": "l-sit-one-leg",
-      "name": "L-Sit · רגל אחת",
+      "name": "אל־סיט · רגל אחת",
       "familyId": "l-sit",
       "variation": "one-leg",
       "assistance": "none",
@@ -1422,7 +1422,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "L-Sit · רגל אחת",
+        "alt": "אל־סיט · רגל אחת",
         "pose": "רגל אחת ישרה קדימה והשנייה כפופה.",
         "review": [
           "same-athlete",
@@ -1436,7 +1436,7 @@
     },
     {
       "id": "l-sit-full",
-      "name": "L-Sit · מלא",
+      "name": "אל־סיט · מלא",
       "familyId": "l-sit",
       "variation": "full",
       "assistance": "none",
@@ -1453,7 +1453,7 @@
         "status": "pending-review",
         "image": null,
         "animation": null,
-        "alt": "L-Sit · מלא",
+        "alt": "אל־סיט · מלא",
         "pose": "רגליים ישרות קדימה, ידיים ישרות ואגן מעל המשטח.",
         "review": [
           "same-athlete",

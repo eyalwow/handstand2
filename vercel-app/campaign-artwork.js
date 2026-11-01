@@ -14,13 +14,13 @@ export const CAMPAIGN_ARTWORK = Object.freeze({
   },
   "front-lever": {
     src: "./assets/campaign/front-lever.webp",
-    alt: "צילום AI מקורי — ספורטאית ב־Front Lever",
+    alt: "צילום AI מקורי — ספורטאית בפרונט לבר",
     width: 1024,
     height: 1536,
   },
   planche: {
     src: "./assets/campaign/planche.webp",
-    alt: "צילום AI מקורי — ספורטאי ב־Planche על מקבילים נמוכים",
+    alt: "צילום AI מקורי — ספורטאי בפלאנץ׳ על מקבילים נמוכים",
     width: 1024,
     height: 1536,
   },

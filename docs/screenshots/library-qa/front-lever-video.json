@@ -1,0 +1,27 @@
+{
+  "realInference": true,
+  "physicalDevice": false,
+  "errors": [],
+  "posts": [],
+  "externalNative": [],
+  "cases": [
+    {
+      "package": "website",
+      "poseFrames": 42,
+      "outcome": "unreliable",
+      "scoreDisplayed": false,
+      "historyWrites": 0,
+      "hebrewReport": true,
+      "playback": true
+    },
+    {
+      "package": "native-web",
+      "poseFrames": 42,
+      "outcome": "unreliable",
+      "scoreDisplayed": false,
+      "historyWrites": 0,
+      "hebrewReport": true,
+      "playback": true
+    }
+  ]
+}

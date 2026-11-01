@@ -1,12 +1,13 @@
 import {ANALYSIS_CATALOG,exerciseById} from './analysis-catalog.js';
-import {analysisFor} from './analysis-registry.js';
+import {analysisFor,analysisAvailability,analysisAvailabilityLabel,variationsFor} from './analysis-registry.js';
+export {variationsFor} from './analysis-registry.js';
 import {analysisMediaFigure} from './analysis-media.js';
 import {readLibrarySelection,saveLibrarySelection} from './library-state.js';
 import {readVariationHistory} from './variation-history.js';
 const $=id=>document.getElementById(id);
 const node=(tag,text,className)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(className)n.className=className;return n;};
-export const variationsFor=id=>ANALYSIS_CATALOG.filter(x=>x.familyId===id && x.variation && x.id!==id);
-export function availabilityLabel(x){return x.id==='handstand'?'ניתוח זמין · מדד טכניקה ניסיוני':x.experimental?'ניסיוני · ללא ציון':'ניתוח עדיין אינו זמין';}
+export const availabilityLabel = x => analysisAvailabilityLabel(x.id);
+export const catalogCountLabel = count => count === 1 ? 'תרגיל אחד' : `${count} תרגילים ומשפחות`;
 export function createAnalysisLibrary({onAnalyze,isBusy}){
   let selected='handstand',family='handstand',assistance='none';
   const notice=$('libraryNotice');
@@ -29,7 +30,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const button=node('button',null,'library-card');button.type='button';button.dataset.exercise=x.id;
     button.append(analysisMediaFigure(x.id));
     const content=node('span',null,'library-card-content');
-    content.append(node('span',x.difficulty,'library-difficulty'),node('strong',x.name),node('span',x.measurement,'library-measurement'),node('span',availabilityLabel(x),'library-status'));
+    content.append(node('span',x.difficulty,'library-difficulty'),node('strong',variation?x.variationLabel:x.name),...(!variation?[node('span',x.measurement,'library-measurement')]:[]),node('span',availabilityLabel(x),'library-status'));
     if(variation){button.setAttribute('aria-pressed',String(x.id===selected));button.onclick=()=>{if(choose(x.id)){renderVariations();$('variationGrid').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});}};}
     else {content.append(node('span',variationsFor(x.id).length?'בחירת וריאציה ←':'הנחיות ופרטים ←','library-action'));button.onclick=()=>open(x);}
     button.append(content);return button;
@@ -37,10 +38,10 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
   function renderCatalog(){
     const query=$('librarySearch').value.trim().toLocaleLowerCase('he'),filter=$('libraryFilter').value;
     const bases=ANALYSIS_CATALOG.filter(x=>!x.variation || x.id==='handstand');
-    const matches=bases.filter(x=>(!query || [x.name,x.english,x.category,x.equipment].filter(Boolean).join(' ').toLocaleLowerCase('he').includes(query)) &&
-      (filter==='all'||(filter==='supported'?(!!analysisFor(x.id,{allowExperimental:true})||x.id==='front-lever'):filter==='training'?x.source==='training':x.source!=='training')));
+    const matches=bases.filter(x=>(!query || [x.name,x.english,x.category,x.equipment,...variationsFor(x.id).flatMap(v=>[v.name,v.english])].filter(Boolean).join(' ').toLocaleLowerCase('he').includes(query)) &&
+      (filter==='all'||(filter==='supported'?analysisAvailability(x.id).status!=='unavailable':filter==='training'?x.source==='training':x.source!=='training')));
     $('catalogGrid').replaceChildren(...matches.map(x=>card(x)));
-    $('catalogCount').textContent=`${matches.length} תרגילים ומשפחות · ${ANALYSIS_CATALOG.length} אפשרויות בקטלוג המלא`;
+    $('catalogCount').textContent=`${catalogCountLabel(matches.length)} · ${ANALYSIS_CATALOG.length} אפשרויות בקטלוג המלא`;
     $('catalogEmpty').hidden=matches.length>0;
   }
   function renderVariations(){
@@ -52,7 +53,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const list=all.filter(x=>(x.assistance||'none')===assistance);
     $('variationGrid').replaceChildren(...list.map(x=>card(x,true)));
     $('variationContinue').disabled=!list.some(x=>x.id===selected);
-    $('selectedVariationName').textContent=exerciseById(selected).name;
+    $('selectedVariationName').textContent='נבחר: '+exerciseById(selected).variationLabel;
   }
   function renderGuide(){
     const x=exerciseById(selected),config=analysisFor(x.id,{allowExperimental:true});
@@ -78,6 +79,11 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const old=exerciseById(selected),next=variationsFor(family).find(x=>x.assistance===assistance&&x.baseVariation===old.baseVariation);
     if(next)choose(next.id);renderVariations();
   };
+  const actionbar=$('variationActionbar');
+  if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>{
+    const height=actionbar.getBoundingClientRect().height;
+    if(height>0)document.documentElement.style.setProperty('--variation-action-height',`${height}px`);
+  }).observe(actionbar,{box:'border-box'}); // Safe-area padding changes the border box, even when text height is unchanged.
   $('variationContinue').onclick=()=>{location.hash='guide';renderGuide();};
   renderCatalog();renderGuide();
   return {sync(id){if(!choose(id))return;const x=exerciseById(id);family=x.variation?x.familyId:x.id;assistance=x.assistance||'none';},render(screen){if(screen==='catalog')renderCatalog();if(screen==='variations')renderVariations();if(screen==='guide')renderGuide();}};

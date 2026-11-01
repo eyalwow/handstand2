@@ -1,5 +1,7 @@
 # MOVALYT exercise library — Stage A
 
+The QA continuation and current layout/terminology checks are documented in [Draft #35 QA corrections](movalyt-pr35-qa.md). Stage A still awaits Work review.
+
 ## Base and scope
 
 Checked open Draft PRs #29–#34 and remote branches before implementation. This separate branch is stacked directly on #34 (`a9023c13f6a499b8cd0396cd2338d33d3a4c0051`, `fix/handstand-reliable-measurement`). All earlier Drafts remain unmerged. The existing working checkout was clean and contained only main; no existing work was overwritten.

@@ -1,0 +1,29 @@
+{
+  "realInference": true,
+  "physicalDevice": false,
+  "errors": [],
+  "posts": [],
+  "externalNative": [],
+  "cases": [
+    {
+      "package": "website",
+      "score": null,
+      "seconds": null,
+      "samples": 42,
+      "delegate": "CPU",
+      "reason": "no-established-hold",
+      "playback": true,
+      "historyReload": true
+    },
+    {
+      "package": "native-web",
+      "score": null,
+      "seconds": null,
+      "samples": 42,
+      "delegate": "CPU",
+      "reason": "no-established-hold",
+      "playback": true,
+      "historyReload": true
+    }
+  ]
+}

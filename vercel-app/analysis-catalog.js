@@ -3,7 +3,7 @@ import { EXERCISES } from "./exercise-library.js";
 const entries = [
   ["handstand", "עמידת ידיים", "Handstand", "balance"],
   ["planche", "פלאנץ׳", "Planche", "strength"],
-  ["front-lever", "מנוף קדמי", "Front Lever", "bar"],
+  ["front-lever", "פרונט לבר", "Front Lever", "bar"],
   ["back-lever", "בק לבר", "Back Lever", "bar"],
   ["muscle-up", "עליית כוח", "Muscle Up", "bar"],
   ["pull-up", "מתח", "Pull Up", "bar"],
@@ -28,16 +28,16 @@ const entries = [
   ["ring-support", "תמיכה על טבעות", "Ring Support", "strength"],
 ];
 export const EXERCISE_FAMILIES = Object.freeze({
-  handstand:'עמידת ידיים', 'front-lever':'מנוף קדמי', planche:'פלאנץ׳', 'l-sit':'L-Sit', other:'תרגילים נוספים'
+  handstand:'עמידת ידיים', 'front-lever':'פרונט לבר', planche:'פלאנץ׳', 'l-sit':'אל־סיט', other:'תרגילים נוספים'
 });
 const filming = 'מצלמה קבועה בגובה הגוף, מהצד, ללא סיבוב. כל הגוף והמפרקים בפריים ובתאורה ברורה.';
 const leverFilming = filming + ' יש לכלול גם את הידיים ונקודת האחיזה. צלמו כניסה, החזקה ברורה ויציאה. אין להסיק תמיכה או עומק מהשלד.';
 const progressions = [
   ['tuck','טאק','מתקדם','ירכיים וברכיים כפופות קרוב לגו.'],
-  ['advanced-tuck','טאק מתקדם','מתקדם','אגן פתוח יותר מטאק; הברכיים נשארות כפופות.'],
-  ['super-advanced-tuck','טאק מתקדם מאוד','מתקדם מאוד','ירכיים פתוחות יותר מטאק מתקדם; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.'],
+  ['advanced-tuck','אדוונס טאק','מתקדם','אגן פתוח יותר מטאק; הברכיים נשארות כפופות.'],
+  ['super-advanced-tuck','סופר אדוונס טאק','מתקדם מאוד','ירכיים פתוחות יותר מאדוונס טאק; שוקיים כפופות. שם אימוני שאינו תקן אחיד — יש לבדוק את המנח.'],
   ['one-leg','רגל אחת','מתקדם מאוד','רגל אחת ישרה בהמשך הגו, השנייה מכונסת. יש לצלם את שתי הרגליים.'],
-  ['straddle','פיסוק','מתקדם מאוד','שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.'],
+  ['straddle','סטראדל','מתקדם מאוד','שתי ברכיים ישרות ורגליים מפושקות בבירור. עומק הפיסוק אינו ניתן לאימות מצילום צד יחיד.'],
   ['full','מלא','מתקדם מאוד','שתי רגליים ישרות וצמודות בהמשך הגו.'],
 ];
 const variants = ['planche','front-lever'].flatMap(familyId => progressions.flatMap(([variation,label,difficulty,definition]) =>
@@ -76,7 +76,7 @@ export const ANALYSIS_CATALOG = Object.freeze([
     }),
   ),
   ...variants.map(({familyId,variation,label,difficulty,definition,assistance,baseVariation})=>Object.freeze({
-    id: `${familyId}-${variation}`, familyId, variation, name:`${EXERCISE_FAMILIES[familyId]} · ${label}`,
+    id: `${familyId}-${variation}`, familyId, variation, variationLabel:label, name:`${EXERCISE_FAMILIES[familyId]} · ${label}`,
     english:`${familyId} ${variation}`, category:familyId==='l-sit'?'core':'strength',
     difficulty, definition, assistance, baseVariation, measurement:'זמן החזקה + טכניקה',
     criteria:Object.freeze(criteriaFor(familyId)),

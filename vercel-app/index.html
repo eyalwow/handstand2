@@ -143,7 +143,7 @@
           id="onboardingWelcome"
         >
           <img
-            alt="צילום AI מקורי: ספורטאית מבצעת Front Lever בחדר כושר תעשייתי"
+            alt="צילום AI מקורי: ספורטאית מבצעת פרונט לבר בחדר כושר תעשייתי"
             class="welcome-photo"
             height="1536"
             src="assets/campaign/front-lever.webp"
@@ -165,7 +165,7 @@
             ><span class="micro-label">MOVE. ANALYZE. IMPROVE.</span>
           </header>
           <div class="welcome-caption">
-            <span class="small-line"></span> FRONT LEVER <span>· בקרוב</span>
+            <span class="small-line"></span> פרונט לבר <span>· ניסיוני ללא ציון</span>
           </div>
           <div class="welcome-copy">
             <span class="eyebrow">כל תנועה מתחילה בהחלטה.</span>
@@ -200,7 +200,7 @@
             <h1 tabindex="-1">מה היית רוצה<br /><em>לדייק או ללמוד?</em></h1>
             <p class="subline">
               אפשר לבחור כמה תרגילים כתחומי עניין. כרגע ניתן לנתח עמידת ידיים
-              ו־Front Lever בבדיקה ניסיונית ללא ציון; שאר התרגילים מסומנים ״בקרוב״.
+              ופרונט לבר בבדיקה ניסיונית ללא ציון; הניתוח לשאר התרגילים עדיין אינו זמין.
             </p>
             <fieldset id="interestChoices" class="exercise-grid">
               <legend class="visually-hidden">תחומי עניין בתרגילים</legend>
@@ -264,8 +264,8 @@
                 src="./assets/campaign/planche.webp"
                 width="1024"
                 height="1536"
-                alt="צילום AI מקורי של Planche"
-              /><span>PLANCHE · הניתוח בקרוב</span>
+                alt="צילום AI מקורי של פלאנץ׳"
+              /><span>פלאנץ׳ · ניתוח לא זמין</span>
             </div>
             <p id="onboardingSummary" class="subline"></p>
             <div id="chosenInterests" class="interest-chips"></div>
@@ -401,8 +401,10 @@
           <p class="eyebrow">שלב 2 מתוך 3</p><p class="subline">בחר את המנח שאתה מבצע. רמות הקושי הן הכוונה כללית, ואינן הערכת מוכנות אישית.</p>
           <div id="assistanceOptions" class="library-assistance" role="group" aria-label="עזרה בגומייה"><button type="button" data-assistance="none" aria-pressed="true">ללא גומייה</button><button type="button" data-assistance="band" aria-pressed="false">עם גומיית עזר</button></div>
           <div id="variationGrid" class="library-grid variation-grid"></div>
-          <p id="selectedVariationName" role="status"></p>
-          <button type="button" id="variationContinue" class="primary">המשך להנחיות צילום ←</button>
+          <div id="variationActionbar" class="variation-actionbar" aria-label="המשך עם הווריאציה שנבחרה">
+            <p id="selectedVariationName" role="status"></p>
+            <button type="button" id="variationContinue" class="primary">המשך להנחיות צילום ←</button>
+          </div>
         </div>
       </section>
       <section id="guideView" class="view library-view" hidden aria-labelledby="guide-title">
@@ -823,7 +825,7 @@
         <div class="history-chart" id="historyChart"></div>
         <h2>הניתוחים האחרונים</h2>
         <div aria-live="polite" id="history-list"></div>
-        <h2>Front Lever · מדידות ניסיוניות לפי וריאציה</h2>
+        <h2 id="variationHistoryTitle">פרונט לבר · היסטוריית מדידות ניסיוניות</h2>
         <label for="variationHistoryFilter">היסטוריית וריאציה</label>
         <select id="variationHistoryFilter"></select>
         <div id="variationHistory" aria-live="polite"></div>
@@ -858,7 +860,7 @@
           הווידאו ונקודות הגוף נשארים במכשיר. ההיסטוריה כוללת מדידות בלבד, ללא
           הסרטונים.
         </p>
-        <p>עמידת ידיים נתמכת. Front Lever בבדיקה ניסיונית ללא ציון. Planche ו־L-Sit בקרוב. משוב Gemini בענן נשאר חסום.</p>
+        <p>עמידת ידיים נתמכת. פרונט לבר בבדיקה ניסיונית ללא ציון. הניתוח לפלאנץ׳ ולאל־סיט עדיין אינו זמין. משוב Gemini בענן נשאר חסום.</p>
         <p>
           הצילומים באפליקציה הם נכס AI מקורי. צילום הדגמה בלבד, ללא קשר לנתוני
           משתמש.

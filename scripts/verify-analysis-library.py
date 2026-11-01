@@ -64,11 +64,71 @@ try:
    page.locator('#catalogGrid [data-exercise="front-lever"]').click();screen('variations');page.locator('#variationGrid [data-exercise="front-lever-tuck"]').click();page.locator('#variationContinue').click();screen('guide');page.locator('#guideHistoryLink').click();screen('history')
    assert page.locator('#variationHistoryFilter').input_value()=='front-lever-tuck';assert 'אין מדידות' in page.locator('#variationHistory').inner_text()
    page.reload(wait_until='networkidle');screen('history');assert 'אין מדידות' in page.locator('#variationHistory').inner_text()
+   # QA regressions: family capability, terminology, singular count and all 24 choices.
+   catalog();page.locator('#libraryFilter').select_option('skills');page.locator('#librarySearch').fill('')
+   front=page.locator('#catalogGrid [data-exercise="front-lever"]')
+   assert 'ניתוח ניסיוני' in front.inner_text() and '5 וריאציות' in front.inner_text()
+   assert 'ניתוח לא זמין' not in front.inner_text()
+   assert 'ניתוח פעיל' in page.locator('#catalogGrid [data-exercise="handstand"]').inner_text()
+   assert 'ניתוח לא זמין' in page.locator('#catalogGrid [data-exercise="planche"]').inner_text()
+   page.locator('#librarySearch').fill('בק לבר');assert page.locator('#catalogCount').inner_text().startswith('תרגיל אחד ·')
+   page.locator('#librarySearch').fill('אדוונס');assert page.locator('#catalogGrid button').count()==2
+   page.locator('#librarySearch').fill('פרונט לבר');assert page.locator('#catalogGrid button').count()==1
+   page.locator('#librarySearch').fill('');page.locator('#libraryFilter').select_option('supported')
+   assert page.locator('#catalogGrid button').evaluate_all('(nodes)=>nodes.map(n=>n.dataset.exercise).sort().join(",")')=='front-lever,handstand'
+   matrix=[];layout={}
+   for family,hebrew in [('planche','פלאנץ׳'),('front-lever','פרונט לבר')]:
+    catalog();page.locator('#libraryFilter').select_option('skills');page.locator('#catalogGrid [data-exercise="'+family+'"]').click();screen('variations')
+    assert page.locator('#variations-title').inner_text()=='בחר וריאציה · '+hebrew
+    assert page.locator('#variationsView .eyebrow').evaluate('(n)=>parseFloat(getComputedStyle(n).fontSize)')>=14
+    for band in [False,True]:
+     page.locator('[data-assistance="'+('band' if band else 'none')+'"]').click()
+     for variant in ['tuck','advanced-tuck','super-advanced-tuck','one-leg','straddle','full']:
+      exercise_id=family+'-'+variant+('-band' if band else '')
+      chosen=page.locator('#variationGrid [data-exercise="'+exercise_id+'"]');chosen.click()
+      assert chosen.get_attribute('aria-pressed')=='true'
+      assert page.evaluate('document.activeElement.dataset.exercise')==exercise_id
+      page.reload(wait_until='networkidle');screen('variations')
+      assert page.locator('#variationGrid [aria-pressed="true"]').get_attribute('data-exercise')==exercise_id
+      assert page.locator('[data-assistance="'+('band' if band else 'none')+'"]').get_attribute('aria-pressed')=='true'
+      if width<=700:
+       action=page.locator('#variationContinue').bounding_box()
+       assert action['y']>=0 and action['y']+action['height']<=844
+       assert not page.locator('.app-nav').is_visible()
+      if family=='planche' and band and variant=='super-advanced-tuck':
+       page.evaluate('window.scrollTo(0,0)');shot('qa-variations')
+       layout=page.locator('#variationGrid .library-card').first.evaluate('(n)=>({cardWidth:n.getBoundingClientRect().width,mediaHeight:n.querySelector("figure").getBoundingClientRect().height})')
+       if width==1440:assert layout['cardWidth']>=300 and layout['mediaHeight']>=180,layout
+      page.locator('#variationContinue').click();screen('guide')
+      name=page.locator('#guide-title').inner_text();assert name.startswith(hebrew+' · ')
+      active=family=='front-lever' and not band and variant!='super-advanced-tuck'
+      assert page.locator('#guideAnalyze').is_enabled()==active
+      assert ('עיגון' in page.locator('#guideFilming').inner_text())==band
+      page.reload(wait_until='networkidle');screen('guide');assert page.locator('#guide-title').inner_text()==name
+      assert page.locator('#guideAnalyze').is_enabled()==active
+      page.locator('#guideBack').click();screen('variations')
+      assert page.locator('#variationGrid [aria-pressed="true"]').get_attribute('data-exercise')==exercise_id
+      matrix.append(exercise_id)
+   assert len(matrix)==24 and len(set(matrix))==24
+   if width<=700:
+    page.evaluate('document.documentElement.style.setProperty("--safe-bottom","34px")')
+    page.wait_for_function('()=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--variation-action-height"))>=document.getElementById("variationActionbar").getBoundingClientRect().height-1')
+    padding=page.locator('#variationActionbar').evaluate('(n)=>parseFloat(getComputedStyle(n).paddingBottom)');assert padding>=46
+    page.evaluate('window.scrollTo(0,document.documentElement.scrollHeight)')
+    page.wait_for_function('()=>document.getElementById("variationGrid").lastElementChild.getBoundingClientRect().bottom<=document.getElementById("variationActionbar").getBoundingClientRect().top')
+    assert page.locator('#variationGrid .library-card').last.is_visible()
+    shot('qa-safe-area')
+    layout['safeAreaBottomPadding']=padding
+    page.evaluate('document.documentElement.style.removeProperty("--safe-bottom")')
+   page.evaluate("location.hash='history'");screen('history')
+   assert page.locator('#variationHistoryTitle').inner_text()=='פרונט לבר · היסטוריית מדידות ניסיוניות'
+   assert 'מנוף קדמי' not in page.locator('#variationHistoryFilter').inner_text()
+   assert 'אדוונס טאק' in page.locator('#variationHistoryFilter').inner_text() and 'סטראדל' in page.locator('#variationHistoryFilter').inner_text()
    # Recover gracefully without overwriting corrupt selection. Quota failures are unit tested.
    page.evaluate("localStorage.setItem('movalyt-library-selection-v1','broken')");page.reload(wait_until='networkidle');catalog();assert page.locator('#libraryNotice').is_visible()
    page.locator('#catalogGrid [data-exercise="handstand"]').click();screen('guide');assert page.evaluate("localStorage.getItem('movalyt-library-selection-v1')")=='broken'
    page.locator('#guideBack').click();screen('catalog');page.locator('#catalogGrid [data-exercise="handstand"]').click();screen('guide');page.locator('#guideAnalyze').click();screen('analyze')
-   report['cases'].append({'width':width,'flow':'passed','overflow':False,'catalog':131,'variants':27});ctx.close()
+   report['cases'].append({'width':width,'flow':'passed','overflow':False,'catalog':131,'variants':27,'selectionMatrix':matrix,'layout':layout});ctx.close()
   browser.close()
  assert not report['errors'],report['errors'];assert not report['posts'],report['posts'];assert not report['requestFailures'],report['requestFailures']
 finally:

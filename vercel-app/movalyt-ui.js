@@ -470,6 +470,8 @@ export const analysisUI = {
       }
   },
   finish(outcome) {
+    if(exerciseById(selectedExerciseId()).experimental)
+      $('replayTrimNotice').textContent='הסרטון המלא · פרונט לבר ניסיוני, ללא אימות הווריאציה וללא ציון.';
     busy = false;
     available = ["scored", "unreliable"].includes(outcome);
     scored = outcome === "scored";

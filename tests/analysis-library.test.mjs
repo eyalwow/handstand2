@@ -74,3 +74,39 @@ test('PR34 measurement, scoring, sampling, runtime and Coach source stay byte-id
   assert.equal(createHash('sha256').update(readFileSync(new URL('../vercel-app/'+file,import.meta.url))).digest('hex'),hash,file);
  }
 });
+
+test('family availability and supported filter resolve only actually registered analysis options',async()=>{
+ const {analysisAvailability,analysisAvailabilityLabel}=await import('../vercel-app/analysis-registry.js');
+ assert.deepEqual(analysisAvailability('handstand'),{status:'active',count:1,hasVariations:false});
+ assert.deepEqual(analysisAvailability('front-lever'),{status:'experimental',count:5,hasVariations:true});
+ assert.match(analysisAvailabilityLabel('front-lever'),/ניסיוני.*5 וריאציות.*ללא ציון/);
+ assert.equal(analysisFor('front-lever',{allowExperimental:true}),null);
+ for(const x of ANALYSIS_CATALOG){
+  const options=[x,...variationsFor(x.id)].filter(v=>analysisFor(v.id,{allowExperimental:true}));
+  const availability=analysisAvailability(x.id);
+  assert.equal(availability.status!=='unavailable',options.length>0,x.id);
+  assert.equal(availability.count,options.length,x.id);
+ }
+ assert.deepEqual(analysisAvailability('unknown'),{status:'unavailable',count:0,hasVariations:false});
+ for(const id of ['planche','front-lever-full-band','front-lever-super-advanced-tuck'])assert.equal(analysisAvailability(id).status,'unavailable');
+});
+test('Hebrew exercise terminology stays consistent while every original exercise/history identity is preserved',()=>{
+ const names={'front-lever':'פרונט לבר','back-lever':'בק לבר',planche:'פלאנץ׳'};
+ for(const [id,label] of Object.entries(names))assert.equal(exerciseById(id).name,label);
+ for(const family of ['front-lever','planche']){
+  for(const [id,label] of Object.entries({tuck:'טאק','advanced-tuck':'אדוונס טאק','super-advanced-tuck':'סופר אדוונס טאק',straddle:'סטראדל',full:'מלא'})){
+   assert.equal(exerciseById(family+'-'+id).variationLabel,label);
+   assert.equal(exerciseById(family+'-'+id+'-band').variationLabel,label+' עם גומיית עזר');
+  }
+ }
+ assert.ok(ANALYSIS_CATALOG.every(x=>!x.name.includes('מנוף קדמי')));
+ // Snapshot of all 158 (id, historyId, legacy training name) tuples before QA.
+ const identities=ANALYSIS_CATALOG.map(x=>[x.id,x.historyId,x.legacyName??null]);
+ assert.equal(createHash('sha256').update(JSON.stringify(identities)).digest('hex'),'c12fd7f7476111b95aa78c13f3b7dfdf4329d054bc5daeafee16f3eadad695a3');
+});
+test('Hebrew singular catalog count is grammatical',async()=>{
+ const {catalogCountLabel}=await import('../vercel-app/analysis-library-ui.js');
+ assert.equal(catalogCountLabel(1),'תרגיל אחד');
+ assert.equal(catalogCountLabel(0),'0 תרגילים ומשפחות');
+ assert.equal(catalogCountLabel(20),'20 תרגילים ומשפחות');
+});

@@ -1,5 +1,14 @@
 # Handstand Lab — project status
 
+## Draft #35 QA corrections — 2026-11-01 (awaiting Work review)
+
+- Continued the existing `feat/movalyt-library-foundation` / [Draft #35](https://github.com/eyalwow/handstand2/pull/35). Unified registry-derived active/experimental/unavailable labels and filtering; the Front Lever family correctly exposes five experimental/no-score options. No new engines were enabled.
+- Expanded desktop library screens to 1120px maximum, with 350px cards measured at 1440. Mobile variation Continue stays visible in a fixed, safe-area-aware action area; reserved content height updates on border-box changes. Simulated 34px bottom inset leaves the final card clear. Step/count captions are 14px; repeated family/measurement text is removed from variant cards; singular count and experimental history heading are Hebrew.
+- Display names use פרונט לבר / אדוונס טאק / סופר אדוונס טאק / סטראדל consistently in library, search, guides, onboarding, report and playback. All 158 exercise/history IDs and original training-name identities are unchanged, with a pre-QA identity hash regression. Stored data and keys are untouched.
+- 136/136 Node regressions; 4/4 Capacitor web-package checks and 37-module rebuild pass. **144/144 browser selection/reload scenarios** pass (all 24 Planche/Front Lever states × 320/390/1440 × website/native web bundle). No overflow/page errors/failed asset requests/POSTs. Real public-video CPU checks pass for Handstand abstention and Front Lever rejection/Hebrew report/no-score playback on both packages; no new positive-analysis/calibration claim.
+- [QA report, screenshots, evidence and remaining limits](docs/movalyt-pr35-qa.md). Physical iPhone/Android remain unverified; Stage A still awaits Work approval. No new PR, merge, Production, IPA, paid service, illustration, Handstand Coach or native/workflow configuration change.
+
+
 ## MOVALYT exercise library — Stage A — 2026-11-01 (Draft only)
 
 - Draft [PR #35](https://github.com/eyalwow/handstand2/pull/35), new `feat/movalyt-library-foundation`, stacked directly on Draft #34 `a9023c1`; checked #29–#34 open/unmerged before work. Includes all #34 Handstand timing/scoring fixes and the Capacitor wrapper. No merge/Production/native build.
