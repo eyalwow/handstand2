@@ -1,0 +1,4 @@
+# Blender's automatic backups and disposable half-resolution review passes.
+*.blend[0-9]*
+renders/*-preview.png
+__pycache__/

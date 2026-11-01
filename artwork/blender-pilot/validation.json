@@ -1,0 +1,247 @@
+{
+  "blender": "4.3.2",
+  "source": "MOVALYT-Athlete-v001.blend",
+  "armatures": 1,
+  "bones": 65,
+  "bodyMeshes": 1,
+  "characterMeshes": [
+    "GEO-MOVALYT-Eyebrows",
+    "GEO-MOVALYT-Eyes",
+    "GEO-MOVALYT-Body",
+    "GEO-MOVALYT-Shorts",
+    "GEO-MOVALYT-Hair"
+  ],
+  "bodyVertices": 37700,
+  "bodyFaces": 37698,
+  "skinWeightRange": [
+    0.9999998640269041,
+    1.000000149011612
+  ],
+  "imageTextureNodes": 0,
+  "poses": [
+    {
+      "frame": 1,
+      "name": "standing",
+      "restMeshHashes": {
+        "GEO-MOVALYT-Eyebrows": "74c9ba1d3590466df6cadc323518b96db92188f9b09fd45511dcf88c02c4c37e",
+        "GEO-MOVALYT-Eyes": "bed5457daa16510a9a6f7e7b1c1618129b08463948867ff21eaa422b19085452",
+        "GEO-MOVALYT-Body": "42d31888bb3d4888c30756d6715dd4a5efb1c02559ba81b09d877e979814bd41",
+        "GEO-MOVALYT-Shorts": "640d4a2f540011865189216fbb6462631ee4f247a8fd6041b61e526dbdd83d0f",
+        "GEO-MOVALYT-Hair": "1ff6ac2cdcb352ea2eb704f06b98fce2dd066b6240dcf5f8652369d5dc99f0d3"
+      },
+      "maxRelativeBoneLengthError": 1.5658748371283338e-06,
+      "rigTranslation": [
+        0.0,
+        0.0,
+        0.007674776017665863
+      ],
+      "angles": {
+        "l": {
+          "elbowDegrees": 180.00000500895632,
+          "kneeDegrees": 173.58078832130326,
+          "hipToTorsoDegrees": 172.16062806831752,
+          "thighInclinationDegrees": -89.98021765897056
+        },
+        "r": {
+          "elbowDegrees": 180.00000500895632,
+          "kneeDegrees": 173.58078832130326,
+          "hipToTorsoDegrees": 172.16062806831752,
+          "thighInclinationDegrees": -89.98021765897056
+        }
+      },
+      "jointWorldCoordinates": {
+        "upperarm_l": [
+          0.2120116502046585,
+          0.06540003418922424,
+          1.4631749391555786
+        ],
+        "lowerarm_l": [
+          0.22829972207546234,
+          0.06540004163980484,
+          1.2125885486602783
+        ],
+        "hand_l": [
+          0.24410010874271393,
+          0.06540005654096603,
+          0.9695072770118713
+        ],
+        "thigh_l": [
+          0.11430513858795166,
+          0.035999998450279236,
+          0.978874683380127
+        ],
+        "calf_l": [
+          0.11430513113737106,
+          0.03610016033053398,
+          0.5500745177268982
+        ],
+        "foot_l": [
+          0.11430513113737106,
+          0.08750025928020477,
+          0.09417446702718735
+        ],
+        "upperarm_r": [
+          -0.21201162040233612,
+          0.06540004163980484,
+          1.463174819946289
+        ],
+        "lowerarm_r": [
+          -0.22829973697662354,
+          0.06540001928806305,
+          1.2125885486602783
+        ],
+        "hand_r": [
+          -0.24410013854503632,
+          0.06540001183748245,
+          0.9695072174072266
+        ],
+        "thigh_r": [
+          -0.11430513858795166,
+          0.035999998450279236,
+          0.978874683380127
+        ],
+        "calf_r": [
+          -0.11430513113737106,
+          0.03610016033053398,
+          0.5500745177268982
+        ],
+        "foot_r": [
+          -0.11430513113737106,
+          0.08750025928020477,
+          0.09417446702718735
+        ]
+      },
+      "lowestBodyPointMeters": 0.0
+    },
+    {
+      "frame": 40,
+      "name": "l-sit-full",
+      "restMeshHashes": {
+        "GEO-MOVALYT-Eyebrows": "74c9ba1d3590466df6cadc323518b96db92188f9b09fd45511dcf88c02c4c37e",
+        "GEO-MOVALYT-Eyes": "bed5457daa16510a9a6f7e7b1c1618129b08463948867ff21eaa422b19085452",
+        "GEO-MOVALYT-Body": "42d31888bb3d4888c30756d6715dd4a5efb1c02559ba81b09d877e979814bd41",
+        "GEO-MOVALYT-Shorts": "640d4a2f540011865189216fbb6462631ee4f247a8fd6041b61e526dbdd83d0f",
+        "GEO-MOVALYT-Hair": "1ff6ac2cdcb352ea2eb704f06b98fce2dd066b6240dcf5f8652369d5dc99f0d3"
+      },
+      "maxRelativeBoneLengthError": 1.1449815282560394e-06,
+      "rigTranslation": [
+        0.0,
+        0.0,
+        -0.5739262700080872
+      ],
+      "angles": {
+        "l": {
+          "elbowDegrees": 180.00000500895632,
+          "kneeDegrees": 180.00000500895632,
+          "hipToTorsoDegrees": 82.1693613757878,
+          "thighInclinationDegrees": 7.964303521442302e-06
+        },
+        "r": {
+          "elbowDegrees": 180.00000500895632,
+          "kneeDegrees": 180.00000500895632,
+          "hipToTorsoDegrees": 82.1693613757878,
+          "thighInclinationDegrees": 7.964303521442302e-06
+        }
+      },
+      "jointWorldCoordinates": {
+        "upperarm_l": [
+          0.2120116502046585,
+          0.06540003418922424,
+          0.8815738558769226
+        ],
+        "lowerarm_l": [
+          0.22829972207546234,
+          0.06540004163980484,
+          0.6309874653816223
+        ],
+        "hand_l": [
+          0.24410010874271393,
+          0.06540005654096603,
+          0.3879062533378601
+        ],
+        "thigh_l": [
+          0.11430513113737106,
+          0.03600000590085983,
+          0.3972736597061157
+        ],
+        "calf_l": [
+          0.082235187292099,
+          -0.39159926772117615,
+          0.39727360010147095
+        ],
+        "foot_l": [
+          0.04792239889502525,
+          -0.8491029739379883,
+          0.39727360010147095
+        ],
+        "upperarm_r": [
+          -0.21201162040233612,
+          0.06540004163980484,
+          0.8815737366676331
+        ],
+        "lowerarm_r": [
+          -0.22829973697662354,
+          0.06540001928806305,
+          0.6309874653816223
+        ],
+        "hand_r": [
+          -0.24410013854503632,
+          0.06540001183748245,
+          0.38790619373321533
+        ],
+        "thigh_r": [
+          -0.11430513113737106,
+          0.03600000590085983,
+          0.3972736597061157
+        ],
+        "calf_r": [
+          -0.082235187292099,
+          -0.39159926772117615,
+          0.39727360010147095
+        ],
+        "foot_r": [
+          -0.04792239889502525,
+          -0.8491029739379883,
+          0.3972736597061157
+        ]
+      },
+      "lowestBodyPointMeters": 0.21877437829971313,
+      "handHandleSurfaceChecks": {
+        "l": {
+          "handleRadiusMeters": 0.014,
+          "minimumRadialSkinDistanceMeters": 0.011753669163132082,
+          "nearestSurfaceDifferenceMeters": 1.1227476618360169e-05,
+          "maximumPenetrationMeters": 0.0022463308368679182,
+          "note": "Geometry proximity only; visual finger/contact approval remains required"
+        },
+        "r": {
+          "handleRadiusMeters": 0.014,
+          "minimumRadialSkinDistanceMeters": 0.011753839128089062,
+          "nearestSurfaceDifferenceMeters": 1.1208683310646311e-05,
+          "maximumPenetrationMeters": 0.002246160871910938,
+          "note": "Geometry proximity only; visual finger/contact approval remains required"
+        }
+      },
+      "pelvisJointAboveGroundMeters": 0.3751736879348755
+    }
+  ],
+  "approval": "Pending visual/rig approval; not a professional anatomy certification",
+  "portableExport": {
+    "file": "MOVALYT-Athlete-v001.glb",
+    "bytes": 4084352,
+    "sha256": "8e045f01c4f270f8650f83cd849d475cfbbc6752e8eef9a23de0047e5a770e14",
+    "skins": 1,
+    "joints": 65,
+    "animations": 1,
+    "images": 0,
+    "reimportPassed": true,
+    "maximumReimportJointPositionErrorMeters": 1.8530389315154485e-06
+  },
+  "artifactHashes": {
+    "source/MOVALYT-Athlete-v001.blend": "d3c584e7fea53c51b8db8b574ae0ed083bbd4cbf66fa096631c709f4ad6b5b2e",
+    "renders/standing.png": "a0a94a81bd1b45636ca337f2beb67c0f3f3b8e1b1a7e2f73279484b31e42944f",
+    "renders/l-sit-full.png": "1729aea14e2f7190042da403bdab5a6d4587dd5804cd8e8f52853fab893ce023",
+    "renders/blender-ui-standing.png": "b648bb33f573ae72e89c1b250641f1f262da4a2d2553daa9fcdf3291841bfb03",
+    "renders/blender-ui-l-sit.png": "2624b364178505eb11087bc1bc216287b801727fba800b43ba5fdfb5b17ac448"
+  }
+}

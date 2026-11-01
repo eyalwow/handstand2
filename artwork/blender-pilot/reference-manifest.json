@@ -1,0 +1,48 @@
+{
+  "basePR": 35,
+  "baseCommit": "8999e967cf5633098f0fe6edb92452862aa34597",
+  "sourceOfTruth": "One skinned 3D character and one armature. Rendered poses must reuse the same mesh data and bone lengths.",
+  "styleReference": "User-approved illustrated anatomical direction: sculpted grayscale muscle forms, black shorts, simplified face; reference images guide style, not imported image planes.",
+  "geometrySource": {
+    "author": "Quaternius",
+    "pack": "Universal Base Characters — Standard / Superhero Male",
+    "officialUrl": "https://quaternius.com/packs/universalbasecharacters.html",
+    "officialFreeDownload": "https://quaternius.itch.io/universal-base-characters",
+    "license": "CC0-1.0",
+    "localLicense": "source/QUATERNIUS-LICENSE.txt",
+    "retrieval": "Verified public GLB repackaging from programasweights/avatar, preserving geometry/weights/bones; materials replaced for MOVALYT",
+    "mirrorUrl": "https://github.com/programasweights/avatar/blob/e225eee89835d121876b15bf4c887dc20d357950/public/assets/character.glb",
+    "sha256": "d6f3b64cab629f6ddca9ba063811aeffd3663a8a4e49ade47cd9505dc2bbd70f"
+  },
+  "skills": [
+    {
+      "url": "https://github.com/CheshireJCat/create-3d-model-skill",
+      "commit": "df175e38106687c6b872d0c88ca527d674ee5d2f",
+      "entry": "skills/create-3d-model/SKILL.md"
+    },
+    {
+      "url": "https://github.com/RobLe3/cc-blender-skill",
+      "commit": "a2634b588e80265e796aa53f8ab178d75105c2af",
+      "entry": "plugin/skills and knowledge/10-rigging/00-overview.md"
+    }
+  ],
+  "coordinateContract": {
+    "units": "meters",
+    "up": "+Z",
+    "front": "-Y",
+    "left": "+X",
+    "targetAdultHeightMeters": 1.82
+  },
+  "requestedPoses": [
+    "standing",
+    "l-sit-full"
+  ],
+  "notInScope": [
+    "other 156 poses",
+    "application integration",
+    "engine changes",
+    "production",
+    "paid source pack"
+  ],
+  "approvalStatus": "pending character, rig and pose review"
+}

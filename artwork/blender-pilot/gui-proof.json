@@ -1,0 +1,21 @@
+{
+  "method": "Unmodified ImageMagick X11 window capture of actual Blender GUI",
+  "blender": "4.3.2",
+  "blend": "/workspace/handstand2/artwork/blender-pilot/source/MOVALYT-Athlete-v001.blend",
+  "captures": [
+    {
+      "frame": 1,
+      "file": "blender-ui-standing.png",
+      "mode": "POSE",
+      "rig": "ARM-MOVALYT-Athlete",
+      "armatures": 1
+    },
+    {
+      "frame": 40,
+      "file": "blender-ui-l-sit.png",
+      "mode": "POSE",
+      "rig": "ARM-MOVALYT-Athlete",
+      "armatures": 1
+    }
+  ]
+}
