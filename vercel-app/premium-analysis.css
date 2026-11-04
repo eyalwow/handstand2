@@ -1,0 +1,54 @@
+/* MOVALYT analysis design system. Mobile first; preserved engines and legacy routes. */
+:root {
+  color-scheme: dark;
+  --ma-bg: #080a09; --ma-surface: #111514; --ma-raised: #191d1b;
+  --ma-accent: #c7ff27; --ma-text: #f5f7f5; --ma-muted: #a5ada8; --ma-line: #303733;
+  --ma-space-1: 4px; --ma-space-2: 8px; --ma-space-3: 12px; --ma-space-4: 16px;
+  --ma-space-5: 24px; --ma-space-6: 32px;
+  --ma-radius: 18px; --ma-control-radius: 14px;
+  --ma-body: 1rem; --ma-small: .875rem; --ma-title: 1.5rem;
+  --ma-nav-height: 72px; --ma-inset: 18px;
+  --bg: var(--ma-bg); --panel: var(--ma-surface); --white: var(--ma-text);
+  --lime: var(--ma-accent); --muted: var(--ma-muted); --line: var(--ma-line);
+  --nav: calc(var(--ma-nav-height) + env(safe-area-inset-bottom, 0px));
+  --flow-muted: var(--ma-muted); --flow-small: .9375rem; --flow-meta: .875rem;
+}
+html { background: var(--ma-bg); scroll-padding-bottom: calc(var(--nav) + 24px); }
+body, body[data-screen] { background: var(--ma-bg); color: var(--ma-text); font-size: var(--ma-body); line-height: 1.65; }
+body[data-screen] .mobile-app { width: 100%; max-width: 520px; margin-inline: auto; border: 0; background: var(--ma-bg); min-height: 100svh; padding-bottom: calc(var(--nav) + 24px); box-shadow: none; }
+body[data-screen] :is(button, input, select, textarea) { font: inherit; }
+body[data-screen] :is(button, a, input, select, summary) { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+body[data-screen] :is(button, a, input, select, summary):focus-visible { outline: 2px solid var(--ma-accent); outline-offset: 4px; }
+body[data-screen] :is(button, .primary, .secondary, .icon-button, summary, select) { min-height: 44px; }
+body[data-screen] .icon-button { min-width: 44px; width: 44px; padding: 10px; border: 0; background: transparent; color: var(--ma-text); border-radius: 50%; }
+body[data-screen] .icon { width: 22px; height: 22px; flex-shrink: 0; }
+body[data-screen] .page-header { position: relative; min-height: 68px; padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px 8px; border: 0; background: var(--ma-bg); }
+body[data-screen] .page-header h1 { font-size: 1.125rem; font-weight: 600; margin: 0; line-height: 1.5; }
+body[data-screen] :is(.primary, .feature-action, .home-primary) { min-height: 52px; padding: 12px 18px; border-radius: 28px; border: 1px solid transparent; background: var(--ma-accent); color: #101508; font-size: 1rem; font-weight: 600; box-shadow: none; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; line-height: 1.5; }
+body[data-screen] :is(.secondary, .text-button) { background: var(--ma-surface); border: 1px solid var(--ma-line); color: var(--ma-text); border-radius: var(--ma-control-radius); padding: 10px 14px; box-shadow: none; text-decoration: none; }
+body[data-screen] :is(button, .primary, .secondary):disabled { opacity: .55; cursor: not-allowed; }
+body[data-screen] :is(input[type="search"], select) { width: 100%; max-width: 100%; min-width: 0; border: 1px solid var(--ma-line); background: var(--ma-surface); border-radius: var(--ma-control-radius); color: var(--ma-text); padding: 10px 12px; font-size: 1rem; }
+body[data-screen] :is(.subline, .note, .library-limit, .history-note) { color: var(--ma-muted); font-size: .9375rem; line-height: 1.75; }
+body[data-screen] .eyebrow { font-size: var(--ma-small); letter-spacing: 0; }
+body[data-screen] .app-nav { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; z-index: 30; bottom: 0; left: 50%; transform: translateX(-50%); width: min(520px, 100%); height: auto; min-height: var(--ma-nav-height); padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); background: #080a09f5; border: 0; border-top: 1px solid var(--ma-line); border-radius: 0; box-shadow: none; backdrop-filter: blur(16px); gap: 12px; }
+body[data-screen] .app-nav a { min-height: 52px; border-radius: 14px; color: var(--ma-muted); font-size: .875rem; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+body[data-screen] .app-nav [aria-current="page"] { color: var(--ma-accent); background: #c7ff2712; border: 0; box-shadow: none; }
+body[data-screen] .app-nav svg { width: 22px; height: 22px; }
+body[data-keyboard="open"] .app-nav, body[data-screen="onboarding"] .app-nav { display: none; }
+body[data-screen] dialog { width: min(480px, calc(100% - 24px)); max-height: calc(100svh - 32px); overflow-y: auto; background: var(--ma-surface); color: var(--ma-text); border: 1px solid var(--ma-line); border-radius: 24px; padding: 24px; }
+body[data-screen] dialog::backdrop { background: #000c; }
+body[data-screen] dialog :is(p, li) { font-size: .9375rem; line-height: 1.8; }
+body[data-screen] .storage-notice { position: relative; background: var(--ma-raised); color: var(--ma-text); border: 1px solid var(--ma-line); border-radius: 12px; font-size: .9375rem; padding: 12px; }
+@media(min-width: 900px) {
+  body[data-screen] .mobile-app { max-width: 1080px; }
+  body[data-screen] .app-nav { width: min(520px, 100%); border: 1px solid var(--ma-line); border-bottom: 0; border-radius: 20px 20px 0 0; }
+}
+@media(prefers-reduced-motion: no-preference) {
+  body[data-screen] main > section:not([hidden]) { animation: ma-arrive .18s ease-out; }
+  body[data-screen] :is(button, .primary, .secondary) { transition: border-color .15s, background-color .15s, transform .15s; }
+  body[data-screen] :is(button, .primary, .secondary):active { transform: scale(.985); }
+  @keyframes ma-arrive { from { opacity: .65; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media(prefers-reduced-motion: reduce) {
+  body[data-screen] *, body[data-screen] *::before, body[data-screen] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
