@@ -1,0 +1,22 @@
+{
+  "source": "hosted Preview 00168d7",
+  "timing": [
+    {
+      "kind": "video-analysis",
+      "outcome": "error",
+      "capturePath": "fixed-sequential-seek",
+      "stage": "scan",
+      "decodeMs": 111,
+      "modelMs": 5048,
+      "poseDelegate": "CPU",
+      "execution": "worker",
+      "errorName": "Error",
+      "errorCode": null,
+      "totalMs": 5410
+    }
+  ],
+  "diagnostic": [],
+  "consoleErrors": [
+    "Error: undefined is not an object (evaluating 'GLctx.activeTexture')"
+  ]
+}

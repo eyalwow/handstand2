@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
-    <meta name="theme-color" content="#050908" />
+    <meta name="theme-color" content="#080A09" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"
@@ -29,6 +29,7 @@
     />
     <link rel="stylesheet" href="./app.css" />
     <link rel="stylesheet" href="./mobile-flow.css" />
+    <link rel="stylesheet" href="./premium-analysis.css" />
   </head>
   <body>
     <svg
@@ -292,85 +293,23 @@
           </button>
         </footer>
       </section>
-      <section
-        aria-labelledby="home-title"
-        class="view home"
-        hidden=""
-        id="homeView"
-      >
-        <span id="home"></span>
-        <div class="home-page">
+      <section aria-labelledby="home-title" class="view home" hidden id="homeView">
+        <span id="home"></span><div class="home-page">
+          <header class="floating-header">
+            <a aria-label="MOVALYT" class="brand" href="#home"><img alt="" height="28" src="./assets/brand/movalyt-mark.svg" width="28" /><span>MOVALYT</span></a>
+            <button aria-label="הגדרות ופרטיות" class="icon-button" id="aboutButton" type="button"><svg class="icon" aria-hidden="true"><use href="#i-gear"></use></svg></button>
+          </header>
           <div class="home-hero">
-            <img
-              alt="צילום AI מקורי: ספורטאי בעמידת ידיים"
-              class="home-photo"
-              height="1536"
-              src="./assets/photography/movalyt-handstand-ai.webp"
-              width="1024"
-            />
-            <div class="home-shade"></div>
-            <header class="floating-header">
-              <a aria-label="MOVALYT" class="brand" href="#home"
-                ><img
-                  alt=""
-                  height="34"
-                  src="./assets/brand/movalyt-mark.svg"
-                  width="34"
-                /><span>MOVALYT</span></a
-              ><button
-                aria-label="מידע על סקיצת העיצוב"
-                class="icon-button"
-                id="aboutButton"
-                type="button"
-              >
-                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                  <use href="#i-gear"></use>
-                </svg>
-              </button>
-            </header>
-            <a
-              aria-label="קטלוג התרגילים, עמידת ידיים פעילה"
-              class="discipline"
-              href="#catalog"
-              ><i></i> HANDSTAND <span>כל התרגילים ←</span></a
-            >
-            <div class="home-copy">
-              <h1 id="home-title" tabindex="-1">
-                ניתוח תנועה<br />שמוביל אותך<br /><em>לרמה הבאה.</em>
-              </h1>
-              <p>
-                הטכניקה שלך, מזווית חדשה.<br />וידאו אחד. תובנות שאפשר ליישם.
-              </p>
-            </div>
+            <div class="home-copy"><p class="eyebrow">התנועה שלך. במבט מדויק יותר.</p><h1 id="home-title" tabindex="-1">להבין את הטכניקה.<br /><em>לדעת מה לשפר.</em></h1>
+            <p>בחר תרגיל, צלם ניסיון וקבל תובנות מהתנועה שלך. הסרטון נשאר במכשיר.</p></div>
+            <img class="home-photo" src="./assets/anatomy/handstand-corrected.webp" width="720" height="720" alt="איור עמידת ידיים ישרה מאחור, ללא קיר" decoding="async" />
           </div>
-          <a class="primary home-primary" href="#catalog"
-            ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-              <use href="#i-video"></use></svg
-            >בחר או צלם וידאו</a
-          >
-          <div class="benefits">
-            <article>
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-target"></use></svg
-              ><strong>ציון טכניקה</strong><small>מדידה מתוך 100</small>
-            </article>
-            <article>
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-pose"></use></svg
-              ><strong>משוב ברור</strong><small>לדעת מה לשפר</small>
-            </article>
-            <article>
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-chart"></use></svg
-              ><strong>התקדמות</strong><small>ניסיון אחרי ניסיון</small>
-            </article>
-          </div>
+          <a class="primary home-primary" href="#catalog">בחר תרגיל ונתח סרטון<svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg></a>
+          <a class="quiet-link home-library-link" href="#catalog">לספריית התרגילים ←</a>
+          <div class="analysis-intro"><span>01 · בחירת תרגיל</span><span>02 · העלאת סרטון</span><span>03 · תובנות אישיות</span></div>
+          <p class="home-analysis-scope">עמידת ידיים · ניתוח זמין<br />פרונט לבר · ניסיוני, ללא ציון</p>
         </div>
-        <section aria-labelledby="recent-heading" class="home-recent">
-          <h2 id="recent-heading">הניסיון האחרון שלך</h2>
-          <div id="home-analysis-history"></div>
-          <a class="quiet-link" href="#catalog">גלו את קטלוג התרגילים ←</a>
-        </section>
+        <section aria-labelledby="recent-heading" class="home-recent"><h2 id="recent-heading">הניתוח האחרון שלך</h2><div id="home-analysis-history"></div><a class="quiet-link" href="#history">כל הניתוחים ←</a></section>
       </section>
       <section id="catalogView" class="view catalog-view" hidden="">
         <span id="catalog"></span>
@@ -379,16 +318,19 @@
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <use href="#i-arrow"></use></svg
           ></a>
+          <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
           <h1 id="catalog-title" tabindex="-1">בחר תרגיל לניתוח</h1>
         </header>
         <div class="view-body">
-          <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
           <span id="catalogCount" class="eyebrow"></span>
-          <p class="subline">בחר מיומנות, ולאחר מכן את הווריאציה במידת הצורך.</p>
+          <p class="subline catalog-intro">הטכניקה מתחילה בבחירה הנכונה.</p>
           <p id="libraryNotice" class="storage-notice" role="status" hidden></p>
           <div class="library-tools">
-            <label>חיפוש תרגיל<input id="librarySearch" type="search" placeholder="שם בעברית או באנגלית" autocomplete="off" /></label>
-            <label>הצגה<select id="libraryFilter"><option value="skills">מיומנויות מרכזיות</option><option value="all">כל הספרייה</option><option value="supported">זמין או ניסיוני</option><option value="training">ספריית האימונים</option></select></label>
+            <label class="catalog-search"><span>חיפוש תרגיל</span><input id="librarySearch" type="search" placeholder="חיפוש בעברית או באנגלית…" autocomplete="off" /></label>
+            <details id="catalogOptions" class="catalog-options"><summary aria-label="סינון ומיון" title="סינון ומיון"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16M8 4v6m8 4v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></summary><div class="catalog-filter-fields">
+            <label>הצגה<select id="libraryFilter"><option value="skills">מיומנויות מרכזיות</option><option value="all">כל הספרייה</option><option value="supported">זמין או ניסיוני</option><option value="training">תרגילי הכנה</option></select></label>
+            <label>מיון<select id="librarySort"><option value="recommended">סדר מומלץ</option><option value="name">לפי שם</option><option value="available">ניתוח זמין תחילה</option></select></label>
+            </div></details>
           </div>
           <p id="catalogEmpty" role="status" hidden>לא נמצאו תרגילים. נסה שם אחר או שנה סינון.</p>
           <div id="catalogGrid" class="library-grid"></div>
@@ -398,7 +340,8 @@
         <header class="page-header"><a class="icon-button back" href="#catalog" aria-label="חזרה לספרייה">→</a><h1 id="variations-title" tabindex="-1">בחר וריאציה</h1></header>
         <div class="view-body">
           <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
-          <p class="eyebrow">שלב 2 מתוך 3</p><p class="subline">בחר את המנח שאתה מבצע. רמות הקושי הן הכוונה כללית, ואינן הערכת מוכנות אישית.</p>
+          <div id="familyHero" class="family-hero"></div>
+          <p class="subline family-intro">בחר את המנח שאתה מבצע. רמות הקושי הן הכוונה כללית.</p>
           <div id="assistanceOptions" class="library-assistance" role="group" aria-label="עזרה בגומייה"><button type="button" data-assistance="none" aria-pressed="true">ללא גומייה</button><button type="button" data-assistance="band" aria-pressed="false">עם גומיית עזר</button></div>
           <div id="variationGrid" class="library-grid variation-grid"></div>
           <div id="variationActionbar" class="variation-actionbar" aria-label="המשך עם הווריאציה שנבחרה">
@@ -412,8 +355,9 @@
         <div class="view-body">
           <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
           <p class="eyebrow">לקראת הניתוח</p><p id="guideAvailability" class="library-status"></p>
-          <div id="guideArtwork" class="library-hero"></div><p id="guideDefinition" class="subline"></p>
-          <div class="guide-panels"><article><h2>הנחיות צילום</h2><p id="guideFilming"></p></article><article><h2>מנח ומדדים רלוונטיים</h2><ul id="guideCriteria"></ul></article></div>
+          <div id="guideArtwork" class="library-hero"></div><p id="guideEnglish" class="exercise-english" dir="ltr"></p><p id="guideDefinition" class="subline"></p>
+          <section class="guide-instructions"><h2>דגשים לביצוע</h2><ol id="guideInstructions"></ol></section>
+          <div class="guide-panels"><article><h2>כך מכינים סרטון לניתוח</h2><p id="guideFilming"></p></article><article><h2>מנח ומדדים רלוונטיים</h2><ul id="guideCriteria"></ul></article></div>
           <p id="guideLimit" class="library-limit"></p>
           <div class="library-history"><h2>הביצועים שלך</h2><p id="guideHistory"></p><a id="guideHistoryLink" href="#history">פתח היסטוריה ←</a></div>
           <a id="guideWorkout" class="text-link" href="./workout.html?start=1&amp;exercise=plancheLean" hidden>בחירת הטיית פלאנץ׳ לאימון</a>
@@ -529,6 +473,13 @@
             </div>
           </details>
 
+          <section id="uploadReview" class="upload-review capture-only" hidden aria-label="בדיקת הסרטון לפני ניתוח">
+            <video id="uploadPreview" controls playsinline muted preload="metadata" aria-label="תצוגה מקדימה של הסרטון שנבחר"></video>
+            <p id="uploadFileLabel"></p><p id="uploadReviewStatus" role="status"></p>
+            <p class="note">עד שתי דקות. צפייה מקדימה אינה ניתוח; התוצאות יופיעו רק אחרי עיבוד הסרטון.</p>
+            <button id="startReviewedAnalysis" type="button" class="primary" disabled>התחלת ניתוח</button>
+            <button id="discardUpload" type="button" class="secondary">ביטול בחירת הסרטון</button>
+          </section>
           <div id="analysisStage" hidden="">
             <canvas
               id="analysisCanvas"
@@ -741,7 +692,7 @@
               <div class="result-highlights" id="resultHighlights"></div>
             </div>
           </div>
-          <p id="measurementNotice" class="note" hidden=""></p>
+          <p id="measurementNotice" class="note" role="status" hidden=""></p>
           <section
             aria-label="המשוב שלך"
             class="coach-panel"
@@ -772,6 +723,7 @@
               <h3>יעד לאימון הבא</h3>
               <p id="reportTargetText"></p>
             </section>
+            <section class="report-section report-metrics"><h3>מדדי הטכניקה</h3><div aria-label="הסבר מדדי הציון" class="score-breakdown" id="scoreBreakdown"></div></section>
             <details class="measurement-details" id="advancedReport">
               <summary>פירוט מדדים מתקדם</summary>
               <section
@@ -780,11 +732,7 @@
                 hidden=""
                 aria-label="שלבי התרגיל והשליטה"
               ></section>
-              <div
-                aria-label="הסבר מדדי הציון"
-                class="score-breakdown"
-                id="scoreBreakdown"
-              ></div>
+
               <div id="advancedEvidence"></div>
               <p class="coach-quality" id="coachQuality"></p>
               <p class="gemini-status" id="geminiStatus"></p>
@@ -812,7 +760,7 @@
           >
             <path d="m14 5-7 7 7 7"></path></svg
         ></a>
-        <h1 id="history-title" tabindex="-1">היסטוריה</h1>
+        <h1 id="history-title" tabindex="-1">ההתקדמות שלך</h1>
         <p class="history-note">
           מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.
         </p>
@@ -830,7 +778,7 @@
         <label for="variationHistoryFilter">היסטוריית וריאציה</label>
         <select id="variationHistoryFilter"></select>
         <div id="variationHistory" aria-live="polite"></div>
-        <a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a>
+        <a class="feature-action" href="#catalog">בחירת תרגיל לניתוח חדש ←</a>
       </section>
     </main>
     <dialog id="aboutDialog" aria-labelledby="aboutTitle">
@@ -847,7 +795,7 @@
         height="42"
         alt=""
       />
-      <h2 id="aboutTitle">ההעדפות שלך</h2>
+      <h2 id="aboutTitle">הגדרות ופרטיות</h2>
       <div id="savedPreferences"></div>
       <p id="preferencesError" class="note" role="status"></p>
       <button id="restartOnboarding" class="secondary" type="button">
@@ -861,10 +809,10 @@
           הווידאו ונקודות הגוף נשארים במכשיר. ההיסטוריה כוללת מדידות בלבד, ללא
           הסרטונים.
         </p>
+        <p class="version-note">MOVALYT · ניתוח מקומי · גרסה ניסיונית</p>
         <p>עמידת ידיים נתמכת. פרונט לבר בבדיקה ניסיונית ללא ציון. הניתוח לפלאנץ׳ ולאל־סיט עדיין אינו זמין. משוב Gemini בענן נשאר חסום.</p>
         <p>
-          הצילומים באפליקציה הם נכס AI מקורי. צילום הדגמה בלבד, ללא קשר לנתוני
-          משתמש.
+          איורי התרגילים הם המחשה בלבד, ואינם תוצאות ניתוח של משתמש.
         </p>
       </details>
       <section class="cloud-choice">
@@ -881,6 +829,10 @@
         </button>
       </section>
       <a id="aboutAnalyze" class="primary" href="#catalog">לניתוח ניסיון חדש</a>
+    </dialog>
+    <dialog id="historyReportDialog" aria-labelledby="historyReportTitle">
+      <button type="button" id="closeHistoryReport" class="icon-button" aria-label="סגירת סיכום המדידה">×</button>
+      <h2 id="historyReportTitle" tabindex="-1">סיכום מדידה שמורה</h2><div id="historyReportBody"></div>
     </dialog>
     <nav aria-label="ניווט באפליקציה" class="app-nav">
       <a aria-current="page" href="#home" id="navHome"

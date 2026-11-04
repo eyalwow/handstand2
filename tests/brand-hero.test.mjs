@@ -6,15 +6,15 @@ const html=read("../vercel-app/index.html");
 const css=read("../vercel-app/app.css");
 const manifest=JSON.parse(read("../vercel-app/app.webmanifest"));
 
-test("brand hero follows the approved athlete-first direction without fabricated video results",()=>{
+test("analysis home uses approved illustration without fabricated video results",()=>{
  assert.match(html,/app\.css/);
  assert.match(html,/movalyt-mark\.svg/);
  assert.match(html,/class="home-hero"/);
  assert.match(html,/class="home-photo"/);
- assert.match(html,/movalyt-handstand-ai/);
- assert.match(html,/נכס AI מקורי/);
- assert.match(html,/צילום הדגמה בלבד/);
- assert.match(html,/ללא קשר לנתוני\s+משתמש/);
+ assert.match(html,/handstand-corrected\.webp/);
+ assert.match(html,/איורי התרגילים הם המחשה בלבד/);
+ assert.match(html,/אינם תוצאות ניתוח של משתמש/);
+
  assert.doesNotMatch(html,/href="\.\/training\.html"/);
 });
 test("analysis and saved data DOM contracts remain intact",()=>{

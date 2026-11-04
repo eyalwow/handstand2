@@ -1,0 +1,111 @@
+{
+  "url": "http://127.0.0.1:42717/vercel-app/",
+  "browser": "chromium",
+  "viewports": [
+    {
+      "width": 390,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 320,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 1440,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    }
+  ],
+  "inference": [
+    {
+      "width": 390,
+      "timing": {
+        "kind": "video-analysis",
+        "outcome": "unreliable",
+        "capturePath": "fixed-sequential-seek",
+        "stage": "render",
+        "decodeMs": 30.6,
+        "modelMs": 3303.5,
+        "poseDelegate": "CPU",
+        "execution": "worker",
+        "scanMs": 3831.3,
+        "poseMs": 1943.7,
+        "poseRoundTripMs": 1974.2,
+        "workerOverheadMs": 30.5,
+        "frameExtractionMs": 1.8,
+        "samplingWaitMs": 1855.3,
+        "poseFrames": 42,
+        "scoringMs": 8.4,
+        "totalMs": 7275
+      },
+      "score": null
+    },
+    {
+      "width": 320,
+      "timing": {
+        "kind": "video-analysis",
+        "outcome": "unreliable",
+        "capturePath": "fixed-sequential-seek",
+        "stage": "render",
+        "decodeMs": 29.2,
+        "modelMs": 2796.1,
+        "poseDelegate": "CPU",
+        "execution": "worker",
+        "scanMs": 3703,
+        "poseMs": 1835,
+        "poseRoundTripMs": 1862.4,
+        "workerOverheadMs": 27.4,
+        "frameExtractionMs": 1.9,
+        "samplingWaitMs": 1838.7,
+        "poseFrames": 42,
+        "scoringMs": 6.3,
+        "totalMs": 6606.5
+      },
+      "score": null
+    },
+    {
+      "width": 1440,
+      "timing": {
+        "kind": "video-analysis",
+        "outcome": "unreliable",
+        "capturePath": "fixed-sequential-seek",
+        "stage": "render",
+        "decodeMs": 282.7,
+        "modelMs": 4247.1,
+        "poseDelegate": "CPU",
+        "execution": "worker",
+        "scanMs": 8252,
+        "poseMs": 4452.5,
+        "poseRoundTripMs": 4527.8,
+        "workerOverheadMs": 75.3,
+        "frameExtractionMs": 6.7,
+        "samplingWaitMs": 3717.5,
+        "poseFrames": 42,
+        "scoringMs": 6.6,
+        "totalMs": 12873
+      },
+      "score": null
+    }
+  ],
+  "previewToolbarBlocked": false
+}

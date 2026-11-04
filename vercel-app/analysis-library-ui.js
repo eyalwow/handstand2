@@ -1,3 +1,4 @@
+import {exerciseEnglish,FAMILY_COPY,instructionsFor} from './analysis-copy.js';
 import {ANALYSIS_CATALOG,exerciseById} from './analysis-catalog.js';
 import {analysisFor,analysisAvailability,analysisAvailabilityLabel,variationsFor} from './analysis-registry.js';
 export {variationsFor} from './analysis-registry.js';
@@ -30,9 +31,10 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const button=node('button',null,'library-card');button.type='button';button.dataset.exercise=x.id;
     button.append(analysisMediaFigure(x.id));
     const content=node('span',null,'library-card-content');
-    content.append(node('span',x.difficulty,'library-difficulty'),node('strong',variation?x.variationLabel:x.name),...(!variation?[node('span',x.measurement,'library-measurement')]:[]),node('span',availabilityLabel(x),'library-status'));
+    content.append(node('span',x.difficulty,'library-difficulty'),node('strong',variation?x.variationLabel:x.name),node('span',exerciseEnglish(x),'library-english'),...(!variation?[node('span',x.measurement,'library-measurement')]:[]),node('span',analysisAvailability(x.id).status==='experimental'?'ניסיוני · ללא ציון':availabilityLabel(x),'library-status'));
     if(variation){button.setAttribute('aria-pressed',String(x.id===selected));button.onclick=()=>{if(choose(x.id)){renderVariations();$('variationGrid').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});}};}
     else {content.append(node('span',variationsFor(x.id).length?'בחירת וריאציה ←':'הנחיות ופרטים ←','library-action'));button.onclick=()=>open(x);}
+    const availability=analysisAvailability(x.id);button.dataset.availability=availability.status;
     button.append(content);return button;
   }
   function renderCatalog(){
@@ -40,14 +42,21 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const bases=ANALYSIS_CATALOG.filter(x=>!x.variation || x.id==='handstand');
     const matches=bases.filter(x=>(!query || [x.name,x.english,x.category,x.equipment,...variationsFor(x.id).flatMap(v=>[v.name,v.english])].filter(Boolean).join(' ').toLocaleLowerCase('he').includes(query)) &&
       (filter==='all'||(filter==='supported'?analysisAvailability(x.id).status!=='unavailable':filter==='training'?x.source==='training':x.source!=='training')));
+    const sort=$('librarySort').value,order=['planche','front-lever','handstand','pull-up','muscle-up','dip','l-sit'];
+    if(sort==='name')matches.sort((a,b)=>a.name.localeCompare(b.name,'he'));
+    else if(sort==='available')matches.sort((a,b)=>Number(analysisAvailability(b.id).status!=='unavailable')-Number(analysisAvailability(a.id).status!=='unavailable'));
+    else matches.sort((a,b)=>(order.indexOf(a.id)<0?99:order.indexOf(a.id))-(order.indexOf(b.id)<0?99:order.indexOf(b.id)));
     $('catalogGrid').replaceChildren(...matches.map(x=>card(x)));
-    $('catalogCount').textContent=`${catalogCountLabel(matches.length)} · ${ANALYSIS_CATALOG.length} אפשרויות בקטלוג המלא`;
+    $('catalogCount').textContent=`${catalogCountLabel(matches.length)} · ${ANALYSIS_CATALOG.length} אפשרויות`;
     $('catalogEmpty').hidden=matches.length>0;
   }
   function renderVariations(){
     const all=variationsFor(family);
     if(!all.length){location.hash='guide';return;}
-    $('variations-title').textContent='בחר וריאציה · '+exerciseById(family).name;
+    const base=exerciseById(family);
+    $('variations-title').textContent=base.name+' · וריאציות';
+    const hero=$('familyHero');hero.replaceChildren(analysisMediaFigure(family),node('h2',base.name),node('p',base.english,'exercise-english'),node('p',FAMILY_COPY[family]||'', 'subline'));
+    const english=hero.querySelector('.exercise-english');english.dir='ltr';
     $('assistanceOptions').hidden=!all.some(x=>x.assistance==='band');
     for(const b of $('assistanceOptions').querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.assistance===assistance));
     const list=all.filter(x=>(x.assistance||'none')===assistance);
@@ -58,7 +67,9 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
   function renderGuide(){
     const x=exerciseById(selected),config=analysisFor(x.id,{allowExperimental:true});
     $('guide-title').textContent=x.name;
-    $('guideWorkout').hidden=x.id!=='planche-lean';
+    $('guideWorkout').hidden=true; // Training remains available in its legacy routes, outside the analysis flow.
+    $('guideEnglish').textContent=exerciseEnglish(x);
+    $('guideInstructions').replaceChildren(...instructionsFor(x).map(text=>node('li',text)));
     $('guideBack').href=variationsFor(x.familyId).length?'#variations':'#catalog';
     $('guideArtwork').replaceChildren(analysisMediaFigure(x.id,{motion:true}));
     $('guideDefinition').textContent=x.definition || 'צילום ברור הוא הבסיס למדידה שימושית.';
@@ -66,15 +77,15 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     $('guideFilming').textContent=x.filming;
     $('guideCriteria').replaceChildren(...x.criteria.map(text=>node('li',text)));
     $('guideLimit').textContent=x.id==='handstand'?'זמן ההחזקה ומדד הטכניקה מוצגים בנפרד. הניתוח מבוסס על היטל דו־ממדי ותלוי באיכות המעקב; המדד אינו ציון מאמן מכויל.':x.experimental?'בדיקה ניסיונית בלבד. מנח הווריאציה, האחיזה והיעדר תמיכה אינם מאומתים אוטומטית. אין ציון טכניקה.':'מנוע ניתוח לתרגיל זה עדיין לא מומש ואומת. הנחיות אלה הן הכנה לצילום; כרגע לא ניתן להעלות סרטון לניתוח התרגיל.';
-    const button=$('guideAnalyze');button.disabled=!config;button.textContent=config?(x.experimental?'המשך לבדיקה ניסיונית':'התחל ניתוח'):'ניתוח בהמשך';
+    const button=$('guideAnalyze');button.disabled=!config;button.textContent=config?(x.experimental?'העלאת סרטון · ניתוח ניסיוני':'העלאת סרטון לניתוח'):'ניתוח עדיין לא זמין';
     $('guideHistory').textContent='היסטוריית הבחירה הזו';
     if(x.experimental){try{const h=readVariationHistory(localStorage,x.id);$('guideHistory').textContent=h.length?`${h.length} מדידות ניסיוניות בווריאציה זו. המדידה האחרונה: ${h[0].hold.seconds.toFixed(1)} שנ׳ — חלון אפשרי, ללא ציון.`:'אין עדיין מדידות לווריאציה זו.';}catch{$('guideHistory').textContent='קריאת ההיסטוריה אינה זמינה. הנתונים לא שונו.';}}
-    else if(x.id!=='handstand')$('guideHistory').textContent='עדיין אין ניתוח זמין לבחירה זו. היסטוריית האימונים הקיימת נשמרת במסך התכניות.';
+    else if(x.id!=='handstand')$('guideHistory').textContent='אין עדיין מדידות ניתוח לבחירה הזו. מדידות יופיעו כאן כשיהיה ניתוח זמין.';
     $('guideHistoryLink').hidden=x.id!=='handstand'&&!x.experimental;
     $('guideHistoryLink').onclick=()=>{if(x.experimental){$('variationHistoryFilter').value=x.id;$('variationHistoryFilter').dispatchEvent(new Event('change'));}};
     button.onclick=()=>{if(config&&!isBusy()){onAnalyze(x.id);location.hash='analyze';}};
   }
-  $('librarySearch').addEventListener('input',renderCatalog);$('libraryFilter').addEventListener('change',renderCatalog);
+  $('librarySearch').addEventListener('input',renderCatalog);$('libraryFilter').addEventListener('change',renderCatalog);$('librarySort').addEventListener('change',renderCatalog);
   for(const b of $('assistanceOptions').querySelectorAll('button'))b.onclick=()=>{
     assistance=b.dataset.assistance;
     const old=exerciseById(selected),next=variationsFor(family).find(x=>x.assistance===assistance&&x.baseVariation===old.baseVariation);
