@@ -278,3 +278,7 @@ body[data-screen] .catalog-filter-fields label { grid-column: auto !important; }
 body[data-screen] #catalogGrid .anatomy-media { height: 100px; }
 body[data-screen] #catalogGrid .library-card-content { padding: 10px 8px; }
 @media(min-width:900px) { body[data-screen] #catalogGrid .anatomy-media { height: 160px; } body[data-screen] #catalogView .library-tools { max-width: 640px; margin-inline: auto; } }
+/* Surface the engine's own reliability/calibration notice; legacy CSS hid it. */
+body[data-screen] #measurementNotice:not([hidden]) { display: block; padding: 14px 16px; background: var(--ma-surface); border: 1px solid var(--ma-line); border-inline-start: 3px solid var(--ma-accent); border-radius: 14px; font-size: .9375rem; line-height: 1.8; }
+body[data-screen="replay"] #out { display: flex !important; flex-direction: column; }
+body[data-screen="replay"] #measurementNotice { order: -1; margin: 12px 0; }

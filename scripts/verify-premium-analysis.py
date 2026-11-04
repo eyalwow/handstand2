@@ -140,7 +140,11 @@ with sync_playwright() as p:
      page.locator('[data-history-index]').first.click();check('saved-summary')
      assert 'אינם זמינים לשחזור' in page.locator('#historyReportBody').inner_text()
      page.locator('#closeHistoryReport').click()
-   else:assert page.locator('#holdSec').is_hidden()
+   else:
+    assert page.locator('#holdSec').is_hidden()
+    if timing['outcome']=='unreliable':
+     assert page.locator('#measurementNotice').is_visible()
+     assert 'בביטחון' in page.locator('#measurementNotice').inner_text()
    report['inference'].append({'width':width,'timing':timing,'score':diagnostics and diagnostics['score']})
   assert not errors,errors
   assert not bad,bad
