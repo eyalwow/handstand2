@@ -16,7 +16,7 @@ document.addEventListener('click',event=>{
    body.append(analysisMediaFigure('handstand'));
    paragraph('עמידת ידיים · '+new Date(entry.date).toLocaleString('he-IL'));
    const score=document.createElement('strong');score.className='saved-report-score';score.textContent=Math.round(entry.score)+' / 100';body.append(score);
-   paragraph('ציון הטכניקה שנשמר · '+entry.model);
+   paragraph('מדד הטכניקה שנשמר בזמן הניתוח. אפשר להשוות רק מדידות מאותה שיטת חישוב ובתנאי צילום דומים.');
    const previous=entries[index+1];
    if(previous?.model===entry.model){const delta=Math.round(entry.score)-Math.round(previous.score);paragraph(`${delta>0?'+':''}${delta} נקודות בהשוואה למדידה הקודמת מאותו סוג ניתוח. תנאי צילום עשויים להשפיע על ההשוואה.`);}
    paragraph('נשמר כאן סיכום ציון ותאריך בלבד. הווידאו, השלד, זמן ההחזקה ופירוט המדדים אינם נשמרים ברשומה הזו ואינם זמינים לשחזור.');

@@ -56,6 +56,23 @@ with sync_playwright() as p:
  assert 'לזהות גוף' in page.locator('#status').inner_text();page.screenshot(path=str(args.out/'no-pose-390.png'))
  assert page.evaluate("localStorage.getItem('handstand-lab-active-workout-v1')")=='preserve-training'
  report['blankClip']='no-pose, readable retry, no score/history';report['trainingDataPreserved']=True
+ # An explicit test-only DOM fixture covers the reliable-report layout branch.
+ # No screenshot or history write is made; it is not a newly inferred result.
+ page.evaluate("""async()=>{
+  const {analysisUI}=await import('./movalyt-ui.js');
+  const {renderHandstandInsights}=await import('./handstand-insights-ui.js');
+  analysisUI.result(71,{sc:{banana:72,shoulder:74,elbow:76,lean:62}});
+  document.getElementById('out').style.display='block';document.getElementById('holdSec').style.display='block';
+  renderHandstandInsights({hold:{seconds:3.2,censored:false}}, {strength:'בדיקת פריסה בלבד — אינה תוצאת ניתוח',priority:'בדיקת פריסה בלבד — אינה תוצאת ניתוח',evidence:[],ending:'בדיקת פריסה בלבד',drills:[],limitations:'נתוני בדיקה בלבד',target:null});
+  analysisUI.finish('scored');
+ }""")
+ for width in [320,390,1440]:
+  page.set_viewport_size({'width':width,'height':844 if width<900 else 1000})
+  assert page.locator('#replaySec').is_visible() and page.locator('#holdSec').is_visible()
+  assert page.locator('#ringScore').inner_text()=='71'
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+ assert page.evaluate("localStorage.getItem('handstand-lab-analyses-v1')")==None
+ report['scoredReportLayoutFixture']={'widths':[320,390,1440],'playerAndSummaryVisible':True,'overflow':False,'historyWritten':False,'data':'Explicit UI fixture only, not live inference; no screenshots'}
  assert not errors,errors;report['pageErrors']=errors
  b.close()
 s.shutdown();(args.out/'checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n');print(json.dumps(report,ensure_ascii=False))

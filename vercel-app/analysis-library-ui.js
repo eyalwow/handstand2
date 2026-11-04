@@ -80,7 +80,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const button=$('guideAnalyze');button.disabled=!config;button.textContent=config?(x.experimental?'העלאת סרטון · ניתוח ניסיוני':'העלאת סרטון לניתוח'):'ניתוח עדיין לא זמין';
     $('guideHistory').textContent='היסטוריית הבחירה הזו';
     if(x.experimental){try{const h=readVariationHistory(localStorage,x.id);$('guideHistory').textContent=h.length?`${h.length} מדידות ניסיוניות בווריאציה זו. המדידה האחרונה: ${h[0].hold.seconds.toFixed(1)} שנ׳ — חלון אפשרי, ללא ציון.`:'אין עדיין מדידות לווריאציה זו.';}catch{$('guideHistory').textContent='קריאת ההיסטוריה אינה זמינה. הנתונים לא שונו.';}}
-    else if(x.id!=='handstand')$('guideHistory').textContent='עדיין אין ניתוח זמין לבחירה זו. היסטוריית האימונים הקיימת נשמרת במסך התכניות.';
+    else if(x.id!=='handstand')$('guideHistory').textContent='אין עדיין מדידות ניתוח לבחירה הזו. מדידות יופיעו כאן כשיהיה ניתוח זמין.';
     $('guideHistoryLink').hidden=x.id!=='handstand'&&!x.experimental;
     $('guideHistoryLink').onclick=()=>{if(x.experimental){$('variationHistoryFilter').value=x.id;$('variationHistoryFilter').dispatchEvent(new Event('change'));}};
     button.onclick=()=>{if(config&&!isBusy()){onAnalyze(x.id);location.hash='analyze';}};
