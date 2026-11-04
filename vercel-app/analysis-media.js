@@ -5,6 +5,7 @@ const REVIEW_CHECKS=Object.freeze(['same-athlete','anatomy','support','camera','
 // Approved stills from PR #37 and the user's PR #39 final-artwork ZIP. Family covers reuse their approved full-variation stills.
 const APPROVED_STILLS = new Map(Object.entries({
   'planche': 'full-planche',
+  'l-sit': 'l-sit',
   'planche-lean': 'planche-lean',
   'front-lever': 'full-front-lever',
   'planche-full-band': 'banded-full-planche',
@@ -55,8 +56,8 @@ export function analysisMediaFigure(id, {motion=false}={}) {
   const figure=document.createElement('figure');figure.className='anatomy-media';
   const asset=ANALYSIS_MEDIA[id],media=approvedMedia(asset);
   function showPlaceholder(){
-    const mark=document.createElement('span');mark.className='anatomy-monogram';mark.textContent='M';mark.setAttribute('aria-hidden','true');
-    const caption=document.createElement('figcaption');caption.textContent='איור מקצועי ממתין לאישור';figure.replaceChildren(mark,caption);
+    const mark=document.createElement('span');mark.className='anatomy-monogram';mark.textContent='—';mark.setAttribute('aria-hidden','true');
+    const caption=document.createElement('figcaption');caption.textContent='איור בהכנה';figure.replaceChildren(mark,caption);
   }
   if(!media){
     showPlaceholder();

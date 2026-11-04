@@ -245,3 +245,17 @@ body[data-screen][data-keyboard="open"] .variation-actionbar { position: static;
   body[data-screen="results"] #holdSec, body[data-screen="results"] #coachPanel, body[data-screen="results"] #measurementNotice { grid-column: 2; }
   body[data-screen] .history-entry { max-width: 780px; }
 }
+body[data-screen] .family-hero .anatomy-media { height: 160px; }
+body[data-screen] .family-intro { margin: 6px 0; font-size: .875rem; }
+body[data-screen] .variation-grid .library-card .anatomy-media { height: 68px; }
+body[data-screen] .family-hero .subline { font-size: .9375rem; }
+body[data-screen] .onboard-step.welcome { background: var(--ma-bg); }
+body[data-screen] .welcome-actions small { font-size: .875rem; }
+body[data-screen] :is(.onboard-step p, .goal-card small, .exercise-card .catalog-info) { font-size: .9375rem; }
+body[data-screen] .library-card img { opacity: 1; }
+@media(min-width:900px) { body[data-screen] .family-hero .anatomy-media { height: 240px; } }
+body[data-screen] .analyzer .player-heading { width: 100%; margin-inline: 0; grid-template-columns: 44px minmax(0,1fr) 44px; }
+body[data-screen] .view-body a { min-height: 44px; align-items: center; }
+/* Each view reserves its own bottom actions; avoid a second navigation-sized gap. */
+body[data-screen] .mobile-app { padding-bottom: 0; }
+body[data-screen] .library-hero img, body[data-screen] .family-hero img { object-fit: contain; }

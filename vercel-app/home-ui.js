@@ -26,7 +26,7 @@ function renderHistory() {
   const image=document.createElement('img');image.src='./assets/anatomy/handstand-corrected.webp';image.alt='';image.width=64;image.height=64;image.loading='lazy';
   info.append(title,date);item.append(image,info,score);
   const open=document.createElement('button');open.type='button';open.className='history-open';open.textContent='פתיחת סיכום המדידה';open.setAttribute('data-history-index',String(index));open.setAttribute('aria-haspopup','dialog');item.append(open);
-  const details=document.createElement('details');details.className='history-details';const summary=document.createElement('summary');summary.textContent='i';summary.setAttribute('aria-label','פרטי המדידה');details.append(summary);item.append(details);
+  const details=document.createElement('details');details.className='history-details';const summary=document.createElement('summary');summary.textContent='פרטי המדידה';summary.setAttribute('aria-label','פרטי המדידה');details.append(summary);item.append(details);
   const note=document.createElement('p');note.textContent='סיכום מדידה בלבד · הווידאו אינו נשמר';details.append(note);
   if(previous&&previous.model===entry.model){
    const delta=Math.round(entry.score)-Math.round(previous.score),comparison=document.createElement('p');comparison.className='history-comparison';comparison.textContent=`${delta>0?'+':''}${delta} נקודות מהמדידה הקודמת באותו סוג ניתוח. זווית צילום ותמיכת קיר עשויות להשפיע על ההשוואה.`;details.append(comparison);

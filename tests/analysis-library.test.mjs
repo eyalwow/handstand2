@@ -45,13 +45,13 @@ test('selection restores supported and future choices without touching histories
 });
 test('approved illustrations ship only for the intended catalog exercises',()=>{
  const illustrated = Object.values(ANALYSIS_MEDIA).filter(approvedMedia);
- assert.equal(illustrated.length, 24);
+ assert.equal(illustrated.length, 25);
  for(const asset of illustrated){
   const bytes = readFileSync(new URL('../vercel-app/'+asset.image, import.meta.url));
   assert.equal(bytes.toString('ascii', 8, 12), 'WEBP', asset.id);
   assert.ok(bytes.length < 32_000, asset.id);
  }
- for(const id of ['front-lever-advanced-tuck','front-lever-straddle','l-sit']){
+ for(const id of ['front-lever-advanced-tuck','front-lever-straddle']){
   assert.equal(approvedMedia(ANALYSIS_MEDIA[id]), null, id);
  }
  assert.equal(ANALYSIS_MEDIA['front-lever-full-band'].image, './assets/anatomy/banded-full-front-lever.webp');
