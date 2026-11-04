@@ -12,6 +12,7 @@ a=argparse.ArgumentParser(description=__doc__)
 a.add_argument('--url');a.add_argument('--path',default='/vercel-app/');a.add_argument('--access-file',type=Path)
 a.add_argument('--out',type=Path,default=ROOT/'docs/screenshots/premium-analysis/local')
 a.add_argument('--browser',choices=['chromium','webkit'],default='chromium');a.add_argument('--inference',action='store_true')
+a.add_argument('--widths',nargs='+',type=int,default=[390,320,1440])
 a.add_argument('--cache',type=Path,default=ROOT.parent/'movalyt-test-cache')
 args=a.parse_args();args.out.mkdir(parents=True,exist_ok=True)
 class Handler(SimpleHTTPRequestHandler):
@@ -23,7 +24,7 @@ if not args.url:
 report={'url':args.url,'browser':args.browser,'viewports':[],'inference':[],'previewToolbarBlocked':bool(args.access_file)}
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox']) if args.browser=='chromium' else p.webkit.launch()
- for width in [390,320,1440]:
+ for width in args.widths:
   context=browser.new_context(viewport={'width':width,'height':844 if width<900 else 1000},reduced_motion='reduce',is_mobile=width<900,has_touch=width<900,device_scale_factor=2 if width<900 else 1,locale='he-IL')
   if args.access_file:context.route('https://vercel.live/**',lambda route:route.abort())
   # Route only external model dependencies to verified files, never app modules or data.
@@ -47,11 +48,15 @@ with sync_playwright() as p:
   page.locator('#welcomeSkip').click()
   def screen(name):page.wait_for_function('(s)=>document.body.dataset.screen===s',arg=name)
   def navigate(name):page.evaluate('(s)=>location.hash=s',name);screen(name)
+  def decode(img):
+   img.scroll_into_view_if_needed()
+   img.evaluate("img=>img.complete&&img.naturalWidth>0?Promise.resolve():new Promise((resolve,reject)=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',()=>reject(Error('Image failed: '+img.getAttribute('src'))),{once:true});})")
+   img.evaluate('(img)=>img.decode()')
   def check(name,shot=True):
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),name
    assert page.locator('html').get_attribute('dir')=='rtl'
    for img in page.locator('img:visible').all():
-    img.scroll_into_view_if_needed();img.evaluate('(img)=>img.decode()')
+    decode(img)
    page.evaluate('scrollTo(0,0)')
    if shot:page.screenshot(path=str(args.out/f'{args.browser}-{name}-{width}.png'))
   screen('home');check('home')
@@ -75,7 +80,7 @@ with sync_playwright() as p:
     ids=page.locator('#variationGrid [data-exercise]').evaluate_all('(nodes)=>nodes.map(x=>x.dataset.exercise)')
     for id in ids:
      card=page.locator(f'#variationGrid [data-exercise="{id}"]');card.click();assert card.get_attribute('aria-pressed')=='true'
-     if card.locator('img').count():card.locator('img').evaluate('(img)=>img.decode()')
+     if card.locator('img').count():decode(card.locator('img'))
      page.locator('#variationContinue').click();screen('guide')
      assert page.locator('#guideWorkout').is_hidden()
      check(id,shot=id in ['planche-lean','front-lever-full-band'])

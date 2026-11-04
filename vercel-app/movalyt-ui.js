@@ -1,3 +1,5 @@
+import './upload-review.js';
+import './history-report.js';
 import {createAnalysisLibrary} from "./analysis-library-ui.js";
 import { drawPoseOverlay, smoothLivePose } from "./pose-overlay.js";
 import { resetHandstandInsights } from "./handstand-insights-ui.js";
