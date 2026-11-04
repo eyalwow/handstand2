@@ -43,9 +43,23 @@ test('selection restores supported and future choices without touching histories
  }
  assert.throws(()=>saveLibrarySelection(storage,'__proto__'));assert.throws(()=>saveLibrarySelection({getItem:()=>null,setItem:()=>{throw Error('quota');}},'handstand'));
 });
+test('approved illustrations ship only for the intended catalog exercises',()=>{
+ const illustrated = Object.values(ANALYSIS_MEDIA).filter(approvedMedia);
+ assert.equal(illustrated.length, 21);
+ for(const asset of illustrated){
+  const bytes = readFileSync(new URL('../vercel-app/'+asset.image, import.meta.url));
+  assert.equal(bytes.toString('ascii', 8, 12), 'WEBP', asset.id);
+  assert.ok(bytes.length < 32_000, asset.id);
+ }
+ for(const id of ['front-lever-advanced-tuck','front-lever-straddle','planche','front-lever','l-sit']){
+  assert.equal(approvedMedia(ANALYSIS_MEDIA[id]), null, id);
+ }
+ assert.equal(ANALYSIS_MEDIA['front-lever-full-band'].image, './assets/anatomy/banded-full-front-lever.webp');
+ assert.equal(ANALYSIS_MEDIA['planche-full-band'].image, './assets/anatomy/banded-full-planche.webp');
+ assert.equal(ANALYSIS_MEDIA['l-sit-full'].image, './assets/anatomy/l-sit.webp');
+});
 test('media approval requires anatomy, identity, support, camera, grayscale, rights and a local still before motion',()=>{
  assert.equal(Object.keys(ANALYSIS_MEDIA).length,ANALYSIS_CATALOG.length);
- assert.ok(Object.values(ANALYSIS_MEDIA).every(x=>approvedMedia(x)===null));
  const approvals=Object.fromEntries(['same-athlete','anatomy','support','camera','grayscale','rights'].map(k=>[k,true]));
  const asset={status:'approved',image:'./assets/anatomy/planche/full.webp',alt:'Full Planche',approvals};
  assert.ok(approvedMedia(asset));assert.equal(approvedMedia({...asset,image:'https://example.com/full.webp'}),null);
