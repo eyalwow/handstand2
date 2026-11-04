@@ -1,0 +1,24 @@
+slug,hebrew,status,file,source,notes
+banded-full-planche,פלאנץ׳ מלא עם גומייה,preferred,illustrations/preferred/banded-full-planche.png,a_high_contrast_detailed_monochrome_gray_scale_il.png,Latest corrected alignment; user moved on
+banded-full-front-lever,פרונט לבר מלא עם גומייה,approved,illustrations/approved/banded-full-front-lever.jpeg,5C1733D4-D3E9-4092-B860-6E645546C721.jpeg,User explicitly selected this version
+advanced-tuck-front-lever,פרונט לבר טאק מתקדם,approved,illustrations/approved/advanced-tuck-front-lever.png,a_polished_high_contrast_digital_illustration_on.png,User said this version was good
+one-leg-front-lever,פרונט לבר ברגל אחת,approved,illustrations/approved/one-leg-front-lever.png,a_high_contrast_grayscale_monochrome_vector_3d_li.png,User moved on after this image
+straddle-front-lever,פרונט לבר בפישוק,approved,illustrations/approved/straddle-front-lever.png,a_high_contrast_stylized_grayscale_3d_illustratio.png,User moved on after this image
+full-front-lever,פרונט לבר מלא,approved,illustrations/approved/full-front-lever.png,a_high_contrast_monochrome_gray_3d_style_fitness_i.png,User moved on; multiple versions exist
+one-leg-planche,פלאנץ׳ ברגל אחת,approved,illustrations/approved/one-leg-planche.png,a_high_contrast_detailed_vector_style_fitness_ill.png,Corrected image followed by user approval
+super-advanced-tuck-planche,פלאנץ׳ סופר אדוונס טאק,approved,illustrations/approved/super-advanced-tuck-planche.png,a_high_contrast_detailed_grayscale_white_and_gra.png,User moved on following corrected version
+v-sit,וי־סיט,approved,illustrations/approved/v-sit.png,a_high_contrast_monochrome_gray_scale_digital_ill.png,User moved on to next exercise
+tuck-l-sit,אל־סיט טאק,approved,illustrations/approved/tuck-l-sit.png,a_high_contrast_digital_illustration_on_a_black_ba.png,No green muscles; followed by user continuation
+l-sit,אל־סיט,review,illustrations/review/l-sit.png,a_clean_high_contrast_stylized_fitness_infograph.png,Source candidate; verify correct pose before app integration
+straddle-planche,פלאנץ׳ בפישוק,review,illustrations/review/straddle-planche.png,a_high_contrast_detailed_grayscale_white_musculat.png,User preferred earlier side view over frontal; visually verify
+tuck-front-lever,פרונט לבר טאק,needs_fix,illustrations/needs_fix/tuck-front-lever.png,a_high_contrast_stylized_grayscale_white_muscular.png,User requested more diagonal camera angle
+super-advanced-tuck-front-lever,פרונט לבר סופר אדוונס טאק,preferred,illustrations/preferred/super-advanced-tuck-front-lever.jpeg,0D1D0C1E-00F2-4091-8021-F62D6813E803.jpeg,User chose this as base; Hebrew subtitle not yet applied
+full-planche,פלאנץ׳ מלא,review,illustrations/review/full-planche.png,a_high_contrast_monochrome_grayscale_digital_illu.png,Multiple alternative exports; verify which was preferred
+tuck-planche,פלאנץ׳ טאק,review,illustrations/review/tuck-planche.png,a_high_contrast_fitness_illustration_on_a_black_ba.png,Earlier image may differ from approved pose
+muscle-up-sequence,עליית כוח,instructional_only,illustrations/instructional_only/muscle-up-sequence.png,a_high_contrast_monochrome_gray_digital_illustrati.png,3-frame sequence; not individual app exercise tile
+one-leg-l-sit,אל־סיט ברגל אחת,reference_only,illustrations/reference_only/one-leg-l-sit.png,a_composite_fitness_infographic_on_a_dark_black_ba.png,Composite; not acceptable standalone
+advanced-tuck-planche,פלאנץ׳ אדוונס טאק,review,illustrations/review/advanced-tuck-planche.png,advanced_tuck_planche_illustration.png,Inspect against selected prior version
+handstand,עמידת ידיים,review,illustrations/review/handstand.png,sculpted_handstand_strength.png,Inspect pose and style
+pull-up,מתח,review,illustrations/review/pull-up.png,monochrome_pull_up_strength_illustration.png,Previously generated
+dip,מקבילים,review,illustrations/review/dip.png,monochrome_dip_on_parallel_bars.png,Previously generated
+push-up,שכיבות סמיכה,review,illustrations/review/push-up.png,muscular_push_up_illustration.png,Previously generated
