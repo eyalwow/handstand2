@@ -146,3 +146,102 @@ body[data-screen] .home-recent #home-analysis-history { font-size: .9375rem; col
   body[data-screen] .library-hero .anatomy-media { height: 360px; }
 }
 @media(max-width:350px) { :root { --ma-inset: 14px; } body[data-screen] .library-grid { gap: 8px; } body[data-screen] .library-card .anatomy-media { height: 100px; } body[data-screen] .variation-grid .library-card .anatomy-media { height: 82px; } body[data-screen] #home-title { font-size: 1.65rem; } }
+/* Clear the former fixed-height photographic home composition. */
+body[data-screen] .home-page { display: block; height: auto; min-height: 0; }
+body[data-screen] .home-hero { margin: 0; isolation: auto; }
+body[data-screen] .home-copy { width: auto; inset: auto; }
+body[data-screen] .home-photo { inset: auto; z-index: auto; object-position: center; }
+/* C: upload, real reports, playback and read-only history. */
+body[data-screen] .analyzer { padding-inline: var(--ma-inset); }
+body[data-screen] .analyzer-heading { margin-inline: calc(-1 * var(--ma-inset)); }
+body[data-screen] .upload-panel { padding: 0; background: transparent; border: 0; }
+body[data-screen] .capture-visual { display: none; }
+body[data-screen] .upload-intro { margin: 18px 0; padding: 0; }
+body[data-screen] .upload-intro :is(label,p) { font-size: .9375rem; }
+body[data-screen] .upload-intro .eyebrow { display: block; margin-top: 24px; }
+body[data-screen] #upload-title { font-size: 1.5rem; line-height: 1.4; margin: 12px 0; }
+body[data-screen] .capture-alternatives { margin: 12px 0; }
+body[data-screen] .capture-alternatives button { min-height: 48px; font-size: 1rem; border: 1px solid var(--ma-line); border-radius: 24px; }
+body[data-screen] .pick { width: 100%; }
+body[data-screen] .capture-tips { background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: 16px; padding: 12px; }
+body[data-screen] .capture-tips summary { display: flex; align-items: center; font-size: .9375rem; }
+body[data-screen] .upload-review { margin: 24px 0; padding: 14px; background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: var(--ma-radius); }
+body[data-screen] #uploadPreview { display: block; width: 100%; max-height: 340px; border-radius: 12px; background: #000; }
+body[data-screen] #uploadFileLabel { overflow-wrap: anywhere; font-size: .875rem; color: var(--ma-muted); }
+body[data-screen] #uploadReviewStatus { font-size: .9375rem; }
+body[data-screen] #uploadReview .primary { width: 100%; }
+body[data-screen] #discardUpload { margin: 12px 0 0; width: 100%; }
+body[data-screen] :is(.analysis-steps, .front-lever-report) { background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: var(--ma-radius); }
+body[data-screen] .analysis-steps li { color: var(--ma-muted); }
+body[data-screen] .analysis-steps [data-state="active"] { color: var(--ma-accent); }
+body[data-screen] #analysisCanvas { border-color: var(--ma-line); border-radius: 16px; }
+body[data-screen="results"] #out { display: flex !important; flex-direction: column; }
+body[data-screen="results"] #replaySec { display: block; order: -2; margin: 0 0 20px; }
+body[data-screen="results"] #holdSec { order: -1; }
+body[data-screen="results"] #reportLink, body[data-screen="results"] .replay-action { display: none; }
+body[data-screen] .player-heading { min-height: 54px; padding-inline: 0; }
+body[data-screen] .player-heading h2 { font-size: 1rem; }
+body[data-screen] .player-surface { background: #000; border: 1px solid var(--ma-line); border-radius: var(--ma-radius); overflow: hidden; max-height: 55svh; }
+body[data-screen] #cv { display: block; width: 100%; max-height: 55svh; object-fit: contain; }
+body[data-screen] .playback-controls { background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: 14px; padding: 12px; margin-top: 8px; }
+body[data-screen] .playback-meta { color: var(--ma-muted); font-size: .875rem; }
+body[data-screen] .playback-controls .icon-button { min-width: 72px; width: auto; height: auto; min-height: 56px; }
+body[data-screen] .control-caption { font-size: .875rem; }
+body[data-screen] #play { width: 56px; height: 56px; background: var(--ma-accent); color: #101508; border-radius: 50%; border: 0; }
+body[data-screen] .player-tools { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
+body[data-screen] .player-tools label { min-height: 44px; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: 12px; font-size: .9375rem; }
+body[data-screen] input[type="checkbox"] { accent-color: var(--ma-accent); width: 20px; height: 20px; }
+body[data-screen] .overlay-options summary { display: flex; align-items: center; font-size: .9375rem; }
+body[data-screen] .result-summary { display: flex; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: nowrap; padding: 18px; border: 1px solid var(--ma-line); border-radius: var(--ma-radius); background: var(--ma-surface); gap: 12px; }
+body[data-screen] .score-ring { width: 124px; height: 124px; min-width: 124px; }
+body[data-screen] .ring-number strong { font-size: 2.5rem; color: var(--ma-text); }
+body[data-screen] .ring-number span { font-size: .875rem; }
+body[data-screen] .report-duration { margin: 0; font-size: .9375rem; }
+body[data-screen] .duration-label { font-size: .875rem; }
+body[data-screen] .duration-value { font-size: 1.5rem; }
+body[data-screen] .duration-note { font-size: .875rem; color: var(--ma-muted); }
+body[data-screen] #coachPanel { background: transparent; border: 0; padding: 0; box-shadow: none; }
+body[data-screen] .coach-topline { padding: 12px 0; }
+body[data-screen] .coach-badge { font-size: .875rem; color: var(--ma-muted); }
+body[data-screen] .report-section { margin: 14px 0; padding: 18px; background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: var(--ma-radius); box-shadow: none; }
+body[data-screen] .report-section h3 { font-size: 1.0625rem; margin: 0 0 12px; }
+body[data-screen] #coachPanel :is(p, .coach-summary, .coach-strength, .coach-quality) { font-size: .9375rem; line-height: 1.85; }
+body[data-screen] .coach-drill { background: var(--ma-raised); border: 0; border-radius: 12px; padding: 14px; }
+body[data-screen] .coach-drill-name { font-size: 1rem; }
+body[data-screen] .score-breakdown { display: grid; gap: 12px; }
+body[data-screen] .score-breakdown :is(p, span, small) { font-size: .875rem; }
+body[data-screen] .score-breakdown :is(article, .metric-explainer) { padding: 12px 0; background: transparent; border: 0; border-top: 1px solid var(--ma-line); }
+body[data-screen] #advancedReport { background: var(--ma-surface); border: 1px solid var(--ma-line); padding: 16px; border-radius: 16px; }
+body[data-screen] #advancedReport summary { min-height: 44px; display: flex; align-items: center; font-size: .9375rem; }
+body[data-screen] #historyView { padding: 16px var(--ma-inset) calc(var(--nav) + 24px); }
+body[data-screen] #history-title { font-size: 1.5rem; margin: 12px 0; }
+body[data-screen] #historyView h2 { font-size: 1.125rem; margin-top: 24px; }
+body[data-screen] .history-chart { background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: var(--ma-radius); padding: 16px; }
+body[data-screen] .history-switch { background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: 14px; display: flex; padding: 4px; gap: 4px; }
+body[data-screen] .history-switch button { flex: 1; border: 0; border-radius: 10px; color: var(--ma-muted); background: transparent; font-size: 1rem; }
+body[data-screen] .history-switch [aria-pressed="true"] { color: #101508; background: var(--ma-accent); }
+body[data-screen] .history-entry { display: grid; grid-template-columns: 64px minmax(0,1fr) auto; align-items: center; gap: 10px; background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: 16px; padding: 12px; margin: 12px 0; font-size: .9375rem; }
+body[data-screen] .history-entry > img { width: 64px; height: 72px; object-fit: contain; }
+body[data-screen] .history-entry h3 { font-size: 1rem; margin: 0; }
+body[data-screen] .history-entry time { font-size: .875rem; color: var(--ma-muted); }
+body[data-screen] .history-score { font-size: 1.5rem; color: var(--ma-accent); }
+body[data-screen] .history-score small { font-size: .8125rem; color: var(--ma-muted); }
+body[data-screen] .history-details { grid-column: 1 / -1; }
+body[data-screen] .history-details summary { min-width: 44px; display: flex; align-items: center; padding-inline: 12px; }
+body[data-screen] .history-open { grid-column: 1 / -1; width: 100%; color: var(--ma-text); background: var(--ma-raised); border: 1px solid var(--ma-line); border-radius: 12px; font-size: .9375rem; }
+body[data-screen] #variationHistory .history-entry { display: block; }
+body[data-screen] #variationHistory .anatomy-media { height: 100px; margin: 0 0 12px; background: transparent; border: 0; }
+body[data-screen] #variationHistory .history-open { margin-top: 16px; }
+body[data-screen] #historyReportBody .anatomy-media { height: 200px; background: transparent; border: 0; }
+body[data-screen] .saved-report-score { display: block; font-size: 2.5rem; color: var(--ma-accent); direction: ltr; text-align: center; }
+body[data-screen] .privacy-details { background: var(--ma-raised); padding: 12px; border-radius: 14px; margin-top: 20px; }
+body[data-screen] .privacy-details summary { min-height: 44px; display: flex; align-items: center; }
+body[data-screen="processing"] .app-nav { display: none; }
+body[data-screen][data-keyboard="open"] .variation-actionbar { position: static; transform: none; width: 100%; }
+@media(min-width:900px) {
+  body[data-screen="analyze"] .analyzer { max-width: 720px; margin-inline: auto; }
+  body[data-screen="results"] #out { display: grid !important; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; align-items: start; }
+  body[data-screen="results"] #replaySec { grid-column: 1; grid-row: 1 / 5; position: sticky; top: 16px; }
+  body[data-screen="results"] #holdSec, body[data-screen="results"] #coachPanel, body[data-screen="results"] #measurementNotice { grid-column: 2; }
+  body[data-screen] .history-entry { max-width: 780px; }
+}

@@ -1,3 +1,4 @@
+import {analysisMediaFigure} from './analysis-media.js';
 import {readLibrarySelection} from './library-state.js';
 import {readVariationHistory} from './variation-history.js';
 import {ANALYSIS_CATALOG,exerciseById} from './analysis-catalog.js';
@@ -11,9 +12,11 @@ function render(){
  try {
   const entries=readVariationHistory(localStorage,filter.value);
   if(!entries.length){host.textContent='אין מדידות ניסיוניות בווריאציה הזו.';return;}
-  for(const entry of entries){
+  for(const [index,entry] of entries.entries()){
    const row=document.createElement('article');row.className='history-entry';
    row.textContent=`${exerciseById(entry.exerciseId).name} · ${new Date(entry.date).toLocaleDateString('he-IL')} · חלון אפשרי: ${entry.hold.seconds.toFixed(1)} שנ׳ · ניסיוני, טרם אומת. ללא ציון.`;
+   row.prepend(analysisMediaFigure(entry.exerciseId));
+   const open=document.createElement('button');open.type='button';open.className='history-open';open.textContent='פתיחת המדידה הניסיונית';open.dataset.variationIndex=String(index);open.dataset.variationId=filter.value;open.setAttribute('aria-haspopup','dialog');row.append(open);
    host.append(row);
   }
  }catch{host.textContent='ההיסטוריה הניסיונית אינה זמינה. הנתונים הקיימים לא שונו.';}

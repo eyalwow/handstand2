@@ -294,7 +294,7 @@
         </footer>
       </section>
       <section aria-labelledby="home-title" class="view home" hidden id="homeView">
-        <div class="home-page">
+        <span id="home"></span><div class="home-page">
           <header class="floating-header">
             <a aria-label="MOVALYT" class="brand" href="#home"><img alt="" height="28" src="./assets/brand/movalyt-mark.svg" width="28" /><span>MOVALYT</span></a>
             <button aria-label="הגדרות ופרטיות" class="icon-button" id="aboutButton" type="button"><svg class="icon" aria-hidden="true"><use href="#i-gear"></use></svg></button>
@@ -471,6 +471,13 @@
             </div>
           </details>
 
+          <section id="uploadReview" class="upload-review capture-only" hidden aria-label="בדיקת הסרטון לפני ניתוח">
+            <video id="uploadPreview" controls playsinline muted preload="metadata" aria-label="תצוגה מקדימה של הסרטון שנבחר"></video>
+            <p id="uploadFileLabel"></p><p id="uploadReviewStatus" role="status"></p>
+            <p class="note">עד שתי דקות. צפייה מקדימה אינה ניתוח; התוצאות יופיעו רק אחרי עיבוד הסרטון.</p>
+            <button id="startReviewedAnalysis" type="button" class="primary" disabled>התחלת ניתוח</button>
+            <button id="discardUpload" type="button" class="secondary">ביטול בחירת הסרטון</button>
+          </section>
           <div id="analysisStage" hidden="">
             <canvas
               id="analysisCanvas"
@@ -714,6 +721,7 @@
               <h3>יעד לאימון הבא</h3>
               <p id="reportTargetText"></p>
             </section>
+            <section class="report-section report-metrics"><h3>מדדי הטכניקה</h3><div aria-label="הסבר מדדי הציון" class="score-breakdown" id="scoreBreakdown"></div></section>
             <details class="measurement-details" id="advancedReport">
               <summary>פירוט מדדים מתקדם</summary>
               <section
@@ -722,11 +730,7 @@
                 hidden=""
                 aria-label="שלבי התרגיל והשליטה"
               ></section>
-              <div
-                aria-label="הסבר מדדי הציון"
-                class="score-breakdown"
-                id="scoreBreakdown"
-              ></div>
+
               <div id="advancedEvidence"></div>
               <p class="coach-quality" id="coachQuality"></p>
               <p class="gemini-status" id="geminiStatus"></p>
@@ -754,7 +758,7 @@
           >
             <path d="m14 5-7 7 7 7"></path></svg
         ></a>
-        <h1 id="history-title" tabindex="-1">היסטוריה</h1>
+        <h1 id="history-title" tabindex="-1">ההתקדמות שלך</h1>
         <p class="history-note">
           מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.
         </p>
@@ -772,7 +776,7 @@
         <label for="variationHistoryFilter">היסטוריית וריאציה</label>
         <select id="variationHistoryFilter"></select>
         <div id="variationHistory" aria-live="polite"></div>
-        <a class="feature-action" href="#analyze">ניתוח ניסיון חדש ←</a>
+        <a class="feature-action" href="#catalog">בחירת תרגיל לניתוח חדש ←</a>
       </section>
     </main>
     <dialog id="aboutDialog" aria-labelledby="aboutTitle">
@@ -824,6 +828,10 @@
       </section>
       <a id="aboutAnalyze" class="primary" href="#catalog">לניתוח ניסיון חדש</a>
     </dialog>
+    <dialog id="historyReportDialog" aria-labelledby="historyReportTitle">
+      <button type="button" id="closeHistoryReport" class="icon-button" aria-label="סגירת סיכום המדידה">×</button>
+      <h2 id="historyReportTitle" tabindex="-1">סיכום מדידה שמורה</h2><div id="historyReportBody"></div>
+    </dialog>
     <nav aria-label="ניווט באפליקציה" class="app-nav">
       <a aria-current="page" href="#home" id="navHome"
         ><svg aria-hidden="true" viewBox="0 0 24 24">
@@ -844,5 +852,7 @@
     <script type="module" src="./handstand-engine.js"></script>
     <script type="module" src="./home-ui.js"></script>
     <script type="module" src="./variation-history-ui.js"></script>
+    <script type="module" src="./upload-review.js"></script>
+    <script type="module" src="./history-report.js"></script>
   </body>
 </html>
