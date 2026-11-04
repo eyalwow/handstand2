@@ -20,11 +20,12 @@ server=None
 if not args.url:
  server=ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(ROOT)))
  threading.Thread(target=server.serve_forever,daemon=True).start();args.url=f'http://127.0.0.1:{server.server_port}'+args.path
-report={'url':args.url,'browser':args.browser,'viewports':[],'inference':[]}
+report={'url':args.url,'browser':args.browser,'viewports':[],'inference':[],'previewToolbarBlocked':bool(args.access_file)}
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox']) if args.browser=='chromium' else p.webkit.launch()
  for width in [390,320,1440]:
-  context=browser.new_context(viewport={'width':width,'height':844 if width<900 else 1000},reduced_motion='reduce')
+  context=browser.new_context(viewport={'width':width,'height':844 if width<900 else 1000},reduced_motion='reduce',is_mobile=width<900,has_touch=width<900,device_scale_factor=2 if width<900 else 1,locale='he-IL')
+  if args.access_file:context.route('https://vercel.live/**',lambda route:route.abort())
   # Route only external model dependencies to verified files, never app modules or data.
   if args.inference:
    def deps(route):
@@ -37,12 +38,12 @@ with sync_playwright() as p:
    context.route('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/**',deps)
    context.route('https://storage.googleapis.com/mediapipe-models/**',deps)
   page=context.new_page();errors=[];bad=[];posts=[]
-  page.on('pageerror',lambda e:errors.append(str(e)))
+  page.on('pageerror',lambda e:errors.append({'message':str(e),'stack':e.stack}))
   page.on('response',lambda r:bad.append({'status':r.status,'path':urlparse(r.url).path}) if r.status>=400 else None)
   page.on('request',lambda r:posts.append(urlparse(r.url).path) if r.method=='POST' else None)
   page.add_init_script("window.qaTimings=[];window.qaDiagnostics=[];addEventListener('movalyt:analysis-timing',e=>qaTimings.push(e.detail));addEventListener('movalyt:analysis-diagnostic',e=>qaDiagnostics.push(e.detail));")
   if args.access_file:page.goto(args.access_file.read_text().strip(),wait_until='domcontentloaded')
-  page.goto(args.url,wait_until='networkidle');assert page.title().startswith('MOVALYT')
+  page.goto(args.url,wait_until='domcontentloaded');page.wait_for_function('!!document.body.dataset.screen',timeout=60000);assert page.title().startswith('MOVALYT')
   page.locator('#welcomeSkip').click()
   def screen(name):page.wait_for_function('(s)=>document.body.dataset.screen===s',arg=name)
   def navigate(name):page.evaluate('(s)=>location.hash=s',name);screen(name)
@@ -78,7 +79,7 @@ with sync_playwright() as p:
      page.locator('#variationContinue').click();screen('guide')
      assert page.locator('#guideWorkout').is_hidden()
      check(id,shot=id in ['planche-lean','front-lever-full-band'])
-     page.reload(wait_until='networkidle');screen('guide')
+     page.reload(wait_until='domcontentloaded');screen('guide')
      assert page.evaluate("JSON.parse(localStorage.getItem('movalyt-library-selection-v1')).exerciseId")==id
      if id=='planche-lean':assert page.locator('#guideArtwork img').get_attribute('src').endswith('planche-lean.webp')
      page.locator('#guideBack').click();screen('variations');assert page.locator(f'[data-exercise="{id}"]').get_attribute('aria-pressed')=='true'

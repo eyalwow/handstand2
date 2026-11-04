@@ -10,7 +10,7 @@
   --ma-nav-height: 72px; --ma-inset: 18px;
   --bg: var(--ma-bg); --panel: var(--ma-surface); --white: var(--ma-text);
   --lime: var(--ma-accent); --muted: var(--ma-muted); --line: var(--ma-line);
-  --nav: calc(var(--ma-nav-height) + env(safe-area-inset-bottom, 0px));
+  --nav: calc(var(--ma-nav-height) + var(--safe-bottom));
   --flow-muted: var(--ma-muted); --flow-small: .9375rem; --flow-meta: .875rem;
 }
 html { background: var(--ma-bg); scroll-padding-bottom: calc(var(--nav) + 24px); }
@@ -22,7 +22,7 @@ body[data-screen] :is(button, a, input, select, summary):focus-visible { outline
 body[data-screen] :is(button, .primary, .secondary, .icon-button, summary, select) { min-height: 44px; }
 body[data-screen] .icon-button { min-width: 44px; width: 44px; padding: 10px; border: 0; background: transparent; color: var(--ma-text); border-radius: 50%; }
 body[data-screen] .icon { width: 22px; height: 22px; flex-shrink: 0; }
-body[data-screen] .page-header { position: relative; min-height: 68px; padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px 8px; border: 0; background: var(--ma-bg); }
+body[data-screen] .page-header { position: relative; min-height: 68px; padding: calc(var(--safe-top) + 8px) 12px 8px; border: 0; background: var(--ma-bg); }
 body[data-screen] .page-header h1 { font-size: 1.125rem; font-weight: 600; margin: 0; line-height: 1.5; }
 body[data-screen] :is(.primary, .feature-action, .home-primary) { min-height: 52px; padding: 12px 18px; border-radius: 28px; border: 1px solid transparent; background: var(--ma-accent); color: #101508; font-size: 1rem; font-weight: 600; box-shadow: none; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; line-height: 1.5; }
 body[data-screen] :is(.secondary, .text-button) { background: var(--ma-surface); border: 1px solid var(--ma-line); color: var(--ma-text); border-radius: var(--ma-control-radius); padding: 10px 14px; box-shadow: none; text-decoration: none; }
@@ -30,7 +30,7 @@ body[data-screen] :is(button, .primary, .secondary):disabled { opacity: .55; cur
 body[data-screen] :is(input[type="search"], select) { width: 100%; max-width: 100%; min-width: 0; border: 1px solid var(--ma-line); background: var(--ma-surface); border-radius: var(--ma-control-radius); color: var(--ma-text); padding: 10px 12px; font-size: 1rem; }
 body[data-screen] :is(.subline, .note, .library-limit, .history-note) { color: var(--ma-muted); font-size: .9375rem; line-height: 1.75; }
 body[data-screen] .eyebrow { font-size: var(--ma-small); letter-spacing: 0; }
-body[data-screen] .app-nav { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; z-index: 30; bottom: 0; left: 50%; transform: translateX(-50%); width: min(520px, 100%); height: auto; min-height: var(--ma-nav-height); padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); background: #080a09f5; border: 0; border-top: 1px solid var(--ma-line); border-radius: 0; box-shadow: none; backdrop-filter: blur(16px); gap: 12px; }
+body[data-screen] .app-nav { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; z-index: 30; bottom: 0; left: 50%; transform: translateX(-50%); width: min(520px, 100%); height: auto; min-height: var(--ma-nav-height); padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + var(--safe-bottom)) max(12px, env(safe-area-inset-left, 0px)); background: #080a09f5; border: 0; border-top: 1px solid var(--ma-line); border-radius: 0; box-shadow: none; backdrop-filter: blur(16px); gap: 12px; }
 body[data-screen] .app-nav a { min-height: 52px; border-radius: 14px; color: var(--ma-muted); font-size: .875rem; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
 body[data-screen] .app-nav [aria-current="page"] { color: var(--ma-accent); background: #c7ff2712; border: 0; box-shadow: none; }
 body[data-screen] .app-nav svg { width: 22px; height: 22px; }
@@ -110,7 +110,7 @@ body[data-screen] #guideInstructions li::before { content: counter(steps); posit
 body[data-screen] #guideAnalyze { width: 100%; margin: 24px 0; }
 body[data-screen] #guideWorkout { display: none; }
 body[data-screen] .home-page { padding: 0 var(--ma-inset); }
-body[data-screen] .home .floating-header { position: static; inset: auto; display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top,0px) + 12px) 0 12px; }
+body[data-screen] .home .floating-header { position: static; inset: auto; display: flex; justify-content: space-between; align-items: center; padding: calc(var(--safe-top) + 12px) 0 12px; }
 body[data-screen] .brand { color: var(--ma-text); font-size: 21px; letter-spacing: .5px; display: flex; align-items: center; gap: 7px; text-decoration: none; direction: ltr; }
 body[data-screen] .home-hero { height: auto; min-height: 0; display: flex; flex-direction: column; position: relative; overflow: visible; background: transparent; border: 0; border-radius: 0; }
 body[data-screen] .home-copy { position: static; padding: 24px 0 0; z-index: auto; }
