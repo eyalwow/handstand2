@@ -3,7 +3,7 @@ import { ACTIVE_KEY, TRAINING_KEY, createWorkout, changeWorkout, readWorkout, sa
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
-const requested = {goal:params.get("goal") || undefined,level:params.get("level") || undefined,day:params.get("day") || undefined};
+const requested = {goal:params.get("goal") || undefined,level:params.get("level") || undefined,day:params.get("day") || undefined,exerciseId:params.get("exercise") || null};
 let workout = null;
 let savedSnapshot = null;
 let storage = null;
@@ -16,6 +16,12 @@ const node = (tag,text,className) => {
   if (className) el.className = className;
   return el;
 };
+const exercisePicker = $("workout-exercise");
+for (const [id,info] of Object.entries(LIBRARY)) {
+  const option=node("option",info.name);option.value=id;exercisePicker.append(option);
+}
+exercisePicker.value=Object.hasOwn(LIBRARY,requested.exerciseId)?requested.exerciseId:"";
+exercisePicker.addEventListener("change",()=>{requested.exerciseId=exercisePicker.value || null;render();});
 function status(message, retry=false) {
   $("storage-status").textContent = message;
   $("retry-save").hidden = !retry;

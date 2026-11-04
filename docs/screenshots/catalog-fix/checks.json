@@ -1,0 +1,41 @@
+[
+  {
+    "width": 320,
+    "variantGuideReloadScenarios": 25,
+    "familyCoversDecoded": true,
+    "leanWorkoutReloadAndHistory": true,
+    "existingWorkoutPreserved": true,
+    "overflow": false,
+    "pageErrors": [],
+    "httpErrors": [],
+    "posts": [],
+    "handstandReplacement": "verified: handstand-corrected.webp on catalog and guide",
+    "leanArtwork": "verified: planche-lean.webp on variation and guide"
+  },
+  {
+    "width": 390,
+    "variantGuideReloadScenarios": 25,
+    "familyCoversDecoded": true,
+    "leanWorkoutReloadAndHistory": true,
+    "existingWorkoutPreserved": true,
+    "overflow": false,
+    "pageErrors": [],
+    "httpErrors": [],
+    "posts": [],
+    "handstandReplacement": "verified: handstand-corrected.webp on catalog and guide",
+    "leanArtwork": "verified: planche-lean.webp on variation and guide"
+  },
+  {
+    "width": 1440,
+    "variantGuideReloadScenarios": 25,
+    "familyCoversDecoded": true,
+    "leanWorkoutReloadAndHistory": true,
+    "existingWorkoutPreserved": true,
+    "overflow": false,
+    "pageErrors": [],
+    "httpErrors": [],
+    "posts": [],
+    "handstandReplacement": "verified: handstand-corrected.webp on catalog and guide",
+    "leanArtwork": "verified: planche-lean.webp on variation and guide"
+  }
+]

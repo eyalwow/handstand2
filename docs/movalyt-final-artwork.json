@@ -1,0 +1,49 @@
+{
+  "sourceArchive": "MOVALYT_PR39_missing_artwork.zip",
+  "assets": [
+    {
+      "source": "handstand-corrected.png",
+      "sourceSha256": "54919823f4b07b9520790b2b83d764796e8cc07b33435e1ccea7a91f3649f77b",
+      "sourceBytes": 689850,
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "output": "vercel-app/assets/anatomy/handstand-corrected.webp",
+      "outputSha256": "446181867bc56f76830f7993466b58228cb16ec8a0e03e388279eb43555ea835",
+      "outputBytes": 15110,
+      "outputDimensions": [
+        720,
+        720
+      ],
+      "encoding": {
+        "format": "WebP",
+        "quality": 85,
+        "method": 6,
+        "resize": "Lanczos, fit within 720x720, no crop"
+      }
+    },
+    {
+      "source": "planche-lean.png",
+      "sourceSha256": "ca8945c8e28fa033020a430862ef48d764fa26b1a8a23d193f672fc5bd7752ad",
+      "sourceBytes": 924661,
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "output": "vercel-app/assets/anatomy/planche-lean.webp",
+      "outputSha256": "2ad362959c19b96ef6851fcc66d615fbe6b5a6b760350934e7c499d93ce489b4",
+      "outputBytes": 23602,
+      "outputDimensions": [
+        720,
+        720
+      ],
+      "encoding": {
+        "format": "WebP",
+        "quality": 85,
+        "method": 6,
+        "resize": "Lanczos, fit within 720x720, no crop"
+      }
+    }
+  ]
+}

@@ -58,6 +58,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
   function renderGuide(){
     const x=exerciseById(selected),config=analysisFor(x.id,{allowExperimental:true});
     $('guide-title').textContent=x.name;
+    $('guideWorkout').hidden=x.id!=='planche-lean';
     $('guideBack').href=variationsFor(x.familyId).length?'#variations':'#catalog';
     $('guideArtwork').replaceChildren(analysisMediaFigure(x.id,{motion:true}));
     $('guideDefinition').textContent=x.definition || 'צילום ברור הוא הבסיס למדידה שימושית.';

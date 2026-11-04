@@ -11,6 +11,7 @@ export const LEVELS=[
  {id:"advanced",label:"מתקדם"}
 ];
 export const LIBRARY={
+ plancheLean:{name:"הטיית פלאנץ׳",focus:"push",equipment:"רצפה",tip:"מעמידת פלאנק על ידיים ישרות, הטו כתפיים לפנים בהדרגה. שמרו גוף ישר ואצבעות רגליים על הרצפה, בטווח ללא כאב.",unit:"sec"},
  wrist:{name:"חימום כפות ידיים",focus:"mobility",equipment:"רצפה",tip:"תנועות קטנות ללא כאב; להעמיס בהדרגה.",unit:"sec"},
  wall:{name:"עמידת ידיים עם הפנים לקיר",focus:"skill",equipment:"קיר",tip:"השאר מקום לירידה בטוחה; דחוף גבוה ושמור צלעות פנימה.",unit:"sec"},
  wallKick:{name:"עליות נשלטות ליד קיר",focus:"skill",equipment:"קיר",tip:"בעט בעדינות עם רגל מובילה; לא להיכנס לעמידה כשאין דרך לרדת.",unit:"reps"},

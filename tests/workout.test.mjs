@@ -411,3 +411,16 @@ test("fitness pilot uses exact movement matches, separate card assets, and one f
     }
   }
 });
+
+test('Planche Lean can be chosen for a workout, reloaded and completed with independent history',()=>{
+ const workout=core.createWorkout({exerciseId:'plancheLean'},Date.now(),'lean-session');
+ assert.equal(workout.exercises.length,1);assert.equal(workout.exercises[0].id,'plancheLean');
+ assert.ok(core.validateWorkout(workout));
+ const values=new Map();const storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v)};
+ core.saveWorkout(storage,workout);
+ const done=core.changeWorkout(core.changeWorkout(core.readWorkout(storage),{type:'set',index:0,done:true}),{type:'finish'});
+ core.saveFinishedWorkout(storage,done);core.saveFinishedWorkout(storage,done);
+ assert.equal(core.readTraining(storage).sessions.length,1);
+ assert.deepEqual(core.readTraining(storage).sessions[0].exercises,['plancheLean']);
+ assert.deepEqual(core.createWorkout({exerciseId:'unknown'},Date.now(),'fallback').exercises.map(x=>x.id),core.createWorkout({},Date.now(),'standard').exercises.map(x=>x.id));
+});
