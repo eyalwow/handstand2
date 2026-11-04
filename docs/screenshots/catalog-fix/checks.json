@@ -9,8 +9,8 @@
     "pageErrors": [],
     "httpErrors": [],
     "posts": [],
-    "handstandReplacement": "blocked: requested PNG missing",
-    "leanArtwork": "blocked: requested PNG missing"
+    "handstandReplacement": "verified: handstand-corrected.webp on catalog and guide",
+    "leanArtwork": "verified: planche-lean.webp on variation and guide"
   },
   {
     "width": 390,
@@ -22,8 +22,8 @@
     "pageErrors": [],
     "httpErrors": [],
     "posts": [],
-    "handstandReplacement": "blocked: requested PNG missing",
-    "leanArtwork": "blocked: requested PNG missing"
+    "handstandReplacement": "verified: handstand-corrected.webp on catalog and guide",
+    "leanArtwork": "verified: planche-lean.webp on variation and guide"
   },
   {
     "width": 1440,
@@ -35,7 +35,7 @@
     "pageErrors": [],
     "httpErrors": [],
     "posts": [],
-    "handstandReplacement": "blocked: requested PNG missing",
-    "leanArtwork": "blocked: requested PNG missing"
+    "handstandReplacement": "verified: handstand-corrected.webp on catalog and guide",
+    "leanArtwork": "verified: planche-lean.webp on variation and guide"
   }
 ]

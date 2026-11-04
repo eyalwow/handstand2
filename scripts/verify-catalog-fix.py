@@ -30,12 +30,13 @@ with sync_playwright() as p:
    page.wait_for_function("document.body.dataset.screen==='catalog'")
   page.goto(origin+'/vercel-app/',wait_until='networkidle')
   page.locator('#welcomeSkip').click();catalog()
+  media=page.evaluate("async()=>{const {ANALYSIS_MEDIA}=await import('./analysis-media.js');return Object.fromEntries(Object.entries(ANALYSIS_MEDIA).map(([id,asset])=>[id,asset.image]));}")
   for family in ['planche','front-lever']:
    cover=page.locator(f'#catalogGrid [data-exercise="{family}"] img')
    cover.scroll_into_view_if_needed();cover.evaluate('(img)=>img.decode()')
    assert cover.get_attribute('src')==f'./assets/anatomy/full-{family}.webp'
   assert page.locator('#catalogGrid [data-exercise$="-band"]').count()==0
-  check();page.evaluate('scrollTo(0,0)');page.screenshot(path=str(OUT/f'catalog-{width}.png'))
+  check();page.evaluate('scrollTo(0,0)');page.wait_for_timeout(350);page.screenshot(path=str(OUT/f'catalog-{width}.png'))
   scenarios=0
   for family in ['planche','front-lever']:
    catalog();page.locator(f'#catalogGrid [data-exercise="{family}"]').click()
@@ -44,22 +45,33 @@ with sync_playwright() as p:
     ids=page.locator('#variationGrid [data-exercise]').evaluate_all('(nodes)=>nodes.map(x=>x.dataset.exercise)')
     assert len(ids)==(7 if family=='planche' and mode=='none' else 6)
     for exercise in ids:
+     card=page.locator(f'#variationGrid [data-exercise="{exercise}"]')
+     if media[exercise]:
+      assert card.locator('img').get_attribute('src')==media[exercise]
+      card.locator('img').scroll_into_view_if_needed();card.locator('img').evaluate('(img)=>img.decode()')
      page.locator(f'#variationGrid [data-exercise="{exercise}"]').click()
      page.locator('#variationContinue').click()
      page.wait_for_function("document.body.dataset.screen==='guide'")
+     if media[exercise]:assert page.locator('#guideArtwork img').get_attribute('src')==media[exercise]
      check();page.reload(wait_until='networkidle')
      assert page.evaluate("JSON.parse(localStorage.getItem('movalyt-library-selection-v1')).exerciseId")==exercise
      if exercise=='planche-lean':
-      assert page.locator('#guideArtwork img').count()==0
+      assert page.locator('#guideArtwork img').get_attribute('src')=='./assets/anatomy/planche-lean.webp'
+      page.locator('#guideArtwork img').evaluate('(img)=>img.decode()')
       assert 'הרגליים נשארות על הרצפה' in page.locator('#guideCriteria').inner_text()
       assert page.locator('#guideWorkout').is_visible()
-      page.screenshot(path=str(OUT/f'lean-guide-{width}.png'))
+      page.evaluate('scrollTo(0,0)');page.screenshot(path=str(OUT/f'lean-guide-{width}.png'))
      page.locator('#guideBack').click()
      page.wait_for_function("document.body.dataset.screen==='variations'")
      assert page.locator(f'#variationGrid [data-exercise="{exercise}"]').get_attribute('aria-pressed')=='true'
      scenarios+=1
-  catalog();page.locator('#catalogGrid [data-exercise="handstand"]').click()
-  assert page.locator('#guideArtwork img').get_attribute('src')=='./assets/anatomy/handstand.webp'
+  catalog()
+  handstand=page.locator('#catalogGrid [data-exercise="handstand"] img')
+  assert handstand.get_attribute('src')=='./assets/anatomy/handstand-corrected.webp'
+  handstand.scroll_into_view_if_needed();handstand.evaluate('(img)=>img.decode()')
+  page.locator('#catalogGrid [data-exercise="handstand"]').click()
+  assert page.locator('#guideArtwork img').get_attribute('src')=='./assets/anatomy/handstand-corrected.webp'
+  check();page.evaluate('scrollTo(0,0)');page.screenshot(path=str(OUT/f'handstand-guide-{width}.png'))
   page.locator('#guideAnalyze').click();assert page.locator('#exerciseSelect').input_value()=='handstand'
   catalog();page.locator('#catalogGrid [data-exercise="planche"]').click()
   page.locator('#assistanceOptions [data-assistance="none"]').click()
@@ -83,7 +95,7 @@ with sync_playwright() as p:
   assert not errors,errors
   assert not bad,bad
   assert not posts,posts
-  results.append({'width':width,'variantGuideReloadScenarios':scenarios,'familyCoversDecoded':True,'leanWorkoutReloadAndHistory':True,'existingWorkoutPreserved':True,'overflow':False,'pageErrors':errors,'httpErrors':bad,'posts':posts,'handstandReplacement':'blocked: requested PNG missing','leanArtwork':'blocked: requested PNG missing'})
+  results.append({'width':width,'variantGuideReloadScenarios':scenarios,'familyCoversDecoded':True,'leanWorkoutReloadAndHistory':True,'existingWorkoutPreserved':True,'overflow':False,'pageErrors':errors,'httpErrors':bad,'posts':posts,'handstandReplacement':'verified: handstand-corrected.webp on catalog and guide','leanArtwork':'verified: planche-lean.webp on variation and guide'})
   print(f'{width}px: {scenarios} variation/guide/reload scenarios and workout persistence passed',flush=True)
   page.close()
  browser.close()
