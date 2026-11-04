@@ -259,3 +259,22 @@ body[data-screen] .view-body a { min-height: 44px; align-items: center; }
 /* Each view reserves its own bottom actions; avoid a second navigation-sized gap. */
 body[data-screen] .mobile-app { padding-bottom: 0; }
 body[data-screen] .library-hero img, body[data-screen] .family-hero img { object-fit: contain; }
+/* Compact reference-style library header; filters remain reachable with a 44px control. */
+body[data-screen] #catalogView .page-header { display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 0; padding-top: calc(var(--safe-top) + 16px); padding-bottom: 8px; }
+body[data-screen] #catalogView .page-header .back { position: absolute; inset-inline-start: 8px; top: calc(var(--safe-top) + 12px); }
+body[data-screen] #catalogView .library-brand { margin: 0 0 4px; }
+body[data-screen] #catalogView #catalog-title { font-size: 1.125rem; }
+body[data-screen] #catalogCount { text-align: center; margin: 4px 0 14px; }
+body[data-screen] .catalog-intro { display: none; }
+body[data-screen] #catalogView .library-tools { position: relative; display: grid; grid-template-columns: minmax(0,1fr) 44px; gap: 10px; margin: 12px 0 18px; align-items: start; }
+body[data-screen] #catalogView .catalog-search { grid-column: auto; }
+body[data-screen] .catalog-search > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+body[data-screen] .catalog-search input { height: 44px; }
+body[data-screen] .catalog-options summary { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: 14px; list-style: none; cursor: pointer; }
+body[data-screen] .catalog-options summary::-webkit-details-marker { display: none; }
+body[data-screen] .catalog-options[open] summary { color: var(--ma-accent); border-color: var(--ma-accent); }
+body[data-screen] .catalog-filter-fields { position: absolute; z-index: 8; inset-inline: 0; top: 54px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; padding: 16px; background: var(--ma-raised); border: 1px solid var(--ma-line); border-radius: var(--ma-radius); }
+body[data-screen] .catalog-filter-fields label { grid-column: auto !important; }
+body[data-screen] #catalogGrid .anatomy-media { height: 100px; }
+body[data-screen] #catalogGrid .library-card-content { padding: 10px 8px; }
+@media(min-width:900px) { body[data-screen] #catalogGrid .anatomy-media { height: 160px; } body[data-screen] #catalogView .library-tools { max-width: 640px; margin-inline: auto; } }

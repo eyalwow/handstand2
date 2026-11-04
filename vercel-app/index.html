@@ -318,17 +318,19 @@
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <use href="#i-arrow"></use></svg
           ></a>
+          <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
           <h1 id="catalog-title" tabindex="-1">בחר תרגיל לניתוח</h1>
         </header>
         <div class="view-body">
-          <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
           <span id="catalogCount" class="eyebrow"></span>
           <p class="subline catalog-intro">הטכניקה מתחילה בבחירה הנכונה.</p>
           <p id="libraryNotice" class="storage-notice" role="status" hidden></p>
           <div class="library-tools">
-            <label>חיפוש תרגיל<input id="librarySearch" type="search" placeholder="חיפוש בעברית או באנגלית…" autocomplete="off" /></label>
+            <label class="catalog-search"><span>חיפוש תרגיל</span><input id="librarySearch" type="search" placeholder="חיפוש בעברית או באנגלית…" autocomplete="off" /></label>
+            <details id="catalogOptions" class="catalog-options"><summary aria-label="סינון ומיון" title="סינון ומיון"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16M8 4v6m8 4v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></summary><div class="catalog-filter-fields">
             <label>הצגה<select id="libraryFilter"><option value="skills">מיומנויות מרכזיות</option><option value="all">כל הספרייה</option><option value="supported">זמין או ניסיוני</option><option value="training">תרגילי הכנה</option></select></label>
             <label>מיון<select id="librarySort"><option value="recommended">סדר מומלץ</option><option value="name">לפי שם</option><option value="available">ניתוח זמין תחילה</option></select></label>
+            </div></details>
           </div>
           <p id="catalogEmpty" role="status" hidden>לא נמצאו תרגילים. נסה שם אחר או שנה סינון.</p>
           <div id="catalogGrid" class="library-grid"></div>

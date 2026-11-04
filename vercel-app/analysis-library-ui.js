@@ -31,7 +31,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const button=node('button',null,'library-card');button.type='button';button.dataset.exercise=x.id;
     button.append(analysisMediaFigure(x.id));
     const content=node('span',null,'library-card-content');
-    content.append(node('span',x.difficulty,'library-difficulty'),node('strong',variation?x.variationLabel:x.name),node('span',exerciseEnglish(x),'library-english'),...(!variation?[node('span',x.measurement,'library-measurement')]:[]),node('span',availabilityLabel(x),'library-status'));
+    content.append(node('span',x.difficulty,'library-difficulty'),node('strong',variation?x.variationLabel:x.name),node('span',exerciseEnglish(x),'library-english'),...(!variation?[node('span',x.measurement,'library-measurement')]:[]),node('span',analysisAvailability(x.id).status==='experimental'?'ניסיוני · ללא ציון':availabilityLabel(x),'library-status'));
     if(variation){button.setAttribute('aria-pressed',String(x.id===selected));button.onclick=()=>{if(choose(x.id)){renderVariations();$('variationGrid').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});}};}
     else {content.append(node('span',variationsFor(x.id).length?'בחירת וריאציה ←':'הנחיות ופרטים ←','library-action'));button.onclick=()=>open(x);}
     const availability=analysisAvailability(x.id);button.dataset.availability=availability.status;
@@ -47,7 +47,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     else if(sort==='available')matches.sort((a,b)=>Number(analysisAvailability(b.id).status!=='unavailable')-Number(analysisAvailability(a.id).status!=='unavailable'));
     else matches.sort((a,b)=>(order.indexOf(a.id)<0?99:order.indexOf(a.id))-(order.indexOf(b.id)<0?99:order.indexOf(b.id)));
     $('catalogGrid').replaceChildren(...matches.map(x=>card(x)));
-    $('catalogCount').textContent=`${catalogCountLabel(matches.length)} · ${ANALYSIS_CATALOG.length} אפשרויות בקטלוג המלא`;
+    $('catalogCount').textContent=`${catalogCountLabel(matches.length)} · ${ANALYSIS_CATALOG.length} אפשרויות`;
     $('catalogEmpty').hidden=matches.length>0;
   }
   function renderVariations(){

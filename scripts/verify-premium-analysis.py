@@ -6,7 +6,7 @@ import argparse,functools,json,mimetypes,threading,time
 from pathlib import Path
 from http.server import SimpleHTTPRequestHandler,ThreadingHTTPServer
 from urllib.parse import urlparse
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright,expect
 ROOT=Path(__file__).resolve().parents[1]
 a=argparse.ArgumentParser(description=__doc__)
 a.add_argument('--url');a.add_argument('--path',default='/vercel-app/');a.add_argument('--access-file',type=Path)
@@ -39,18 +39,26 @@ with sync_playwright() as p:
    context.route('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/**',deps)
    context.route('https://storage.googleapis.com/mediapipe-models/**',deps)
   page=context.new_page();errors=[];bad=[];posts=[]
+  def wait(expression,arg=None,timeout=30000):
+   # Direct DevTools evaluation avoids wait_for_function's string eval under native CSP.
+   predicate=expression if expression.startswith('(s)=>') else '()=>('+expression+')'
+   deadline=time.monotonic()+timeout/1000
+   while time.monotonic()<deadline:
+    if page.evaluate(predicate,arg):return
+    page.wait_for_timeout(100)
+   raise AssertionError('Timed out waiting for application state: '+expression)
   page.on('pageerror',lambda e:errors.append({'message':str(e),'stack':e.stack}))
   page.on('response',lambda r:bad.append({'status':r.status,'path':urlparse(r.url).path}) if r.status>=400 else None)
   page.on('request',lambda r:posts.append(urlparse(r.url).path) if r.method=='POST' else None)
   page.add_init_script("window.qaTimings=[];window.qaDiagnostics=[];addEventListener('movalyt:analysis-timing',e=>qaTimings.push(e.detail));addEventListener('movalyt:analysis-diagnostic',e=>qaDiagnostics.push(e.detail));")
   if args.access_file:page.goto(args.access_file.read_text().strip(),wait_until='domcontentloaded')
-  page.goto(args.url,wait_until='domcontentloaded');page.wait_for_function('!!document.body.dataset.screen',timeout=60000);assert page.title().startswith('MOVALYT')
+  page.goto(args.url,wait_until='domcontentloaded');wait('!!document.body.dataset.screen',timeout=60000);assert page.title().startswith('MOVALYT')
   page.locator('#welcomeSkip').click()
-  def screen(name):page.wait_for_function('(s)=>document.body.dataset.screen===s',arg=name)
+  def screen(name):wait('(s)=>document.body.dataset.screen===s',arg=name)
   def navigate(name):page.evaluate('(s)=>location.hash=s',name);screen(name)
   def decode(img):
    img.scroll_into_view_if_needed()
-   img.evaluate("img=>img.complete&&img.naturalWidth>0?Promise.resolve():new Promise((resolve,reject)=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',()=>reject(Error('Image failed: '+img.getAttribute('src'))),{once:true});})")
+   img.evaluate("img=>img.complete?(img.naturalWidth>0?Promise.resolve():Promise.reject(Error('Image failed: '+img.getAttribute('src')))):new Promise((resolve,reject)=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',()=>reject(Error('Image failed: '+img.getAttribute('src'))),{once:true});})")
    img.evaluate('(img)=>img.decode()')
   def check(name,shot=True):
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),name
@@ -69,9 +77,9 @@ with sync_playwright() as p:
    assert page.locator(f'#catalogGrid [data-exercise="{family}"] img').get_attribute('src')==f'./assets/anatomy/{asset}.webp'
   page.locator('#librarySearch').fill('Planche Lean');assert page.locator('#catalogGrid > button').count()==1
   page.locator('#librarySearch').fill('אין תרגיל כזה');assert page.locator('#catalogEmpty').is_visible()
-  page.locator('#librarySearch').fill('');page.locator('#librarySort').select_option('name')
+  page.locator('#librarySearch').fill('');page.locator('#catalogOptions summary').click();page.locator('#librarySort').select_option('name')
   page.locator('#libraryFilter').select_option('supported');assert page.locator('#catalogGrid > button').count()==2
-  page.locator('#libraryFilter').select_option('skills');page.locator('#librarySort').select_option('recommended')
+  page.locator('#libraryFilter').select_option('skills');page.locator('#librarySort').select_option('recommended');page.locator('#catalogOptions summary').click()
   variants=0
   for family in ['planche','front-lever']:
    navigate('catalog');page.locator(f'#catalogGrid [data-exercise="{family}"]').click();screen('variations')
@@ -79,7 +87,7 @@ with sync_playwright() as p:
     page.locator(f'#assistanceOptions [data-assistance="{mode}"]').click()
     ids=page.locator('#variationGrid [data-exercise]').evaluate_all('(nodes)=>nodes.map(x=>x.dataset.exercise)')
     for id in ids:
-     card=page.locator(f'#variationGrid [data-exercise="{id}"]');card.click();assert card.get_attribute('aria-pressed')=='true'
+     card=page.locator(f'#variationGrid [data-exercise="{id}"]');card.click();expect(card).to_have_attribute('aria-pressed','true')
      if card.locator('img').count():decode(card.locator('img'))
      page.locator('#variationContinue').click();screen('guide')
      assert page.locator('#guideWorkout').is_hidden()
@@ -87,14 +95,14 @@ with sync_playwright() as p:
      page.reload(wait_until='domcontentloaded');screen('guide')
      assert page.evaluate("JSON.parse(localStorage.getItem('movalyt-library-selection-v1')).exerciseId")==id
      if id=='planche-lean':assert page.locator('#guideArtwork img').get_attribute('src').endswith('planche-lean.webp')
-     page.locator('#guideBack').click();screen('variations');assert page.locator(f'[data-exercise="{id}"]').get_attribute('aria-pressed')=='true'
+     page.locator('#guideBack').click();screen('variations');expect(page.locator(f'[data-exercise="{id}"]')).to_have_attribute('aria-pressed','true')
      variants+=1
    check(f'{family}-family')
   navigate('catalog');page.locator('#catalogGrid [data-exercise="handstand"]').click();screen('guide');check('handstand-guide')
   page.locator('#guideAnalyze').click();screen('analyze');check('upload')
   # Unsupported/corrupt files stop at review, before inference and without storage writes.
   page.locator('#file').set_input_files({'name':'broken.mp4','mimeType':'video/mp4','buffer':b'not a video'})
-  page.wait_for_function("document.getElementById('uploadReviewStatus').textContent.includes('לא ניתן')")
+  wait("document.getElementById('uploadReviewStatus').textContent.includes('לא ניתן')")
   assert page.locator('#startReviewedAnalysis').is_disabled();check('decode-error')
   page.locator('#discardUpload').click();assert page.locator('#uploadReview').is_hidden()
   navigate('history');check('history-empty');assert 'אין' in page.locator('#variationHistory').inner_text()
@@ -105,22 +113,22 @@ with sync_playwright() as p:
   if args.inference:
    navigate('catalog');page.locator('#catalogGrid [data-exercise="handstand"]').click();page.locator('#guideAnalyze').click();screen('analyze')
    page.locator('#file').set_input_files(str(args.cache/'motion.mp4'))
-   page.wait_for_function("!document.getElementById('startReviewedAnalysis').disabled")
+   wait("!document.getElementById('startReviewedAnalysis').disabled")
    assert page.evaluate('qaTimings.length')==0
    assert page.evaluate("localStorage.getItem('handstand-lab-analyses-v1')")==None
    check('video-review')
    page.locator('#startReviewedAnalysis').click();screen('processing');page.locator('#cancelAnalysis').click()
-   page.wait_for_function("qaTimings.some(x=>x.outcome==='cancelled')",timeout=30000);screen('analyze')
+   wait("qaTimings.some(x=>x.outcome==='cancelled')",timeout=30000);screen('analyze')
    assert page.evaluate("localStorage.getItem('handstand-lab-analyses-v1')")==None
-   page.locator('#file').set_input_files(str(args.cache/'motion.mp4'));page.wait_for_function("!document.getElementById('startReviewedAnalysis').disabled")
+   page.locator('#file').set_input_files(str(args.cache/'motion.mp4'));wait("!document.getElementById('startReviewedAnalysis').disabled")
    page.locator('#startReviewedAnalysis').click();screen('processing');check('processing')
-   page.wait_for_function("qaTimings.some(x=>!['cancelled'].includes(x.outcome))",timeout=180000)
+   wait("qaTimings.some(x=>!['cancelled'].includes(x.outcome))",timeout=180000)
    timing=page.evaluate('qaTimings.at(-1)');diagnostics=page.evaluate('qaDiagnostics.at(-1)||null')
    check('actual-'+timing['outcome']);assert timing['poseFrames']>0
    if timing['outcome'] in ['scored','unreliable']:
     assert page.locator('#replaySec').is_visible()
     assert page.locator('#showSkeleton').is_visible()
-    page.locator('#play').click();page.wait_for_function("!document.getElementById('v').paused")
+    page.locator('#play').click();wait("!document.getElementById('v').paused")
     page.wait_for_timeout(300);page.locator('#play').click()
     page.locator('#showSkeleton').uncheck();page.locator('#showSkeleton').check()
     page.locator('#showAngles').check();page.locator('#next').click();check('player')
