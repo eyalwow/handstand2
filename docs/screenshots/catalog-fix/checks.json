@@ -1,0 +1,41 @@
+[
+  {
+    "width": 320,
+    "variantGuideReloadScenarios": 25,
+    "familyCoversDecoded": true,
+    "leanWorkoutReloadAndHistory": true,
+    "existingWorkoutPreserved": true,
+    "overflow": false,
+    "pageErrors": [],
+    "httpErrors": [],
+    "posts": [],
+    "handstandReplacement": "blocked: requested PNG missing",
+    "leanArtwork": "blocked: requested PNG missing"
+  },
+  {
+    "width": 390,
+    "variantGuideReloadScenarios": 25,
+    "familyCoversDecoded": true,
+    "leanWorkoutReloadAndHistory": true,
+    "existingWorkoutPreserved": true,
+    "overflow": false,
+    "pageErrors": [],
+    "httpErrors": [],
+    "posts": [],
+    "handstandReplacement": "blocked: requested PNG missing",
+    "leanArtwork": "blocked: requested PNG missing"
+  },
+  {
+    "width": 1440,
+    "variantGuideReloadScenarios": 25,
+    "familyCoversDecoded": true,
+    "leanWorkoutReloadAndHistory": true,
+    "existingWorkoutPreserved": true,
+    "overflow": false,
+    "pageErrors": [],
+    "httpErrors": [],
+    "posts": [],
+    "handstandReplacement": "blocked: requested PNG missing",
+    "leanArtwork": "blocked: requested PNG missing"
+  }
+]
