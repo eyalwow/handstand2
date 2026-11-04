@@ -52,3 +52,97 @@ body[data-screen] .storage-notice { position: relative; background: var(--ma-rai
 @media(prefers-reduced-motion: reduce) {
   body[data-screen] *, body[data-screen] *::before, body[data-screen] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+/* B: selection. The same approved stills are contained, never cropped. */
+body[data-screen] :is(.catalog-view, .library-view) .view-body { padding: 0 var(--ma-inset) 24px; }
+body[data-screen] .library-brand { display: flex; justify-content: center; align-items: center; gap: 7px; margin: 4px 0 20px; font-size: 20px; }
+body[data-screen] .library-brand img { width: 24px; height: 24px; }
+body[data-screen] .library-brand > span { display: none; }
+body[data-screen] .catalog-intro { margin: 6px 0 16px; }
+body[data-screen] #catalogCount { display: block; color: var(--ma-accent); font-size: .875rem; }
+body[data-screen] .library-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 20px; }
+body[data-screen] .library-tools label { display: grid; gap: 6px; font-size: .875rem; color: var(--ma-muted); min-width: 0; }
+body[data-screen] .library-tools label:first-child { grid-column: 1 / -1; }
+body[data-screen] .library-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+body[data-screen] .library-card { display: flex; flex-direction: column; align-items: stretch; text-align: center; padding: 0; overflow: hidden; min-width: 0; border: 1px solid var(--ma-line); border-radius: var(--ma-radius); background: var(--ma-surface); color: var(--ma-text); box-shadow: none; }
+body[data-screen] .library-card .anatomy-media { margin: 0; width: 100%; height: 116px; aspect-ratio: auto; border: 0; border-radius: 0; background: #090b0a; }
+body[data-screen] .anatomy-media img { width: 100%; height: 100%; object-fit: contain; }
+body[data-screen] .library-card-content { display: flex; flex-direction: column; gap: 4px; align-items: center; padding: 12px 8px; min-width: 0; }
+body[data-screen] .library-card strong { font-size: 1rem; font-weight: 600; line-height: 1.45; }
+body[data-screen] .library-card .library-english { font-size: .875rem; color: var(--ma-muted); direction: ltr; line-height: 1.4; }
+body[data-screen] .library-difficulty, body[data-screen] .library-measurement, body[data-screen] .library-action { display: none; }
+body[data-screen] .library-card .library-status { margin-top: 5px; font-size: .8125rem; line-height: 1.5; color: var(--ma-muted); }
+body[data-screen] .library-card[data-availability="active"] .library-status { color: var(--ma-accent); }
+body[data-screen] .library-card[data-availability="experimental"] .library-status { color: #e7d89b; }
+body[data-screen] .anatomy-monogram { font-size: 28px; color: #56615a; }
+body[data-screen] .anatomy-media figcaption { color: var(--ma-muted); font-size: .8125rem; }
+body[data-screen] #variationsView .library-brand, body[data-screen] #guideView .library-brand { display: none; }
+body[data-screen] .family-hero { display: grid; grid-template-columns: 1fr; }
+body[data-screen] .family-hero .anatomy-media { height: 205px; border: 0; margin: 0; background: transparent; }
+body[data-screen] .family-hero h2 { margin: 12px 0 0; font-size: 1.5rem; }
+body[data-screen] .exercise-english { font-size: 1rem; margin: 0; color: var(--ma-muted); text-align: start; }
+body[data-screen] .family-hero .subline { margin: 12px 0 8px; }
+body[data-screen] .family-intro { font-size: .875rem; margin: 4px 0 16px; }
+body[data-screen] .library-assistance { display: flex; padding: 4px; gap: 4px; border: 1px solid var(--ma-line); background: var(--ma-surface); border-radius: 14px; margin: 16px 0; }
+body[data-screen] .library-assistance button { flex: 1; padding: 8px; font-size: .9375rem; border: 0; border-radius: 10px; color: var(--ma-muted); background: transparent; }
+body[data-screen] .library-assistance [aria-pressed="true"] { background: #c7ff2718; color: var(--ma-accent); box-shadow: inset 0 -2px var(--ma-accent); }
+body[data-screen] .variation-grid { grid-template-columns: 1fr; gap: 10px; }
+body[data-screen] .variation-grid .library-card { display: grid; grid-template-columns: 96px minmax(0,1fr); align-items: center; text-align: start; padding: 6px; border-radius: 14px; }
+body[data-screen] .variation-grid .library-card .anatomy-media { height: 82px; border-radius: 10px; }
+body[data-screen] .variation-grid .library-card-content { padding: 6px 10px; align-items: start; gap: 2px; }
+body[data-screen] .variation-grid .library-difficulty { display: inline; color: var(--ma-muted); font-size: .8125rem; }
+body[data-screen] .variation-grid .library-status { font-size: .8125rem; margin: 2px 0 0; }
+body[data-screen] .variation-grid .library-card[aria-pressed="true"] { border-color: var(--ma-accent); background: #161d10; box-shadow: inset 0 0 0 1px #c7ff2733; }
+body[data-screen="variations"] .app-nav { display: grid; }
+body[data-screen] #variationsView { padding-bottom: calc(var(--variation-action-height,150px) + var(--nav) + 24px); }
+body[data-screen] .variation-actionbar { position: fixed; bottom: var(--nav); width: min(520px,100%); left: 50%; transform: translateX(-50%); z-index: 25; padding: 10px max(18px,env(safe-area-inset-right)) 12px max(18px,env(safe-area-inset-left)); background: #080a09f5; border-top: 1px solid var(--ma-line); box-shadow: none; margin: 0; }
+body[data-screen] .variation-actionbar p { font-size: .875rem; color: var(--ma-muted); line-height: 1.6; }
+body[data-screen] .variation-actionbar .primary { margin: 8px 0 0; }
+body[data-screen] #variationGrid .library-card { scroll-margin-bottom: calc(var(--variation-action-height,150px) + var(--nav) + 24px); }
+body[data-screen] .library-hero { margin: 12px 0 18px; }
+body[data-screen] .library-hero .anatomy-media { height: 240px; aspect-ratio: auto; margin: 0; border: 0; background: transparent; }
+body[data-screen] .guide-panels { display: grid; grid-template-columns: 1fr; gap: 14px; }
+body[data-screen] :is(.guide-panels article, .guide-instructions, .library-history) { background: var(--ma-surface); border: 1px solid var(--ma-line); border-radius: var(--ma-radius); padding: 18px; margin: 16px 0; }
+body[data-screen] :is(.guide-panels, .guide-instructions, .library-history) h2 { font-size: 1.0625rem; margin: 0 0 12px; }
+body[data-screen] :is(.guide-panels, .guide-instructions, .library-history) :is(p,li) { font-size: .9375rem; line-height: 1.8; }
+body[data-screen] #guideInstructions { counter-reset: steps; list-style: none; padding: 0; margin: 0; }
+body[data-screen] #guideInstructions li { counter-increment: steps; position: relative; padding-inline-start: 36px; margin: 14px 0; }
+body[data-screen] #guideInstructions li::before { content: counter(steps); position: absolute; inset-inline-start: 0; top: 1px; border-radius: 50%; width: 26px; height: 26px; text-align: center; background: var(--ma-raised); color: var(--ma-text); }
+body[data-screen] #guideAnalyze { width: 100%; margin: 24px 0; }
+body[data-screen] #guideWorkout { display: none; }
+body[data-screen] .home-page { padding: 0 var(--ma-inset); }
+body[data-screen] .home .floating-header { position: static; inset: auto; display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top,0px) + 12px) 0 12px; }
+body[data-screen] .brand { color: var(--ma-text); font-size: 21px; letter-spacing: .5px; display: flex; align-items: center; gap: 7px; text-decoration: none; direction: ltr; }
+body[data-screen] .home-hero { height: auto; min-height: 0; display: flex; flex-direction: column; position: relative; overflow: visible; background: transparent; border: 0; border-radius: 0; }
+body[data-screen] .home-copy { position: static; padding: 24px 0 0; z-index: auto; }
+body[data-screen] #home-title { font-size: 1.9rem; line-height: 1.35; letter-spacing: -.6px; margin: 12px 0; font-weight: 600; }
+body[data-screen] #home-title em { font-style: normal; color: var(--ma-text); }
+body[data-screen] .home-copy p { max-width: 34em; font-size: 1rem; color: var(--ma-muted); line-height: 1.8; }
+body[data-screen] .home-photo { position: static; display: block; width: 100%; height: 240px; object-fit: contain; opacity: 1; filter: none; mask-image: none; }
+body[data-screen] .home-primary { position: static; margin: 16px 0 0; width: 100%; }
+body[data-screen] .home-library-link { display: block; text-align: center; padding: 12px; margin: 4px 0 16px; }
+body[data-screen] .analysis-intro { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--ma-line); padding-block: 20px; color: var(--ma-muted); font-size: .875rem; }
+body[data-screen] .home-analysis-scope { margin: 0; padding: 14px 0; color: var(--ma-muted); font-size: .875rem; border-top: 1px solid var(--ma-line); }
+body[data-screen] .home-recent { padding: 16px var(--ma-inset); margin: 12px 0 0; border-top: 1px solid var(--ma-line); }
+body[data-screen] .home-recent h2 { font-size: 1.125rem; }
+body[data-screen] .home-recent #home-analysis-history { font-size: .9375rem; color: var(--ma-muted); }
+@media(min-width:900px) {
+  body[data-screen] .library-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  body[data-screen] .library-card .anatomy-media { height: 160px; }
+  body[data-screen] .library-tools { grid-template-columns: 2fr 1fr 1fr; }
+  body[data-screen] .library-tools label:first-child { grid-column: auto; }
+  body[data-screen] .variation-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  body[data-screen] .variation-grid .library-card .anatomy-media { height: 82px; }
+  body[data-screen] .family-hero { grid-template-columns: 1fr 1fr; align-items: end; column-gap: 32px; }
+  body[data-screen] .family-hero .anatomy-media { grid-column: 1; grid-row: 1 / 5; height: 280px; }
+  body[data-screen] .family-hero h2 { grid-column: 2; }
+  body[data-screen] .family-hero :is(p,.exercise-english) { grid-column: 2; }
+  body[data-screen] .family-intro { margin-top: 24px; }
+  body[data-screen] .guide-panels { grid-template-columns: 1fr 1fr; }
+  body[data-screen] .home-hero { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px; }
+  body[data-screen] .home-photo { height: 440px; }
+  body[data-screen] #home-title { font-size: 2.8rem; }
+  body[data-screen] .home-primary { max-width: 460px; margin-inline: auto; }
+  body[data-screen] .home .analysis-intro { justify-content: center; gap: 48px; }
+  body[data-screen] .library-hero .anatomy-media { height: 360px; }
+}
+@media(max-width:350px) { :root { --ma-inset: 14px; } body[data-screen] .library-grid { gap: 8px; } body[data-screen] .library-card .anatomy-media { height: 100px; } body[data-screen] .variation-grid .library-card .anatomy-media { height: 82px; } body[data-screen] #home-title { font-size: 1.65rem; } }
