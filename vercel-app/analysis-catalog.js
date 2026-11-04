@@ -45,6 +45,9 @@ const variants = ['planche','front-lever'].flatMap(familyId => progressions.flat
     difficulty, definition, assistance:band?'band':'none', baseVariation:variation}))));
 variants.push(...[['tuck','טאק','בסיס'],['one-leg','רגל אחת','בינוני'],['full','מלא','בינוני']].map(([variation,label,difficulty])=>
   ({familyId:'l-sit',variation,label,difficulty,definition:variation==='full'?'רגליים ישרות קדימה, ידיים ישרות ואגן מעל המשטח.':variation==='one-leg'?'רגל אחת ישרה קדימה והשנייה כפופה.':'ברכיים מכונסות, ידיים ישרות וכפות הרגליים באוויר.',assistance:'none',baseVariation:variation})));
+variants.push({familyId:'planche',variation:'lean',label:'הטיית פלאנץ׳',difficulty:'בינוני',
+  definition:'הטיית פלאנץ׳ — Planche Lean: מעמידת פלאנק על ידיים ישרות, הטו את הכתפיים לפנים בהדרגה תוך שמירת גוף ישר ואצבעות הרגליים על הרצפה. חזרו בשליטה ובטווח ללא כאב.',
+  assistance:'none',baseVariation:'lean'});
 const experimentalVariants = new Set(['tuck','advanced-tuck','one-leg','straddle','full']);
 const holds = new Set(['handstand','planche','front-lever','back-lever','l-sit','v-sit','human-flag','hollow-body','arch-hold','ring-support']);
 export const measurementFor = id => holds.has(id) ? 'זמן החזקה + טכניקה' : 'חזרות + טכניקה';
@@ -77,9 +80,13 @@ export const ANALYSIS_CATALOG = Object.freeze([
   ),
   ...variants.map(({familyId,variation,label,difficulty,definition,assistance,baseVariation})=>Object.freeze({
     id: `${familyId}-${variation}`, familyId, variation, variationLabel:label, name:`${EXERCISE_FAMILIES[familyId]} · ${label}`,
-    english:`${familyId} ${variation}`, category:familyId==='l-sit'?'core':'strength',
+    english:variation==='lean'?'Planche Lean':`${familyId} ${variation}`, category:familyId==='l-sit'?'core':'strength',
     difficulty, definition, assistance, baseVariation, measurement:'זמן החזקה + טכניקה',
-    criteria:Object.freeze(criteriaFor(familyId)),
+    criteria:Object.freeze(variation==='lean'?[
+      'ידיים ישרות וכתפיים נעות לפנים ביחס לכפות הידיים.',
+      'אצבעות הרגליים נשארות על הרצפה; גוף בקו ישר וליבה פעילה.',
+      'הגדילו את ההטיה בהדרגה ובטווח נוח לפרקי הידיים.'
+    ]:criteriaFor(familyId)),
     filming:(familyId==='front-lever'?leverFilming:filming)+(assistance==='band'?' כללו את עיגון הגומייה ואת מגע התמיכה באגן בפריים. כוח הסיוע אינו נמדד.':''),
     artwork:null, status:'coming-soon', validation:'unvalidated',
     experimental:familyId==='front-lever' && experimentalVariants.has(variation),

@@ -18,7 +18,7 @@ test('every legacy analysis ID and training name remains available without chang
 });
 test('Planche and Front Lever define six progressions with assistance inside each family; L-sit defines three',()=>{
  for(const family of ['planche','front-lever']){
-  const variants=variationsFor(family);assert.equal(variants.length,12);
+  const variants=variationsFor(family);assert.equal(variants.length,family==='planche'?13:12);
   for(const base of ['tuck','advanced-tuck','super-advanced-tuck','one-leg','straddle','full']){
    const plain=exerciseById(`${family}-${base}`),band=exerciseById(`${family}-${base}-band`);
    assert.equal(band.familyId,family);assert.equal(band.assistance,'band');assert.equal(plain.baseVariation,band.baseVariation);
@@ -45,13 +45,13 @@ test('selection restores supported and future choices without touching histories
 });
 test('approved illustrations ship only for the intended catalog exercises',()=>{
  const illustrated = Object.values(ANALYSIS_MEDIA).filter(approvedMedia);
- assert.equal(illustrated.length, 21);
+ assert.equal(illustrated.length, 23);
  for(const asset of illustrated){
   const bytes = readFileSync(new URL('../vercel-app/'+asset.image, import.meta.url));
   assert.equal(bytes.toString('ascii', 8, 12), 'WEBP', asset.id);
   assert.ok(bytes.length < 32_000, asset.id);
  }
- for(const id of ['front-lever-advanced-tuck','front-lever-straddle','planche','front-lever','l-sit']){
+ for(const id of ['front-lever-advanced-tuck','front-lever-straddle','planche-lean','l-sit']){
   assert.equal(approvedMedia(ANALYSIS_MEDIA[id]), null, id);
  }
  assert.equal(ANALYSIS_MEDIA['front-lever-full-band'].image, './assets/anatomy/banded-full-front-lever.webp');
@@ -115,7 +115,7 @@ test('Hebrew exercise terminology stays consistent while every original exercise
  }
  assert.ok(ANALYSIS_CATALOG.every(x=>!x.name.includes('מנוף קדמי')));
  // Snapshot of all 158 (id, historyId, legacy training name) tuples before QA.
- const identities=ANALYSIS_CATALOG.map(x=>[x.id,x.historyId,x.legacyName??null]);
+ const identities=ANALYSIS_CATALOG.filter(x=>x.id!=='planche-lean').map(x=>[x.id,x.historyId,x.legacyName??null]);
  assert.equal(createHash('sha256').update(JSON.stringify(identities)).digest('hex'),'c12fd7f7476111b95aa78c13f3b7dfdf4329d054bc5daeafee16f3eadad695a3');
 });
 test('Hebrew singular catalog count is grammatical',async()=>{
@@ -123,4 +123,23 @@ test('Hebrew singular catalog count is grammatical',async()=>{
  assert.equal(catalogCountLabel(1),'תרגיל אחד');
  assert.equal(catalogCountLabel(0),'0 תרגילים ומשפחות');
  assert.equal(catalogCountLabel(20),'20 תרגילים ומשפחות');
+});
+
+test('family covers use approved full stills and banded full stays within each family',()=>{
+ for(const family of ['planche','front-lever']){
+  assert.equal(approvedMedia(ANALYSIS_MEDIA[family]).image,approvedMedia(ANALYSIS_MEDIA[family+'-full']).image);
+  const band=exerciseById(family+'-full-band');
+  assert.ok(band.variation);assert.equal(band.familyId,family);
+  assert.equal(ANALYSIS_CATALOG.filter(x=>!x.variation&&x.id.includes('band')).length,0);
+ }
+});
+test('Planche Lean is a unique unassisted Planche choice with grounded feet and no substitute image',()=>{
+ const lean=exerciseById('planche-lean');
+ assert.equal(variationsFor('planche').filter(x=>x.id===lean.id).length,1);
+ assert.equal(lean.english,'Planche Lean');assert.equal(lean.assistance,'none');
+ assert.ok(lean.criteria.some(x=>x.includes('הרגליים נשארות על הרצפה')));
+ assert.equal(analysisFor(lean.id,{allowExperimental:true}),null);
+ assert.equal(approvedMedia(ANALYSIS_MEDIA[lean.id]),null);
+ const storage=memory();saveLibrarySelection(storage,lean.id);
+ assert.equal(readLibrarySelection(storage).exerciseId,lean.id);
 });

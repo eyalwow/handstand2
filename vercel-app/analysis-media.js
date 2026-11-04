@@ -2,8 +2,10 @@
 import { ANALYSIS_CATALOG } from './analysis-catalog.js';
 export const MEDIA_STYLE = 'Premium Fitness Anatomy — MOVALYT';
 const REVIEW_CHECKS=Object.freeze(['same-athlete','anatomy','support','camera','grayscale','rights']);
-// Approved stills from PR #37's ready manifest. Family cards keep their placeholders.
+// Approved stills from PR #37's ready manifest. Family covers reuse their approved full-variation stills.
 const APPROVED_STILLS = new Map(Object.entries({
+  'planche': 'full-planche',
+  'front-lever': 'full-front-lever',
   'planche-full-band': 'banded-full-planche',
   'front-lever-full-band': 'banded-full-front-lever',
   'front-lever-one-leg': 'one-leg-front-lever',

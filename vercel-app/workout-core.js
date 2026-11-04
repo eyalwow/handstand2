@@ -5,15 +5,17 @@ export const TRAINING_KEY = "handstand-lab-training-ui-v1";
 const validDate = value => typeof value === "string" && Number.isFinite(Date.parse(value));
 const validSelection = (items, id) => items.some(item => item.id === id);
 
-export function createWorkout({goal="handstand", level="beginner", day="A"} = {}, now=Date.now(), id=globalThis.crypto.randomUUID()) {
+export function createWorkout({goal="handstand", level="beginner", day="A", exerciseId=null} = {}, now=Date.now(), id=globalThis.crypto.randomUUID()) {
   if (!validSelection(GOALS,goal)) goal = "handstand";
   if (!validSelection(LEVELS,level)) level = "beginner";
   const plan = generatePlan(goal,level);
   const workout = plan.find(item => item.id === day) || plan[0];
+  const single = exerciseId && Object.hasOwn(LIBRARY,exerciseId) ? LIBRARY[exerciseId] : null;
+  const list = single ? [{id:exerciseId,sets:3,target:single.unit==="sec"?"10–20 שניות":"6–10",rest:75}] : workout.list;
   return {
-    version:1, id, goal, level, day:workout.id, name:workout.name,
+    version:1, id, goal, level, day:workout.id, name:single ? single.name : workout.name,
     startedAt:new Date(now).toISOString(), finishedAt:null, currentExercise:0, restEndsAt:null,
-    exercises:workout.list.map(item => ({...item, completed:Array(item.sets).fill(false)}))
+    exercises:list.map(item => ({...item, completed:Array(item.sets).fill(false)}))
   };
 }
 
