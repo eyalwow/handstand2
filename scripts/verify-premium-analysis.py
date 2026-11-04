@@ -12,6 +12,7 @@ a=argparse.ArgumentParser(description=__doc__)
 a.add_argument('--url');a.add_argument('--path',default='/vercel-app/');a.add_argument('--access-file',type=Path)
 a.add_argument('--out',type=Path,default=ROOT/'docs/screenshots/premium-analysis/local')
 a.add_argument('--browser',choices=['chromium','webkit'],default='chromium');a.add_argument('--inference',action='store_true')
+a.add_argument('--smoke',action='store_true',help='Focused handoff check of Full/Banded Full Front Lever and Lean/Banded Full Planche')
 a.add_argument('--widths',nargs='+',type=int,default=[390,320,1440])
 a.add_argument('--cache',type=Path,default=ROOT.parent/'movalyt-test-cache')
 args=a.parse_args();args.out.mkdir(parents=True,exist_ok=True)
@@ -21,7 +22,7 @@ server=None
 if not args.url:
  server=ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(ROOT)))
  threading.Thread(target=server.serve_forever,daemon=True).start();args.url=f'http://127.0.0.1:{server.server_port}'+args.path
-report={'url':args.url,'browser':args.browser,'viewports':[],'inference':[],'previewToolbarBlocked':bool(args.access_file)}
+report={'url':args.url,'browser':args.browser,'viewports':[],'inference':[],'previewToolbarBlocked':bool(args.access_file),'mode':'focused-handoff' if args.smoke else 'full'}
 with sync_playwright() as p:
  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox']) if args.browser=='chromium' else p.webkit.launch()
  for width in args.widths:
@@ -86,6 +87,7 @@ with sync_playwright() as p:
    for mode in ['none','band']:
     page.locator(f'#assistanceOptions [data-assistance="{mode}"]').click()
     ids=page.locator('#variationGrid [data-exercise]').evaluate_all('(nodes)=>nodes.map(x=>x.dataset.exercise)')
+    if args.smoke:ids=[id for id in ids if id in ['planche-lean','planche-full-band','front-lever-full','front-lever-full-band']]
     for id in ids:
      card=page.locator(f'#variationGrid [data-exercise="{id}"]');card.click();expect(card).to_have_attribute('aria-pressed','true')
      if card.locator('img').count():decode(card.locator('img'))

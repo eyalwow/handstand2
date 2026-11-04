@@ -1,0 +1,56 @@
+[
+  {
+    "source": "test/HandstandPushups/v_HandStandPushups_g02_c03.avi",
+    "sha256": "429ced95c6a438bd248a14e7417da0c5f0947dcff9b5b909a1b20ef6d56f5c4c",
+    "local": "additional-0.mp4",
+    "viewport": 390,
+    "timing": {
+      "kind": "video-analysis",
+      "outcome": "unreliable",
+      "capturePath": "fixed-sequential-seek",
+      "stage": "render",
+      "decodeMs": 102.1,
+      "modelMs": 2692.8,
+      "poseDelegate": "CPU",
+      "execution": "worker",
+      "scanMs": 9159.5,
+      "poseMs": 3766.2,
+      "poseRoundTripMs": 3838.5,
+      "workerOverheadMs": 72.3,
+      "frameExtractionMs": 3.6,
+      "samplingWaitMs": 5317.4,
+      "poseFrames": 41,
+      "scoringMs": 4.9,
+      "totalMs": 12185.3
+    },
+    "score": null,
+    "description": "Additional real public clip; unchanged engine abstained. No pose/grade injection."
+  },
+  {
+    "source": "test/HandstandWalking/v_HandstandWalking_g05_c01.avi",
+    "sha256": "a9c85c2fc3f3dd3326f16ebb1ff47daaef677f4fdb0e89710c487b39d152924b",
+    "local": "additional-1.mp4",
+    "viewport": 390,
+    "timing": {
+      "kind": "video-analysis",
+      "outcome": "unreliable",
+      "capturePath": "fixed-sequential-seek",
+      "stage": "render",
+      "decodeMs": 49.1,
+      "modelMs": 5097.1,
+      "poseDelegate": "CPU",
+      "execution": "worker",
+      "scanMs": 16922.9,
+      "poseMs": 5635,
+      "poseRoundTripMs": 5715.4,
+      "workerOverheadMs": 80.4,
+      "frameExtractionMs": 4.3,
+      "samplingWaitMs": 11203.2,
+      "poseFrames": 88,
+      "scoringMs": 5.6,
+      "totalMs": 22197.4
+    },
+    "score": null,
+    "description": "Additional real public clip; unchanged engine abstained. No pose/grade injection."
+  }
+]

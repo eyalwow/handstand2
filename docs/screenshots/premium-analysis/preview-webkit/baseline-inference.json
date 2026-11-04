@@ -1,0 +1,22 @@
+{
+  "source": "baseline PR39 hosted Preview faf56cf",
+  "timing": [
+    {
+      "kind": "video-analysis",
+      "outcome": "error",
+      "capturePath": "fixed-sequential-seek",
+      "stage": "scan",
+      "decodeMs": 424,
+      "modelMs": 3572,
+      "poseDelegate": "CPU",
+      "execution": "worker",
+      "errorName": "Error",
+      "errorCode": null,
+      "totalMs": 4270
+    }
+  ],
+  "diagnostic": [],
+  "consoleErrors": [
+    "Error: undefined is not an object (evaluating 'GLctx.activeTexture')"
+  ]
+}

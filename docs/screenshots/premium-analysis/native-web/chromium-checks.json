@@ -1,0 +1,41 @@
+{
+  "url": "http://127.0.0.1:38445/mobile/www/",
+  "browser": "chromium",
+  "viewports": [
+    {
+      "width": 390,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 320,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 1440,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    }
+  ],
+  "inference": [],
+  "previewToolbarBlocked": false
+}
