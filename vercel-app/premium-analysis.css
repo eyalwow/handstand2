@@ -311,7 +311,7 @@ body[data-screen="catalog"] #catalogGrid [data-availability="active"] .library-s
 body[data-screen="catalog"] #catalogGrid [data-availability="active"] .library-status::before { content: ''; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: currentColor; margin-inline-end: 6px; }
 body[data-screen="catalog"] #catalogGrid [data-availability="experimental"] .library-status { color: #f0cc65; }
 body[data-screen="catalog"] #catalogView .view-body { padding-bottom: calc(var(--nav) + 32px); }
-body[data-screen="catalog"] .app-nav { width: min(900px,100%); border: 0; border-top: 1px solid #383e3a; border-radius: 0; background: #080a09f5; }
+body[data-screen="catalog"] .app-nav { width: min(900px,100%); border: 0; border-top: 1px solid #383e3a; border-radius: 0; background: #080a09; }
 body[data-screen="catalog"] .app-nav a { font-size: 16px; }
 body[data-screen="catalog"] .app-nav svg { width: 24px; height: 24px; }
 body[data-screen="catalog"] .app-nav [aria-current="page"] { background: transparent; }
