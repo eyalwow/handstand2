@@ -1,7 +1,7 @@
 // Read-only stored summaries. Legacy records contain no video or full metric report.
 import {readAnalysisHistory} from './analysis-history.js';
 import {readVariationHistory} from './variation-history.js';
-import {analysisMediaFigure} from './analysis-media.js';
+import {presentationArtwork as analysisMediaFigure} from './presentation-artwork.js';
 import {renderFrontLever} from './front-lever-ui.js';
 const dialog=document.getElementById('historyReportDialog'),body=document.getElementById('historyReportBody');
 const paragraph=text=>{const p=document.createElement('p');p.textContent=text;body.append(p);};

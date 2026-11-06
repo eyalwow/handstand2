@@ -69,7 +69,7 @@ with sync_playwright() as p:
    page.evaluate('scrollTo(0,0)')
    if shot:page.screenshot(path=str(args.out/f'{args.browser}-{name}-{width}.png'))
   screen('home');check('home')
-  assert page.locator('.home-primary').inner_text().startswith('בחר תרגיל ונתח סרטון')
+  assert page.locator('.home-primary').inner_text().startswith('בחר תרגיל לניתוח')
   assert page.locator('a[href*="workout"]:visible,a[href*="training"]:visible').count()==0
   page.locator('#aboutButton').click();check('settings');page.keyboard.press('Escape')
   assert page.evaluate("document.activeElement.id==='aboutButton'")
@@ -90,7 +90,8 @@ with sync_playwright() as p:
     if args.smoke:ids=[id for id in ids if id in ['planche-lean','planche-full-band','front-lever-full','front-lever-full-band']]
     for id in ids:
      card=page.locator(f'#variationGrid [data-exercise="{id}"]');card.click();expect(card).to_have_attribute('aria-pressed','true')
-     if card.locator('img').count():decode(card.locator('img'))
+     # The approved radio-row sketch hides thumbnails; each selected guide still decodes its artwork.
+     if card.locator('img:visible').count():decode(card.locator('img:visible'))
      page.locator('#variationContinue').click();screen('guide')
      assert page.locator('#guideWorkout').is_hidden()
      check(id,shot=id in ['planche-lean','front-lever-full-band'])
@@ -128,6 +129,9 @@ with sync_playwright() as p:
    timing=page.evaluate('qaTimings.at(-1)');diagnostics=page.evaluate('qaDiagnostics.at(-1)||null')
    check('actual-'+timing['outcome']);assert timing['poseFrames']>0
    if timing['outcome'] in ['scored','unreliable']:
+    if timing['outcome']=='scored':
+     assert page.locator('#replaySec').is_hidden()
+     page.locator('#watchSkeleton').click();screen('replay')
     assert page.locator('#replaySec').is_visible()
     assert page.locator('#showSkeleton').is_visible()
     page.locator('#play').click();wait("!document.getElementById('v').paused")

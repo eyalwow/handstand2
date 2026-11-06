@@ -68,11 +68,12 @@ with sync_playwright() as p:
  }""")
  for width in [320,390,1440]:
   page.set_viewport_size({'width':width,'height':844 if width<900 else 1000})
-  assert page.locator('#replaySec').is_visible() and page.locator('#holdSec').is_visible()
+  assert page.locator('#replaySec').is_hidden() and page.locator('#holdSec').is_visible()
+  assert page.locator('#watchSkeleton').is_visible()
   assert page.locator('#ringScore').inner_text()=='71'
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  assert page.evaluate("localStorage.getItem('handstand-lab-analyses-v1')")==None
- report['scoredReportLayoutFixture']={'widths':[320,390,1440],'playerAndSummaryVisible':True,'overflow':False,'historyWritten':False,'data':'Explicit UI fixture only, not live inference; no screenshots'}
+ report['scoredReportLayoutFixture']={'widths':[320,390,1440],'summaryVisibleAndReplayReachable':True,'overflow':False,'historyWritten':False,'data':'Explicit UI fixture only, not live inference; no screenshots'}
  assert not errors,errors;report['pageErrors']=errors
  b.close()
 s.shutdown();(args.out/'checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n');print(json.dumps(report,ensure_ascii=False))

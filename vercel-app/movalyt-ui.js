@@ -13,6 +13,7 @@ import {
 } from "./analysis-catalog.js";
 import { analysisFor } from "./analysis-registry.js";
 import {selectedExerciseId,selectExercise} from './analysis-selection.js';
+import {presentationArtwork} from './presentation-artwork.js';
 import { GOALS } from "./onboarding-data.js";
 import { createOnboarding, renderOnboardingPose } from "./onboarding-ui.js";
 import {
@@ -140,7 +141,7 @@ function route() {
       ? "תוצאות הניתוח"
       : screen === "processing"
         ? "מנתחים את התנועה"
-        : "ניתוח " + exerciseById(selectedExerciseId()).name;
+        : "העלאת סרטון";
   if (screen !== "replay") {
     $("v").pause();
     setExpanded(false);
@@ -213,7 +214,7 @@ $("catalogCount").textContent =
 const exerciseSelect=$('exerciseSelect');
 for(const exercise of ANALYSIS_CATALOG.filter(x=>analysisFor(x.id,{allowExperimental:true}))){
   const option=document.createElement('option');option.value=exercise.id;
-  option.textContent=exercise.name+(exercise.experimental?' · ניסיוני, טרם אומת':'');exerciseSelect.append(option);
+  option.textContent=exercise.name;exerciseSelect.append(option);
 }
 function updateSelection(id){
   if(busy||!selectExercise(id))return;
@@ -221,7 +222,11 @@ function updateSelection(id){
   $('out').style.display='none';$('frontLeverReport').hidden=true;$('frontLeverReport').replaceChildren();
   resetHandstandInsights();
   const exercise=exerciseById(id),experimental=!!exercise.experimental;
-  $('exerciseFilming').textContent=exercise.filming;
+  $('exerciseFilming').textContent='צלם מהצד, עם מצלמה קבועה בגובה הגוף וכל הגוף בפריים.';
+  $('uploadArtwork').replaceChildren(presentationArtwork(id));
+  $('processingIllustration').replaceChildren(presentationArtwork(id));
+  $('processingExercise').textContent=exercise.name;
+  $('resultExercise').textContent=exercise.name;
   $('frontLeverConsent').hidden=!experimental;$('frontLeverSideView').checked=false;
   document.body.dataset.exerciseFamily=exercise.familyId;
   document.querySelector('.upload-intro .eyebrow').textContent=exercise.name+' · '+(experimental?'בדיקה ניסיונית ללא ציון':'ניתוח במכשיר');
@@ -365,6 +370,8 @@ export const analysisUI = {
     scored = false;
     $("sessionNotice").hidden = true;
     $("analysisStage").hidden = false;
+    $("analysisStage").dataset.frame = 'pending';
+    $("trackingStatus").textContent = 'ממתינים לפריים מהסרטון שלך.';
     this.progress(0);
     this.stage("decode");
     location.hash = "processing";
@@ -376,6 +383,8 @@ export const analysisUI = {
       const i = stages.indexOf(li.dataset.stage);
       li.dataset.state =
         i < current ? "done" : i === current ? "active" : "pending";
+      if (i === current) li.setAttribute('aria-current', 'step');
+      else li.removeAttribute('aria-current');
     }
   },
   progress(value) {
@@ -389,9 +398,15 @@ export const analysisUI = {
       canvas
         .getContext("2d")
         .drawImage(video, 0, 0, canvas.width, canvas.height);
+      $("analysisStage").dataset.frame = 'actual';
+      $("trackingStatus").textContent = 'הפריים נטען. מחפשים נקודות גוף אמינות…';
     } catch {}
   },
   frame(source, landmarks, width, height, timestamp) {
+    $("analysisStage").dataset.frame = 'actual';
+    $("trackingStatus").textContent = landmarks?.some(point => point?.v >= .5)
+      ? 'מעקב גוף פעיל בפריים הנוכחי. אמינות המדידה תיבדק בסיום.'
+      : 'מחפשים נקודות גוף אמינות בפריים הנוכחי…';
     const canvas = $("analysisCanvas");
     canvas.width = source.width;
     canvas.height = source.height;
@@ -472,6 +487,7 @@ export const analysisUI = {
       }
   },
   finish(outcome) {
+    document.body.dataset.analysisOutcome = outcome;
     if(exerciseById(selectedExerciseId()).experimental)
       $('replayTrimNotice').textContent='הסרטון המלא · פרונט לבר ניסיוני, ללא אימות הווריאציה וללא ציון.';
     busy = false;
@@ -496,8 +512,11 @@ function historyChart() {
     return;
   }
   if (!entries.length) {
-    host.textContent =
-      "ההתקדמות שלך מתחילה בניסיון הראשון. נתח סרטון כדי להתחיל לבנות את הגרף שלך.";
+    const icon=document.createElement('span');
+    icon.className='icon history-empty-icon';icon.setAttribute('aria-hidden','true');
+    const title=document.createElement('h2');title.textContent='הניסיון הראשון מתחיל כאן';
+    const hint=document.createElement('p');hint.textContent='נתח סרטון כדי להתחיל לבנות את ההיסטוריה שלך.';
+    host.append(icon,title,hint);
     return;
   }
   // Never connect incompatible scoring models into one trend.

@@ -87,7 +87,7 @@ export async function buildWeb() {
   html = html.replace('</head>', '<script type="module" src="./native-shell.js"></script></head>');
   await writeFile(resolve(output, 'index.html'), html);
   await cp(resolve(mobileRoot, 'native-shell.js'), resolve(output, 'native-shell.js'));
-  for (const name of ['app.css', 'mobile-flow.css', 'premium-analysis.css', 'app.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'assets']) {
+  for (const name of ['app.css', 'mobile-flow.css', 'premium-analysis.css', 'analysis-experience.css', 'app.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'assets']) {
     await cp(resolve(sourceRoot, name), resolve(output, name), { recursive: true });
   }
   const vision = resolve(mobileRoot, 'node_modules/@mediapipe/tasks-vision');

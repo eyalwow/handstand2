@@ -1,4 +1,4 @@
-import {analysisMediaFigure} from './analysis-media.js';
+import {presentationArtwork as analysisMediaFigure} from './presentation-artwork.js';
 import {readLibrarySelection} from './library-state.js';
 import {readVariationHistory} from './variation-history.js';
 import {ANALYSIS_CATALOG,exerciseById} from './analysis-catalog.js';

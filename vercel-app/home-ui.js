@@ -12,10 +12,10 @@ function renderHistory() {
   list.textContent='הנתונים השמורים לא זמינים כרגע. לא שינינו אותם. אפשר לנסות לפתוח מחדש את הדפדפן.';
   return;
  }
- byId('recent-heading').textContent=entries.length?'הניתוח האחרון שלך':'מוכנים לניסיון הראשון?';
+ byId('recent-heading').textContent=entries.length?'הניתוח האחרון שלך':'עוד לא ניתחת ניסיון';
  if(!entries.length){
-  recent.textContent='עוד לא ניתחת ניסיון. הסרטון הראשון יהיה נקודת ההתחלה שלך.';
-  const empty=document.createElement('p');empty.className='empty-analysis';empty.textContent='כאן יופיעו הניסיונות שלך. אחרי ניתוח מוצלח עם החזקה מספקת תישמר מדידה, ללא הווידאו.';list.append(empty);return;
+  recent.textContent='כאן יופיעו הניסיונות שניתחת.';
+  const empty=document.createElement('p');empty.className='empty-analysis';empty.textContent='עדיין אין מדידות שמורות.';list.append(empty);return;
  }
  const row=(entry,previous,index)=>{
   const item=document.createElement('article');item.className='history-entry';
@@ -23,7 +23,7 @@ function renderHistory() {
   const title=document.createElement('h3');title.textContent='עמידת ידיים';
   const date=document.createElement('time');date.dateTime=entry.date;date.textContent=dateLabel(entry.date);
   const score=document.createElement('strong');score.className='history-score';score.textContent=String(Math.round(entry.score));const scale=document.createElement("small");scale.textContent=" / 100";score.append(scale);score.setAttribute('aria-label',`ציון טכניקה ${Math.round(entry.score)} מתוך 100`);
-  const image=document.createElement('img');image.src='./assets/anatomy/handstand-corrected.webp';image.alt='';image.width=64;image.height=64;image.loading='lazy';
+  const image=document.createElement('img');image.src='./assets/catalog/handstand-corrected.webp';image.alt='';image.width=64;image.height=64;image.loading='lazy';
   info.append(title,date);item.append(image,info,score);
   const open=document.createElement('button');open.type='button';open.className='history-open';open.textContent='פתיחת סיכום המדידה';open.setAttribute('data-history-index',String(index));open.setAttribute('aria-haspopup','dialog');item.append(open);
   const details=document.createElement('details');details.className='history-details';const summary=document.createElement('summary');summary.textContent='פרטי המדידה';summary.setAttribute('aria-label','פרטי המדידה');details.append(summary);item.append(details);
