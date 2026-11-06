@@ -3,6 +3,7 @@ import {ANALYSIS_CATALOG,exerciseById} from './analysis-catalog.js';
 import {analysisFor,analysisAvailability,analysisAvailabilityLabel,variationsFor} from './analysis-registry.js';
 export {variationsFor} from './analysis-registry.js';
 import {analysisMediaFigure} from './analysis-media.js';
+import {catalogArtwork} from './catalog-artwork.js';
 import {readLibrarySelection,saveLibrarySelection} from './library-state.js';
 import {readVariationHistory} from './variation-history.js';
 const $=id=>document.getElementById(id);
@@ -29,7 +30,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
   }
   function card(x,variation=false){
     const button=node('button',null,'library-card');button.type='button';button.dataset.exercise=x.id;
-    button.append(analysisMediaFigure(x.id));
+    button.append(variation?analysisMediaFigure(x.id):catalogArtwork(x.id));
     const content=node('span',null,'library-card-content');
     content.append(node('span',x.difficulty,'library-difficulty'),node('strong',variation?x.variationLabel:x.name),node('span',exerciseEnglish(x),'library-english'),...(!variation?[node('span',x.measurement,'library-measurement')]:[]),node('span',analysisAvailability(x.id).status==='experimental'?'ניסיוני · ללא ציון':availabilityLabel(x),'library-status'));
     if(variation){button.setAttribute('aria-pressed',String(x.id===selected));button.onclick=()=>{if(choose(x.id)){renderVariations();$('variationGrid').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});}};}
@@ -42,7 +43,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const bases=ANALYSIS_CATALOG.filter(x=>!x.variation || x.id==='handstand');
     const matches=bases.filter(x=>(!query || [x.name,x.english,x.category,x.equipment,...variationsFor(x.id).flatMap(v=>[v.name,v.english])].filter(Boolean).join(' ').toLocaleLowerCase('he').includes(query)) &&
       (filter==='all'||(filter==='supported'?analysisAvailability(x.id).status!=='unavailable':filter==='training'?x.source==='training':x.source!=='training')));
-    const sort=$('librarySort').value,order=['planche','front-lever','handstand','pull-up','muscle-up','dip','l-sit'];
+    const sort=$('librarySort').value,order=['handstand','front-lever','planche','pull-up','muscle-up','dip','l-sit'];
     if(sort==='name')matches.sort((a,b)=>a.name.localeCompare(b.name,'he'));
     else if(sort==='available')matches.sort((a,b)=>Number(analysisAvailability(b.id).status!=='unavailable')-Number(analysisAvailability(a.id).status!=='unavailable'));
     else matches.sort((a,b)=>(order.indexOf(a.id)<0?99:order.indexOf(a.id))-(order.indexOf(b.id)<0?99:order.indexOf(b.id)));

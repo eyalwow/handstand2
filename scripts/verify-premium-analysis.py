@@ -75,7 +75,7 @@ with sync_playwright() as p:
   assert page.evaluate("document.activeElement.id==='aboutButton'")
   page.locator('.home-primary').click();screen('catalog');check('catalog')
   for family,asset in [('planche','full-planche'),('front-lever','full-front-lever'),('handstand','handstand-corrected')]:
-   assert page.locator(f'#catalogGrid [data-exercise="{family}"] img').get_attribute('src')==f'./assets/anatomy/{asset}.webp'
+   assert page.locator(f'#catalogGrid [data-exercise="{family}"] img').get_attribute('src')==f'./assets/catalog/{asset}.webp'
   page.locator('#librarySearch').fill('Planche Lean');assert page.locator('#catalogGrid > button').count()==1
   page.locator('#librarySearch').fill('אין תרגיל כזה');assert page.locator('#catalogEmpty').is_visible()
   page.locator('#librarySearch').fill('');page.locator('#catalogOptions summary').click();page.locator('#librarySort').select_option('name')

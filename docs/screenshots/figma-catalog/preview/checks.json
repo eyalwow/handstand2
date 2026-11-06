@@ -1,0 +1,52 @@
+{
+  "browser": "webkit",
+  "viewports": [
+    {
+      "width": 390,
+      "columns": 2,
+      "mainCards": 20,
+      "approvedImagesDecoded": 9,
+      "uniformFirstSix": true,
+      "searchHebrewEnglish": true,
+      "emptyState": true,
+      "filterSort": true,
+      "familySelection": true,
+      "noOverflow": true,
+      "lastCardClearOfNav": true,
+      "pageErrors": []
+    },
+    {
+      "width": 320,
+      "columns": 2,
+      "mainCards": 20,
+      "approvedImagesDecoded": 9,
+      "uniformFirstSix": true,
+      "searchHebrewEnglish": true,
+      "emptyState": true,
+      "filterSort": true,
+      "familySelection": true,
+      "noOverflow": true,
+      "lastCardClearOfNav": true,
+      "pageErrors": []
+    },
+    {
+      "width": 1440,
+      "columns": 2,
+      "mainCards": 20,
+      "approvedImagesDecoded": 9,
+      "uniformFirstSix": true,
+      "searchHebrewEnglish": true,
+      "emptyState": true,
+      "filterSort": true,
+      "familySelection": true,
+      "noOverflow": true,
+      "lastCardClearOfNav": true,
+      "pageErrors": []
+    }
+  ],
+  "otherScreens": {},
+  "url": "https://handstand-lab-coach-lzj47t3v5-eyalwen-6443.vercel.app/vercel-app/",
+  "applicationCommit": "dc39a56e8e0554ae17e5fbd17494d289a0405ef5",
+  "deploymentState": "READY",
+  "environment": "preview"
+}

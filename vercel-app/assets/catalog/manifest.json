@@ -1,0 +1,137 @@
+[
+  {
+    "source": "assets/anatomy/handstand-corrected.webp",
+    "sourceSha256": "446181867bc56f76830f7993466b58228cb16ec8a0e03e388279eb43555ea835",
+    "crop": [
+      194,
+      11,
+      516,
+      568
+    ],
+    "output": "assets/catalog/handstand-corrected.webp",
+    "size": [
+      322,
+      557
+    ]
+  },
+  {
+    "source": "assets/anatomy/full-front-lever.webp",
+    "sourceSha256": "459e341a1feb80d65331f96aef1b08c3c0d2bb3383d245304e0789a585bbd46a",
+    "crop": [
+      59,
+      63,
+      699,
+      576
+    ],
+    "output": "assets/catalog/full-front-lever.webp",
+    "size": [
+      640,
+      513
+    ]
+  },
+  {
+    "source": "assets/anatomy/full-planche.webp",
+    "sourceSha256": "aa9450a106a3ae54db3a4ae421f6aa0b50aba0596b3618842a8d95d21eed95b1",
+    "crop": [
+      47,
+      100,
+      670,
+      340
+    ],
+    "output": "assets/catalog/full-planche.webp",
+    "size": [
+      623,
+      240
+    ]
+  },
+  {
+    "source": "assets/anatomy/pull-up.webp",
+    "sourceSha256": "5503808a45d3c73e0aeaaee3194670bfb429b30b7b46697b171a132ee23bce8a",
+    "crop": [
+      70,
+      5,
+      506,
+      596
+    ],
+    "output": "assets/catalog/pull-up.webp",
+    "size": [
+      436,
+      591
+    ]
+  },
+  {
+    "source": "assets/anatomy/muscle-up.webp",
+    "sourceSha256": "dda1270619f560f01fd959e8d46614fe0450e1307301d7c90baef91cc08995fe",
+    "crop": [
+      210,
+      0,
+      510,
+      534
+    ],
+    "output": "assets/catalog/muscle-up.webp",
+    "size": [
+      300,
+      534
+    ]
+  },
+  {
+    "source": "assets/anatomy/dip.webp",
+    "sourceSha256": "a1718ee3f748dae52f6d24d0545b1e24fb484f3b73d0c40514f9c7a571a4de0e",
+    "crop": [
+      96,
+      42,
+      450,
+      583
+    ],
+    "output": "assets/catalog/dip.webp",
+    "size": [
+      354,
+      541
+    ]
+  },
+  {
+    "source": "assets/anatomy/l-sit.webp",
+    "sourceSha256": "33df94155210ae6a6147b559e6b1b0fe9ae3b1983c30d61528085f17ebb7571e",
+    "crop": [
+      113,
+      26,
+      661,
+      558
+    ],
+    "output": "assets/catalog/l-sit.webp",
+    "size": [
+      548,
+      532
+    ]
+  },
+  {
+    "source": "assets/anatomy/v-sit.webp",
+    "sourceSha256": "cc9caa610bb95e121a7016c307398cbbe74d44b832ef98af58b3f28fc315cba6",
+    "crop": [
+      102,
+      19,
+      609,
+      553
+    ],
+    "output": "assets/catalog/v-sit.webp",
+    "size": [
+      507,
+      534
+    ]
+  },
+  {
+    "source": "assets/anatomy/push-up.webp",
+    "sourceSha256": "73ec6de2ae8a86bc53721646337197eb981b9ff11b883d06009a4347289d9e09",
+    "crop": [
+      23,
+      212,
+      562,
+      452
+    ],
+    "output": "assets/catalog/push-up.webp",
+    "size": [
+      539,
+      240
+    ]
+  }
+]

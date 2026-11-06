@@ -1,0 +1,42 @@
+{
+  "url": "https://handstand-lab-coach-lzj47t3v5-eyalwen-6443.vercel.app/vercel-app/",
+  "browser": "webkit",
+  "viewports": [
+    {
+      "width": 390,
+      "variantGuideReloads": 4,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 320,
+      "variantGuideReloads": 4,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 1440,
+      "variantGuideReloads": 4,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    }
+  ],
+  "inference": [],
+  "previewToolbarBlocked": true,
+  "mode": "focused-handoff"
+}
