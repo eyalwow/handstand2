@@ -29,4 +29,30 @@ Reference limits: supplied approved Pull-up, Muscle-up and Dip artwork differs i
 
 Home, variations, guide, upload, history and settings at 390px are pixel-identical to PR #40 in the isolated local Chromium comparison; paired captures are in the same evidence directory. No other screen layout, engine, catalog identity or user-data schema is changed.
 
-The existing Node and native-package suites and full existing UI regression are recorded in the pull request. Hosted Preview evidence will be linked here after deployment verification.
+## Preview and existing regressions
+
+Tested athlete Preview: https://handstand-lab-coach-lzj47t3v5-eyalwen-6443.vercel.app/vercel-app/ — **READY**, Preview environment, application commit `dc39a56e8e0554ae17e5fbd17494d289a0405ef5`, existing static HTML/CSS/ES-module app. Use `/vercel-app/`; the deployment root serves the older site. Vercel sign-in may be required. First-time users can skip the existing welcome screen and open Analysis.
+
+Actual hosted WebKit captures: [390px](docs/screenshots/figma-catalog/preview/catalog-390.png), [320px](docs/screenshots/figma-catalog/preview/catalog-320.png), [1440px](docs/screenshots/figma-catalog/preview/catalog-1440.png). [Hosted acceptance results](docs/screenshots/figma-catalog/preview/checks.json) exercise the same catalog checks. Comparing hosted captures exposed content showing through the translucent navigation in WebKit; the catalog navigation is now opaque black and was recaptured. Only Vercel's injected preview toolbar is suppressed during hosted QA; deployment protection and browser TLS trust are unchanged. No API/database is introduced: search/filter/sort read the existing local catalog and registry; selection follows the existing local-storage flow into variations and guides.
+
+- Existing Node suite: **140/140** pass, including original identities, artwork approvals and engine-hash guards.
+- Native package: **41 modules** build with existing local MediaPipe model/WASM and unchanged CSP; **4/4** tests pass.
+- [Full existing Chromium UI regression](docs/screenshots/figma-catalog/full-regression.json): **75** variation → guide → reload cases at 320/390/1440; all visible images decode, RTL, no overflow, no application page/HTTP errors or POSTs, main targets ≥44px.
+- [Hosted WebKit focused regression](docs/screenshots/figma-catalog/preview/regression.json): **12** Lean / Full / Banded Full → guide → reload cases, upload errors, empty history, search/filter/sort at the same three widths; no application page/HTTP errors or POSTs.
+- [GitHub Validate handstand coach](https://github.com/eyalwow/handstand2/actions/runs/42202493117): **success** on `dc39a56`.
+- The separate `Vercel – handstand-coach-demo` integration still fails with the confirmed build message `The specified Root Directory "coach-app" does not exist.` The intended athlete project is READY. That pre-existing project configuration was not changed.
+
+Linux browser emulation is not physical iPhone/Android verification. Video inference is outside this catalog-only change and was not rerun; the engine/hash guards pass and engine files are unchanged. Evidence-only follow-up commits do not change the tested application.
+
+## Reproduce
+
+```sh
+git worktree add --detach /tmp/movalyt-catalog-base ec9af227d9e0e50148f7b1a9cfa49c2e14c11fec
+node --test tests/*.test.*
+python scripts/verify-figma-catalog.py
+python scripts/verify-premium-analysis.py --widths 390 320 1440
+npm --prefix mobile run build
+npm --prefix mobile test
+```
+
+Python browser checks require Playwright, Chromium and Pillow. Native packaging accepts `MOVALYT_MODEL_FILE` pointing to the existing checksum-verified model cache. Hosted checks use `--browser webkit --url <preview>/vercel-app/ --access-file <private temporary auth URL file>`; never commit that access file. No merge, Production or paid-service activation was performed; no additional screen redesign is included.
