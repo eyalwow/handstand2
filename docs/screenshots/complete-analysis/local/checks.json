@@ -1,0 +1,532 @@
+{
+  "url": "http://127.0.0.1:45125/",
+  "browser": "chromium",
+  "viewports": [
+    {
+      "width": 390,
+      "selectionAndBands": true,
+      "checklist": true,
+      "unavailableBlocked": true,
+      "uploadDecodeAndCancel": true,
+      "emptyHistoryTabs": true,
+      "rtl": true,
+      "noOverflow": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 320,
+      "selectionAndBands": true,
+      "checklist": true,
+      "unavailableBlocked": true,
+      "uploadDecodeAndCancel": true,
+      "emptyHistoryTabs": true,
+      "rtl": true,
+      "noOverflow": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 1440,
+      "selectionAndBands": true,
+      "checklist": true,
+      "unavailableBlocked": true,
+      "uploadDecodeAndCancel": true,
+      "emptyHistoryTabs": true,
+      "rtl": true,
+      "noOverflow": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    }
+  ],
+  "inference": [
+    {
+      "clip": "complete-candidate-4-2.mp4",
+      "clipSha256": "761591879097e96d3cbc52384d81f214a4ab8c3b1d08e173821e26d6d030acc4",
+      "timing": {
+        "kind": "video-analysis",
+        "outcome": "scored",
+        "capturePath": "fixed-sequential-seek",
+        "stage": "render",
+        "decodeMs": 35.6,
+        "modelMs": 2323.2,
+        "poseDelegate": "CPU",
+        "execution": "worker",
+        "scanMs": 4488.2,
+        "poseMs": 2069.6,
+        "poseRoundTripMs": 2096.8,
+        "workerOverheadMs": 27.2,
+        "frameExtractionMs": 2.3,
+        "samplingWaitMs": 2389.1,
+        "poseFrames": 42,
+        "scoringMs": 7.9,
+        "renderMs": 37.6,
+        "totalMs": 6981
+      },
+      "diagnostics": {
+        "measurementVersion": "handstand-v4-observed",
+        "measurement": {
+          "version": "handstand-v4-observed",
+          "reason": "measured",
+          "scorePolicy": {
+            "version": "projected-technique-v1",
+            "calibrationStatus": "unvalidated",
+            "measurementSpace": "image-plane-2d",
+            "cameraCalibration": "unknown",
+            "durationWeight": 0,
+            "bands": {
+              "banana": [
+                0.045,
+                0.18
+              ],
+              "lean": [
+                4.5,
+                22.5
+              ],
+              "shoulder": [
+                12,
+                52.5
+              ],
+              "elbow": [
+                12,
+                45
+              ],
+              "sway": [
+                0.015,
+                0.075
+              ]
+            },
+            "weights": {
+              "banana": 0.3,
+              "lean": 0.2,
+              "shoulder": 0.2,
+              "elbow": 0.15,
+              "sway": 0.15
+            }
+          },
+          "startFrame": 0,
+          "endFrame": 22,
+          "samples": 23,
+          "validFrames": 23,
+          "scoreDimensions": {
+            "combinedIndex": 58.12206690720339,
+            "techniqueOnlyIndex": 50.73184342023929,
+            "stabilityIndex": 100,
+            "durationSeconds": 2.2
+          },
+          "metricEvidence": {
+            "banana": {
+              "validSamples": 23,
+              "intervalSamples": 23,
+              "coverage": 1,
+              "medianMinimumVisibility": 0.9698206782341003,
+              "observedP10": 0.02117013639981143,
+              "observedP90": 0.037771946784330934,
+              "observedStatistic": "per-frame-metric",
+              "observedUnit": "body-length-ratio",
+              "scoreStatus": "full-band-saturation"
+            },
+            "lean": {
+              "validSamples": 23,
+              "intervalSamples": 23,
+              "coverage": 1,
+              "medianMinimumVisibility": 0.9698206782341003,
+              "observedP10": 9.99837791559561,
+              "observedP90": 11.124965187894599,
+              "observedStatistic": "per-frame-metric",
+              "observedUnit": "degrees",
+              "scoreStatus": "linear-band"
+            },
+            "shoulder": {
+              "validSamples": 23,
+              "intervalSamples": 23,
+              "coverage": 1,
+              "medianMinimumVisibility": 0.9947898387908936,
+              "observedP10": 41.97538065715324,
+              "observedP90": 72.31542356692614,
+              "observedStatistic": "per-frame-metric",
+              "observedUnit": "degrees",
+              "scoreStatus": "zero-band-saturation"
+            },
+            "elbow": {
+              "validSamples": 23,
+              "intervalSamples": 23,
+              "coverage": 1,
+              "medianMinimumVisibility": 0.9918913245201111,
+              "observedP10": 25.368441500044327,
+              "observedP90": 74.38551102395456,
+              "observedStatistic": "per-frame-metric",
+              "observedUnit": "degrees",
+              "scoreStatus": "zero-band-saturation"
+            },
+            "sway": {
+              "validSamples": 23,
+              "intervalSamples": 23,
+              "coverage": 1,
+              "medianMinimumVisibility": 0.9698206782341003,
+              "observedP10": 0.0003136883725017303,
+              "observedP90": 0.008052614220009024,
+              "observedStatistic": "absolute-centered-pelvis-offset",
+              "observedUnit": "body-length-ratio",
+              "scoreStatus": "full-band-saturation"
+            }
+          },
+          "visibilityPercent": 96.98206782341003,
+          "relaxed": false,
+          "legsApart": false,
+          "thirds": [
+            {
+              "phase": "start",
+              "pelvisOffsetPercent": 3.617219823590246,
+              "leanDegrees": 10.375092915509954,
+              "shoulderDeficitDegrees": 56.37824547214613,
+              "elbowDeficitDegrees": 50.37743075396034
+            },
+            {
+              "phase": "middle",
+              "pelvisOffsetPercent": 3.18175944300815,
+              "leanDegrees": 10.641287877043183,
+              "shoulderDeficitDegrees": 65.20469048268752,
+              "elbowDeficitDegrees": 62.12138956588558
+            },
+            {
+              "phase": "end",
+              "pelvisOffsetPercent": 2.235521332538227,
+              "leanDegrees": 10.911911325319728,
+              "shoulderDeficitDegrees": 60.76642071635,
+              "elbowDeficitDegrees": 52.38250006962153
+            }
+          ]
+        },
+        "input": {
+          "bytes": 215670,
+          "type": "video/mp4",
+          "duration": 4.32
+        },
+        "sampling": "presented-frame",
+        "delegate": "CPU",
+        "execution": "worker",
+        "timestamps": [
+          {
+            "requested": 0.05,
+            "actual": 0.04,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.15,
+            "actual": 0.12,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.25,
+            "actual": 0.24,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.35,
+            "actual": 0.32,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.45,
+            "actual": 0.44,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.55,
+            "actual": 0.52,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.65,
+            "actual": 0.64,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.75,
+            "actual": 0.72,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.85,
+            "actual": 0.84,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 0.95,
+            "actual": 0.92,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.05,
+            "actual": 1.04,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.15,
+            "actual": 1.12,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.25,
+            "actual": 1.24,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.35,
+            "actual": 1.32,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.45,
+            "actual": 1.44,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.55,
+            "actual": 1.52,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.65,
+            "actual": 1.64,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.75,
+            "actual": 1.72,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.85,
+            "actual": 1.84,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 1.95,
+            "actual": 1.92,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.05,
+            "actual": 2.04,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.15,
+            "actual": 2.12,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.25,
+            "actual": 2.24,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.35,
+            "actual": 2.32,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.45,
+            "actual": 2.44,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.55,
+            "actual": 2.52,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.65,
+            "actual": 2.64,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.75,
+            "actual": 2.72,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.85,
+            "actual": 2.84,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 2.95,
+            "actual": 2.92,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.05,
+            "actual": 3.04,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.15,
+            "actual": 3.12,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.25,
+            "actual": 3.24,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.35,
+            "actual": 3.32,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.45,
+            "actual": 3.44,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.55,
+            "actual": 3.52,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.65,
+            "actual": 3.64,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.75,
+            "actual": 3.72,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.85,
+            "actual": 3.84,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 3.95,
+            "actual": 3.92,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 4.05,
+            "actual": 4.04,
+            "clock": "presented-frame"
+          },
+          {
+            "requested": 4.15,
+            "actual": 4.12,
+            "clock": "presented-frame"
+          }
+        ],
+        "score": 58,
+        "legacyEntryTrace": {
+          "endFrame": 2,
+          "startFrame": -1,
+          "searchStartFrame": 0,
+          "reason": "no-standing-in-two-second-window"
+        },
+        "timeline": {
+          "version": "temporal-v3",
+          "quality": "measured",
+          "reach": {
+            "start": 0.04,
+            "end": 4.12
+          },
+          "ascent": null,
+          "entryDiagnostics": {
+            "reason": "no-reliable-preparation"
+          },
+          "hold": {
+            "start": 0.04,
+            "end": 2.24,
+            "seconds": 2.2,
+            "samples": 23,
+            "startFrame": 0,
+            "endFrame": 22,
+            "endReason": "support-lowering",
+            "startObserved": false,
+            "endObserved": true,
+            "censored": true
+          },
+          "control": {
+            "pelvisRangePercent": 1.1363364178070545,
+            "pelvisMadPercent": 0.4000582209629816,
+            "tiltRangeDegrees": 1.1265872722989894,
+            "status": "limited-motion",
+            "start": 0.04,
+            "end": 2.24
+          },
+          "ending": {
+            "kind": "unclear",
+            "at": 2.24,
+            "windowStart": 0.84,
+            "windowEnd": 4.12,
+            "evidence": [
+              {
+                "key": "pelvis",
+                "start": 0.84,
+                "end": 2.24,
+                "value": -0.9,
+                "unit": "% body length"
+              }
+            ],
+            "possibleExplanation": null,
+            "metrics": {
+              "pelvisDriftPercent": -0.9,
+              "pelvisSpeedPercentPerSecond": -0.9,
+              "direction": "small",
+              "tiltChangeDegrees": 0.3,
+              "shoulderChangeDegrees": 13.4,
+              "bodyLineChangePercent": -1.3,
+              "legSeparationChange": -0.0,
+              "growingOscillation": false,
+              "observedWindowSeconds": 1.4
+            },
+            "reason": "נצפתה הנמכה רציפה של הכתפיים ביחס לכפות הידיים יחד עם כיפוף מתמשך במרפקים. שלב ההנמכה אינו נכלל בזמן ההחזקה; אי אפשר לקבוע את כוונת היציאה.",
+            "supportLowering": {
+              "start": 2.32,
+              "end": 2.92,
+              "samples": 7,
+              "shoulderDropBodyLengths": 0.05810921039713416,
+              "elbowClosureDegrees": 42.20814527690719,
+              "wristDriftBodyLengths": 0.02067081343280529
+            }
+          }
+        },
+        "hold": {
+          "start": 0,
+          "end": 22,
+          "seconds": 2.2,
+          "metrics": {
+            "banana": 0.0297125575883406,
+            "lean": 10.69013978351695,
+            "shoulder": 61.608009638919754,
+            "elbow": 53.81209291457921,
+            "sway": 0.005220743541929714
+          },
+          "scores": {
+            "banana": 100,
+            "lean": 65.61033453601695,
+            "shoulder": 0,
+            "elbow": 0,
+            "sway": 100
+          }
+        },
+        "entry": null
+      },
+      "cancellationWithoutHistory": true,
+      "noPoseWithoutGradeOrHistory": true,
+      "playerControls": true,
+      "historyReloadAndReadOnlySummary": true
+    }
+  ],
+  "catalogComparison": {
+    "390": "pixel-identical to PR #41",
+    "320": "pixel-identical to PR #41",
+    "1440": "pixel-identical to PR #41"
+  },
+  "noSeededAnalysisData": true
+}

@@ -1,0 +1,42 @@
+{
+  "url": "http://127.0.0.1:42585/vercel-app/",
+  "browser": "chromium",
+  "viewports": [
+    {
+      "width": 390,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 320,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    },
+    {
+      "width": 1440,
+      "variantGuideReloads": 25,
+      "rtl": true,
+      "imagesDecoded": true,
+      "overflow": false,
+      "targets44px": true,
+      "pageErrors": [],
+      "httpErrors": [],
+      "posts": []
+    }
+  ],
+  "inference": [],
+  "previewToolbarBlocked": false,
+  "mode": "full"
+}

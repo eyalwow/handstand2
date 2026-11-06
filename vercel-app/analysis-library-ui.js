@@ -1,9 +1,10 @@
-import {exerciseEnglish,FAMILY_COPY,instructionsFor} from './analysis-copy.js';
+import {exerciseEnglish,instructionsFor} from './analysis-copy.js';
 import {ANALYSIS_CATALOG,exerciseById} from './analysis-catalog.js';
 import {analysisFor,analysisAvailability,analysisAvailabilityLabel,variationsFor} from './analysis-registry.js';
 export {variationsFor} from './analysis-registry.js';
 import {analysisMediaFigure} from './analysis-media.js';
 import {catalogArtwork} from './catalog-artwork.js';
+import {presentationArtwork} from './presentation-artwork.js';
 import {readLibrarySelection,saveLibrarySelection} from './library-state.js';
 import {readVariationHistory} from './variation-history.js';
 const $=id=>document.getElementById(id);
@@ -55,8 +56,9 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     const all=variationsFor(family);
     if(!all.length){location.hash='guide';return;}
     const base=exerciseById(family);
-    $('variations-title').textContent=base.name+' · וריאציות';
-    const hero=$('familyHero');hero.replaceChildren(analysisMediaFigure(family),node('h2',base.name),node('p',base.english,'exercise-english'),node('p',FAMILY_COPY[family]||'', 'subline'));
+    $('variations-title').textContent=base.name;
+    const hero=$('familyHero');hero.replaceChildren(presentationArtwork(family),node('h2',base.name),node('p',base.english,'exercise-english'),node('p',analysisAvailability(family).status==='experimental'?'ניסיוני · ללא ציון':availabilityLabel(base),'family-availability'));
+    hero.dataset.availability=analysisAvailability(family).status;
     const english=hero.querySelector('.exercise-english');english.dir='ltr';
     $('assistanceOptions').hidden=!all.some(x=>x.assistance==='band');
     for(const b of $('assistanceOptions').querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.assistance===assistance));
@@ -67,18 +69,27 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
   }
   function renderGuide(){
     const x=exerciseById(selected),config=analysisFor(x.id,{allowExperimental:true});
-    $('guide-title').textContent=x.name;
+    $('guide-title').textContent='הנחיות צילום';
+    $('guideSelection').textContent=x.name;
+    $('guideSelection').href=variationsFor(x.familyId).length?'#variations':'#catalog';
+    if($('guideChecklist').dataset.checklistExercise!==x.id){
+      for(const checkbox of $('guideChecklist').querySelectorAll('input'))checkbox.checked=false;
+      $('guideChecklist').dataset.checklistExercise=x.id;
+    }
     $('guideWorkout').hidden=true; // Training remains available in its legacy routes, outside the analysis flow.
     $('guideEnglish').textContent=exerciseEnglish(x);
     $('guideInstructions').replaceChildren(...instructionsFor(x).map(text=>node('li',text)));
     $('guideBack').href=variationsFor(x.familyId).length?'#variations':'#catalog';
-    $('guideArtwork').replaceChildren(analysisMediaFigure(x.id,{motion:true}));
+    $('guideArtwork').replaceChildren(presentationArtwork(x.id));
+    $('guideView').dataset.availability=analysisAvailability(x.id).status;
     $('guideDefinition').textContent=x.definition || 'צילום ברור הוא הבסיס למדידה שימושית.';
-    $('guideAvailability').textContent=availabilityLabel(x);
+    $('guideAvailability').textContent=x.experimental?'ניסיוני · ללא ציון':availabilityLabel(x);
     $('guideFilming').textContent=x.filming;
     $('guideCriteria').replaceChildren(...x.criteria.map(text=>node('li',text)));
     $('guideLimit').textContent=x.id==='handstand'?'זמן ההחזקה ומדד הטכניקה מוצגים בנפרד. הניתוח מבוסס על היטל דו־ממדי ותלוי באיכות המעקב; המדד אינו ציון מאמן מכויל.':x.experimental?'בדיקה ניסיונית בלבד. מנח הווריאציה, האחיזה והיעדר תמיכה אינם מאומתים אוטומטית. אין ציון טכניקה.':'מנוע ניתוח לתרגיל זה עדיין לא מומש ואומת. הנחיות אלה הן הכנה לצילום; כרגע לא ניתן להעלות סרטון לניתוח התרגיל.';
-    const button=$('guideAnalyze');button.disabled=!config;button.textContent=config?(x.experimental?'העלאת סרטון · ניתוח ניסיוני':'העלאת סרטון לניתוח'):'ניתוח עדיין לא זמין';
+    $('guideLimitDetail').textContent=$('guideLimit').textContent;
+    if(x.experimental)$('guideLimit').textContent='בדיקה ניסיונית, ללא ציון. הווריאציה, האחיזה והיעדר תמיכה אינם מאומתים אוטומטית.';
+    const button=$('guideAnalyze');button.disabled=!config;button.textContent=config?'להעלאת סרטון':'ניתוח עדיין לא זמין';
     $('guideHistory').textContent='היסטוריית הבחירה הזו';
     if(x.experimental){try{const h=readVariationHistory(localStorage,x.id);$('guideHistory').textContent=h.length?`${h.length} מדידות ניסיוניות בווריאציה זו. המדידה האחרונה: ${h[0].hold.seconds.toFixed(1)} שנ׳ — חלון אפשרי, ללא ציון.`:'אין עדיין מדידות לווריאציה זו.';}catch{$('guideHistory').textContent='קריאת ההיסטוריה אינה זמינה. הנתונים לא שונו.';}}
     else if(x.id!=='handstand')$('guideHistory').textContent='אין עדיין מדידות ניתוח לבחירה הזו. מדידות יופיעו כאן כשיהיה ניתוח זמין.';

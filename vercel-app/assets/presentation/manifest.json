@@ -1,0 +1,197 @@
+[
+  {
+    "source": "assets/anatomy/advanced-tuck-planche.webp",
+    "sourceSha256": "c2256f2a00fb9b2179374579c58e793c9fbdc640d1108a29474bcba4fdd0489e",
+    "crop": [
+      29,
+      102,
+      552,
+      574
+    ],
+    "output": "assets/presentation/advanced-tuck-planche.webp",
+    "size": [
+      523,
+      472
+    ]
+  },
+  {
+    "source": "assets/anatomy/tuck-planche.webp",
+    "sourceSha256": "9676547b90e2d77b3462ce7766a9a98a097a98f02884eb4b92b4061672973b0c",
+    "crop": [
+      154,
+      51,
+      612,
+      350
+    ],
+    "output": "assets/presentation/tuck-planche.webp",
+    "size": [
+      458,
+      299
+    ]
+  },
+  {
+    "source": "assets/anatomy/banded-full-front-lever.webp",
+    "sourceSha256": "b7f44dfb1659013d8b496527bc35fb181aae58fc7cc69457333da081dd62a183",
+    "crop": [
+      58,
+      63,
+      698,
+      568
+    ],
+    "output": "assets/presentation/banded-full-front-lever.webp",
+    "size": [
+      640,
+      505
+    ]
+  },
+  {
+    "source": "assets/anatomy/one-leg-planche.webp",
+    "sourceSha256": "423edab89bcb3bb093aa81830c3c4a97a1fa52b2d42310e098354abb8fa93828",
+    "crop": [
+      47,
+      84,
+      673,
+      350
+    ],
+    "output": "assets/presentation/one-leg-planche.webp",
+    "size": [
+      626,
+      266
+    ]
+  },
+  {
+    "source": "assets/anatomy/planche-lean.webp",
+    "sourceSha256": "2ad362959c19b96ef6851fcc66d615fbe6b5a6b760350934e7c499d93ce489b4",
+    "crop": [
+      37,
+      117,
+      713,
+      477
+    ],
+    "output": "assets/presentation/planche-lean.webp",
+    "size": [
+      676,
+      360
+    ]
+  },
+  {
+    "source": "assets/anatomy/one-leg-l-sit.webp",
+    "sourceSha256": "5f5849a6c8596a828fe889f95671e71b167f064922d3d68690f6b827cb90da8a",
+    "crop": [
+      86,
+      10,
+      661,
+      549
+    ],
+    "output": "assets/presentation/one-leg-l-sit.webp",
+    "size": [
+      575,
+      539
+    ]
+  },
+  {
+    "source": "assets/anatomy/super-advanced-tuck-planche.webp",
+    "sourceSha256": "b16aca7fd73a6fa8f8db850c04e4f2ca68f66e5de708b2a8c9091a76fca4b8e5",
+    "crop": [
+      103,
+      78,
+      650,
+      354
+    ],
+    "output": "assets/presentation/super-advanced-tuck-planche.webp",
+    "size": [
+      547,
+      276
+    ]
+  },
+  {
+    "source": "assets/anatomy/one-leg-front-lever.webp",
+    "sourceSha256": "abe0cbd1ebe6f160422953ec15a5f264d2ac8e60e3ed61df350421b8ac40afbc",
+    "crop": [
+      57,
+      63,
+      685,
+      568
+    ],
+    "output": "assets/presentation/one-leg-front-lever.webp",
+    "size": [
+      628,
+      505
+    ]
+  },
+  {
+    "source": "assets/anatomy/straddle-planche.webp",
+    "sourceSha256": "7772dcbd90f9cf2224dbd2ac46b0829a1716b3081bc34f0f9175675441bd1232",
+    "crop": [
+      69,
+      73,
+      650,
+      345
+    ],
+    "output": "assets/presentation/straddle-planche.webp",
+    "size": [
+      581,
+      272
+    ]
+  },
+  {
+    "source": "assets/anatomy/tuck-l-sit.webp",
+    "sourceSha256": "cb370748f4363f964fa09e7bbd1607bc9e6a68b01c853260fc92b35d86bc9ef0",
+    "crop": [
+      128,
+      26,
+      576,
+      560
+    ],
+    "output": "assets/presentation/tuck-l-sit.webp",
+    "size": [
+      448,
+      534
+    ]
+  },
+  {
+    "source": "assets/anatomy/super-advanced-tuck-front-lever.webp",
+    "sourceSha256": "ad6919cc622e3175a81a313754cad3c9e05490f97c1bd528f34fca978418f4c9",
+    "crop": [
+      66,
+      64,
+      620,
+      612
+    ],
+    "output": "assets/presentation/super-advanced-tuck-front-lever.webp",
+    "size": [
+      554,
+      548
+    ]
+  },
+  {
+    "source": "assets/anatomy/banded-full-planche.webp",
+    "sourceSha256": "5bbf08a7bc1986507b29f29e7f9045fc39d4767e3ad34c5dc5440404461b2eab",
+    "crop": [
+      26,
+      70,
+      711,
+      565
+    ],
+    "output": "assets/presentation/banded-full-planche.webp",
+    "size": [
+      685,
+      495
+    ]
+  },
+  {
+    "source": "assets/anatomy/tuck-front-lever.webp",
+    "sourceSha256": "529b89a05c2ea29407017592c114a4dfab338311622e8cf8631dac75fdf81168",
+    "crop": [
+      107,
+      15,
+      568,
+      355
+    ],
+    "output": "assets/presentation/tuck-front-lever.webp",
+    "size": [
+      461,
+      340
+    ]
+  }
+]

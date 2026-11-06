@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="./app.css" />
     <link rel="stylesheet" href="./mobile-flow.css" />
     <link rel="stylesheet" href="./premium-analysis.css" />
+    <link rel="stylesheet" href="./analysis-experience.css" />
   </head>
   <body>
     <svg
@@ -301,13 +302,12 @@
           </header>
           <div class="home-hero">
             <div class="home-copy"><p class="eyebrow">התנועה שלך. במבט מדויק יותר.</p><h1 id="home-title" tabindex="-1">להבין את הטכניקה.<br /><em>לדעת מה לשפר.</em></h1>
-            <p>בחר תרגיל, צלם ניסיון וקבל תובנות מהתנועה שלך. הסרטון נשאר במכשיר.</p></div>
-            <img class="home-photo" src="./assets/anatomy/handstand-corrected.webp" width="720" height="720" alt="איור עמידת ידיים ישרה מאחור, ללא קיר" decoding="async" />
+            <p>בחר תרגיל, צלם ניסיון וקבל תובנות מהתנועה שלך.</p></div>
+            <img class="home-photo" src="./assets/catalog/handstand-corrected.webp" width="720" height="720" alt="איור עמידת ידיים ישרה מאחור, ללא קיר" decoding="async" />
           </div>
-          <a class="primary home-primary" href="#catalog">בחר תרגיל ונתח סרטון<svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg></a>
-          <a class="quiet-link home-library-link" href="#catalog">לספריית התרגילים ←</a>
-          <div class="analysis-intro"><span>01 · בחירת תרגיל</span><span>02 · העלאת סרטון</span><span>03 · תובנות אישיות</span></div>
-          <p class="home-analysis-scope">עמידת ידיים · ניתוח זמין<br />פרונט לבר · ניסיוני, ללא ציון</p>
+          <a class="primary home-primary" href="#catalog">בחר תרגיל לניתוח<svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg></a>
+          <p class="home-privacy">הסרטון נשאר במכשיר</p>
+          <div class="home-analysis-scope"><span class="scope-active">עמידת ידיים · ניתוח פעיל</span><span class="scope-experimental">פרונט לבר · ניסיוני ללא ציון</span></div>
         </div>
         <section aria-labelledby="recent-heading" class="home-recent"><h2 id="recent-heading">הניתוח האחרון שלך</h2><div id="home-analysis-history"></div><a class="quiet-link" href="#history">כל הניתוחים ←</a></section>
       </section>
@@ -337,31 +337,33 @@
         </div>
       </section>
       <section id="variationsView" class="view library-view" hidden aria-labelledby="variations-title">
-        <header class="page-header"><a class="icon-button back" href="#catalog" aria-label="חזרה לספרייה">→</a><h1 id="variations-title" tabindex="-1">בחר וריאציה</h1></header>
+        <header class="page-header"><a class="icon-button back" href="#catalog" aria-label="חזרה לספרייה"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a><h1 id="variations-title" tabindex="-1">בחר וריאציה</h1></header>
         <div class="view-body">
           <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
           <div id="familyHero" class="family-hero"></div>
-          <p class="subline family-intro">בחר את המנח שאתה מבצע. רמות הקושי הן הכוונה כללית.</p>
+          <p class="subline family-intro">בחר את המנח שאתה מבצע</p>
           <div id="assistanceOptions" class="library-assistance" role="group" aria-label="עזרה בגומייה"><button type="button" data-assistance="none" aria-pressed="true">ללא גומייה</button><button type="button" data-assistance="band" aria-pressed="false">עם גומיית עזר</button></div>
           <div id="variationGrid" class="library-grid variation-grid"></div>
           <div id="variationActionbar" class="variation-actionbar" aria-label="המשך עם הווריאציה שנבחרה">
             <p id="selectedVariationName" role="status"></p>
-            <button type="button" id="variationContinue" class="primary">המשך להנחיות צילום ←</button>
+            <button type="button" id="variationContinue" class="primary">להנחיות צילום</button>
           </div>
         </div>
       </section>
       <section id="guideView" class="view library-view" hidden aria-labelledby="guide-title">
-        <header class="page-header"><a id="guideBack" class="icon-button back" href="#catalog" aria-label="חזרה לבחירה">→</a><h1 id="guide-title" tabindex="-1"></h1></header>
+        <header class="page-header"><a id="guideBack" class="icon-button back" href="#catalog" aria-label="חזרה לבחירה"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></a><h1 id="guide-title" tabindex="-1"></h1></header>
         <div class="view-body">
           <div class="library-brand" dir="ltr"><span></span><img src="./assets/brand/movalyt-mark.svg" width="32" height="32" alt="" /><b>MOVALYT</b><span></span></div>
-          <p class="eyebrow">לקראת הניתוח</p><p id="guideAvailability" class="library-status"></p>
+          <a id="guideSelection" class="selection-pill" href="#catalog" aria-label="שינוי תרגיל או וריאציה"></a><p id="guideAvailability" class="library-status"></p>
           <div id="guideArtwork" class="library-hero"></div><p id="guideEnglish" class="exercise-english" dir="ltr"></p><p id="guideDefinition" class="subline"></p>
-          <section class="guide-instructions"><h2>דגשים לביצוע</h2><ol id="guideInstructions"></ol></section>
-          <div class="guide-panels"><article><h2>כך מכינים סרטון לניתוח</h2><p id="guideFilming"></p></article><article><h2>מנח ומדדים רלוונטיים</h2><ul id="guideCriteria"></ul></article></div>
+          <fieldset id="guideChecklist" class="filming-checklist"><legend class="visually-hidden">תנאי הצילום לבדיקה לפני ההעלאה</legend><label><input type="checkbox" />צילום מהצד</label><label><input type="checkbox" />מצלמה קבועה בגובה הגוף</label><label><input type="checkbox" />כל הגוף ונקודות המגע בפריים</label><label><input type="checkbox" />תאורה ברורה</label></fieldset>
+          <p class="filming-complete">כלול כניסה, החזקה ויציאה.</p>
           <p id="guideLimit" class="library-limit"></p>
+          <button id="guideAnalyze" type="button" class="primary">התחל ניתוח</button>
+          <details class="guide-more"><summary>דגשים לביצוע ולצילום</summary><p id="guideLimitDetail"></p><section class="guide-instructions"><h2>דגשים לביצוע</h2><ol id="guideInstructions"></ol></section><div class="guide-panels"><article><h2>כך מכינים סרטון לניתוח</h2><p id="guideFilming"></p></article><article><h2>מנח ומדדים רלוונטיים</h2><ul id="guideCriteria"></ul></article></div>
           <div class="library-history"><h2>הביצועים שלך</h2><p id="guideHistory"></p><a id="guideHistoryLink" href="#history">פתח היסטוריה ←</a></div>
           <a id="guideWorkout" class="text-link" href="./workout.html?start=1&amp;exercise=plancheLean" hidden>בחירת הטיית פלאנץ׳ לאימון</a>
-          <button id="guideAnalyze" type="button" class="primary">התחל ניתוח</button>
+          </details>
         </div>
       </section>
       <section
@@ -383,6 +385,7 @@
               <use href="#i-pose"></use></svg
           ></a>
         </header>
+        <p id="resultExercise" class="result-exercise"></p>
         <p id="sessionNotice" class="storage-notice" hidden="">
           אחרי רענון צריך לבחור את הסרטון שוב. המדידות השמורות עדיין זמינות
           בהיסטוריה.
@@ -398,20 +401,7 @@
             <h2 id="upload-title">נתחיל מהתנועה שלך.</h2>
             <p class="upload-description">צלמו מהצד, כשכל הגוף בפריים.</p>
           </div>
-          <div class="capture-visual capture-only">
-            <img
-              src="./assets/campaign/capture-handstand.webp"
-              width="1024"
-              height="1536"
-              alt="צילום AI לדוגמה של צילום עמידת ידיים, אינו מצלמה חיה"
-            />
-            <div class="capture-visual-copy">
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                <use href="#i-frame"></use></svg
-              ><strong>כל הגוף.<br />כל התנועה.</strong>
-            </div>
-            <span class="capture-image-credit">צילום לדוגמה · AI</span>
-          </div>
+          <div id="uploadArtwork" class="upload-artwork capture-only" aria-label="איור התרגיל להמחשה"></div>
           <label class="primary pick capture-only"
             ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
               <use href="#i-video"></use></svg
@@ -481,10 +471,13 @@
             <button id="discardUpload" type="button" class="secondary">ביטול בחירת הסרטון</button>
           </section>
           <div id="analysisStage" hidden="">
+            <p id="processingExercise" class="processing-exercise"></p>
+            <div class="processing-illustration"><div id="processingIllustration"></div><p>איור להמחשה · אינו פריים מהסרטון</p></div>
             <canvas
               id="analysisCanvas"
               aria-label="הפריים הנוכחי בניתוח"
             ></canvas>
+            <p id="trackingStatus" role="status"></p>
             <div class="progress-readout">
               <span>התקדמות הסריקה</span
               ><output id="analysisPercent">0%</output>
@@ -650,6 +643,7 @@
           <div id="holdSec" style="display: none">
             <div class="result-summary">
               <div aria-label="ציון הטכניקה" class="score-ring" role="img">
+                <span class="score-label">מדד טכניקה דו־ממדי</span>
                 <svg aria-hidden="true" viewBox="0 0 200 200">
                   <circle class="ring-track" cx="100" cy="100" r="86"></circle>
                   <circle
@@ -661,7 +655,7 @@
                   ></circle>
                 </svg>
                 <div class="ring-number">
-                  <strong id="ringScore"></strong><span>מתוך 100</span>
+                  <strong id="ringScore"></strong><span>/ 100</span>
                 </div>
               </div>
               <p class="report-duration" hidden="" id="holdDuration"></p>
@@ -715,6 +709,8 @@
               <h3>מה המדידות מראות</h3>
               <div class="coach-observations" id="coachObservations"></div>
             </section>
+            <details class="measurement-details" id="advancedReport">
+              <summary>פירוט מדדים מתקדם</summary>
             <section class="report-section report-practice">
               <h3>שני תרגילים מומלצים</h3>
               <div class="coach-drills" id="coachDrills"></div>
@@ -724,8 +720,6 @@
               <p id="reportTargetText"></p>
             </section>
             <section class="report-section report-metrics"><h3>מדדי הטכניקה</h3><div aria-label="הסבר מדדי הציון" class="score-breakdown" id="scoreBreakdown"></div></section>
-            <details class="measurement-details" id="advancedReport">
-              <summary>פירוט מדדים מתקדם</summary>
               <section
                 id="resultInsights"
                 class="handstand-insights"
@@ -762,7 +756,7 @@
         ></a>
         <h1 id="history-title" tabindex="-1">ההתקדמות שלך</h1>
         <p class="history-note">
-          מדידות שנשמרו במכשיר הזה. סרטונים אינם נשמרים עם ההיסטוריה.
+          מדידות שנשמרו במכשיר הזה. הסרטונים אינם נשמרים.
         </p>
         <div aria-label="תצוגת היסטוריה" class="history-switch" role="group">
           <button aria-pressed="true" id="historyGraphTab" type="button">
