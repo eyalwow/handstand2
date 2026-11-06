@@ -1,58 +1,60 @@
-# MOVALYT exercise catalog — design QA
+# MOVALYT complete analysis UI — design QA
 
-Final result: passed against the user-authorized screenshot fallback. Figma pixel identity is not claimed.
+Final result: passed for the approved screen implementation and Chromium/native analysis flow. Platform limits remain explicit below.
 
-## Source and boundary
+## Source and scope
 
-- Approved visual reference: the full-height catalog screenshot attached to the implementation request. Black background, left-aligned MOVALYT wordmark, right-aligned Hebrew heading, search/filter row, two-column RTL cards, lime active Handstand, amber experimental Front Lever, gray unavailable exercises, flat fixed navigation.
-- Figma `3Nv4MBzpX3MIauKLuZBH9j`, nodes `4:187` (390px) and `9:80` (320px): both design-context requests and the screenshot request were rejected by the Starter MCP rate limit. The user explicitly authorized using the attached screenshot in this case. No plan upgrade or invented Figma dimensions/assets.
-- The attachment is visible inline; no downloadable source bitmap was supplied for automated image-diff metrics. Visual comparison uses that visible reference and real browser captures below. The 320px layout adapts the same visible design; the inaccessible 320px frame was not inspected.
-- Scope: catalog only, stacked on PR #40 commit `ec9af227d9e0e50148f7b1a9cfa49c2e14c11fec`.
+The two approved eight-screen strips attached to the latest user request are the visual target: charcoal/black, lime actions, clean approved athlete illustrations, Hebrew RTL, compact family selection, filming checklist, video selection/review, real processing, measured results, a separate player and local history. They were inspected inline against the real captures. No downloadable source bitmap was supplied for automated source image-diff metrics; no pixel identity to the sketches is claimed.
 
-## Evidence and comparison
+Base: PR #41, `d621cac369870569dd335445c013e06d0f6fb4f2`. The catalog has not been redesigned. Chromium and local WebKit comparisons confirm pixel identity to #41 at 320, 390 and 1440 CSS pixels.
 
-Actual Chromium screenshots, CSS viewports at DPR 2 on mobile, DPR 1 on desktop:
+## Visual comparison and corrections
 
-| Viewport | Screenshot | Review |
-| --- | --- | --- |
-| 390 × 844 | [Catalog](docs/screenshots/figma-catalog/acceptance/catalog-390.png) | Matches the reference hierarchy, RTL six-family order, two columns, prominent Hebrew labels and status colors. |
-| 320 × 844 | [Catalog](docs/screenshots/figma-catalog/acceptance/catalog-320.png) | Two columns preserved; narrower typography fits without truncated labels or horizontal scrolling. |
-| 1440 × 1000 | [Catalog](docs/screenshots/figma-catalog/acceptance/catalog-1440.png) | Centered 900px library, two columns and larger contained illustrations. |
+- Home: original approved rear-view handstand, single two-line message, privacy note, truthful engine availability and real latest analysis/empty state.
+- Family: large complete hero, compact selected rows and assistance inside the family. Removed redundant thumbnail/difficulty/English lines; all original options/IDs remain.
+- Guide: selected exercise, four real reminder checkboxes, large title-free illustration and an upload action before optional detail. Retained the full engine limitations and instructions.
+- Upload: chosen exercise and correct illustration, real local file preview, required experimental consent, explicit Start and cancel. File selection does not invoke inference.
+- Processing: actual stages/percentage, a labeled illustration only before the first actual video frame, real frame/pose display, tracking-presence messaging and reachable cancellation. Removed a legacy upload button that incorrectly remained visible during processing.
+- Results: two measured values, full reliability/calibration warning, existing evidence-based feedback and expandable metric detail. Fixed score digits wrapping at narrow widths; no reference/example score was copied.
+- Player: one heading, real MediaPipe skeleton, timeline, frame stepping, playback/speed and independently selectable overlays. Reliable-result warnings follow the controls; abstention warnings remain prominent.
+- History: truthful graph/list/empty/corrupt states, model-compatible comparisons and read-only stored summaries. Unsupported video/full-report reconstruction is clearly unavailable.
 
-Illustrations were inspected against all nine original approved source images and their title-free crops: full anatomy and existing equipment remain visible. Native proportions are retained with `object-fit: contain`; original files are unchanged. A first screenshot pass exposed excessive heading/card spacing; reducing the header gap and standardizing 118px mobile image wells keeps the first six cards readable. Active lime was reduced to a single fine border. The rest of the existing catalog remains below those six cards; unlike the six-card reference, the existing 20 main families are not removed.
+All visible app-owned interactive targets checked by the browser harness meet 44 × 44px, with associated label areas used for native file/checkbox inputs. Images decode, RTL is retained, no horizontal overflow is present, reduced-motion tests disable motion, and every view reserves navigation/safe-area clearance. Real text can require vertical scrolling at 320px.
 
-Reference limits: supplied approved Pull-up, Muscle-up and Dip artwork differs in viewpoint/equipment from the screenshot. Those sources were preserved rather than inventing replacement anatomy or equipment. Exact Figma font metrics, texture and exports could not be obtained. Self-hosted Rubik and the existing approved MOVALYT mark are retained. No screenshot is used as an application background.
+## Evidence
 
-## Functional and scope checks
+The Hebrew [screen-by-screen comparison and gap report](docs/movalyt-complete-analysis-gap-report.md) links 320/390/1440 captures for each screen, the actual public QA footage provenance and all machine-readable checks.
 
-[Acceptance results](docs/screenshots/figma-catalog/acceptance/checks.json) verify Hebrew/English search, no-result state, filtering, alphabetical sorting, family → variation → guide selection, nine decoded approved images, 20 main families, truthful engine-derived statuses, uniform first-six card dimensions, RTL, no overflow, and the final card fully clear of fixed navigation at all three widths. Other unapproved images retain the explicit existing placeholder.
+- [Local Chromium checks](docs/screenshots/complete-analysis/local/checks.json): full real CPU Worker inference → measured results → real skeleton/playback → saved history → reload/summary, plus cancel/no-pose/decode cases.
+- [Actual hosted WebKit checks](docs/screenshots/complete-analysis/preview/checks.json): real deployed UI, selection, assistance, filming conditions, upload errors, history tabs/empty states and 44px targets at all three widths.
+- [Native web package checks](docs/screenshots/complete-analysis/native/checks.json): the same real analysis flow with external HTTPS blocked; bundled model/WASM and original CSP.
+- [Existing UI regression](docs/screenshots/complete-analysis/existing-ui.json): 75 variant/guide/reload cases.
+- [Boundary checks](docs/screenshots/complete-analysis/boundaries.json): history compatibility/corruption, experimental consent, real negative motion, no-pose and simulated safe areas. Older explicitly labeled test-only storage/DOM fixtures are not screenshots or product data.
+- Existing suites: 140/140 Node, 4/4 native package tests; 42 athlete modules packaged. Both GitHub application and native preparation workflows pass.
+- [Preserved-system hashes](docs/screenshots/complete-analysis/preserved-system.json): unchanged engines, measurement/scoring/timing, MediaPipe, catalog/IDs, selection and storage boundaries.
 
-Home, variations, guide, upload, history and settings at 390px are pixel-identical to PR #40 in the isolated local Chromium comparison; paired captures are in the same evidence directory. No other screen layout, engine, catalog identity or user-data schema is changed.
+The real public QA clip produced the engine's score 58 and an observed 2.2-second segment, explicitly censored at its start. No grade, landmark or history was seeded for application screenshots.
 
-## Preview and existing regressions
+## Preview and practical limits
 
-Tested athlete Preview: https://handstand-lab-coach-lzj47t3v5-eyalwen-6443.vercel.app/vercel-app/ — **READY**, Preview environment, application commit `dc39a56e8e0554ae17e5fbd17494d289a0405ef5`, existing static HTML/CSS/ES-module app. Use `/vercel-app/`; the deployment root serves the older site. Vercel sign-in may be required. First-time users can skip the existing welcome screen and open Analysis.
+[Tested READY athlete Preview](https://handstand-lab-coach-i3koyj3v5-eyalwen-6443.vercel.app/vercel-app/) — Preview environment, existing static HTML/CSS/ES-module app, application commit `c8fa6d6be9e875477727a024b47bb6ab99f9b32b`. Vercel sign-in may be required. Evidence-only follow-ups do not change the tested app.
 
-Actual hosted WebKit captures: [390px](docs/screenshots/figma-catalog/preview/catalog-390.png), [320px](docs/screenshots/figma-catalog/preview/catalog-320.png), [1440px](docs/screenshots/figma-catalog/preview/catalog-1440.png). [Hosted acceptance results](docs/screenshots/figma-catalog/preview/checks.json) exercise the same catalog checks. Comparing hosted captures exposed content showing through the translucent navigation in WebKit; the catalog navigation is now opaque black and was recaptured. Only Vercel's injected preview toolbar is suppressed during hosted QA; deployment protection and browser TLS trust are unchanged. No API/database is introduced: search/filter/sort read the existing local catalog and registry; selection follows the existing local-storage flow into variations and guides.
+WebKit UI passes locally and on the Preview. Real video inference in this Linux WPE/WebKit environment fails during scanning on both PR #41 and this branch, without showing a score; [baseline comparison](docs/screenshots/complete-analysis/webkit-inference-baseline.json). This is not claimed as passing iPhone inference. Physical iPhone/Android/WebView certification remains open. Hosted end-to-end inference is not claimed; successful inference evidence is Chromium local and the native web bundle.
 
-- Existing Node suite: **140/140** pass, including original identities, artwork approvals and engine-hash guards.
-- Native package: **41 modules** build with existing local MediaPipe model/WASM and unchanged CSP; **4/4** tests pass.
-- [Full existing Chromium UI regression](docs/screenshots/figma-catalog/full-regression.json): **75** variation → guide → reload cases at 320/390/1440; all visible images decode, RTL, no overflow, no application page/HTTP errors or POSTs, main targets ≥44px.
-- [Hosted WebKit focused regression](docs/screenshots/figma-catalog/preview/regression.json): **12** Lean / Full / Banded Full → guide → reload cases, upload errors, empty history, search/filter/sort at the same three widths; no application page/HTTP errors or POSTs.
-- [GitHub Validate handstand coach](https://github.com/eyalwow/handstand2/actions/runs/42202493117): **success** on `dc39a56`.
-- The separate `Vercel – handstand-coach-demo` integration still fails with the confirmed build message `The specified Root Directory "coach-app" does not exist.` The intended athlete project is READY. That pre-existing project configuration was not changed.
+The unrelated `handstand-coach-demo` Vercel integration retains its pre-existing missing `coach-app` Root Directory failure. The intended athlete Preview is READY. No protection settings or TLS trust boundaries were changed. Local QA serves app directories on loopback only.
 
-Linux browser emulation is not physical iPhone/Android verification. Video inference is outside this catalog-only change and was not rerun; the engine/hash guards pass and engine files are unchanged. Evidence-only follow-up commits do not change the tested application.
+No merge, Production, paid services, active-workout screens or training-plan development.
 
 ## Reproduce
 
 ```sh
-git worktree add --detach /tmp/movalyt-catalog-base ec9af227d9e0e50148f7b1a9cfa49c2e14c11fec
+git worktree add --detach /tmp/movalyt-analysis-base d621cac369870569dd335445c013e06d0f6fb4f2
 node --test tests/*.test.*
-python scripts/verify-figma-catalog.py
+python scripts/verify-complete-analysis.py --inference
 python scripts/verify-premium-analysis.py --widths 390 320 1440
+python scripts/verify-premium-boundaries.py --out /tmp/complete-boundaries
 npm --prefix mobile run build
 npm --prefix mobile test
 ```
 
-Python browser checks require Playwright, Chromium and Pillow. Native packaging accepts `MOVALYT_MODEL_FILE` pointing to the existing checksum-verified model cache. Hosted checks use `--browser webkit --url <preview>/vercel-app/ --access-file <private temporary auth URL file>`; never commit that access file. No merge, Production or paid-service activation was performed; no additional screen redesign is included.
+Python checks require Playwright, Chromium and Pillow. The public clip and pinned model cache are described in the fixture manifest; the clip is not bundled. Native build accepts `MOVALYT_MODEL_FILE` for the checksum-verified model. Serve `mobile/www` on loopback and add `--url <local-native-url> --inference --offline-model` to verify the packaged flow without external model access. Hosted checks accept `--browser webkit --url <preview>/vercel-app/ --access-file <private temporary authentication file>`; never publish the access file.

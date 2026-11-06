@@ -1,0 +1,7 @@
+{
+  "source": "https://huggingface.co/datasets/sumith2425/UCF101/resolve/main/test/HandstandPushups/v_HandStandPushups_g04_c02.avi",
+  "sourceSha256": "e0c18e5f81c99dd6a6bf238780f5341519ddb16bedfe4983eca0b0c376995126",
+  "derivative": "640px-wide H.264, no audio; no crop, rotation, time changes or generated frames",
+  "derivativeSha256": "761591879097e96d3cbc52384d81f214a4ab8c3b1d08e173821e26d6d030acc4",
+  "use": "QA only, public UCF101 footage; not bundled with the app, not a user recording or a claim of technique accuracy"
+}

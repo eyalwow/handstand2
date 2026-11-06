@@ -1,0 +1,36 @@
+{
+  "implementation": {
+    "timing": {
+      "kind": "video-analysis",
+      "outcome": "error",
+      "capturePath": "fixed-sequential-seek",
+      "stage": "scan",
+      "decodeMs": 78,
+      "modelMs": 4568,
+      "poseDelegate": "CPU",
+      "execution": "worker",
+      "errorName": "Error",
+      "errorCode": null,
+      "totalMs": 5149
+    },
+    "status": "לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב.",
+    "scoreShown": false
+  },
+  "pr41": {
+    "timing": {
+      "kind": "video-analysis",
+      "outcome": "error",
+      "capturePath": "fixed-sequential-seek",
+      "stage": "scan",
+      "decodeMs": 140,
+      "modelMs": 4747,
+      "poseDelegate": "CPU",
+      "execution": "worker",
+      "errorName": "Error",
+      "errorCode": null,
+      "totalMs": 5312
+    },
+    "status": "לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב.",
+    "scoreShown": false
+  }
+}
