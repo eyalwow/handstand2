@@ -1,0 +1,55 @@
+{
+  "browser": "chromium",
+  "viewports": [
+    {
+      "width": 390,
+      "columns": 2,
+      "mainCards": 20,
+      "approvedImagesDecoded": 9,
+      "uniformFirstSix": true,
+      "searchHebrewEnglish": true,
+      "emptyState": true,
+      "filterSort": true,
+      "familySelection": true,
+      "noOverflow": true,
+      "lastCardClearOfNav": true,
+      "pageErrors": []
+    },
+    {
+      "width": 320,
+      "columns": 2,
+      "mainCards": 20,
+      "approvedImagesDecoded": 9,
+      "uniformFirstSix": true,
+      "searchHebrewEnglish": true,
+      "emptyState": true,
+      "filterSort": true,
+      "familySelection": true,
+      "noOverflow": true,
+      "lastCardClearOfNav": true,
+      "pageErrors": []
+    },
+    {
+      "width": 1440,
+      "columns": 2,
+      "mainCards": 20,
+      "approvedImagesDecoded": 9,
+      "uniformFirstSix": true,
+      "searchHebrewEnglish": true,
+      "emptyState": true,
+      "filterSort": true,
+      "familySelection": true,
+      "noOverflow": true,
+      "lastCardClearOfNav": true,
+      "pageErrors": []
+    }
+  ],
+  "otherScreens": {
+    "home": "pixel-identical to PR #40 at 390px",
+    "variations": "pixel-identical to PR #40 at 390px",
+    "guide": "pixel-identical to PR #40 at 390px",
+    "analyze": "pixel-identical to PR #40 at 390px",
+    "history": "pixel-identical to PR #40 at 390px",
+    "settings": "pixel-identical to PR #40 at 390px"
+  }
+}
