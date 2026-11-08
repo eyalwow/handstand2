@@ -107,6 +107,7 @@ test('low visibility, nonfinite, repeated source times, upright and split legs d
 test('collapsed arm segments are unavailable rather than receiving a spurious zero',()=>{
   const result=measureHandstand(data(held(81,{elbowY:500})));
   assert.equal(result.hold,null);assert.equal(result.diagnostics.reason,'insufficient-geometry');
+  assert.equal(result.timing.seconds,8);
 });
 test('isolated arm tracking jumps are excluded from technique measurements',()=>{
   const frames=held();frames[40]=pose({elbowX:490});
@@ -135,10 +136,10 @@ test('clipped footage stays censored and the new history model never overwrites 
 });
 
 class PresentedVideo extends EventTarget {
-  constructor({stall=false,duplicate=false}={}) {super();this.readyState=2;this.seeking=false;this.time=0;this.stall=stall;this.duplicate=duplicate;this.callbacks=new Map();this.next=0;}
+  constructor({stall=false,duplicate=false,presented=t=>t-.02}={}) {super();this.readyState=2;this.seeking=false;this.time=0;this.stall=stall;this.duplicate=duplicate;this.presented=presented;this.callbacks=new Map();this.next=0;}
   pause(){}
   get currentTime(){return this.time;}
-  set currentTime(t){this.seeking=true;setTimeout(()=>{this.time=t;this.seeking=false;this.dispatchEvent(new Event('seeked'));if(!this.stall)setTimeout(()=>{for(const [id,fn] of this.callbacks){this.callbacks.delete(id);fn(0,{mediaTime:this.duplicate?0:t-.02});}},2);},1);}
+  set currentTime(t){this.seeking=true;setTimeout(()=>{this.time=t;this.seeking=false;this.dispatchEvent(new Event('seeked'));if(!this.stall)setTimeout(()=>{for(const [id,fn] of this.callbacks){this.callbacks.delete(id);fn(0,{mediaTime:this.duplicate?0:this.presented(t)});}},2);},1);}
   requestVideoFrameCallback(fn){const id=++this.next;this.callbacks.set(id,fn);return id;}
   cancelVideoFrameCallback(id){this.callbacks.delete(id);}
 }
@@ -157,4 +158,23 @@ test('presentation timeout, duplicate source frames and cancellation never captu
   const controller=new AbortController(),video=new PresentedVideo({stall:true});
   const pending=scanHandstandFrames({video,times:[.05],capture,signal:controller.signal});
   controller.abort(new DOMException('cancel','AbortError'));await assert.rejects(pending,{name:'AbortError'});assert.equal(video.callbacks.size,0);
+});
+
+test('a duplicate final presented frame preserves prior progress without adding time or inference',async()=>{
+  const video=new PresentedVideo({presented:t=>t===.05?.03:.13});
+  const captured=[],progress=[];
+  const result=await scanHandstandFrames({
+    video,times:[.05,.15,.25],capture:ms=>captured.push(ms),onProgress:value=>progress.push(value),
+  });
+  assert.equal(result.skippedFinalDuplicate,true);
+  assert.equal(captured.length,2);
+  assert.deepEqual(result.timestamps.map(t=>t.requested),[.05,.15]);
+  assert.equal(progress.at(-1),1);
+});
+test('an interior duplicate or backwards final frame still fails the scan',async()=>{
+  for(const presented of [t=>t===.15?.03:t-.02,t=>t===.25?.10:t-.02]){
+    await assert.rejects(scanHandstandFrames({
+      video:new PresentedVideo({presented}),times:[.05,.15,.25],capture:()=>null,
+    }),{code:'video-decode'});
+  }
 });
