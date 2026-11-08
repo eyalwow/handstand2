@@ -10,7 +10,8 @@ const segments = [['shoulder','hip'],['hip','ankle'],['shoulder','elbow'],['elbo
 export function measureHandstand({frames,timestamps,width,height}={}) {
   const timeline = analyzeHandstandTimeline({frames,timestamps,width,height});
   const diagnostics = {version:HANDSTAND_MEASUREMENT_VERSION, reason:'no-established-hold',scorePolicy:HANDSTAND_SCORE_POLICY};
-  if (!timeline.hold) return {hold:null,timeline,diagnostics};
+  if (!timeline.hold) return {hold:null,timing:null,timeline,diagnostics};
+  const timing=timeline.hold.seconds>=1.5?timeline.hold:null;
   // The exact same selected side and interval drive timing and technique.
   const samples = extractTemporalSamples(frames,timestamps,{width,height});
   const {startFrame,endFrame} = timeline.hold;
@@ -23,9 +24,9 @@ export function measureHandstand({frames,timestamps,width,height}={}) {
     return length >= s.scale*.025 && length >= lengths[i]*.65 && length <= lengths[i]*1.35;
   }));
   Object.assign(diagnostics,{startFrame,endFrame,samples:run.length,validFrames:rows.length});
-  if (timeline.hold.seconds<1.5 || rows.length<10 || rows.length/run.length<.8) {
-    diagnostics.reason=timeline.hold.seconds<1.5?'hold-too-short':'insufficient-geometry';
-    return {hold:null,timeline,diagnostics};
+  if (!timing || rows.length<10 || rows.length/run.length<.8) {
+    diagnostics.reason=timing?'insufficient-geometry':'hold-too-short';
+    return {hold:null,timing,timeline,diagnostics};
   }
   const left=frames[startFrame].indexOf(run[0].p.shoulder)===11;
   const ear=left?7:8;
@@ -40,7 +41,7 @@ export function measureHandstand({frames,timestamps,width,height}={}) {
   });
   if (metrics.some(m=>Object.values(m).some(x=>!Number.isFinite(x)))) {
     diagnostics.reason='invalid-geometry';
-    return {hold:null,timeline,diagnostics};
+    return {hold:null,timing,timeline,diagnostics};
   }
   const center=median(metrics.map(m=>m.hipx));
   const val=Object.fromEntries(['banana','lean','shoulder','elbow'].map(n=>[n,median(metrics.map(m=>m[n]))]));
@@ -71,5 +72,5 @@ export function measureHandstand({frames,timestamps,width,height}={}) {
   Object.assign(diagnostics,{reason:'measured',visibilityPercent:100*median(rows.map(s=>Math.min(...Object.values(s.p).map(p=>p.v)))),relaxed:false,legsApart:false,thirds});
   const hold={val,sc,total,scoreDimensions:dimensions,swayOk:true,k,series:frames.map(()=>null),fps:10,
     hold:timeline.hold.seconds,mid:rows[Math.floor(rows.length/2)].i,diagnostics};
-  return {hold,timeline,diagnostics};
+  return {hold,timing,timeline,diagnostics};
 }
