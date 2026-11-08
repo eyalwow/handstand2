@@ -1,5 +1,5 @@
 import {buildIntelligentCoaching} from "./handstand-coaching.js";
-import {renderHandstandInsights} from "./handstand-insights-ui.js";
+import {holdBoundaryNote,renderHandstandInsights} from "./handstand-insights-ui.js";
 import {smoothDisplayTrack,poseAtTime,drawPoseOverlay} from "./pose-overlay.js";
 import {analysisUI} from "./movalyt-ui.js";
 import {overallHandstandScore,observedEntryWindow,observedExerciseWindow} from "./handstand-summary.js";
@@ -155,7 +155,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
    await show(res,fr,v,w,h,overall,poseTimes);
    if(controller.signal.aborted)throw controller.signal.reason;
    showCoachFeedback(res,ent);
-   renderHandstandInsights(timeline,buildIntelligentCoaching(timeline,res,ent));
+   renderHandstandInsights(timeline,buildIntelligentCoaching(timeline,res,ent),holdTiming);
    $("measurementNotice").hidden=false;
     $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"זהו מדד טכניקה ויציבות דו־ממדי ניסיוני, שטרם כויל מול דירוג מאמן. משך ההחזקה מוצג בנפרד ואינו מוסיף נקודות. אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
    timing.renderMs=performance.now()-renderStarted;timing.outcome="scored";
@@ -170,7 +170,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
     :"לא הצלחנו למדוד את העמידה בביטחון. נסו לצלם מהצד, עם כל הגוף בפריים והחזקה ברורה של כמה שניות.";
    if(!scoreSetupConfirmed || holdTiming){
     const timingText=holdTiming
-     ?"קטע החזקה שנמדד: "+holdTiming.seconds.toFixed(1)+" שניות"+(holdTiming.censored?" (ייתכן שההחזקה ארכה יותר).":".")
+     ?"קטע החזקה שנמדד: "+holdTiming.seconds.toFixed(1)+" שניות. "+holdBoundaryNote(holdTiming)
      :"לא נמדדה החזקה בביטחון.";
     timingOnly.textContent=scoreSetupConfirmed
      ?timingText+" לא ניתן להציג מדד טכניקה בביטחון."
