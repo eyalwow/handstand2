@@ -467,7 +467,28 @@
             <video id="uploadPreview" controls playsinline muted preload="metadata" aria-label="תצוגה מקדימה של הסרטון שנבחר"></video>
             <p id="uploadFileLabel"></p><p id="uploadReviewStatus" role="status"></p>
             <p class="note">עד שתי דקות. צפייה מקדימה אינה ניתוח; התוצאות יופיעו רק אחרי עיבוד הסרטון.</p>
-            <label id="handstandScoreSetupLabel" hidden><input type="checkbox" id="handstandScoreSetup" /> הסרטון צולם ישירות מהצד, כל הגוף בפריים לאורך הניסיון, ועמידת הידיים ללא קיר או תמיכה אחרת. אישור זה מאפשר להציג מדד טכניקה ניסיוני.</label>
+            <fieldset id="handstandCaptureQuestions" aria-describedby="handstandCaptureNote" hidden>
+              <legend>תנאי הצילום לעמידת ידיים</legend>
+              <p id="handstandCaptureNote">הציון מסתמך על התשובות שלך. האפליקציה אינה מאמתת אוטומטית את תנאי הצילום או את התמיכה.</p>
+              <label for="handstandCaptureAngle">האם המצלמה צילמה ישירות מהצד?</label>
+              <select id="handstandCaptureAngle">
+                <option value="unsure" selected>לא בטוח</option>
+                <option value="yes">כן</option>
+                <option value="no">לא</option>
+              </select>
+              <label for="handstandCaptureFraming">האם כל הגוף נראה בפריים לאורך הניסיון?</label>
+              <select id="handstandCaptureFraming">
+                <option value="unsure" selected>לא בטוח</option>
+                <option value="yes">כן</option>
+                <option value="no">לא</option>
+              </select>
+              <label for="handstandCaptureSupport">האם נעזרת בקיר או בתמיכה אחרת?</label>
+              <select id="handstandCaptureSupport">
+                <option value="unsure" selected>לא בטוח</option>
+                <option value="yes">כן</option>
+                <option value="no">לא</option>
+              </select>
+            </fieldset>
             <button id="startReviewedAnalysis" type="button" class="primary" disabled>התחלת ניתוח</button>
             <button id="replaceUpload" type="button" class="primary" hidden>בחירת סרטון אחר</button>
             <button id="discardUpload" type="button" class="secondary">ביטול בחירת הסרטון</button>
