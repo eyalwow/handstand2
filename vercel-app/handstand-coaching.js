@@ -1,18 +1,6 @@
 import { bestMeasuredStrength } from "./handstand-summary.js";
 const time = (x) => Number(x).toFixed(1);
 const DRILLS = {
-  balance: [
-    {
-      name: "תיקוני איזון קטנים ליד קיר",
-      instruction:
-        "בתמיכה נוחה ליד קיר, נתקו רגליים לרגע והחזירו בשליטה. התחילו בטווח קטן ובמרחב פנוי.",
-    },
-    {
-      name: "החזקות קצרות חוזרות",
-      instruction:
-        "בצעו מספר ניסיונות קצרים עם מנוחה מלאה; עצרו כשהשליטה או הטכניקה יורדות. רשמו את הזמן של כל ניסיון.",
-    },
-  ],
   line: [
     {
       name: "הולו בודי",
@@ -60,6 +48,16 @@ const DRILLS = {
     },
   ],
 };
+function endingObservation(ending) {
+  if (ending?.supportLowering)
+    return "בצד שנמדד נצפו הנמכה של הכתף וכפיפה במרפק ביחס לפרק כף היד. שלב זה מחוץ למקטע ההחזקה.";
+  if (Number.isFinite(ending?.timeToDepartureSeconds))
+    return "נצפתה יציאה מהאנך בתמונה. הסיבה ליציאה אינה ידועה.";
+  if (ending?.kind === "tracking-lost" || ending?.kind === "video-ended")
+    return "המקטע הנמדד הסתיים בלי שנקבע סוף ההחזקה בביטחון.";
+  return "סוף ההחזקה לא נקבע בביטחון.";
+}
+
 export function buildIntelligentCoaching(timeline, hold, entry) {
   const h = timeline?.hold,
     c = timeline?.control,
@@ -80,42 +78,42 @@ export function buildIntelligentCoaching(timeline, hold, entry) {
     headline;
   if (!h) {
     priority =
-      "לא נמדד רצף החזקה אמין. נדרש צילום מלא וברור לפני המלצה על משך או יציבות.";
+      "לא נמדד רצף החזקה אמין. נדרש צילום מלא וברור לפני המלצה על משך או שליטה.";
     headline = "נמדד חלק מהתרגיל; ההחזקה אינה ברורה.";
     key = knownEntry ? "entry" : "balance";
   } else if (variable) {
     priority =
-      "השליטה בשיווי המשקל היא העדיפות: נמדדה תנועה משמעותית של האגן ביחס לידיים.";
+      "במקטע שנמדד השתנתה תנוחת הגוף בתמונה. כדאי לעיין בקטע לפני שבוחרים תרגיל לתיקון.";
     headline = h.censored
       ? "נצפה מקטע עם תנועות גדולות; משך ההחזקה המלא אינו ידוע."
       : short
         ? "החזקה קצרה עם תנועות גדולות."
-        : "קו הגוף לבדו לא מתאר את היציבות.";
+        : "נמדדה שונות בתנוחה בתמונה.";
   } else if (line) {
     priority =
-      "כדאי לדייק את קו הגוף לפני הארכת ההחזקה; נמדדה סטייה של האגן מקו הכתפיים והרגליים.";
+      "בתמונה נמדדה סטייה של האגן מקו הכתף–קרסול. אם המטרה היא קו אחיד, אפשר לתרגל אותו בתמיכה נוחה.";
     headline = short
       ? "יש בסיס לתרגול; נדרשים קו ושליטה עקביים יותר."
       : "קו הגוף הוא מוקד העבודה הבא.";
     key = "line";
   } else if (elbow) {
-    priority = "כדאי לייצב את יישור המרפקים בתמיכה נוחה לפני הארכת ההחזקה.";
-    headline = "יישור הזרועות הוא מוקד התרגול הבא.";
+    priority = "בצד שנמדד נראתה כפיפה במרפק. אם המטרה היא החזקה בזרוע ישרה, אפשר לתרגל יישור בתמיכה נוחה.";
+    headline = "נמדדה כפיפה במרפק בצד אחד.";
     key = "arms";
   } else if (short) {
     priority = h.censored
       ? "נצפה מקטע קצר בלבד; אי אפשר לקבוע שזו כל ההחזקה. כדאי לצלם גם את הכניסה והיציאה."
-      : "ההחזקה קצרה, גם כשהמנח נראה טוב. התמקדו בשליטה ובצבירת החזקות עקביות לפני ניסיון ממושך.";
+      : "המקטע שנמדד קצר. אפשר להשוות אותו לניסיונות נוספים בצילום דומה.";
     headline = h.censored
       ? "המקטע קצר; משך ההחזקה המלא אינו ידוע."
-      : "המנח הוא בסיס טוב; ההחזקה עדיין קצרה.";
+      : "נמדד מקטע החזקה קצר.";
   } else if (shoulder) {
-    priority = "כדאי לשפר את פתיחת הכתפיים תוך שמירה על קו הגוף.";
+    priority = "בצד שנמדד זווית הכתף המוקרנת סטתה מקו ישר. אם המטרה היא קו אחיד, אפשר לתרגל בתמיכה נוחה.";
     headline = "נמדדה החזקה ממושכת יותר; נשאר דיוק בכתפיים.";
     key = "shoulder";
   } else {
     priority =
-      "המשיכו לבנות עקביות בין ניסיונות, תוך שמירה על אותו מנח ויציאה נשלטת.";
+      "אפשר להשוות ניסיונות נוספים בצילום דומה. המדידה מתארת את המקטע הזה.";
     headline = "נמדדה החזקה ממושכת יותר במנח עקבי.";
   }
   const evidence = [];
@@ -123,10 +121,10 @@ export function buildIntelligentCoaching(timeline, hold, entry) {
     evidence.push({
       start: timeline.ascent.start,
       end: timeline.ascent.end,
-      text: "נצפה רצף הכנה, עלייה והגעה לאנך.",
+      text: Number.isFinite(timeline.ascent.score) ? "זהו חלון העלייה ששימש לחישוב הציון." : "זוהתה עלייה ששויכה לאותו ניסיון.",
     });
   else
-    evidence.push({ text: "העלייה אינה נצפית ברצף אמין; אין הערכה מלאה שלה." });
+    evidence.push({ text: "לא נמצאה עלייה שניתן לשייך בביטחון למקטע הזה." });
   if (h)
     evidence.push({
       start: h.start,
@@ -137,19 +135,19 @@ export function buildIntelligentCoaching(timeline, hold, entry) {
     evidence.push({
       start: c.start,
       end: c.end,
-      text: `טווח תנועת האגן ביחס לכפות הידיים: ${time(c.pelvisRangePercent)}% מאורך הגוף; טווח נטייה: ${time(c.tiltRangeDegrees)}° (אחוזונים 10–90).`,
+      text: `טווח ההיסט האופקי של האגן ביחס לפרק כף היד בתמונה: ${time(c.pelvisRangePercent)}% מאורך הגוף; טווח נטייה: ${time(c.tiltRangeDegrees)}° (אחוזונים 10–90).`,
     });
   if (e?.metrics)
     evidence.push({
       start: e.windowStart,
       end: e.at,
-      text: `לפני הסיום: שינוי אגן ${time(e.metrics.pelvisDriftPercent)}% מאורך הגוף, במהירות ממוצעת ${time(e.metrics.pelvisSpeedPercentPerSecond)}% לשנייה; שינוי נטייה ${time(e.metrics.tiltChangeDegrees)}°.`,
+      text: `ליד סוף המקטע הנמדד: שינוי אופקי של האגן בתמונה ${time(e.metrics.pelvisDriftPercent)}% מאורך הגוף, במהירות ממוצעת ${time(e.metrics.pelvisSpeedPercentPerSecond)}% לשנייה; שינוי נטייה ${time(e.metrics.tiltChangeDegrees)}°.`,
     });
   if (e?.metrics) {
     const m = e.metrics,
       details = [];
     if (Math.abs(m.shoulderChangeDegrees) > 5)
-      details.push("שינוי בזווית הכתף " + time(m.shoulderChangeDegrees) + "°");
+      details.push("שינוי בזווית הכתף המוקרנת בצד שנמדד " + time(m.shoulderChangeDegrees) + "°");
     if (Math.abs(m.bodyLineChangePercent) > 2)
       details.push(
         "שינוי בהיסט האגן מקו הגוף " + time(m.bodyLineChangePercent) + "%",
@@ -164,7 +162,7 @@ export function buildIntelligentCoaching(timeline, hold, entry) {
           "% מאורך הגוף",
       );
     if (m.growingOscillation === true)
-      details.push("טווח תנועת האגן גדל לקראת הסיום");
+      details.push("טווח ההיסט האופקי של האגן גדל ליד סוף המקטע");
     if (details.length)
       evidence.push({
         start: e.windowStart,
@@ -173,32 +171,17 @@ export function buildIntelligentCoaching(timeline, hold, entry) {
       });
   }
   const explanation =
-    e?.possibleExplanation ||
     "לא ניתן לקבוע מהצילום את הסיבה. מיקום דו־ממדי אינו מודד לחץ אצבעות, תמיכה, כוח או עייפות.";
   let target = null;
-  if (h && !h.censored && h.seconds >= 1.5) {
-    const seconds =
-      variable || line || shoulder || elbow
-        ? Math.min(5, Math.floor(h.seconds))
-        : short
-          ? Math.min(5, Math.floor(h.seconds) + 1)
-          : Math.floor(h.seconds);
-    const improving = variable || line || shoulder || elbow;
-    const focus = variable
-      ? "תיקוני איזון קטנים יותר"
-      : line
-        ? "קו גוף אחיד יותר"
-        : elbow
-          ? "זרועות ישרות בתמיכה נוחה"
-          : "פתיחת כתפיים ללא קשת נוספת";
+  if (h && !h.censored && h.seconds >= 1.5 && key !== "balance") {
+    const seconds = Math.min(5, Math.floor(h.seconds));
+    const focus = key === "line" ? "קו גוף אחיד יותר"
+      : key === "arms" ? "זרועות ישרות בתמיכה נוחה"
+      : "פתיחת כתפיים ללא קשת נוספת";
     target = {
       seconds,
       attempts: 3,
-      text: improving
-        ? `יעד תרגול מוצע: 3 ניסיונות של עד ${seconds} שניות עם ${focus}, בתמיכה זמינה ועם מנוחה. אין צורך להאריך כרגע.`
-        : short
-          ? `יעד תרגול מוצע: 3 ניסיונות של כ־${seconds} שניות בשליטה, עם תמיכה זמינה ומנוחה. איכות ויציאה נשלטת קודמות לזמן.`
-          : `יעד תרגול מוצע: לשחזר 3 ניסיונות של כ־${seconds} שניות באותה איכות, עם מנוחה ויציאה נשלטת. אין צורך להאריך כרגע.`,
+      text: `יעד תרגול מוצע: 3 ניסיונות של עד ${seconds} שניות עם ${focus}, בתמיכה זמינה ועם מנוחה. אין צורך להאריך כרגע.`,
     };
   }
   return {
@@ -208,9 +191,9 @@ export function buildIntelligentCoaching(timeline, hold, entry) {
     priority,
     evidence,
     explanation,
-    drills: DRILLS[key],
+    drills: key === "balance" ? [] : DRILLS[key],
     target,
-    ending: e?.reason || "סיום התנועה אינו ברור.",
+    ending: endingObservation(e),
     limitations:
       "הערכה מקומית במישור צילום אחד. תמיכת קיר, כוונה ולחץ כפות הידיים אינם נמדדים. אין כאן אבחנה של סיבת נפילה.",
   };
