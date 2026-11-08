@@ -467,6 +467,7 @@
             <video id="uploadPreview" controls playsinline muted preload="metadata" aria-label="תצוגה מקדימה של הסרטון שנבחר"></video>
             <p id="uploadFileLabel"></p><p id="uploadReviewStatus" role="status"></p>
             <p class="note">עד שתי דקות. צפייה מקדימה אינה ניתוח; התוצאות יופיעו רק אחרי עיבוד הסרטון.</p>
+            <label id="handstandScoreSetupLabel" hidden><input type="checkbox" id="handstandScoreSetup" /> הסרטון צולם ישירות מהצד, כל הגוף בפריים לאורך הניסיון, ועמידת הידיים ללא קיר או תמיכה אחרת. אישור זה מאפשר להציג מדד טכניקה ניסיוני.</label>
             <button id="startReviewedAnalysis" type="button" class="primary" disabled>התחלת ניתוח</button>
             <button id="replaceUpload" type="button" class="primary" hidden>בחירת סרטון אחר</button>
             <button id="discardUpload" type="button" class="secondary">ביטול בחירת הסרטון</button>
@@ -638,6 +639,7 @@
               id="playerMetrics"
             ></div>
             <p id="replayTrimNotice" class="note"></p>
+            <p id="handstandTimingOnly" class="note" role="status" hidden></p>
             <p id="tlLabel" class="hold">קו הגוף לאורך התנועה</p>
             <canvas id="tl"></canvas>
           </div>

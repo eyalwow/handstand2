@@ -68,14 +68,15 @@ test('media approval requires anatomy, identity, support, camera, grayscale, rig
  for(const seconds of [1,5])assert.equal(approvedMedia({...asset,animation:{src:'./assets/anatomy/planche/full.mp4',approved:true,seconds}}).animation,null);
  assert.ok(approvedMedia({...asset,animation:{src:'./assets/anatomy/planche/full.mp4',approved:true,seconds:3}}).animation);
 });
-test('PR34 measurement, scoring, sampling, runtime and Coach source stay byte-identical',()=>{
- // SHA-256 snapshot of PR #34 a9023c1, usable in shallow CI checkouts.
+test('measurement, scoring, sampling, runtime and Coach source match the approved baselines',()=>{
+ // PR #34 snapshot with the real-video sampler, timing and eligibility changes pinned below.
+ // Scoring policy, temporal detection, runtime and Coach retain their original pins.
  const baseline={
-  "handstand-engine.js": "003a4b1e2946a4d6dc8a8f01aa0c11368ed9ec3e9ce2af3aaa0814f9db850d52",
-  "handstand-measurement.js": "b67a92d5c4cd031cfbd6caffb995cbf5ee45ae2d4fe94fa8a932870f2f547fae",
+  "handstand-engine.js": "721a6d0a5badbe6d6e2793c20f3e76a0809c97944108234d7bcd0f1ae8dc7626",
+  "handstand-measurement.js": "1f66c8a7dff8cfbb9f5a639b8ac7091d576aaf170dd5bad1a5d6e3e5edda02b0",
   "handstand-temporal.js": "1e58667adc5a011326805d602a570356f4def503eb399ce8bef64a0f5cf41706",
   "handstand-score-policy.js": "14fffc29cd6207ce9146f4b309e72ad948d78fb7c905806b6339742988c7e499",
-  "handstand-sampling.js": "cfc5f3884e55d8ac24fbb4ad53647c432768dc7ec3c641f6eec9dafd2845cf66",
+  "handstand-sampling.js": "d308b862aa82f08d72e8f9386ae76ff6d05a8fc8591882e4db9837b27be0a027",
   "video-sampling.js": "273fec540b48c8f1307f41882fdf5c018c17605b9e2f9ee2e440882a15d36ab9",
   "pose-runtime.js": "ee3ad8be5cf922a82c5ad12b312fb08ff108c7e3b600b1787f41ff04b12dea9c",
   "pose-main.js": "5a2316bc9f7a6dd9a680c768f58d8833dc440ed594b01c3f8a692ec8be340593",

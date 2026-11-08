@@ -2,11 +2,13 @@
 // Files/object URLs live only in memory; no upload, storage or inference happens here.
 import {selectedExerciseId} from './analysis-selection.js';
 const $=id=>document.getElementById(id),preview=$('uploadPreview'),review=$('uploadReview'),start=$('startReviewedAnalysis');
+const scoreSetup=$('handstandScoreSetup'),scoreSetupLabel=$('handstandScoreSetupLabel');
 let approvedInput=null,pendingInput=null,objectURL=null,selection=null,revision=0;
 function clearReview(preserveInput=null){
   revision++;preview.pause();preview.removeAttribute('src');preview.load();
   if(objectURL)URL.revokeObjectURL(objectURL);
   objectURL=null;if(pendingInput&&pendingInput!==preserveInput)pendingInput.value='';pendingInput=null;
+  scoreSetup.checked=false;scoreSetupLabel.hidden=true;
   start.disabled=true;review.hidden=true;$('uploadReviewStatus').textContent='';
   delete review.dataset.state;$('replaceUpload').hidden=true;
 }
@@ -33,7 +35,7 @@ for(const id of ['file','cameraFile'])$(id).addEventListener('change',event=>{
   event.stopImmediatePropagation();
   const input=event.currentTarget,file=input.files?.[0];if(!file)return;
   clearReview(input);pendingInput=input;selection=selectedExerciseId();const token=revision;
-  review.hidden=false;$('uploadFileLabel').textContent=file.name;
+  review.hidden=false;scoreSetupLabel.hidden=selection!=='handstand';$('uploadFileLabel').textContent=file.name;
   if(!file.size || (file.type && !file.type.startsWith('video/'))){reviewError('יש לבחור קובץ וידאו תקין. נסה סרטון MP4 שמתנגן במכשיר.');return;}
   $('uploadReviewStatus').textContent='בודקים שאפשר לנגן את הסרטון…';
   objectURL=URL.createObjectURL(file);preview.src=objectURL;
