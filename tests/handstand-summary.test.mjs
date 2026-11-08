@@ -76,3 +76,12 @@ test("real-video regression: whole-exercise praise is not passed off as measured
  assert.equal(rejected.source,"local");
  assert.ok(!JSON.stringify(rejected).includes("לאורך כל התרגיל"));
 });
+
+test("measured strengths do not generalize one side or one motion axis", () => {
+ const elbows=bestMeasuredStrength({sc:{elbow:100}},null);
+ assert.match(elbows.text,/בצד שנמדד/);
+ assert.match(elbows.text,/לא נבדקו שתי הזרועות/);
+ const sway=bestMeasuredStrength({swayOk:true,sc:{sway:100}},null);
+ assert.match(sway.text,/תנודת האגן האופקית/);
+ assert.doesNotMatch(sway.text,/יציב/);
+});
