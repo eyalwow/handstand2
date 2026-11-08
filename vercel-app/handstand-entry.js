@@ -7,7 +7,20 @@ export const ENTRY_OBSERVATION_POLICY = Object.freeze({
   maxTrackingGapSeconds: 0.3,
   minAnkleRiseBodyLengths: 0.3,
 });
-export function observeHandstandEntry(samples) {
+// A clip can contain several attempts. Missing observations or a return
+// below inversion cannot link an ascent to the selected hold.
+export function connectsObservedInversion(samples, first, last, maxGapSeconds) {
+  if (!Number.isInteger(first) || !Number.isInteger(last) || first < 0 || last < 0 ||
+      first >= samples.length || last >= samples.length) return false;
+  const start = Math.min(first, last), end = Math.max(first, last);
+  for (let i = start; i <= end; i++) {
+    if (!samples[i]?.inverted ||
+        (i > start && samples[i].t - samples[i - 1].t > maxGapSeconds + 1e-9)) return false;
+  }
+  return true;
+}
+
+export function observeHandstandEntry(samples, holdStartFrame, maxGapSeconds) {
   const policy = ENTRY_OBSERVATION_POLICY;
   const unknown = (reason) => ({ ascent: null, diagnostics: { reason } });
   if (
@@ -29,6 +42,10 @@ export function observeHandstandEntry(samples) {
     if (!vertical.every(terminal) || vertical[2].t - vertical[0].t > 0.4)
       continue;
     reached = true;
+    if (holdStartFrame != null && !connectsObservedInversion(samples, end - 2, holdStartFrame, maxGapSeconds)) {
+      lastFailure = "ascent-not-linked-to-selected-hold";
+      continue;
+    }
     let run = [],
       preparation = null;
     for (const s of samples.slice(0, end - 2)) {
