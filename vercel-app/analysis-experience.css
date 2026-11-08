@@ -426,3 +426,22 @@ body[data-screen="replay"] .frame-controls button { flex-wrap:wrap; }
 body[data-screen="analyze"] .upload-review button { min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
 body[data-screen="analyze"] .upload-review #discardUpload { display:block; }
 body[data-screen="analyze"] .upload-review #discardUpload { width:auto; }
+
+/* Keep each capture question readable and tappable in the upload preview. */
+#handstandCaptureQuestions:not([hidden]) {
+  display: grid;
+  gap: .5rem;
+  min-inline-size: 0;
+  margin: 1rem 0;
+  padding: .75rem;
+  border: 1px solid #394139;
+  border-radius: .75rem;
+}
+#handstandCaptureQuestions legend { padding-inline: .25rem; }
+#handstandCaptureQuestions p { margin: 0 0 .25rem; }
+#handstandCaptureQuestions label { margin-block-start: .25rem; }
+#handstandCaptureQuestions select {
+  inline-size: 100%;
+  min-block-size: 44px;
+  font: inherit;
+}
