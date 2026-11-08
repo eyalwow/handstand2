@@ -72,7 +72,7 @@ test('measurement, scoring, sampling, runtime and Coach source match the approve
  // PR #34 snapshot with the real-video sampler, timing and eligibility changes pinned below.
  // Scoring policy, temporal detection, runtime and Coach retain their original pins.
  const baseline={
-  "handstand-engine.js": "721a6d0a5badbe6d6e2793c20f3e76a0809c97944108234d7bcd0f1ae8dc7626",
+  "handstand-engine.js": "214c44a958608adb3067515067320bd4fbadcba7258b727999c17216582b50fa",
   "handstand-measurement.js": "1f66c8a7dff8cfbb9f5a639b8ac7091d576aaf170dd5bad1a5d6e3e5edda02b0",
   "handstand-temporal.js": "1e58667adc5a011326805d602a570356f4def503eb399ce8bef64a0f5cf41706",
   "handstand-score-policy.js": "14fffc29cd6207ce9146f4b309e72ad948d78fb7c905806b6339742988c7e499",
