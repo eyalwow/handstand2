@@ -68,6 +68,10 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
  const file=e.target.files[0];if(!file)return;
  const exerciseId=selectedExerciseId();
  const sideViewConfirmed=$('frontLeverSideView').checked;
+ const scoreSetupConfirmed=exerciseId==='handstand'&&$('handstandScoreSetup').checked;
+ const timingOnly=$('handstandTimingOnly');
+ timingOnly.hidden=true;
+ timingOnly.textContent='';
  if(exerciseId!=='handstand'&&!sideViewConfirmed){$('status').textContent='יש לאשר צילום צד יציב לפני הניתוח הניסיוני.';e.target.value='';return;}
  const timing={kind:"video-analysis",outcome:"error",capturePath:"none",stage:"decode"},analysisStarted=performance.now();
  const controller=new AbortController();activeAnalysis=controller;let analysisTimer;
@@ -126,18 +130,18 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   analysisUI.stage("scoring");timing.stage="scoring";const scoringStarted=performance.now();LAST={fr,fps,v,w,h};
   const poseTimes=sampledTimes.map(t=>t.actual);
   const measurement=measureHandstand({frames:fr,timestamps:poseTimes,width:w,height:h});
-  const res=measurement.hold;
+  const {hold:res,timing:holdTiming}=measurement;
   const legacyEntryTrace={};
-  const entryFrames=observedEntryWindow(fr,fps,res,legacyEntryTrace);
+  const entryFrames=scoreSetupConfirmed?observedEntryWindow(fr,fps,res,legacyEntryTrace):null;
   const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
   if(ent && ent.arch===null) ent.total=(ent.sc.reach*.4+ent.sc.shoulder*.2+ent.sc.elbow*.15)/.75;
-  const rawOverall=overallHandstandScore(res,ent);
+  const rawOverall=scoreSetupConfirmed?overallHandstandScore(res,ent):null;
   const overall=rawOverall===null?null:Math.max(1,rawOverall);
   const timeline=measurement.timeline;
   if(timeline.ascent)timeline.ascent={...timeline.ascent,score:Number.isFinite(ent?.total)?ent.total:null};
   const reliable=overall!==null;
   // Local diagnostics only; no file bytes or poses leave the browser.
-  window.dispatchEvent(new CustomEvent("movalyt:analysis-diagnostic",{detail:{measurementVersion:HANDSTAND_MEASUREMENT_VERSION,measurement:measurement.diagnostics,input:{bytes:file.size,type:file.type,duration:v.duration},sampling:sampledTimes[0]?.clock||"fixed-sequential-v1",delegate:ready.delegate,execution:ready.execution,timestamps:sampledTimes,score:overall,legacyEntryTrace,timeline,hold:res?{start:res.diagnostics.startFrame,end:res.diagnostics.endFrame,seconds:res.hold,metrics:res.val,scores:res.sc}:null,entry:ent?{total:ent.total,scores:ent.sc}:null}}));
+  window.dispatchEvent(new CustomEvent("movalyt:analysis-diagnostic",{detail:{measurementVersion:HANDSTAND_MEASUREMENT_VERSION,measurement:scoreSetupConfirmed?measurement.diagnostics:{reason:measurement.diagnostics.reason},scoreSetupConfirmed,holdTiming,skippedFinalDuplicate:sampled.skippedFinalDuplicate,input:{bytes:file.size,type:file.type,duration:v.duration},sampling:sampledTimes[0]?.clock||"fixed-sequential-v1",delegate:ready.delegate,execution:ready.execution,timestamps:sampledTimes,score:overall,legacyEntryTrace,timeline,hold:res?{start:res.diagnostics.startFrame,end:res.diagnostics.endFrame,seconds:res.hold,...(scoreSetupConfirmed?{metrics:res.val,scores:res.sc}:{})}:null,entry:ent?{total:ent.total,scores:ent.sc}:null}}));
   if(controller.signal.aborted)throw controller.signal.reason;
 
   timing.scoringMs=performance.now()-scoringStarted;
@@ -164,7 +168,16 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
    $("measurementNotice").textContent=measurement.diagnostics.legsApart
     ?"בפיסוק הרגליים קשה לנו להעריך את קו הגוף בצורה הוגנת. נסו סרטון נוסף עם רגליים קרובות, כשהגוף כולו בפריים."
     :"לא הצלחנו למדוד את העמידה בביטחון. נסו לצלם מהצד, עם כל הגוף בפריים והחזקה ברורה של כמה שניות.";
-   await replay(fr,v,w,h,K[sideOf(fr)],null,fps,seen[seen.length>>1],null,poseTimes);
+   if(!scoreSetupConfirmed || holdTiming){
+    const timingText=holdTiming
+     ?"קטע החזקה שנמדד: "+holdTiming.seconds.toFixed(1)+" שניות"+(holdTiming.censored?" (ייתכן שההחזקה ארכה יותר).":".")
+     :"לא נמדדה החזקה בביטחון.";
+    timingOnly.textContent=scoreSetupConfirmed
+     ?timingText+" לא ניתן להציג מדד טכניקה בביטחון."
+     :timingText+" מדד הטכניקה לא מוצג ללא אישור של צילום צד ועמידה ללא תמיכה.";
+    timingOnly.hidden=false;
+   }
+   await replay(fr,v,w,h,res?.k||K[sideOf(fr)],null,fps,res?.mid??seen[seen.length>>1],null,poseTimes);
    $("out").style.display="block";
    timing.outcome="unreliable";
   }
