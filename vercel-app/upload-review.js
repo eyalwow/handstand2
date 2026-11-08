@@ -2,18 +2,36 @@
 // Files/object URLs live only in memory; no upload, storage or inference happens here.
 import {selectedExerciseId} from './analysis-selection.js';
 const $=id=>document.getElementById(id),preview=$('uploadPreview'),review=$('uploadReview'),start=$('startReviewedAnalysis');
-const scoreSetup=$('handstandScoreSetup'),scoreSetupLabel=$('handstandScoreSetupLabel');
+const captureQuestions=$('handstandCaptureQuestions');
+const captureAngle=$('handstandCaptureAngle');
+const captureFraming=$('handstandCaptureFraming');
+const captureSupport=$('handstandCaptureSupport');
+
+export function handstandCaptureConfirmed(){
+  return captureAngle.value==='yes' && captureFraming.value==='yes' && captureSupport.value==='no';
+}
+
+function updateStartLabel(){
+  if(selection!=='handstand') {
+    start.textContent='התחלת ניתוח';
+    return;
+  }
+  start.textContent=handstandCaptureConfirmed()?'התחלת ניתוח ומדד טכניקה':'מדידת זמן בלבד';
+}
 let approvedInput=null,pendingInput=null,objectURL=null,selection=null,revision=0;
 function clearReview(preserveInput=null){
   revision++;preview.pause();preview.removeAttribute('src');preview.load();
   if(objectURL)URL.revokeObjectURL(objectURL);
   objectURL=null;if(pendingInput&&pendingInput!==preserveInput)pendingInput.value='';pendingInput=null;
-  scoreSetup.checked=false;scoreSetupLabel.hidden=true;
+  for(const field of [captureAngle,captureFraming,captureSupport])field.value='unsure';
+  captureQuestions.hidden=true;
+  updateStartLabel();
   start.disabled=true;review.hidden=true;$('uploadReviewStatus').textContent='';
   delete review.dataset.state;$('replaceUpload').hidden=true;
 }
 function reviewError(message){
   preview.pause();preview.removeAttribute('src');preview.load();
+  captureQuestions.hidden=true;
   review.hidden=false;review.dataset.state='error';start.disabled=true;
   $('uploadReviewStatus').textContent=message;$('replaceUpload').hidden=false;
 }
@@ -35,7 +53,7 @@ for(const id of ['file','cameraFile'])$(id).addEventListener('change',event=>{
   event.stopImmediatePropagation();
   const input=event.currentTarget,file=input.files?.[0];if(!file)return;
   clearReview(input);pendingInput=input;selection=selectedExerciseId();const token=revision;
-  review.hidden=false;scoreSetupLabel.hidden=selection!=='handstand';$('uploadFileLabel').textContent=file.name;
+  review.hidden=false;captureQuestions.hidden=selection!=='handstand';updateStartLabel();$('uploadFileLabel').textContent=file.name;
   if(!file.size || (file.type && !file.type.startsWith('video/'))){reviewError('יש לבחור קובץ וידאו תקין. נסה סרטון MP4 שמתנגן במכשיר.');return;}
   $('uploadReviewStatus').textContent='בודקים שאפשר לנגן את הסרטון…';
   objectURL=URL.createObjectURL(file);preview.src=objectURL;
@@ -48,6 +66,7 @@ for(const id of ['file','cameraFile'])$(id).addEventListener('change',event=>{
   };
   preview.onerror=()=>{if(token===revision&&review.dataset.state!=='error')reviewError('לא ניתן לנגן את הקובץ. נסה לשמור עותק MP4 תואם ולבחור אותו שוב.');};
 },true);
+captureQuestions.addEventListener('change',updateStartLabel);
 start.addEventListener('click',()=>{
   if(start.disabled||!pendingInput)return;
   if(selection!==selectedExerciseId()){clearReview();return;}
