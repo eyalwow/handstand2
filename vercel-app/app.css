@@ -149,7 +149,7 @@ h1:focus {
   height: 35px;
 }
 .brand span {
-  font-size: 18px;
+  font-size: 1.125rem;
   letter-spacing: 0.18em;
   font-weight: 600;
   line-height: 1;
@@ -167,7 +167,7 @@ h1:focus {
   margin-right: -9px;
 }
 .micro-label {
-  font-size: 7px;
+  font-size: 0.4375rem;
   letter-spacing: 0.14em;
   color: #b0b9b0;
   direction: ltr;
@@ -185,7 +185,7 @@ h1:focus {
   border-radius: 13px;
   background: var(--lime);
   color: #0a1307;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   border: 0;
   box-shadow: 0 5px 26px #b6ff4a08;
@@ -197,7 +197,7 @@ h1:focus {
 .eyebrow {
   display: block;
   color: var(--lime);
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 400;
   letter-spacing: 0.025em;
 }
@@ -230,12 +230,12 @@ h1:focus {
   gap: 8px;
   direction: ltr;
   color: var(--white);
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.1em;
 }
 .welcome-caption > span:last-child {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0;
 }
 .small-line {
@@ -251,18 +251,18 @@ h1:focus {
 }
 .welcome-copy .eyebrow {
   color: #bcc7b8;
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0;
   margin-bottom: 12px;
 }
 .welcome-copy h1 {
-  font-size: 43px;
+  font-size: 2.6875rem;
   line-height: 1.1;
   letter-spacing: -0.045em;
   font-weight: 600;
 }
 .welcome-copy p {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.85;
   color: var(--muted);
   margin-top: 16px;
@@ -306,11 +306,11 @@ h1:focus {
   align-items: center;
   min-height: 36px;
   color: #c6cfc4;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .welcome-actions small {
   color: #7f8f82;
-  font-size: 9px;
+  font-size: 0.5625rem;
 }
 .home-page {
   height: calc(100% - var(--nav) - var(--safe-bottom));
@@ -347,7 +347,7 @@ h1:focus {
   gap: 9px;
 }
 .home .brand span {
-  font-size: 17px;
+  font-size: 1.0625rem;
 }
 .home .brand img {
   width: 34px;
@@ -357,7 +357,7 @@ h1:focus {
   position: absolute;
   right: 22px;
   top: 116px;
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.13em;
   color: #e1eadc;
   display: flex;
@@ -370,7 +370,7 @@ h1:focus {
   display: none;
 }
 .discipline > span {
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0;
   color: #8b9c8b;
   direction: rtl;
@@ -383,13 +383,13 @@ h1:focus {
   text-align: right;
 }
 .home-copy h1 {
-  font-size: 33px;
+  font-size: 2.0625rem;
   line-height: 1.12;
   letter-spacing: -0.045em;
   font-weight: 600;
 }
 .home-copy p {
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.9;
   color: #b2bfb0;
   margin-top: 18px;
@@ -421,13 +421,13 @@ h1:focus {
   margin-bottom: 9px;
 }
 .benefits strong {
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 400;
   line-height: 1.5;
   color: #d0dacb;
 }
 .benefits small {
-  font-size: 9px;
+  font-size: 0.5625rem;
   color: #8d9d8c;
   line-height: 1.6;
 }
@@ -442,7 +442,7 @@ h1:focus {
   position: absolute;
   right: 24px;
   bottom: 20px;
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.12em;
   color: #6c806c;
 }
@@ -467,7 +467,7 @@ h1:focus {
   padding: 0 16px 16px;
 }
 .demo-notice {
-  font-size: 9px;
+  font-size: 0.5625rem;
   text-align: center;
   color: #aab998;
   letter-spacing: 0.015em;
@@ -501,7 +501,7 @@ h1:focus {
   border: 0;
   background: transparent;
   color: #c1d5b2;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .metric-grid {
   display: grid;
@@ -528,12 +528,12 @@ h1:focus {
   height: 22px;
 }
 .metric-grid article > span {
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #aebea1;
   line-height: 1.4;
 }
 .metric-grid article > strong {
-  font-size: 26px;
+  font-size: 1.625rem;
   line-height: 1.2;
   font-weight: 600;
   direction: ltr;
@@ -541,7 +541,7 @@ h1:focus {
   letter-spacing: -0.04em;
 }
 .metric-grid strong small {
-  font-size: 8px;
+  font-size: 0.5rem;
   font-weight: 400;
   letter-spacing: 0;
   color: #839679;
@@ -568,21 +568,21 @@ body:has(dialog[open]) {
 }
 @media (max-width: 350px) {
   .home-copy h1 {
-    font-size: 29px;
+    font-size: 1.8125rem;
   }
   .home-copy {
     width: 64%;
     right: 18px;
   }
   .home-copy p {
-    font-size: 10px;
+    font-size: 0.625rem;
   }
   .brand span,
   .home .brand span {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
   .welcome-copy h1 {
-    font-size: 38px;
+    font-size: 2.375rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -601,10 +601,10 @@ body:has(dialog[open]) {
   bottom: auto;
 }
 .benefits strong {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .benefits small {
-  font-size: 10px;
+  font-size: 0.625rem;
 }
 
 @media (max-height: 750px) {
@@ -617,19 +617,19 @@ body:has(dialog[open]) {
     top: 42%;
   }
   .home-copy h1 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
   .home-copy p {
-    font-size: 10px;
+    font-size: 0.625rem;
     margin-top: 12px;
   }
 }
 .demo-notice {
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #a9b5aa;
 }
 .metric-grid article > span {
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 /* Live app shell and viewport */
 html {
@@ -675,7 +675,7 @@ body {
   padding: 24px 18px;
 }
 .home-recent h2 {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
   margin: 0 0 12px;
 }
@@ -684,7 +684,7 @@ body {
   min-height: 44px;
   align-items: center;
   color: var(--lime);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .icon-button,
@@ -697,7 +697,7 @@ body {
   background: transparent;
   color: var(--muted);
   padding: 8px 12px;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .secondary {
   display: flex;
@@ -711,7 +711,7 @@ body {
   background: #101713;
   color: var(--white);
   font: inherit;
-  font-size: 13px;
+  font-size: 0.8125rem;
   padding: 10px 15px;
   cursor: pointer;
 }
@@ -764,7 +764,7 @@ body {
   border-radius: 12px;
   color: #dfd0aa;
   background: #171a0f;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 body[data-screen="onboarding"] .app-nav,
 body[data-screen="processing"] .app-nav {
@@ -791,7 +791,7 @@ body[data-keyboard="open"] .app-nav {
   scrollbar-width: none;
 }
 .onboard-step h1 {
-  font-size: 32px;
+  font-size: 2rem;
   line-height: 1.18;
   letter-spacing: -0.04em;
   font-weight: 600;
@@ -804,7 +804,7 @@ body[data-keyboard="open"] .app-nav {
   padding: 26px 22px 18px;
 }
 .subline {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.9;
   color: var(--muted);
   margin: 16px 0 22px;
@@ -817,7 +817,7 @@ body[data-keyboard="open"] .app-nav {
   padding: var(--safe-top) 10px 0;
 }
 .onboard-header > span {
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.12em;
   color: #8f9c8d;
   direction: ltr;
@@ -852,7 +852,7 @@ body[data-keyboard="open"] .app-nav {
   background: var(--lime);
 }
 #onboardingError {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: #e7d3a4;
   line-height: 1.7;
 }
@@ -900,12 +900,12 @@ body[data-keyboard="open"] .app-nav {
 }
 .goal-card strong {
   display: block;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 600;
 }
 .goal-card small {
   display: block;
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--muted);
   margin-top: 5px;
 }
@@ -950,13 +950,13 @@ body[data-keyboard="open"] .app-nav {
 }
 .exercise-caption > strong {
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.5;
 }
 .exercise-caption > small {
   display: block;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #9eac97;
   line-height: 1.6;
   text-align: right;
@@ -966,7 +966,7 @@ body[data-keyboard="open"] .app-nav {
   top: 8px;
   right: 8px;
   display: block;
-  font-size: 9px;
+  font-size: 0.5625rem;
   padding: 3px 7px;
   border-radius: 6px;
   background: #060d08d9;
@@ -1051,7 +1051,7 @@ a.exercise-card:hover {
   position: absolute;
   bottom: 8px;
   right: 10px;
-  font-size: 9px;
+  font-size: 0.5625rem;
   color: #d5decf;
   background: #050908a0;
   padding: 4px 7px;
@@ -1070,24 +1070,24 @@ a.exercise-card:hover {
   align-items: flex-start;
 }
 .explain-steps strong {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--lime);
   padding-top: 3px;
   direction: ltr;
   letter-spacing: 0.1em;
 }
 .explain-steps span {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .explain-steps small {
   display: block;
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.8;
   color: var(--muted);
   margin-top: 3px;
 }
 .privacy-inline {
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.8;
   text-align: center;
   color: #8f9f89;
@@ -1112,7 +1112,7 @@ a.exercise-card:hover {
   background: #050908b0;
   border-radius: 6px;
   padding: 5px 8px;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #c8d4be;
 }
 .interest-chips {
@@ -1127,7 +1127,7 @@ a.exercise-card:hover {
   background: #172113;
   border-radius: 20px;
   color: #c3d7ac;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .available-note {
   display: flex;
@@ -1137,7 +1137,7 @@ a.exercise-card:hover {
   padding-top: 18px;
   margin-top: 20px;
   color: var(--lime);
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .available-note > .icon {
   width: 20px;
@@ -1145,7 +1145,7 @@ a.exercise-card:hover {
 }
 .available-note small {
   display: block;
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--muted);
   margin-top: 5px;
 }
@@ -1205,7 +1205,7 @@ body[data-screen="results"] #replaySec {
 }
 .moment-button {
   font: inherit;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #bdcdb0;
   background: #111e10;
   border: 1px solid #2c3d27;
@@ -1215,13 +1215,13 @@ body[data-screen="results"] #replaySec {
   cursor: pointer;
 }
 .section-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 400;
   margin: 8px 0 11px;
   color: #d5e1ca;
 }
 .note {
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.9;
   color: #98a68f;
   margin: 14px 0;
@@ -1233,7 +1233,7 @@ body[data-screen="results"] #replaySec {
   border: 1px solid #2b3d24;
   border-radius: 10px;
   padding: 13px;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .result-metrics {
   display: grid;
@@ -1253,11 +1253,11 @@ body[data-screen="results"] #replaySec {
   border-radius: 13px;
 }
 .result-metrics > article > span {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: #aebea1;
 }
 .result-metrics > article > strong {
-  font-size: 27px;
+  font-size: 1.6875rem;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.03em;
@@ -1293,7 +1293,7 @@ body[data-screen="results"] #replaySec {
 #resultQuality {
   text-align: center;
   color: var(--lime);
-  font-size: 23px;
+  font-size: 1.4375rem;
   line-height: 1.35;
   font-weight: 600;
   margin: 10px 0;
@@ -1302,7 +1302,7 @@ body[data-screen="results"] #replaySec {
   display: none;
 }
 .hold-duration {
-  font-size: 11px;
+  font-size: 0.6875rem;
   text-align: center;
   color: var(--muted);
   font-weight: 400;
@@ -1313,7 +1313,7 @@ body[data-screen="results"] #replaySec {
   border-radius: 13px;
   padding: 10px 13px;
   background: #10171388;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .result-highlights:empty {
   display: none;
@@ -1343,7 +1343,7 @@ body[data-screen="results"] #replaySec {
   color: #101b09;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .feature-action svg {
   width: 22px;
@@ -1354,7 +1354,7 @@ body[data-screen="results"] #replaySec {
 .advanced-drills,
 .privacy-details {
   color: #94a58b;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin: 16px 0;
 }
 .measurement-details > summary,
@@ -1376,10 +1376,10 @@ body[data-screen="results"] #replaySec {
 .metric-row-head {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .metric-row > p {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: #a6b59c;
   line-height: 1.8;
 }
@@ -1397,7 +1397,7 @@ body[data-screen="results"] #replaySec {
 /* Visible local coaching feedback */
 
 .gemini-status {
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.9;
   color: #8c9d80;
   margin-top: 12px;
@@ -1418,13 +1418,13 @@ body[data-screen="results"] #replaySec {
 }
 #history-title {
   text-align: center;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.4;
   margin: 0 35px 20px;
   font-weight: 600;
 }
 .history-note {
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #8c9f82;
   text-align: center;
   margin: 0 0 18px;
@@ -1445,7 +1445,7 @@ body[data-screen="results"] #replaySec {
   border-radius: 9px;
   color: #99aa8c;
   font: inherit;
-  font-size: 12px;
+  font-size: 0.75rem;
   cursor: pointer;
 }
 .history-switch > [aria-pressed="true"] {
@@ -1465,7 +1465,7 @@ body[data-screen="results"] #replaySec {
   direction: ltr;
 }
 .history-chart > .note {
-  font-size: 10px;
+  font-size: 0.625rem;
   margin: 10px 0 0;
 }
 .history-entry {
@@ -1486,13 +1486,13 @@ body[data-screen="results"] #replaySec {
   min-width: 0;
 }
 .history-entry h3 {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.5;
   margin: 0;
   font-weight: 600;
 }
 .history-entry time {
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #98a88c;
 }
 .history-score {
@@ -1501,7 +1501,7 @@ body[data-screen="results"] #replaySec {
   text-align: left;
   direction: ltr;
   color: var(--lime);
-  font-size: 27px;
+  font-size: 1.6875rem;
   font-weight: 600;
 }
 .history-score small {
@@ -1510,7 +1510,7 @@ body[data-screen="results"] #replaySec {
 .history-details {
   width: 100%;
   color: #91a083;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .history-details summary {
   position: absolute;
@@ -1539,12 +1539,12 @@ body[data-screen="results"] #replaySec {
   position: absolute;
 }
 .history-details p {
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.9;
   margin: 7px 0;
 }
 #historyView > h2 {
-  font-size: 16px;
+  font-size: 1rem;
   margin: 22px 0 12px;
   font-weight: 600;
 }
@@ -1552,7 +1552,7 @@ body[data-screen="results"] #replaySec {
   background: #101713;
   color: var(--lime);
   border: 1px solid var(--line);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   margin-top: 18px;
   min-height: 48px;
@@ -1563,7 +1563,7 @@ body[data-screen="results"] #replaySec {
   border-radius: 13px;
   color: #a4b498;
   text-align: center;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.9;
 }
 #aboutDialog {
@@ -1585,15 +1585,15 @@ body[data-screen="results"] #replaySec {
   position: absolute;
   left: 5px;
   top: 5px;
-  font-size: 25px;
+  font-size: 1.5625rem;
 }
 #aboutTitle {
-  font-size: 23px;
+  font-size: 1.4375rem;
   margin: 13px 0 18px;
   font-weight: 600;
 }
 #savedPreferences > p {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.9;
   margin: 11px 0;
   color: #b0bfa5;
@@ -1602,7 +1602,7 @@ body[data-screen="results"] #replaySec {
   margin: 10px 0;
 }
 #aboutDialog .primary {
-  font-size: 13px;
+  font-size: 0.8125rem;
   margin-top: 18px;
 }
 #aboutDialog .cloud-choice {
@@ -1610,10 +1610,10 @@ body[data-screen="results"] #replaySec {
   margin-top: 16px;
   padding-top: 8px;
   color: #91a283;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .privacy-details p {
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.9;
 }
 body:has(#aboutDialog[open]) {
@@ -1679,26 +1679,26 @@ body[data-screen="results"] #scoreArc {
     top: 235px;
   }
   .home-copy h1 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
   .home-copy p {
-    font-size: 10px;
+    font-size: 0.625rem;
   }
   .home .brand span {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
   .benefits strong {
-    font-size: 11px;
+    font-size: 0.6875rem;
   }
   .benefits small {
-    font-size: 9px;
+    font-size: 0.5625rem;
   }
 
   .onboard-body {
     padding: 18px 16px;
   }
   .onboard-step h1 {
-    font-size: 29px;
+    font-size: 1.8125rem;
   }
   .onboard-footer {
     padding-inline: 16px;
@@ -1711,10 +1711,10 @@ body[data-screen="results"] #scoreArc {
     gap: 11px;
   }
   .goal-card strong {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .goal-card small {
-    font-size: 10px;
+    font-size: 0.625rem;
   }
   .result-metrics > article {
     padding-right: 41px;
@@ -1742,7 +1742,7 @@ body[data-screen="results"] #scoreArc {
     bottom: 190px;
   }
   .welcome-copy h1 {
-    font-size: 36px;
+    font-size: 2.25rem;
   }
   .welcome-photo {
     top: 60px;
@@ -1780,7 +1780,7 @@ body[data-screen="results"] #scoreArc {
   }
 }
 .onboard-step.welcome h1 {
-  font-size: 43px;
+  font-size: 2.6875rem;
   line-height: 1.1;
   margin: 0;
   font-weight: 600;
@@ -1789,7 +1789,7 @@ body[data-screen="results"] #scoreArc {
   background: transparent;
   border: 0;
   font-family: inherit;
-  font-size: 12px;
+  font-size: 0.75rem;
   cursor: pointer;
 }
 .welcome-copy .eyebrow {
@@ -1797,12 +1797,12 @@ body[data-screen="results"] #scoreArc {
 }
 @media (max-width: 350px) {
   .onboard-step.welcome h1 {
-    font-size: 38px;
+    font-size: 2.375rem;
   }
 }
 @media (max-height: 740px) {
   .onboard-step.welcome h1 {
-    font-size: 36px;
+    font-size: 2.25rem;
   }
 }
 
@@ -1822,7 +1822,7 @@ body[data-screen="results"] #scoreArc {
   text-align: start;
 }
 .handstand-insights > h3 {
-  font-size: 16px;
+  font-size: 1rem;
   margin: 0 0 12px;
 }
 .temporal-grid {
@@ -1840,14 +1840,14 @@ body[data-screen="results"] #scoreArc {
 .temporal-grid small {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .temporal-grid strong {
   display: block;
   margin-top: 6px;
   color: var(--lime);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.6;
 }
 

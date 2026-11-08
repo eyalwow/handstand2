@@ -388,7 +388,7 @@ progress::-webkit-progress-value {
   color: #101713;
   line-height: 18px;
   text-align: center;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .analysis-steps [data-state="active"] {
   color: var(--white);

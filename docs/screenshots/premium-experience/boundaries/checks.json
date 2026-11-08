@@ -1,0 +1,50 @@
+{
+  "legacyHistoryFixtures": {
+    "summary": true,
+    "sameModelComparison": true,
+    "reload": true,
+    "corruptPreserved": true,
+    "writesByApp": false,
+    "data": "test-only fixtures, not inference; no screenshots"
+  },
+  "safeArea": "CSS simulation: 47px top, 34px bottom; layout passed, not a physical iPhone",
+  "experimentalFrontLever": {
+    "consentRequired": true,
+    "negativeRealMotion": true,
+    "gradeInvented": false,
+    "historyCreated": false,
+    "timing": {
+      "kind": "video-analysis",
+      "outcome": "unreliable",
+      "capturePath": "fixed-sequential-seek",
+      "stage": "scan",
+      "decodeMs": 27,
+      "modelMs": 2893.5,
+      "poseDelegate": "CPU",
+      "execution": "worker",
+      "scanMs": 3365.6,
+      "poseMs": 1650.6,
+      "poseRoundTripMs": 1676.1,
+      "workerOverheadMs": 25.5,
+      "frameExtractionMs": 2.3,
+      "samplingWaitMs": 1687.2,
+      "poseFrames": 42,
+      "scoringMs": 1.8,
+      "totalMs": 6342.3
+    }
+  },
+  "blankClip": "no-pose, readable retry, no score/history",
+  "trainingDataPreserved": true,
+  "scoredReportLayoutFixture": {
+    "widths": [
+      320,
+      390,
+      1440
+    ],
+    "summaryVisibleAndReplayReachable": true,
+    "overflow": false,
+    "historyWritten": false,
+    "data": "Explicit UI fixture only, not live inference; no screenshots"
+  },
+  "pageErrors": []
+}

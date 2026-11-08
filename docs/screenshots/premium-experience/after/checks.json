@@ -1,0 +1,303 @@
+{
+  "browser": "chromium",
+  "url": "http://127.0.0.1:38601/",
+  "baseline": false,
+  "viewports": [
+    {
+      "width": 320,
+      "screens": [
+        "welcome",
+        "home",
+        "settings",
+        "catalog",
+        "search-empty",
+        "variations",
+        "assistance",
+        "experimental-guide",
+        "experimental-upload",
+        "unavailable",
+        "guide",
+        "upload",
+        "error",
+        "history-empty",
+        "video-review",
+        "cancelled",
+        "processing",
+        "results",
+        "results-text-200",
+        "player",
+        "player-text-200",
+        "player-angles",
+        "player-expanded",
+        "history",
+        "saved-summary",
+        "no-pose",
+        "text-200",
+        "catalog-text-200",
+        "reduced-motion"
+      ],
+      "scroll": [
+        {
+          "samples": 84,
+          "callbackFps": 60,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.700000000000273,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "home",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 84,
+          "callbackFps": 59.995714591814895,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999272,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "catalog",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 83,
+          "callbackFps": 60.00760578328722,
+          "medianFrameMs": 16.69999999999891,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "variations",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 84,
+          "callbackFps": 60.00677219286174,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "results",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 84,
+          "callbackFps": 60.00325731968311,
+          "medianFrameMs": 16.69999999999709,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "player",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 95,
+          "callbackFps": 60.001263184488124,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "player-playing",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 84,
+          "callbackFps": 60.00471465615158,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "history",
+          "input": "Playwright wheel"
+        }
+      ],
+      "errors": [],
+      "posts": [],
+      "outcome": "scored",
+      "score": "58",
+      "timing": {
+        "kind": "video-analysis",
+        "outcome": "scored",
+        "capturePath": "fixed-sequential-seek",
+        "stage": "render",
+        "decodeMs": 32.1,
+        "modelMs": 2709.3,
+        "poseDelegate": "CPU",
+        "execution": "worker",
+        "scanMs": 3602.1,
+        "poseMs": 1645.8,
+        "poseRoundTripMs": 1669.3,
+        "workerOverheadMs": 23.5,
+        "frameExtractionMs": 2.1,
+        "samplingWaitMs": 1930.7,
+        "poseFrames": 42,
+        "scoringMs": 9.6,
+        "renderMs": 36.5,
+        "totalMs": 6420.9
+      },
+      "playerSize": {
+        "normal": {
+          "width": 296,
+          "height": 222
+        },
+        "expanded": {
+          "width": 304,
+          "height": 228
+        }
+      }
+    },
+    {
+      "width": 390,
+      "screens": [
+        "welcome",
+        "home",
+        "settings",
+        "catalog",
+        "search-empty",
+        "variations",
+        "assistance",
+        "experimental-guide",
+        "experimental-upload",
+        "unavailable",
+        "guide",
+        "upload",
+        "error",
+        "history-empty",
+        "video-review",
+        "cancelled",
+        "processing",
+        "results",
+        "results-text-200",
+        "player",
+        "player-text-200",
+        "player-angles",
+        "player-expanded",
+        "history",
+        "saved-summary",
+        "no-pose",
+        "text-200",
+        "catalog-text-200",
+        "reduced-motion"
+      ],
+      "scroll": [
+        {
+          "samples": 85,
+          "callbackFps": 59.99858826851133,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.700000000000273,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "home",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 87,
+          "callbackFps": 60.0041382164287,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999272,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "catalog",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 84,
+          "callbackFps": 59.297912713472485,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.800000000000182,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "variations",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 85,
+          "callbackFps": 60.00426383239457,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "results",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 88,
+          "callbackFps": 58.02797212019696,
+          "medianFrameMs": 16.69999999999709,
+          "p95FrameMs": 16.799999999999272,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "player",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 96,
+          "callbackFps": 60.003750234389734,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "player-playing",
+          "input": "Playwright wheel"
+        },
+        {
+          "samples": 84,
+          "callbackFps": 60.006000600059984,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "longTasksSupported": true,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "history",
+          "input": "Playwright wheel"
+        }
+      ],
+      "errors": [],
+      "posts": [],
+      "outcome": "scored",
+      "score": "58",
+      "timing": {
+        "kind": "video-analysis",
+        "outcome": "scored",
+        "capturePath": "fixed-sequential-seek",
+        "stage": "render",
+        "decodeMs": 37.7,
+        "modelMs": 1978.6,
+        "poseDelegate": "CPU",
+        "execution": "worker",
+        "scanMs": 3665.3,
+        "poseMs": 1715.4,
+        "poseRoundTripMs": 1736.6,
+        "workerOverheadMs": 21.2,
+        "frameExtractionMs": 2.4,
+        "samplingWaitMs": 1926.3,
+        "poseFrames": 42,
+        "scoringMs": 7.6,
+        "renderMs": 42,
+        "totalMs": 5776.9
+      },
+      "playerSize": {
+        "normal": {
+          "width": 366,
+          "height": 274.5
+        },
+        "expanded": {
+          "width": 374,
+          "height": 280.5
+        }
+      }
+    }
+  ],
+  "method": "rAF callback cadence during Playwright wheel scrolling; not physical display FPS or iPhone certification",
+  "seededAnalysisData": false
+}

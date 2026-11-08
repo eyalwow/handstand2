@@ -53,7 +53,8 @@ with sync_playwright() as p:
  page.locator('#file').set_input_files(str(cache/'no-pose.mp4'));page.wait_for_function("!document.getElementById('startReviewedAnalysis').disabled");page.locator('#startReviewedAnalysis').click()
  page.wait_for_function('qaTimings.length>1',timeout=90000)
  assert page.evaluate('qaTimings.at(-1).outcome')=='no-pose';assert page.locator('#holdSec').is_hidden()
- assert 'לזהות גוף' in page.locator('#status').inner_text();page.screenshot(path=str(args.out/'no-pose-390.png'))
+ assert 'לזהות גוף' in page.locator('#uploadReviewStatus').inner_text()
+ assert page.locator('#replaceUpload').is_visible();page.screenshot(path=str(args.out/'no-pose-390.png'))
  assert page.evaluate("localStorage.getItem('handstand-lab-active-workout-v1')")=='preserve-training'
  report['blankClip']='no-pose, readable retry, no score/history';report['trainingDataPreserved']=True
  # An explicit test-only DOM fixture covers the reliable-report layout branch.

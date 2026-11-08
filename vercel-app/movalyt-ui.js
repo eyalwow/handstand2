@@ -1,4 +1,4 @@
-import './upload-review.js';
+import {finishUploadReview} from './upload-review.js';
 import './history-report.js';
 import {createAnalysisLibrary} from "./analysis-library-ui.js";
 import { drawPoseOverlay, smoothLivePose } from "./pose-overlay.js";
@@ -44,6 +44,7 @@ const onboarding = createOnboarding({
   },
 });
 function activate(screen) {
+  const changed=document.body.dataset.screen!==screen;
   document.body.dataset.screen = screen;
   for (const [id, key] of [
     ["homeView", "home"],
@@ -72,6 +73,10 @@ function activate(screen) {
   for (const id of ["navHome", "navHistory", "navAnalyze"]) {
     if (id === active) $(id).setAttribute("aria-current", "page");
     else $(id).removeAttribute("aria-current");
+  }
+  if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const view=document.querySelector('main > section:not([hidden])');
+    view?.animate([{opacity:.85},{opacity:1}],{duration:140,easing:'ease-out'});
   }
 }
 function route() {
@@ -135,6 +140,9 @@ function route() {
   );
   $("reportLink").hidden = !scored;
   activate(screen);
+  // Keep reliability warnings visible even when an ungraded result hides coaching.
+  if(screen==='results')document.querySelector('.report-focus').after($('measurementNotice'));
+  else $('out').insertBefore($('measurementNotice'),$('coachPanel'));
   library?.render(screen);
   $("analyzer-title").textContent =
     screen === "results"
@@ -258,6 +266,13 @@ window.addEventListener("resize", viewportChanged);
 document.addEventListener("focusin", viewportChanged);
 document.addEventListener("focusout", viewportChanged);
 viewportChanged();
+// Reserve the navigation's actual height, including larger text and safe areas.
+// ResizeObserver runs only when the bar changes size, never on document scroll.
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(entries=>{
+  const box=entries[0].borderBoxSize;
+  const height=box?.[0]?.blockSize||entries[0].target.getBoundingClientRect().height;
+  if(height>0)document.documentElement.style.setProperty('--nav',`${height}px`);
+}).observe(document.querySelector('.app-nav'));
 function playState() {
   const playing = !$("v").paused;
   $("play").dataset.playing = String(playing);
@@ -266,18 +281,32 @@ function playState() {
 $("v").addEventListener("play", playState);
 $("v").addEventListener("pause", playState);
 playState();
+let playerScroll=0;
 function setExpanded(expanded) {
+  const wasExpanded=document.body.dataset.expanded==='true';
+  if(wasExpanded===expanded)return;
+  if(expanded)playerScroll=window.scrollY;
   document.body.dataset.expanded = String(expanded);
   $("expandPlayer").setAttribute("aria-expanded", String(expanded));
   $("expandPlayer").setAttribute(
     "aria-label",
     expanded ? "סגירת התצוגה המוגדלת" : "הגדלת הסרטון",
   );
+  // Keep the background and the media canvas in place; never move/recreate video.
+  for(const child of document.querySelectorAll('#out > :not(#replaySec)'))child.inert=expanded;
+  $('replaySec').setAttribute('aria-label',expanded?'נגן מוגדל':'נגן וידאו');
+  if(!expanded){window.scrollTo({top:playerScroll,behavior:'instant'});$('expandPlayer').focus({preventScroll:true});}
 }
 $("expandPlayer").onclick = () =>
   setExpanded(document.body.dataset.expanded !== "true");
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") setExpanded(false);
+  if(event.key==='Tab'&&document.body.dataset.expanded==='true'){
+    const controls=[...$('replaySec').querySelectorAll('a[href],button,input,summary')].filter(n=>n.getClientRects().length&&!n.disabled);
+    const first=controls[0],last=controls.at(-1);
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+  }
 });
 renderOnboardingPose();
 export function drawPose(ctx, landmarks, width, height) {
@@ -494,6 +523,7 @@ export const analysisUI = {
     available = ["scored", "unreliable"].includes(outcome);
     scored = outcome === "scored";
     $("analysisStage").hidden = true;
+    finishUploadReview(outcome);
     location.hash =
       pendingRoute || (available ? (scored ? "results" : "replay") : "analyze");
     pendingRoute = null;
@@ -509,8 +539,10 @@ function historyChart() {
     entries = readAnalysisHistory(localStorage).slice().reverse();
   } catch {
     host.textContent = "הגרף אינו זמין. הנתונים השמורים לא שונו.";
+    delete document.body.dataset.historyCount;
     return;
   }
+  document.body.dataset.historyCount=String(entries.length);
   if (!entries.length) {
     const icon=document.createElement('span');
     icon.className='icon history-empty-icon';icon.setAttribute('aria-hidden','true');
@@ -518,6 +550,11 @@ function historyChart() {
     const hint=document.createElement('p');hint.textContent='נתח סרטון כדי להתחיל לבנות את ההיסטוריה שלך.';
     host.append(icon,title,hint);
     return;
+  }
+  if(entries.length===1){
+    const title=document.createElement('h2');title.textContent='המדידה הראשונה שלך';
+    const hint=document.createElement('p');hint.textContent='אחרי ניסיון נוסף מאותו סוג ניתוח אפשר יהיה לראות את השינוי לאורך זמן.';
+    host.append(title,hint);return;
   }
   // Never connect incompatible scoring models into one trend.
   const latest = entries.at(-1).model;
