@@ -1,3 +1,4 @@
+import {handstandCaptureConfirmed} from "./upload-review.js";
 import {buildIntelligentCoaching} from "./handstand-coaching.js";
 import {holdBoundaryNote,renderHandstandInsights} from "./handstand-insights-ui.js";
 import {smoothDisplayTrack,poseAtTime,drawPoseOverlay} from "./pose-overlay.js";
@@ -68,7 +69,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
  const file=e.target.files[0];if(!file)return;
  const exerciseId=selectedExerciseId();
  const sideViewConfirmed=$('frontLeverSideView').checked;
- const scoreSetupConfirmed=exerciseId==='handstand'&&$('handstandScoreSetup').checked;
+ const scoreSetupConfirmed=exerciseId==='handstand'&&handstandCaptureConfirmed();
  const timingOnly=$('handstandTimingOnly');
  timingOnly.hidden=true;
  timingOnly.textContent='';
@@ -174,7 +175,7 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
      :"לא נמדדה החזקה בביטחון.";
     timingOnly.textContent=scoreSetupConfirmed
      ?timingText+" לא ניתן להציג מדד טכניקה בביטחון."
-     :timingText+" מדד הטכניקה לא מוצג ללא אישור של צילום צד ועמידה ללא תמיכה.";
+     :timingText+" מדד הטכניקה לא מוצג בלי תשובות שמאשרות צילום ישירות מהצד, מסגור של כל הגוף ועמידה ללא תמיכה.";
     timingOnly.hidden=false;
    }
    await replay(fr,v,w,h,res?.k||K[sideOf(fr)],null,fps,res?.mid??seen[seen.length>>1],null,poseTimes);
