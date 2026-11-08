@@ -1,0 +1,139 @@
+{
+  "browser": "webkit",
+  "url": "http://127.0.0.1:34297/",
+  "baseline": false,
+  "viewports": [
+    {
+      "width": 320,
+      "screens": [
+        "welcome",
+        "home",
+        "settings",
+        "catalog",
+        "search-empty",
+        "variations",
+        "assistance",
+        "experimental-guide",
+        "experimental-upload",
+        "unavailable",
+        "guide",
+        "upload",
+        "error",
+        "history-empty",
+        "video-review",
+        "cancelled",
+        "processing",
+        "webkit-inference-limit",
+        "text-200",
+        "catalog-text-200",
+        "reduced-motion"
+      ],
+      "scroll": [
+        {
+          "samples": 76,
+          "callbackFps": 61.83889340927583,
+          "medianFrameMs": 16,
+          "p95FrameMs": 17,
+          "longTasksSupported": false,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "home",
+          "input": "programmatic scrollBy (mobile WebKit wheel unavailable)"
+        },
+        {
+          "samples": 76,
+          "callbackFps": 61.939690301548495,
+          "medianFrameMs": 16,
+          "p95FrameMs": 17,
+          "longTasksSupported": false,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "catalog",
+          "input": "programmatic scrollBy (mobile WebKit wheel unavailable)"
+        },
+        {
+          "samples": 75,
+          "callbackFps": 61.72839506172839,
+          "medianFrameMs": 16,
+          "p95FrameMs": 17,
+          "longTasksSupported": false,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "variations",
+          "input": "programmatic scrollBy (mobile WebKit wheel unavailable)"
+        }
+      ],
+      "errors": [],
+      "posts": [],
+      "outcome": "error",
+      "inferenceLimit": "לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."
+    },
+    {
+      "width": 390,
+      "screens": [
+        "welcome",
+        "home",
+        "settings",
+        "catalog",
+        "search-empty",
+        "variations",
+        "assistance",
+        "experimental-guide",
+        "experimental-upload",
+        "unavailable",
+        "guide",
+        "upload",
+        "error",
+        "history-empty",
+        "video-review",
+        "cancelled",
+        "processing",
+        "webkit-inference-limit",
+        "text-200",
+        "catalog-text-200",
+        "reduced-motion"
+      ],
+      "scroll": [
+        {
+          "samples": 75,
+          "callbackFps": 61.224489795918366,
+          "medianFrameMs": 16,
+          "p95FrameMs": 17,
+          "longTasksSupported": false,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "home",
+          "input": "programmatic scrollBy (mobile WebKit wheel unavailable)"
+        },
+        {
+          "samples": 76,
+          "callbackFps": 62.091503267973856,
+          "medianFrameMs": 16,
+          "p95FrameMs": 17,
+          "longTasksSupported": false,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "catalog",
+          "input": "programmatic scrollBy (mobile WebKit wheel unavailable)"
+        },
+        {
+          "samples": 76,
+          "callbackFps": 61.83889340927583,
+          "medianFrameMs": 16,
+          "p95FrameMs": 17,
+          "longTasksSupported": false,
+          "longTasks": [],
+          "overflow": false,
+          "screen": "variations",
+          "input": "programmatic scrollBy (mobile WebKit wheel unavailable)"
+        }
+      ],
+      "errors": [],
+      "posts": [],
+      "outcome": "error",
+      "inferenceLimit": "לא הצלחנו לנתח את הסרטון. בדקו שהוא מתנגן במכשיר, שהחיבור לרשת פעיל, ונסו שוב."
+    }
+  ],
+  "method": "rAF callback cadence during Playwright wheel scrolling; not physical display FPS or iPhone certification",
+  "seededAnalysisData": false
+}

@@ -71,6 +71,8 @@ export function analysisMediaFigure(id, {motion=false}={}) {
     const img=document.createElement('img');
     img.addEventListener('error', showPlaceholder, {once:true});
     Object.assign(img,{alt:media.alt,loading:'lazy',decoding:'async',src:media.image});
+    // Reserve the figure's fitted box before decoding; never crop a pose.
+    img.width=640;img.height=640;
     figure.append(img);
   }
   return figure;

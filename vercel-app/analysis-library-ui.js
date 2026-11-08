@@ -48,7 +48,12 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     if(sort==='name')matches.sort((a,b)=>a.name.localeCompare(b.name,'he'));
     else if(sort==='available')matches.sort((a,b)=>Number(analysisAvailability(b.id).status!=='unavailable')-Number(analysisAvailability(a.id).status!=='unavailable'));
     else matches.sort((a,b)=>(order.indexOf(a.id)<0?99:order.indexOf(a.id))-(order.indexOf(b.id)<0?99:order.indexOf(b.id)));
-    $('catalogGrid').replaceChildren(...matches.map(x=>card(x)));
+    const groups=[['active','ניתוח זמין'],['experimental','בדיקה ניסיונית · ללא ציון'],['unavailable','ספריית תרגילים · הנחיות צילום']];
+    $('catalogGrid').replaceChildren();
+    for(const [status,title] of groups){
+      const items=matches.filter(x=>analysisAvailability(x.id).status===status);
+      if(items.length)$('catalogGrid').append(node('h2',title,'catalog-group-title'),...items.map(x=>card(x)));
+    }
     $('catalogCount').textContent=`${catalogCountLabel(matches.length)} · ${ANALYSIS_CATALOG.length} אפשרויות`;
     $('catalogEmpty').hidden=matches.length>0;
   }
@@ -57,7 +62,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     if(!all.length){location.hash='guide';return;}
     const base=exerciseById(family);
     $('variations-title').textContent=base.name;
-    const hero=$('familyHero');hero.replaceChildren(presentationArtwork(family),node('h2',base.name),node('p',base.english,'exercise-english'),node('p',analysisAvailability(family).status==='experimental'?'ניסיוני · ללא ציון':availabilityLabel(base),'family-availability'));
+    const hero=$('familyHero');hero.replaceChildren(presentationArtwork(selected),node('h2',base.name),node('p',base.english,'exercise-english'),node('p',analysisAvailability(selected).status==='experimental'?'בדיקה ניסיונית · ללא ציון':availabilityLabel(exerciseById(selected)),'family-availability'));
     hero.dataset.availability=analysisAvailability(family).status;
     const english=hero.querySelector('.exercise-english');english.dir='ltr';
     $('assistanceOptions').hidden=!all.some(x=>x.assistance==='band');
@@ -94,7 +99,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     if(x.experimental){try{const h=readVariationHistory(localStorage,x.id);$('guideHistory').textContent=h.length?`${h.length} מדידות ניסיוניות בווריאציה זו. המדידה האחרונה: ${h[0].hold.seconds.toFixed(1)} שנ׳ — חלון אפשרי, ללא ציון.`:'אין עדיין מדידות לווריאציה זו.';}catch{$('guideHistory').textContent='קריאת ההיסטוריה אינה זמינה. הנתונים לא שונו.';}}
     else if(x.id!=='handstand')$('guideHistory').textContent='אין עדיין מדידות ניתוח לבחירה הזו. מדידות יופיעו כאן כשיהיה ניתוח זמין.';
     $('guideHistoryLink').hidden=x.id!=='handstand'&&!x.experimental;
-    $('guideHistoryLink').onclick=()=>{if(x.experimental){$('variationHistoryFilter').value=x.id;$('variationHistoryFilter').dispatchEvent(new Event('change'));}};
+    $('guideHistoryLink').onclick=()=>{if(x.experimental){document.querySelector('.experimental-history').open=true;$('variationHistoryFilter').value=x.id;$('variationHistoryFilter').dispatchEvent(new Event('change'));}};
     button.onclick=()=>{if(config&&!isBusy()){onAnalyze(x.id);location.hash='analyze';}};
   }
   $('librarySearch').addEventListener('input',renderCatalog);$('libraryFilter').addEventListener('change',renderCatalog);$('librarySort').addEventListener('change',renderCatalog);
@@ -102,6 +107,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
     assistance=b.dataset.assistance;
     const old=exerciseById(selected),next=variationsFor(family).find(x=>x.assistance===assistance&&x.baseVariation===old.baseVariation);
     if(next)choose(next.id);renderVariations();
+    $('assistanceOptions').querySelector(`[data-assistance="${assistance}"]`)?.focus({preventScroll:true});
   };
   const actionbar=$('variationActionbar');
   if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>{
