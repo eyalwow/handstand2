@@ -9,6 +9,9 @@ import {reportAnalysisTiming} from "./analysis-performance.js";
 import {PoseRuntime,analysisTimeoutMs,sampleTimes,loadVideo,seekVideoFrame,scanVideoFrames} from "./analysis-pipeline.js";
 import {selectedExerciseId} from './analysis-selection.js';
 import {measureHandstand,HANDSTAND_MEASUREMENT_VERSION} from './handstand-measurement.js';
+import {connectsObservedInversion} from "./handstand-entry.js";
+import {extractTemporalSamples,TEMPORAL_POLICY} from "./handstand-temporal.js";
+import {HANDSTAND_METRICS} from "./analysis-catalog.js";
 import {scanHandstandFrames} from './handstand-sampling.js';
 import {analyzeFrontLever} from './front-lever-analysis.js';
 import {renderFrontLever,persistFrontLever} from './front-lever-ui.js';
@@ -16,7 +19,7 @@ const $=id=>document.getElementById(id);
 setupCoach();
 let stopReplay=()=>{};
 const K={L:{ear:7,shoulder:11,elbow:13,wrist:15,hip:23,ankle:27},R:{ear:8,shoulder:12,elbow:14,wrist:16,hip:24,ankle:28}};
-const NAME={banana:"קו הגוף",lean:"איזון",shoulder:"כתפיים",elbow:"ידיים",sway:"יציבות"};
+const NAME=Object.fromEntries(HANDSTAND_METRICS.map(({key,label})=>[key,label]));
 const TIP={
  arch:"האגן בורח קדימה מעבר לקו (גב מקושת). כווץ ישבן, הכנס צלעות פנימה והחזר את האגן מעל הכתפיים.",
  back:"האגן נשאר מאחורי הקו. הבא את האגן קדימה מעל הכתפיים וכווץ ישבן.",
@@ -134,12 +137,19 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
   const {hold:res,timing:holdTiming}=measurement;
   const legacyEntryTrace={};
   const entryFrames=scoreSetupConfirmed?observedEntryWindow(fr,fps,res,legacyEntryTrace):null;
-  const ent=entryFrames?analyzeEntry(entryFrames,fps):null;
+  const linkedEntry=!entryFrames||!res||connectsObservedInversion(
+   extractTemporalSamples(fr,poseTimes,{width:w,height:h}),legacyEntryTrace.endFrame-2,
+   measurement.timeline.hold.startFrame,TEMPORAL_POLICY.maxGapSeconds);
+  if(!linkedEntry)legacyEntryTrace.reason="ascent-not-linked-to-selected-hold";
+  const ent=entryFrames&&linkedEntry?analyzeEntry(entryFrames,fps):null;
   if(ent && ent.arch===null) ent.total=(ent.sc.reach*.4+ent.sc.shoulder*.2+ent.sc.elbow*.15)/.75;
   const rawOverall=scoreSetupConfirmed?overallHandstandScore(res,ent):null;
   const overall=rawOverall===null?null:Math.max(1,rawOverall);
   const timeline=measurement.timeline;
-  if(timeline.ascent)timeline.ascent={...timeline.ascent,score:Number.isFinite(ent?.total)?ent.total:null};
+  if(ent)timeline.ascent={
+   start:poseTimes[legacyEntryTrace.scoringStartFrame],end:poseTimes[legacyEntryTrace.endFrame],
+   verticalStart:poseTimes[legacyEntryTrace.endFrame-2],score:ent.total,
+  };
   const reliable=overall!==null;
   // Local diagnostics only; no file bytes or poses leave the browser.
   window.dispatchEvent(new CustomEvent("movalyt:analysis-diagnostic",{detail:{measurementVersion:HANDSTAND_MEASUREMENT_VERSION,measurement:scoreSetupConfirmed?measurement.diagnostics:{reason:measurement.diagnostics.reason},scoreSetupConfirmed,holdTiming,skippedFinalDuplicate:sampled.skippedFinalDuplicate,input:{bytes:file.size,type:file.type,duration:v.duration},sampling:sampledTimes[0]?.clock||"fixed-sequential-v1",delegate:ready.delegate,execution:ready.execution,timestamps:sampledTimes,score:overall,legacyEntryTrace,timeline,hold:res?{start:res.diagnostics.startFrame,end:res.diagnostics.endFrame,seconds:res.hold,...(scoreSetupConfirmed?{metrics:res.val,scores:res.sc}:{})}:null,entry:ent?{total:ent.total,scores:ent.sc}:null}}));
@@ -156,9 +166,10 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
    await show(res,fr,v,w,h,overall,poseTimes);
    if(controller.signal.aborted)throw controller.signal.reason;
    showCoachFeedback(res,ent);
-   renderHandstandInsights(timeline,buildIntelligentCoaching(timeline,res,ent),holdTiming);
+   const feedbackTimeline=ent&&!holdTiming?{...timeline,hold:null,control:null,ending:null}:timeline;
+   renderHandstandInsights(feedbackTimeline,buildIntelligentCoaching(feedbackTimeline,res,ent),holdTiming);
    $("measurementNotice").hidden=false;
-    $("measurementNotice").textContent=(res&&ent?"הציון כולל את העלייה וההחזקה שנצפו. ":res?"הציון מתייחס להחזקה בלבד; העלייה לא נצפתה בביטחון. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"זהו מדד טכניקה ויציבות דו־ממדי ניסיוני, שטרם כויל מול דירוג מאמן. משך ההחזקה מוצג בנפרד ואינו מוסיף נקודות. אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
+    $("measurementNotice").textContent=(res&&ent?"הציון כולל את חלונות העלייה וההחזקה ששויכו לאותו ניסיון. ":res?"הציון מתייחס להחזקה בלבד; לא התקבל ציון עלייה לניסיון הזה. ":"הציון מתייחס לעלייה בלבד; לא נמדדה החזקה מספקת. ")+"זהו מדד דו־ממדי ניסיוני של טכניקה ותנודת אגן אופקית, שטרם כויל מול דירוג מאמן. משך ההחזקה מוצג בנפרד ואינו מוסיף נקודות. אין אפשרות לקבוע מהצילום אם הייתה תמיכת קיר.";
    timing.renderMs=performance.now()-renderStarted;timing.outcome="scored";
     if(res?.hold>=2){
     try{const key="handstand-lab-analyses-v1",old=JSON.parse(localStorage.getItem(key)||"[]");
@@ -193,14 +204,12 @@ for(const inputId of ["file","cameraFile"]) $(inputId).addEventListener("change"
 $("cancelAnalysis").addEventListener("click",()=>{if(activeAnalysis&&!activeAnalysis.signal.aborted){activeAnalysis.abort(new DOMException("הניתוח בוטל על ידי המשתמש.","AbortError"));poseRuntime?.terminate()}});
 $("retryAnalysis").addEventListener("click",()=>$("file").click());
 const f1=x=>String(Math.round(x*10)/10);
-function why(n,res){
- const score=Math.round(res.sc[n]),v=res.val;
- const level=score>=80?"נראה טוב בחלק שנמדד":score>=50?"כדאי לדייק":"דורש עבודה ממוקדת";
- if(n==="banana")return level+". "+(v.banana>0?"האגן בורח קדימה מקו הגוף והגב נראה מקושת.":"האגן נשאר מעט מאחורי קו הכתפיים והרגליים.")+" נסה לשמור על קו גוף אחיד.";
- if(n==="lean")return level+". הגוף נוטה מהקו האנכי של הידיים. כדאי לעבוד על שליטה במרכז הגוף.";
- if(n==="shoulder")return level+". הכתפיים נסגרות במידה מסוימת במקום להישאר פתוחות לאורך העמידה. דחוף גבוה דרך הכתפיים.";
- if(n==="elbow")return level+". המרפקים לא נשארים ישרים לחלוטין. התמקד ביישור ידיים ובדחיפה יציבה מהרצפה.";
- return level+". נמדדה תנועה של האגן במהלך ההחזקה. תרגל תיקוני איזון קטנים ומבוקרים.";
+function why(n){
+ if(n==="banana")return "נמדד היסט האגן מקו הכתף–קרסול בתמונה. ההיסט אינו מדידה של קשת הגב.";
+ if(n==="lean")return "נמדדה נטיית הקו מפרק כף היד לקרסול ביחס לאנך בתמונה.";
+ if(n==="shoulder")return "נמדדה זווית הכתף המוקרנת בצד שנמדד.";
+ if(n==="elbow")return "נמדדה זווית המרפק המוקרנת בצד שנמדד. המדד אינו מתאר את הזרוע השנייה.";
+ return "נמדדה תנודת האגן האופקית ביחס לפרק כף היד בתמונה. המדד אינו בודק הנמכה אנכית, כיפוף מרפקים או יציבות כוללת.";
 }
 const lab=s=>s>=80?"מצוין":s>=50?"בסדר":"דורש תרגול";
 function plain(n,res){const s=res.sc[n],g=s>=80,b=res.val.banana>0;
@@ -274,7 +283,7 @@ function drawScoreRadar(res,overall){
  svg.replaceChildren();detail.replaceChildren();
  // Hold metrics are measured separately from ascent. Never invent ascent metrics.
  const keys=res?["banana","lean","shoulder","elbow",...(res.swayOk?["sway"]:[])]:[];
- const vals=keys.map(key=>({key,label:NAME[key],score:Math.max(0,Math.min(100,res.sc[key])),description:why(key,res)}));
+ const vals=keys.map(key=>({key,label:NAME[key],score:Math.max(0,Math.min(100,res.sc[key])),description:why(key)}));
  if(!vals.length){
   svg.setAttribute("aria-label","אין מדדי החזקה זמינים לגרף");
   detail.textContent="הציון מבוסס על שלב העלייה בלבד; לא נמדדו מספיק נתונים לגרף מדדי ההחזקה.";
@@ -305,8 +314,8 @@ function drawScoreRadar(res,overall){
 async function show(res,fr,v,w,h,overall,poseTimes){
  $("score").textContent=overall;analysisUI.result(overall,res);
  $("hold").textContent=res
-  ?"מדדי החזקה ניסיוניים · טכניקה בלבד: "+Math.round(res.scoreDimensions.techniqueOnlyIndex)+"/100 · יציבות: "+Math.round(res.scoreDimensions.stabilityIndex)+"/100. משך ההחזקה אינו מוסיף נקודות."
-  :"לא נמדדה החזקה מספקת; לא מוצגים מדדי טכניקה ויציבות של ההחזקה.";
+  ?"מדדי החזקה ניסיוניים · טכניקה בלבד: "+Math.round(res.scoreDimensions.techniqueOnlyIndex)+"/100 · תנודת אגן אופקית: "+Math.round(res.scoreDimensions.stabilityIndex)+"/100. משך ההחזקה אינו מוסיף נקודות."
+  :"לא נמדדה החזקה מספקת; לא מוצגים מדדי טכניקה ותנודת אגן אופקית של ההחזקה.";
  $("holdDuration").hidden=!res;
  if(res)$("holdDuration").textContent="זמן החזקה מזוהה: "+(Math.round(res.hold*10)/10).toFixed(1)+" שניות (הערכה מתוך הדגימות)";
  drawScoreRadar(res,overall);
