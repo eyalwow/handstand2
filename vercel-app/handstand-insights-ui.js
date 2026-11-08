@@ -9,6 +9,14 @@ const evidenceText = (item) =>
   (Number.isFinite(item.start)
     ? `${item.start.toFixed(1)}–${item.end.toFixed(1)} שנ׳: `
     : "") + item.text;
+export function holdBoundaryNote({ start, end, startObserved, endObserved }) {
+  const range = `הדגימות שנכללו במדידה הן מ־${start.toFixed(1)} עד ${end.toFixed(1)} שנ׳ בסרטון.`;
+  if (!startObserved && !endObserved)
+    return `${range} תחילת ההחזקה וסופה לא נקבעו בביטחון.`;
+  if (!startObserved) return `${range} תחילת ההחזקה לא נקבעה בביטחון.`;
+  if (!endObserved) return `${range} סוף ההחזקה לא נקבע בביטחון.`;
+  return range;
+}
 let latest = null;
 export function resetHandstandInsights() {
   latest = null;
@@ -27,10 +35,10 @@ export function resetHandstandInsights() {
   $("playerInsights").hidden = true;
   $("reportTarget").hidden = true;
 }
-export function renderHandstandInsights(timeline, plan) {
-  latest = { timeline, plan };
+export function renderHandstandInsights(timeline, plan, holdTiming) {
+  latest = { timeline, plan, holdTiming };
   $("resultQuality").hidden = true;
-  const h = timeline.hold;
+  const h = holdTiming;
   $("holdDuration").hidden = false;
   const duration = $("holdDuration");
   duration.replaceChildren();
@@ -45,9 +53,7 @@ export function renderHandstandInsights(timeline, plan) {
       value,
       el(
         "small",
-        h.censored
-          ? "מקטע נצפה בלבד; ההחזקה המלאה אינה ידועה."
-          : "מתוך הסרטון שנותח.",
+        holdBoundaryNote(h),
         "duration-note",
       ),
     );
@@ -114,6 +120,6 @@ export function renderHandstandInsights(timeline, plan) {
 }
 $("revokeCloudConsent")?.addEventListener("click", () =>
   queueMicrotask(() => {
-    if (latest) renderHandstandInsights(latest.timeline, latest.plan);
+    if (latest) renderHandstandInsights(latest.timeline, latest.plan, latest.holdTiming);
   }),
 );
