@@ -85,6 +85,8 @@ export function renderHandstandInsights(timeline, plan, holdTiming) {
     drills.append(card);
   }
   $("reportTarget").hidden = !plan.target;
+  const practice = drills.closest?.(".report-practice");
+  if (practice) practice.hidden = !plan.drills.length;
   $("reportTargetText").textContent = plan.target?.text || "";
   const details = $("advancedEvidence");
   details.replaceChildren();
@@ -98,11 +100,11 @@ export function renderHandstandInsights(timeline, plan, holdTiming) {
       "p",
       timeline.ascent
         ? Number.isFinite(timeline.ascent.score)
-          ? "עלייה נצפתה. מדד הטכניקה של העלייה: " +
+          ? "בחלון העלייה ששויך לניסיון הזה חושב מדד של " +
             Math.round(timeline.ascent.score) +
             "/100."
-          : "עלייה נצפתה. לא חושב לה ציון טכניקה נפרד; הציון הכללי מבוסס על מדדי ההחזקה."
-        : "לא נצפה מעבר מלא מהכנה לעמידה בביטחון.",
+          : "זוהתה עלייה באותו ניסיון. היא לא נכללה בציון."
+        : "לא נמצאה עלייה שניתן לשייך בביטחון למקטע הזה.",
       "note",
     ),
   );
