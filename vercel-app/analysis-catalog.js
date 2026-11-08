@@ -70,7 +70,7 @@ export const ANALYSIS_CATALOG = Object.freeze([
       engineId: id === "handstand" ? "handstand-v3-fixed" : null,
       familyId: id,
       measurement: measurementFor(id),
-      criteria: id==='handstand'?['זמן החזקה נצפה, קו גוף, כתפיים, מרפקים ויציבות.', 'מדד הטכניקה הדו־ממדי אינו ציון מאמן מכויל.']:['קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח.'],
+      criteria: id==='handstand'?['זמן החזקה נצפה, קו גוף, זוויות בצד שנמדד ותנודת אגן אופקית.', 'מדד הטכניקה הדו־ממדי אינו ציון מאמן מכויל.']:['קריטריוני מדידה יוגדרו וייבדקו לפני הפעלת הניתוח.'],
       variation: id==='handstand'?'standard':null,
       difficulty: ['planche','front-lever','l-sit'].includes(id)?'לפי וריאציה':({ 'hollow-body':'מתחיל','arch-hold':'מתחיל','push-up':'בינוני','scapular-pull-up':'בינוני','ring-support':'מתקדם' }[id]||'מתקדם'),
       filming: id==='front-lever'?leverFilming:filming,
@@ -109,6 +109,6 @@ export const HANDSTAND_METRICS = Object.freeze([
   { key: "banana", label: "קו גוף" },
   { key: "shoulder", label: "כתפיים" },
   { key: "elbow", label: "מרפקים" },
-  { key: "lean", label: "איזון" },
-  { key: "sway", label: "יציבות" },
+  { key: "lean", label: "נטייה בתמונה" },
+  { key: "sway", label: "תנודת אגן אופקית" },
 ]);
