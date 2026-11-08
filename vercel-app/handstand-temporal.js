@@ -294,7 +294,7 @@ export function analyzeHandstandTimeline({
   const reach = reachRun
     ? { start: reachRun[0].t, end: reachRun.at(-1).t }
     : null;
-  const entryObservation = observeHandstandEntry(samples);
+  const entryObservation = observeHandstandEntry(samples, run?.[0].i, TEMPORAL_POLICY.maxGapSeconds);
   const ascent = entryObservation.ascent
     ? {
         ...entryObservation.ascent,
