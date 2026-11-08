@@ -6,6 +6,7 @@ import {seekVideoFrame} from './video-sampling.js';
 export async function scanHandstandFrames({video,times,capture,signal,onProgress=()=>{},timeoutMs=15000}) {
   video.pause();
   const frames=[],timestamps=[];
+  let skippedFinalDuplicate=false;
   const presented=typeof video.requestVideoFrameCallback==='function';
   const oldStyle=video.getAttribute?.('style');
   // The app's video is display:none. A tiny compositor surface permits paused
@@ -31,13 +32,21 @@ export async function scanHandstandFrames({video,times,capture,signal,onProgress
           video.cancelVideoFrameCallback(callback);
         }
       } else actual=await seekVideoFrame(video,times[i],signal,timeoutMs);
-      if(!Number.isFinite(actual)||actual<0||(i&&actual<=timestamps.at(-1).actual))
+      const previous=timestamps.at(-1)?.actual;
+      // A final seek can legitimately present the same decoded source frame.
+      // Keep prior evidence without counting or re-inferring the duplicate.
+      if(presented && i===times.length-1 && timestamps.length>=2 && actual===previous) {
+        skippedFinalDuplicate=true;
+        onProgress(1);
+        break;
+      }
+      if(!Number.isFinite(actual)||actual<0||(i&&actual<=previous))
         throw Object.assign(new Error('Video source frames did not advance.'),{code:'video-decode'});
       frames.push(await capture(actual*1000));
       timestamps.push({requested:times[i],actual,clock:presented?'presented-frame':'seek-clock'});
       onProgress((i+1)/times.length);
     }
-    return {frames,timestamps};
+    return {frames,timestamps,skippedFinalDuplicate};
   } finally {
     if(presented&&video.setAttribute) {
       if(oldStyle===null)video.removeAttribute('style');else video.setAttribute('style',oldStyle);
