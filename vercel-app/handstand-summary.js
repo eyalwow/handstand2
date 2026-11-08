@@ -9,12 +9,12 @@ export function overallHandstandScore(hold,entry) {
 export function bestMeasuredStrength(hold,entry) {
   const candidates=[];
   if(hold) for(const [key,label] of Object.entries({
-    banana:"קו הגוף נשמר ישר בחלק שנמדד.",shoulder:"הכתפיים נשארו פתוחות בחלק שנמדד.",
-    elbow:"הזרועות נשארו ישרות בחלק שנמדד.",sway:"ההחזקה נראתה יציבה בחלק שנמדד."
+    banana:"הסטייה של האגן מקו הגוף בתמונה הייתה קטנה במקטע שנמדד.",shoulder:"בצד שנמדד, זווית הכתף המוקרנת הייתה קרובה לקו ישר.",
+    elbow:"בצד שנמדד, זווית המרפק המוקרנת הייתה קרובה ליישור. לא נבדקו שתי הזרועות.",sway:"תנודת האגן האופקית בתמונה הייתה קטנה במקטע שנמדד."
   })) if((key!=="sway"||hold.swayOk)&&Number.isFinite(hold.sc[key])&&hold.sc[key]>=80) candidates.push({key:"hold_"+key,score:hold.sc[key],text:label});
   if(entry) for(const [key,label] of Object.entries({
-    reach:"העלייה הגיעה לקו האנכי.",shoulder:"הכתפיים נשארו פתוחות במהלך העלייה.",
-    elbow:"הזרועות נשארו ישרות במהלך העלייה."
+    reach:"בחלון העלייה שנמדד, קו היד והרגל התקרב לאנך בתמונה.",shoulder:"בצד שנמדד, זווית הכתף המוקרנת בעלייה הייתה קרובה לקו ישר.",
+    elbow:"בצד שנמדד, זווית המרפק המוקרנת בעלייה הייתה קרובה ליישור."
   })) if(Number.isFinite(entry.sc[key])&&entry.sc[key]>=80)candidates.push({key:"entry_"+key,score:entry.sc[key],text:label});
   return candidates.sort((a,b)=>b.score-a.score)[0]||null;
 }
@@ -39,6 +39,7 @@ export function observedEntryWindow(fr,fps,hold,trace={}) {
   if(end-start<Math.ceil(.5*fps))return reject("transition-too-short");
   // Include the last pre-entry half-second so coverage is not based on a single frame.
   start=Math.max(0,start-Math.round(.3*fps));
+  trace.scoringStartFrame=start;
   const segment=fr.slice(start,end+1),good=segment.filter(valid);
   trace.validSamples=good.length;trace.samples=segment.length;
   if(good.length<8||good.length/segment.length<.8)return reject("tracking-coverage");

@@ -86,7 +86,7 @@ function timeline(data, h = hold) {
   return analyzeHandstandTimeline({ ...data, hold: h, entry });
 }
 
-test("good ascent: short and long holds retain legacy score but produce different control/duration coaching", () => {
+test("short and long holds retain legacy scores without prescribing unsupported training targets", () => {
   const short = timeline(attempt(3)),
     long = timeline(attempt(20));
   assert.ok(short.ascent && short.reach);
@@ -94,18 +94,19 @@ test("good ascent: short and long holds retain legacy score but produce differen
   assert.ok(short.hold.endObserved && short.hold.startObserved);
   const a = buildIntelligentCoaching(short, hold, entry),
     b = buildIntelligentCoaching(long, { ...hold, hold: 20 }, entry);
-  assert.match(a.priority, /קצרה/);
-  assert.doesNotMatch(b.priority, /קצרה/);
-  assert.ok(a.target.seconds <= 5 && b.target.seconds >= 19);
+  assert.match(a.priority, /קצר/);
+  assert.doesNotMatch(b.priority, /קצר/);
+  assert.equal(a.target, null);
+  assert.equal(b.target, null);
   assert.notEqual(a.headline, b.headline);
-  assert.equal(a.drills.length, 2);
+  assert.deepEqual(a.drills, []);
   assert.ok(a.evidence.some((e) => Number.isFinite(e.start)));
   assert.equal(
     overallHandstandScore(hold, entry),
     overallHandstandScore({ ...hold, hold: 20 }, entry),
   );
 });
-test("good line with significant sway prioritizes control rather than generic praise", () => {
+test("projected movement prompts review without diagnosing balance", () => {
   const t = timeline(
     attempt(5, {
       movement: (i) => ({
@@ -116,7 +117,10 @@ test("good line with significant sway prioritizes control rather than generic pr
   );
   assert.equal(t.control.status, "variable");
   const plan = buildIntelligentCoaching(t, hold, entry);
-  assert.match(plan.priority, /שיווי המשקל/);
+  assert.match(plan.priority, /בתמונה/);
+  assert.doesNotMatch(plan.priority, /שיווי המשקל/);
+  assert.deepEqual(plan.drills, []);
+  assert.equal(plan.target, null);
   assert.doesNotMatch(plan.strength, /יציבה/);
 });
 test("arch findings use existing measurements and recommend line work", () => {
@@ -127,7 +131,7 @@ test("arch findings use existing measurements and recommend line work", () => {
   };
   const t = timeline(attempt(7, { movement: () => ({ hipX: 350 }) }), arch),
     plan = buildIntelligentCoaching(t, arch, entry);
-  assert.match(plan.priority, /קו הגוף/);
+  assert.match(plan.priority, /היסט|סטייה של האגן/);
   assert.match(plan.drills[0].name, /הולו/);
 });
 test("gradual descent is only compatible with control, never asserted intentional", () => {

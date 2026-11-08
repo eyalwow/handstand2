@@ -4,6 +4,7 @@ import {
   extractTemporalSamples,
   analyzeHandstandTimeline,
 } from "../vercel-app/handstand-temporal.js";
+import { connectsObservedInversion } from "../vercel-app/handstand-entry.js";
 import { observedEntryWindow } from "../vercel-app/handstand-summary.js";
 // Synthetic side-view regression: hip height can stay constant during a full entry.
 function frame(t, v = 1) {
@@ -86,4 +87,26 @@ test("entry observation does not mutate landmarks or add a score", () => {
     before = structuredClone(frames);
   analyze(frames);
   assert.deepEqual(frames, before);
+});
+
+test("the ascent of an earlier attempt is not attached to a later measured hold", () => {
+  const early = full();
+  const late = [...full(), ...Array.from({ length: 25 }, () => frame(1))];
+  const result = analyze([...early, ...late]);
+  assert.ok(result.hold.start > early.length / 10);
+  assert.ok(result.ascent.start >= early.length / 10);
+  const unobservedLateEntry = analyze([
+    ...early, ...Array.from({ length: 8 }, () => null),
+    ...Array.from({ length: 60 }, () => frame(1)),
+  ]);
+  assert.ok(unobservedLateEntry.hold.start > early.length / 10);
+  assert.equal(unobservedLateEntry.ascent, null);
+});
+
+test("the same-attempt link requires observed inversion without a source-time gap", () => {
+  const samples = [0, .1, .2].map(t => ({ t, inverted: true }));
+  assert.equal(connectsObservedInversion(samples, 0, 2, .2), true);
+  assert.equal(connectsObservedInversion([samples[0], null, samples[2]], 0, 2, .2), false);
+  assert.equal(connectsObservedInversion([samples[0], {t:.1,inverted:false}, samples[2]], 0, 2, .2), false);
+  assert.equal(connectsObservedInversion([samples[0], {t:.31,inverted:true}], 0, 1, .2), false);
 });

@@ -72,16 +72,16 @@ test('measurement, scoring, sampling, runtime and Coach source match the approve
  // PR #34 snapshot with the real-video sampler, timing and eligibility changes pinned below.
  // Scoring policy, temporal detection, runtime and Coach retain their original pins.
  const baseline={
-  "handstand-engine.js": "8fa6ed279f92d8f0a18a6f2a42851702acfa250d7c200defa1758aef217703c6",
+  "handstand-engine.js": "94c281f4c8c5b1e211260aef919071590828808267c3d9504fa8b6a85b58a3f7",
   "handstand-measurement.js": "1f66c8a7dff8cfbb9f5a639b8ac7091d576aaf170dd5bad1a5d6e3e5edda02b0",
-  "handstand-temporal.js": "1e58667adc5a011326805d602a570356f4def503eb399ce8bef64a0f5cf41706",
+  "handstand-temporal.js": "2ae69acac4123c0e6533401148776f783475616c33003f19dd1afbced6dd09c2",
   "handstand-score-policy.js": "14fffc29cd6207ce9146f4b309e72ad948d78fb7c905806b6339742988c7e499",
   "handstand-sampling.js": "d308b862aa82f08d72e8f9386ae76ff6d05a8fc8591882e4db9837b27be0a027",
   "video-sampling.js": "273fec540b48c8f1307f41882fdf5c018c17605b9e2f9ee2e440882a15d36ab9",
   "pose-runtime.js": "ee3ad8be5cf922a82c5ad12b312fb08ff108c7e3b600b1787f41ff04b12dea9c",
   "pose-main.js": "5a2316bc9f7a6dd9a680c768f58d8833dc440ed594b01c3f8a692ec8be340593",
   "pose-worker.js": "b611373de35f1bab566ecca24284e48d913da34056cf13f6f1001ea931c83d5c",
-  "handstand-coaching.js": "89c9e077b01203171ae93e8eb947e9a54b63b721d958c20c6ead9ca09194695f",
+  "handstand-coaching.js": "ddd6776d72e7c61dd3d0fcf98968823572534440f3956fc8d0ad54c924f13bc0",
   "server-gemini.js": "e0640dcebb26d5e7b248f925eb94643368629ae7380d84a9f6c76c440ee269bd",
   "ai-feedback.js": "27a3ea356a42635ad37cd7a7931c8c11e6e6290ed5952d5e5cb3a1c19b28cca3"
 };
