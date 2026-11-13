@@ -1,0 +1,25 @@
+# Local dependencies and caches (source/lockfiles remain tracked)
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local secrets and tool/deployment state; never ignore example env files
+.env
+.env.*
+!.env.example
+!.env.*.example
+.vercel/
+.DS_Store
+npm-debug.log*
+
+# Opt-in scratch/evidence destinations for future checks
+/.local/
+/.artifacts/
+/test-results/
+/playwright-report/
+/coverage/
+
+# Intentionally do not blanket-ignore videos, fixtures, docs/screenshots,
+# artwork, model manifests, lockfiles or native source. Mobile generated paths
+# are scoped in mobile/.gitignore. Keep private recordings outside the repo.
