@@ -22,7 +22,7 @@ const baseURL = process.env.BASE_URL || "http://127.0.0.1:4173";
   await page.goto(baseURL);
   const bytes = await page.evaluate(async () => {
     const image = new Image();
-    image.src = "assets/handstand-training.webp";
+    image.src = "tests/fixtures/handstand.webp";
     await image.decode();
     const canvas = document.createElement("canvas");
     canvas.width = 768;
@@ -98,6 +98,14 @@ const baseURL = process.env.BASE_URL || "http://127.0.0.1:4173";
       await page
         .locator("#holdSec")
         .screenshot({ path: path.join(output, "after-results-mobile.png") });
+      const chooserEvent = page.waitForEvent("filechooser");
+      await page.locator("#newAnalysis").click();
+      await chooserEvent;
+      if (!(await page.locator("#out").isVisible()))
+        throw Error("Cancelling new selection must preserve report");
+      console.log(
+        "PASS results workspace and new-video selection without losing current report",
+      );
       await browser.close();
       return;
     }

@@ -43,3 +43,28 @@
     file.dispatchEvent(new Event("change", { bubbles: true }));
   });
 })();
+
+// Switch from setup to the actual video/metrics workspace when the existing
+// analysis module reveals results. No scoring or pose logic is changed.
+(() => {
+  const out = document.getElementById("out");
+  const newAnalysis = document.getElementById("newAnalysis");
+  const state = document.getElementById("analysisState");
+  const sync = () => {
+    const ready = out.style.display === "block";
+    document.body.classList.toggle("has-results", ready);
+    newAnalysis.hidden = !ready;
+    state.textContent = ready ? "הניתוח הושלם" : "מוכנים לניתוח";
+  };
+  new MutationObserver(sync).observe(out, {
+    attributes: true,
+    attributeFilter: ["style"],
+  });
+  newAnalysis.addEventListener("click", () => {
+    // Keep the current report if the user cancels the native file picker.
+    document.getElementById("v").pause();
+    document.getElementById("file").value = "";
+    document.getElementById("file").click();
+  });
+  sync();
+})();

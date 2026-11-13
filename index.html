@@ -10,45 +10,40 @@
 <body>
 <a class="skip-link" href="#upload">דלג להעלאת סרטון</a>
 <header class="site-header">
- <a class="wordmark" href="./" aria-label="MOVALYT — דף הבית"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 25 11 7l5 11 5-11 8 18"/></svg><span dir="ltr">MOVALYT<span class="brand-dot">.</span></span></a>
- <nav aria-label="ניווט ראשי"><a class="active" href="#upload" aria-current="page">סטודיו לניתוח</a><a href="#guide">איך זה עובד</a></nav>
- <span class="header-note"><span></span> כל תנועה היא התקדמות</span>
+  <a class="wordmark" href="./" aria-label="MOVALYT — דף הבית"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m3 25 8-18 5 11 5-11 8 18"/></svg><span dir="ltr">MOVALYT</span></a>
+  <span class="header-divider" aria-hidden="true"></span><span class="product-name">ניתוח תנועה</span>
+  <span class="header-local"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg> הסרטון נשאר במכשיר שלך</span>
 </header>
 <main>
-<section class="intro" aria-labelledby="intro-title">
- <div class="intro-copy">
-  <span class="eyebrow"><span></span> לראות. להבין. להשתפר.</span>
-  <h1 id="intro-title">למצוא את האיזון.<br><em>לדייק את התנועה.</em></h1>
-  <p class="sub">הצעד הבא בעמידת הידיים שלך מתחיל כאן.<br>סרטון אחד, תמונה ברורה של הטכניקה שלך,<br class="desktop-break"> וכיוון מדויק לאימון הבא.</p>
-  <a class="primary-link" href="#upload">בואו ננתח את התנועה <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6v12h12"/></svg></a>
-  <div class="intro-proof"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg> הסרטון נשאר אצלך. הניתוח מתבצע במכשיר.</div>
- </div>
- <figure class="hero-visual">
-  <img src="assets/handstand-training.webp" width="1536" height="1024" alt="המחשה של מתאמנת בעמידת ידיים במבט מהצד בסטודיו מואר" fetchpriority="high">
-  <div class="visual-top"><span class="visual-label">HANDSTAND / TECHNIQUE STUDIO</span><span class="live-dot" aria-hidden="true"></span></div>
-  <div class="alignment" aria-hidden="true"><span></span><span></span><span></span></div>
-  <figcaption><span class="caption-icon" aria-hidden="true">⌁</span><div><b>כל הפרטים. תמונה אחת.</b><span>קו גוף · איזון · כתפיים · ידיים · יציבות</span></div><span class="image-tag">המחשה</span></figcaption>
- </figure>
-</section>
-<section class="workspace" id="upload" aria-labelledby="upload-title">
- <div class="section-heading"><div><span class="eyebrow">הסטודיו שלך</span><h2 id="upload-title">מוכנים לראות את התנועה אחרת?</h2></div><span class="session-label"><span></span> ניתוח חדש</span></div>
- <div class="workspace-grid">
-  <div class="upload-card" id="dropzone">
-   <div class="upload-card-top"><span class="small-label">01 / הסרטון שלך</span><span class="local-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> פרטי ומקומי</span></div>
-   <div class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></svg></div>
-   <h3>התנועה שלך, במרכז</h3><p class="upload-description">בחרו סרטון עמידת ידיים מהמכשיר<span class="drag-hint"> או גררו אותו לכאן</span></p>
-   <label class="pick"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M5 15v5h14v-5"/></svg><span>בחירת סרטון לניתוח</span><input id="file" type="file" accept="video/*" aria-label="בחירת סרטון עמידת ידיים לניתוח"></label>
-   <p class="file-hint">מומלץ 5 שניות ומעלה · גם סרטון עלייה קצר מתאים</p>
-   <div id="selectedFile" class="selected-file" hidden><span aria-hidden="true">✓</span><bdi id="fileName"></bdi></div>
-   <div id="status" role="status" aria-live="polite"></div><progress id="prog" value="0" max="1" aria-label="התקדמות ניתוח הסרטון"></progress>
+  <div class="page-heading">
+    <div class="intro-copy"><p class="eyebrow">טכניקה / עמידת ידיים</p><h1>עמידת ידיים<span>.</span></h1><p class="sub">העלו סרטון. קבלו ציון ותיקונים לאימון הבא.</p></div>
+    <button class="new-analysis" id="newAnalysis" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>סרטון חדש</button>
+    <span class="analysis-state" id="analysisState"><i aria-hidden="true"></i>מוכנים לניתוח</span>
   </div>
-  <aside class="guide" id="guide" aria-labelledby="guide-title"><span class="small-label">02 / רגע לפני שמתחילים</span><h3 id="guide-title">צילום טוב. ניתוח מדויק.</h3>
-   <ol class="guide-list"><li><span class="guide-number">01</span><div><b>מצלמים מהצד</b><p>כך אפשר לראות את קו הגוף ואת זוויות התנועה.</p></div></li><li><span class="guide-number">02</span><div><b>כל הגוף נכנס לפריים</b><p>מכפות הידיים ועד קצות האצבעות ברגליים, בלי חיתוכים.</p></div></li><li><span class="guide-number">03</span><div><b>מניחים את הטלפון על הרצפה</b><p>במרחק של <bdi>2–3</bdi> מטרים, באור טוב ובצילום יציב.</p></div></li></ol>
-   <div class="guide-tip"><span aria-hidden="true">✧</span><p>עוד אין החזקה ארוכה? גם עלייה לעמידה היא התחלה מצוינת לניתוח.</p></div>
-  </aside>
- </div>
-</section>
-<div class="journey" aria-label="תהליך הניתוח"><span><b>01</b> בוחרים סרטון</span><i aria-hidden="true">←</i><span><b>02</b> מנתחים את התנועה</span><i aria-hidden="true">←</i><span><b>03</b> מקבלים כיוון לאימון הבא</span></div>
+  <section class="studio-grid" id="setupWorkspace" aria-label="סביבת ניתוח סרטון">
+    <div class="upload-column" id="upload">
+      <div class="panel-heading"><h2>הסרטון שלך</h2><span dir="ltr">VIDEO / 01</span></div>
+      <div class="upload-stage" id="dropzone">
+        <span class="frame-corner corner-one" aria-hidden="true"></span><span class="frame-corner corner-two" aria-hidden="true"></span><span class="frame-corner corner-three" aria-hidden="true"></span><span class="frame-corner corner-four" aria-hidden="true"></span>
+        <div class="stage-content">
+          <svg class="video-symbol" viewBox="0 0 64 48" aria-hidden="true"><rect x="3" y="5" width="41" height="38" rx="3"/><path d="m44 17 17-9v32l-17-9M17 24h13m-6-6v12"/></svg>
+          <h3>בואו נראה את הטכניקה.</h3>
+          <p>סרטון מהצד, כל הגוף בפריים.</p>
+          <label class="pick"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M5 15v5h14v-5"/></svg><span>בחירת סרטון</span><input id="file" type="file" accept="video/*" aria-label="בחירת סרטון עמידת ידיים לניתוח"></label>
+          <span class="drag-hint">או גרירה ושחרור לכאן</span>
+          <div id="selectedFile" class="selected-file" hidden><span aria-hidden="true">↳</span><bdi id="fileName"></bdi></div>
+          <div id="status" role="status" aria-live="polite"></div><progress id="prog" value="0" max="1" aria-label="התקדמות ניתוח הסרטון"></progress>
+        </div>
+        <div class="stage-bottom"><span>ניתוח מקומי במכשיר</span><span><bdi>5+</bdi> שניות מומלצות</span></div>
+      </div>
+      <div class="capture-guide" id="guide"><div class="capture-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6 10 3h4l2 3h4v14H4V6z"/><circle cx="12" cy="12" r="4"/></svg><h3>ככה מצלמים</h3></div><div class="capture-items"><div><b>מהצד.</b><span>לא מלפנים ולא באלכסון.</span></div><div><b>הגוף כולו בפריים.</b><span>מכפות הידיים עד קצות הרגליים.</span></div><div><b>מצלמה יציבה.</b><span>על הרצפה, במרחק <bdi>2–3</bdi> מטרים.</span></div></div><p class="capture-note">אפשר גם סרטון של העלייה בלבד, בלי החזקה.</p></div>
+    </div>
+    <aside class="metrics-preview" aria-labelledby="metrics-title"><div class="panel-heading"><h2 id="metrics-title">מה נבדק?</h2><span class="pending-label">ממתין לסרטון</span></div>
+      <div class="empty-score"><strong>—<span>/100</span></strong><p>הציון שלך יופיע כאן</p></div>
+      <ul class="metric-list"><li><span class="metric-index">01</span><div><b>קו הגוף</b><p>האגן ביחס לכתפיים ולקרסוליים</p></div><span class="metric-wait" aria-label="טרם נמדד">—</span></li><li><span class="metric-index">02</span><div><b>איזון</b><p>הנטייה של הגוף מהקו האנכי</p></div><span class="metric-wait" aria-label="טרם נמדד">—</span></li><li><span class="metric-index">03</span><div><b>כתפיים</b><p>פתיחת הכתפיים ודחיפת הרצפה</p></div><span class="metric-wait" aria-label="טרם נמדד">—</span></li><li><span class="metric-index">04</span><div><b>ידיים</b><p>שמירה על מרפקים ישרים</p></div><span class="metric-wait" aria-label="טרם נמדד">—</span></li><li><span class="metric-index">05</span><div><b>יציבות</b><p>תנועת האגן במהלך ההחזקה</p></div><span class="metric-wait" aria-label="טרם נמדד">—</span></li></ul>
+      <div class="preview-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v10H5m5-5-5 5 5 5"/></svg><p>אחרי הניתוח: תיקונים ממוקדים,<br>תרגילים וניגון חוזר עם סימון הגוף.</p></div>
+    </aside>
+  </section>
 <video id="v" muted playsinline preload="auto"></video>
 <section id="out" aria-label="תוצאות ניתוח התנועה">
   <div id="entrySec" style="display:none">
@@ -64,12 +59,9 @@
   <p id="sum" style="font-weight:600;margin:0 0 4px"></p>
   <p id="cons" class="hold" style="margin:0 0 6px"></p>
   <div id="rows"></div>
-  <h2>מה לעשות בפעם הבאה</h2>
-  <ul id="fix"></ul>
-  <h2>מה עובד לך</h2>
-  <ul id="keep"></ul>
-  <h2>תרגילים לשיפור</h2>
-  <ul id="drills" style="list-style:none;padding:0"></ul>
+  <details class="report-section" open><summary>מה לעשות בפעם הבאה</summary><ul id="fix"></ul></details>
+  <details class="report-section"><summary>מה עובד לך</summary><ul id="keep"></ul></details>
+  <details class="report-section"><summary>תרגילים לשיפור</summary><ul id="drills" style="list-style:none;padding:0"></ul></details>
   <p class="note" style="margin-top:6px">אלה הצעות כלליות. תתאמן ליד קיר ועל משטח רך, ואם יש כאב, עצור.</p>
 </div>
   <div id="replaySec">
@@ -87,7 +79,7 @@
   <p class="note">הקו הירוק הוא הקו האידיאלי, הצהוב הוא הגוף שלך. הציונים הם הערכה ראשונית, לא תחליף למאמן.</p>
   </div>
 </section>
-<footer class="footer"><span dir="ltr">MOVALYT.</span><p>יותר מודעות לתנועה. יותר מקום להתקדם.</p><span class="footer-version">סטודיו לניתוח תנועה · גרסה 12</span></footer>
+<footer class="footer"><span dir="ltr">MOVALYT / MOVEMENT ANALYSIS</span><span>ניתוח טכניקה, חזרה אחרי חזרה.</span></footer>
 </main>
 <script type="module">
 import {PoseLandmarker, FilesetResolver} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm";
