@@ -1,3 +1,4 @@
+import {createRouteScroll} from './navigation-scroll.js';
 import {finishUploadReview} from './upload-review.js';
 import './history-report.js';
 import {createAnalysisLibrary} from "./analysis-library-ui.js";
@@ -22,6 +23,7 @@ import {
   statusBadge,
 } from "./ui-elements.js";
 const $ = (id) => document.getElementById(id);
+const routeScroll = createRouteScroll();
 let busy = false,
   available = false,
   scored = false,
@@ -88,6 +90,7 @@ function route() {
     onboarding.start();
     return;
   }
+  const scrollEntry = routeScroll.begin();
   let screen = location.hash.slice(1) || "home";
   if (
     ![
@@ -121,13 +124,7 @@ function route() {
     "aria-label",
     scored ? "חזרה לתוצאות" : "חזרה להעלאה",
   );
-  $("navAnalyze").href = busy
-    ? "#processing"
-    : available
-      ? scored
-        ? "#results"
-        : "#replay"
-      : "#catalog";
+  $("navAnalyze").href = "#catalog";
   const analyzerBack = document.querySelector(".analyzer-heading .back");
   analyzerBack.href = screen === "analyze" ? "#guide" : "#analyze";
   analyzerBack.setAttribute(
@@ -156,7 +153,6 @@ function route() {
     setExpanded(false);
   }
   if ($("aboutDialog").open) $("aboutDialog").close();
-  window.scrollTo({ top: 0, behavior: "instant" });
   const heading =
     screen === "home"
       ? $("home-title")
@@ -170,6 +166,7 @@ function route() {
             ? $("playerTitle")
             : $("analyzer-title");
   heading.focus({ preventScroll: true });
+  routeScroll.restore(scrollEntry);
 }
 window.addEventListener("hashchange", route);
 $("watchSkeleton").addEventListener("click", () => {

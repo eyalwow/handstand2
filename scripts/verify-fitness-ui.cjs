@@ -30,7 +30,7 @@ if (!axePath || !fs.existsSync(axePath)) throw Error('Supply --axe /path/to/axe.
       if (attempt >= 50) throw Error('Local HTTP server did not become ready');
       await new Promise(done => setTimeout(done, 100));
     }
-    for (const width of [320, 360, 390, 1440]) {
+    for (const width of [320, 360, 390, 430, 1440]) {
       const context = await browser.newContext({ viewport: { width, height: 844 }, reducedMotion: 'reduce', hasTouch: width < 500 });
       const page = await context.newPage();
       page.on('pageerror', error => report.errors.push(error.message));
@@ -94,7 +94,7 @@ if (!axePath || !fs.existsSync(axePath)) throw Error('Supply --axe /path/to/axe.
     assert.deepEqual(report.posts, []);
     assert(!report.records.some(item => item.overflow), 'Horizontal overflow');
     assert(!report.records.some(item => item.violations.some(violation => ['serious', 'critical'].includes(violation.impact))), 'Serious/critical axe violation');
-    console.log('PASS: 48 layout/accessibility combinations and four viewport interaction flows');
+    console.log('PASS: 60 layout/accessibility combinations and five viewport interaction flows');
   } finally {
     fs.writeFileSync(resolve(out, 'report.json'), JSON.stringify(report, null, 2));
     await browser?.close();

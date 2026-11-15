@@ -99,3 +99,7 @@ All images captured in this task. Full-page screenshots include fixed navigation
 [Player](fitness-upgrade/screenshots/after-player-390.png) · [Timing-only state](fitness-upgrade/screenshots/timing-only-390.png) · [Workout summary](fitness-upgrade/screenshots/workout-summary-390.png)
 
 See DESIGN.md for tokens and ownership. Preview availability/protection must be checked from the new Draft PR; no Vercel setting is changed to make it public.
+
+## QA follow-up — 15 November 2026
+
+The original PR #50 snapshot has eight independently reproduced QA findings. Their fixes, measured before/after evidence, regression coverage and platform limits are tracked in [PR50_REGRESSION_FIXES.md](PR50_REGRESSION_FIXES.md). Read that follow-up alongside the historical implementation checks above.

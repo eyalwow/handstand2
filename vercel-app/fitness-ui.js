@@ -7,10 +7,18 @@ if (nav && typeof ResizeObserver === 'function') {
   });
   observer.observe(nav);
 }
-// Keyboard focus stays above the fixed navigation, including enlarged text.
+// Only keyboard navigation may request clearance. Pointer focus can occur on
+// the enclosing <main> between pointerdown/up; moving it would lose label clicks.
+let keyboardNavigation = false;
+document.addEventListener('keydown', event => {
+  if (event.key === 'Tab') keyboardNavigation = true;
+}, true);
+document.addEventListener('pointerdown', () => { keyboardNavigation = false; }, true);
 document.addEventListener('focusin', event => {
-  if (!nav || nav.contains(event.target) || event.target.closest('dialog')) return;
-  const target = event.target.getBoundingClientRect(), boundary = nav.getBoundingClientRect();
-  if (boundary.height && target.bottom > boundary.top && target.top < boundary.bottom)
-    window.scrollBy({top:target.bottom - boundary.top + 16, behavior:'instant'});
+  const target = event.target;
+  if (!keyboardNavigation || !nav || nav.contains(target) || target.closest('dialog') ||
+      !target.matches('a[href],button,input,select,textarea,summary,[tabindex]:not([tabindex="-1"])')) return;
+  const box = target.getBoundingClientRect(), boundary = nav.getBoundingClientRect();
+  if (boundary.height && box.bottom > boundary.top && box.top < boundary.bottom)
+    window.scrollBy({top:box.bottom - boundary.top + 16, behavior:'instant'});
 });

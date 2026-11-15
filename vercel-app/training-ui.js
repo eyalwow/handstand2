@@ -249,9 +249,9 @@ renderCatalog();
 
 function syncNavigation() {
   const library = location.hash === "#library";
-  byId("nav-library").toggleAttribute("aria-current",library);
-  byId("nav-training").toggleAttribute("aria-current",!library);
-  byId(library ? "nav-library" : "nav-training").setAttribute("aria-current","page");
+  if (library) byId("nav-library").setAttribute("aria-current","location");
+  else byId("nav-library").toggleAttribute("aria-current",false);
+  byId("nav-training").setAttribute("aria-current","page");
 }
 window.addEventListener("hashchange",syncNavigation);
 syncNavigation();
