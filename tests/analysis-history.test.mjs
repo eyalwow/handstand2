@@ -14,10 +14,10 @@ function openHistory(raw){
 test('fresh and corrupt analysis history never seeds or overwrites user storage',()=>{
  for(const raw of [null,'broken','{}']){const result=openHistory(raw);assert.equal(result.writes,0);assert.doesNotMatch(result.history,/100/);}
 });
-test('analysis history excludes invalid scores and compares only compatible saved measurements',()=>{
+test('analysis history excludes invalid scores and does not claim progress without capture metadata',()=>{
  const entries=[{date:'2026-10-01',score:71,model:'v2-hold'},{date:'2026-10-02',score:76,model:'v2-hold'},{date:'2026-10-03',score:999,model:'v2-hold'}];
- const result=openHistory(JSON.stringify(entries));assert.match(result.recent,/76 \/ 100/);assert.match(result.recent,/\+5/);assert.doesNotMatch(result.history,/999/);assert.equal(result.writes,0);
+ const result=openHistory(JSON.stringify(entries));assert.match(result.recent,/76 \/ 100/);assert.doesNotMatch(result.recent,/\+5/);assert.doesNotMatch(result.history,/999/);assert.equal(result.writes,0);
  entries[1].model='v2-entry-hold';assert.doesNotMatch(openHistory(JSON.stringify(entries)).recent,/\+5/);
  entries[1].model='v3-fixed-hold';assert.match(openHistory(JSON.stringify(entries)).recent,/76 \/ 100/);assert.doesNotMatch(openHistory(JSON.stringify(entries)).recent,/\+5/);
- entries[0].model='v3-fixed-hold';assert.match(openHistory(JSON.stringify(entries)).recent,/\+5/);
+ entries[0].model='v3-fixed-hold';assert.doesNotMatch(openHistory(JSON.stringify(entries)).recent,/\+5/);
 });

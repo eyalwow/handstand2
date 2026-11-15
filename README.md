@@ -4,6 +4,9 @@ MOVALYT is a Hebrew/RTL calisthenics video-analysis and training application. Vi
 
 ## Start here
 
+Latest presentation work: [fitness upgrade and verification](docs/FITNESS_UPGRADE.md) · [design system](DESIGN.md).
+
+
 - [Current status and known limits](docs/CURRENT_STATUS.md)
 - [Architecture and product boundaries](docs/ARCHITECTURE.md)
 - [Analysis engine and a 30-video validation plan](docs/ANALYSIS_ENGINE.md)
@@ -44,7 +47,7 @@ npm run build
 npm test
 ```
 
-Build before mobile tests: they inspect generated `mobile/www/`. The build copies 42 reachable athlete modules at this snapshot, bundles pinned JS/WASM and validates the model checksum. `mobile/www/`, dependencies and model cache are generated and ignored. First build downloads the model; a verified local model can be supplied with `MOVALYT_MODEL_FILE` (see [mobile instructions](mobile/README.md)). No dependency/model upgrade is required.
+Build before mobile tests: they inspect generated `mobile/www/`. The build copies 43 reachable athlete modules at this snapshot, bundles pinned JS/WASM and validates the model checksum. `mobile/www/`, dependencies and model cache are generated and ignored. First build downloads the model; a verified local model can be supplied with `MOVALYT_MODEL_FILE` (see [mobile instructions](mobile/README.md)). No dependency/model upgrade is required.
 
 Optional browser harnesses require Python Playwright and compatible browser binaries. Read the selected script before running: older harnesses can assume older DOM, external caches, private clips or write screenshots into tracked evidence folders. Prefer `--out /tmp/movalyt-...` where supported. Compilation of a Python harness is not a browser test. Native sync, Android compilation and iOS compilation are separate from `npm run build`; see mobile/README.md. Physical device acceptance remains necessary.
 

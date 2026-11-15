@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="./mobile-flow.css" />
     <link rel="stylesheet" href="./premium-analysis.css" />
     <link rel="stylesheet" href="./analysis-experience.css" />
+    <link rel="stylesheet" href="./fitness.css" />
   </head>
   <body>
     <svg
@@ -301,13 +302,17 @@
             <button aria-label="הגדרות ופרטיות" class="icon-button" id="aboutButton" type="button"><svg class="icon" aria-hidden="true"><use href="#i-gear"></use></svg></button>
           </header>
           <div class="home-hero">
-            <div class="home-copy"><p class="eyebrow">התנועה שלך. במבט מדויק יותר.</p><h1 id="home-title" tabindex="-1">להבין את הטכניקה.<br /><em>לדעת מה לשפר.</em></h1>
-            <p>בחר תרגיל, צלם ניסיון וקבל תובנות מהתנועה שלך.</p></div>
+            <div class="home-copy"><p class="eyebrow">מרחב התרגול שלך</p><h1 id="home-title" tabindex="-1">כל ניסיון הוא<br /><em>צעד קדימה.</em></h1>
+            <p>מבט על התנועה שלך. כיוון לתרגול הבא.</p></div>
             <img class="home-photo" src="./assets/catalog/handstand-corrected.webp" width="720" height="720" alt="איור עמידת ידיים ישרה מאחור, ללא קיר" decoding="async" />
           </div>
-          <a class="primary home-primary" href="#catalog">בחר תרגיל לניתוח<svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg></a>
+          <a class="primary home-primary" href="#catalog">ניתוח ניסיון חדש<svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg></a>
           <p class="home-privacy">הסרטון נשאר במכשיר</p>
-          <div class="home-analysis-scope"><span class="scope-active">עמידת ידיים · ניתוח פעיל</span><span class="scope-experimental">פרונט לבר · ניסיוני ללא ציון</span></div>
+          <div class="home-shortcuts" aria-label="כלים לתרגול">
+            <a data-web-only href="./training.html" class="shortcut-card"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 9v6m3-8v10m12-10v10m3-8v6M6 12h12" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><strong>האימון שלך</strong><span>תוכנית, סטים ומנוחה</span></a>
+            <a href="#catalog" class="shortcut-card"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h7v14H4zm9 0h7v14h-7z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><strong>ספריית תנועה</strong><span>תרגילים והנחיות צילום</span></a>
+          </div>
+          <div class="home-analysis-scope"><span class="scope-active">עמידת ידיים · זמן נצפה ומדד ניסיוני</span><span class="scope-experimental">פרונט לבר · ניסיוני ללא ציון</span></div>
         </div>
         <section aria-labelledby="recent-heading" class="home-recent"><h2 id="recent-heading">הניתוח האחרון שלך</h2><div id="home-analysis-history"></div><a class="quiet-link" href="#history">כל הניתוחים ←</a></section>
       </section>
@@ -535,14 +540,14 @@
           ><video id="v" muted="" playsinline="" preload="auto"></video>
         </section>
         <section id="frontLeverReport" class="front-lever-report" hidden aria-live="polite"></section>
-        <section id="out" aria-label="תוצאות הניתוח">
+        <section id="out" aria-label="דוח המדידה והמשוב">
           <div id="replaySec">
             <header class="page-header player-heading">
               <a class="icon-button back" href="#results" aria-label="חזרה"
                 ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
                   <use href="#i-arrow"></use></svg
               ></a>
-              <h2 id="playerTitle" tabindex="-1">הסרטון עם השלד</h2>
+              <h1 id="playerTitle" tabindex="-1">הסרטון עם השלד</h1>
               <button
                 id="expandPlayer"
                 class="icon-button"
@@ -554,6 +559,7 @@
                 </svg>
               </button>
             </header>
+            <p id="handstandTimingOnly" class="note" role="status" hidden></p>
             <div class="player-surface">
               <canvas
                 id="cv"
@@ -660,14 +666,13 @@
               id="playerMetrics"
             ></div>
             <p id="replayTrimNotice" class="note"></p>
-            <p id="handstandTimingOnly" class="note" role="status" hidden></p>
             <p id="tlLabel" class="hold">קו הגוף לאורך התנועה</p>
             <canvas id="tl"></canvas>
           </div>
           <div id="holdSec" style="display: none">
             <div class="result-summary">
               <div aria-label="ציון הטכניקה" class="score-ring" role="img">
-                <span class="score-label">מדד טכניקה דו־ממדי</span>
+                <span class="score-label">מדד טכניקה ניסיוני</span>
                 <svg aria-hidden="true" viewBox="0 0 200 200">
                   <circle class="ring-track" cx="100" cy="100" r="86"></circle>
                   <circle
@@ -778,13 +783,14 @@
           >
             <path d="m14 5-7 7 7 7"></path></svg
         ></a>
-        <h1 id="history-title" tabindex="-1">ההתקדמות שלך</h1>
+        <h1 id="history-title" tabindex="-1">הניסיונות שלך</h1>
         <p class="history-note">
-          מדידות שנשמרו במכשיר הזה. הסרטונים אינם נשמרים.
+          מדידות שנשמרו במכשיר הזה. הסרטונים אינם נשמרים. תנאי הצילום לא נשמרו, ולכן שינוי בציון אינו הוכחה להתקדמות.
         </p>
+        <a data-web-only class="training-history-link secondary" href="./training.html#progress-title">לאימונים ששמרת</a>
         <div aria-label="תצוגת היסטוריה" class="history-switch" role="group">
           <button aria-pressed="true" id="historyGraphTab" type="button">
-            גרף</button
+            מדידות</button
           ><button aria-pressed="false" id="historyListTab" type="button">
             רשימה
           </button>
@@ -863,7 +869,7 @@
           <rect height="14" rx="3" width="18" x="3" y="5"></rect>
           <path d="m10 9 5 3-5 3z"></path></svg
         ><span>ניתוח</span></a
-      ><a href="#history" id="navHistory"
+      ><a data-web-only href="./training.html" id="navTraining"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 9v6m3-8v10m12-10v10m3-8v6M6 12h12"></path></svg><span>אימונים</span></a><a href="#history" id="navHistory"
         ><svg aria-hidden="true" viewBox="0 0 24 24">
           <path d="M4 4v6h6M4 10a8 8 0 1 1 0 5m8-8v5l3 2"></path></svg
         ><span>היסטוריה</span></a
@@ -872,6 +878,7 @@
     <noscript><p>כדי לנתח סרטון יש להפעיל JavaScript בדפדפן.</p></noscript>
     <script type="module" src="./handstand-engine.js"></script>
     <script type="module" src="./home-ui.js"></script>
+    <script type="module" src="./fitness-ui.js"></script>
     <script type="module" src="./variation-history-ui.js"></script>
   </body>
 </html>

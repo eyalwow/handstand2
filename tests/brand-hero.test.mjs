@@ -15,7 +15,7 @@ test("analysis home uses approved illustration without fabricated video results"
  assert.match(html,/איורי התרגילים הם המחשה בלבד/);
  assert.match(html,/אינם תוצאות ניתוח של משתמש/);
 
- assert.doesNotMatch(html,/href="\.\/training\.html"/);
+ assert.match(html,/data-web-only href="\.\/training\.html"/);
 });
 test("analysis and saved data DOM contracts remain intact",()=>{
  for(const id of ["homeView","analyzerView","historyView","home-analysis-history","history-list",

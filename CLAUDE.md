@@ -16,6 +16,8 @@ Read README.md, docs/CURRENT_STATUS.md, docs/ARCHITECTURE.md, docs/ANALYSIS_ENGI
 
 Use a separate task branch. This cleanup PR is stacked on `fix/movalyt-feedback-evidence` (#47), not main. Review only the cleanup delta against that base. Do not merge, force-push, rebase shared stacks, close/delete PRs/branches, deploy or change Vercel settings without explicit authorization. Create Draft PRs with actual validation results and name the dependency/base. Before pushing, inspect staged files, secrets and private-data risk.
 
+For UI work also read DESIGN.md and docs/FITNESS_UPGRADE.md; the fitness layer preserves the frozen engine and native athlete-only boundary.
+
 ## Engineering rules
 
 Prefer the smallest behavior-preserving change. Do not refactor architecture, rename storage/exercise IDs, consolidate apparently similar engines or delete historical tests/assets solely to reduce file count. A file absent from the main page can still be used by another entrypoint, dynamic module, build adapter, browser harness or historical evidence. Preserve DOM IDs used by harnesses. Keep raw metrics, timing, score policy, display smoothing and coaching separate.

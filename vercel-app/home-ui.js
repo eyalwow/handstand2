@@ -22,14 +22,12 @@ function renderHistory() {
   const info=document.createElement('div');
   const title=document.createElement('h3');title.textContent='עמידת ידיים';
   const date=document.createElement('time');date.dateTime=entry.date;date.textContent=dateLabel(entry.date);
-  const score=document.createElement('strong');score.className='history-score';score.textContent=String(Math.round(entry.score));const scale=document.createElement("small");scale.textContent=" / 100";score.append(scale);score.setAttribute('aria-label',`ציון טכניקה ${Math.round(entry.score)} מתוך 100`);
+  const score=document.createElement('strong');score.className='history-score';score.textContent=String(Math.round(entry.score));const scale=document.createElement("small");scale.textContent=" / 100";score.append(scale);score.setAttribute('aria-label',`מדד טכניקה ניסיוני ${Math.round(entry.score)} מתוך 100`);
   const image=document.createElement('img');image.src='./assets/catalog/handstand-corrected.webp';image.alt='';image.width=64;image.height=64;image.loading='lazy';
   info.append(title,date);item.append(image,info,score);
   const open=document.createElement('button');open.type='button';open.className='history-open';open.textContent='פתיחת סיכום המדידה';open.setAttribute('data-history-index',String(index));open.setAttribute('aria-haspopup','dialog');item.append(open);
-  const note=document.createElement('p');note.className='history-storage-note';note.textContent='סיכום מדידה · הסרטון אינו נשמר';item.append(note);
-  if(previous&&previous.model===entry.model){
-   const delta=Math.round(entry.score)-Math.round(previous.score),comparison=document.createElement('p');comparison.className='history-comparison';comparison.textContent=`${delta>0?'+':''}${delta} נקודות מהמדידה הקודמת באותו סוג ניתוח. זווית צילום ותמיכת קיר עשויות להשפיע על ההשוואה.`;item.append(comparison);
-  }
+  const note=document.createElement('p');note.className='history-storage-note';note.textContent='מדד ניסיוני · תנאי הצילום והסרטון לא נשמרו';item.append(note);
+
   return item;
  };
  recent.append(row(entries[0],entries[1],0));

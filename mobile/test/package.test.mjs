@@ -70,3 +70,12 @@ test('native privacy configuration scopes video selection and preserves RTL/safe
   const ios = await text('ios/App/App/Info.plist');
   for (const key of ['NSCameraUsageDescription','NSMicrophoneUsageDescription','NSPhotoLibraryUsageDescription']) assert.ok(ios.includes(key));
 });
+
+test('fitness presentation is packaged without unavailable web training routes', async () => {
+  assert.equal(await text('www/fitness.css'), await readFile(resolve(sourceRoot, 'fitness.css'), 'utf8'));
+  assert.equal(await text('www/fitness-ui.js'), await readFile(resolve(sourceRoot, 'fitness-ui.js'), 'utf8'));
+  const html = await text('www/index.html');
+  assert.doesNotMatch(html, /<a\b[^>]*data-web-only/);
+  assert.doesNotMatch(html, /href="\.\/training\.html/);
+  assert.match(html, /href="#catalog"/);
+});

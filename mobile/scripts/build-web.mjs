@@ -84,10 +84,11 @@ export async function buildWeb() {
   // wasm-unsafe-eval permits local WASM compilation without general JS eval.
   const csp = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' blob:; connect-src 'self' blob:; object-src 'none'; base-uri 'self'";
   html = html.replace('<meta charset="utf-8" />', `<meta charset="utf-8" /><meta http-equiv="Content-Security-Policy" content="${csp}" />`);
+  html = html.replace(/<a\b(?=[^>]*\bdata-web-only\b)[\s\S]*?<\/a>/g, '');
   html = html.replace('</head>', '<script type="module" src="./native-shell.js"></script></head>');
   await writeFile(resolve(output, 'index.html'), html);
   await cp(resolve(mobileRoot, 'native-shell.js'), resolve(output, 'native-shell.js'));
-  for (const name of ['app.css', 'mobile-flow.css', 'premium-analysis.css', 'analysis-experience.css', 'app.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'assets']) {
+  for (const name of ['app.css', 'mobile-flow.css', 'premium-analysis.css', 'analysis-experience.css', 'fitness.css', 'app.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'assets']) {
     await cp(resolve(sourceRoot, name), resolve(output, name), { recursive: true });
   }
   const vision = resolve(mobileRoot, 'node_modules/@mediapipe/tasks-vision');
