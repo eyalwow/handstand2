@@ -23,7 +23,19 @@ import {
   statusBadge,
 } from "./ui-elements.js";
 const $ = (id) => document.getElementById(id);
-const routeScroll = createRouteScroll();
+const routeScroll = createRouteScroll(window, {
+  captureView: () => location.hash === '#catalog' ? {
+    query:$('librarySearch').value, filter:$('libraryFilter').value,
+    sort:$('librarySort').value, optionsOpen:$('catalogOptions').open,
+  } : null,
+  restoreView(view) {
+    if (location.hash !== '#catalog') return;
+    $('librarySearch').value = typeof view?.query === 'string' ? view.query : '';
+    for (const [id,value,fallback] of [['libraryFilter',view?.filter,'skills'],['librarySort',view?.sort,'recommended']])
+      $(id).value = [...$(id).options].some(option => option.value === value) ? value : fallback;
+    $('catalogOptions').open = view?.optionsOpen === true;
+  },
+});
 let busy = false,
   available = false,
   scored = false,
@@ -222,7 +234,7 @@ for(const exercise of ANALYSIS_CATALOG.filter(x=>analysisFor(x.id,{allowExperime
   const option=document.createElement('option');option.value=exercise.id;
   option.textContent=exercise.name;exerciseSelect.append(option);
 }
-function updateSelection(id){
+function updateSelection(id,{navigate=true}={}){
   if(busy||!selectExercise(id))return;
   exerciseSelect.value=id;library?.sync(id);available=false;scored=false;
   $('out').style.display='none';$('frontLeverReport').hidden=true;$('frontLeverReport').replaceChildren();
@@ -236,10 +248,10 @@ function updateSelection(id){
   $('frontLeverConsent').hidden=!experimental;$('frontLeverSideView').checked=false;
   document.body.dataset.exerciseFamily=exercise.familyId;
   document.querySelector('.upload-intro .eyebrow').textContent=exercise.name+' · '+(experimental?'בדיקה ניסיונית ללא ציון':'ניתוח במכשיר');
-  $('status').textContent='';route();
+  $('status').textContent='';if(navigate)route();
 }
 exerciseSelect.addEventListener('change',()=>updateSelection(exerciseSelect.value));
-updateSelection(selectedExerciseId());
+updateSelection(selectedExerciseId(),{navigate:false});
 library = createAnalysisLibrary({onAnalyze:updateSelection,isBusy:()=>busy});
 for (const [id, showGraph] of [
   ["historyGraphTab", true],
