@@ -89,7 +89,13 @@ body[data-screen=analyze] .capture-visual img{height:100px;object-fit:contain}
 body[data-screen=analyze] #exerciseFilming{text-align:start;font-size:.9375rem;line-height:1.7}
 body[data-screen=analyze] #uploadReview{border:1px solid var(--fit-line);border-radius:20px;padding:16px;background:var(--fit-panel)}
 body[data-screen=analyze] #uploadPreview{max-height:45dvh;border-radius:14px;background:#070908}
-body[data-screen=analyze] #handstandCaptureQuestions{border:0;border-top:1px solid var(--fit-line);padding-block-start:18px;display:grid;gap:14px}
+body[data-screen=analyze] #handstandCaptureQuestions{border:0;border-top:1px solid var(--fit-line);padding-block-start:12px;display:grid;gap:8px}
+body[data-screen=analyze] #upload-review-title{font-size:1.125rem;margin:0 0 8px}
+body[data-screen=analyze] #uploadReview{scroll-margin-block-start:20px}
+body[data-screen=analyze] #uploadFileLabel{overflow-wrap:anywhere;font-size:.8125rem;margin-block:6px}
+body[data-screen=analyze] #uploadReviewStatus{font-size:.875rem;margin-block:8px}
+body[data-screen=analyze] :is(.upload-preview,.capture-measurement-info)>summary{min-height:48px;display:flex;align-items:center;cursor:pointer;font-size:.875rem;color:var(--fit-muted)}
+body[data-screen=analyze] #uploadReview :is(#startReviewedAnalysis,#replaceUpload,#discardUpload){width:100%;margin-top:10px}
 body[data-screen=analyze] #handstandCaptureQuestions label{display:grid;gap:6px;font-size:.9375rem}
 body[data-screen=analyze] #handstandCaptureQuestions select{min-height:48px;font-size:1rem;background:#0d110f;border:1px solid var(--fit-line);border-radius:12px;padding:10px;color:var(--fit-ink);width:100%}
 body[data-screen=processing] .processing-card{border:1px solid var(--fit-line);border-radius:24px;background:var(--fit-panel);padding:24px 20px}
@@ -105,6 +111,7 @@ body[data-screen=results] .score-ring .score-label{font-size:.875rem;color:var(-
 body[data-screen=results] .ring-number strong{font-size:2.5rem;color:var(--fit-ink)}
 body[data-screen=results] .report-duration{flex:1;min-width:130px;order:1;font-size:.9375rem;padding:0;border:0;line-height:1.7}
 body[data-screen=results] #watchSkeleton{margin-top:18px;width:100%;background:var(--fit-lime);color:#122009;min-height:56px}
+body[data-screen=results] #holdSec .next-attempt{display:flex;align-items:center;justify-content:center;margin-top:10px;text-decoration:none;border:1px solid var(--fit-line);background:var(--fit-raised);color:var(--fit-ink)}
 body[data-screen=results] #coachPanel{padding:0}
 body[data-screen=results] .report-focus{padding:22px;background:var(--fit-panel);border:1px solid var(--fit-line);border-inline-start:3px solid var(--fit-lime);border-radius:18px}
 body[data-screen=results] .report-section{margin-block:18px;padding-block:18px;border-color:var(--fit-line)}
@@ -115,6 +122,8 @@ body[data-screen=results] #advancedReport{border:1px solid var(--fit-line);borde
 body[data-screen] :is(#advancedReport,.overlay-options)>summary{display:flex;align-items:center;min-height:52px;font-size:.9375rem;cursor:pointer}
 body[data-screen] :is(.coach-observations,.coach-drills){font-size:.9375rem;line-height:1.8}
 body[data-screen=replay] #replaySec{max-width:100%;padding-bottom:24px}
+body[data-screen=replay] .player-display-controls{display:flex;flex-wrap:wrap;gap:8px;margin-block:0 12px}
+body[data-screen=replay] .player-display-controls :is(.skeleton-control,.next-attempt){flex:1 1 7rem;min-height:48px;margin:0;padding:10px;justify-content:center;border:1px solid var(--fit-line);border-radius:12px;background:var(--fit-panel);font-size:.9375rem;color:var(--fit-ink);text-decoration:none}
 /* One media constraint owns both the canvas and its clipping surface. */
 body[data-screen=replay] #replaySec{--replay-media-cap:54svh}
 body[data-screen=replay] #replaySec .player-surface{display:flex;align-items:center;justify-content:center;height:auto;min-height:0;max-height:calc(var(--replay-media-cap) + 2px);border:1px solid var(--fit-line);border-radius:20px;overflow:hidden;background:#000}
@@ -179,14 +188,25 @@ body.workout-page{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 .workout-page .exercise-tabs{gap:8px}.workout-page .exercise-tabs button{font-size:1rem;min-height:50px;min-width:48px;background:var(--fit-panel)}
 .workout-page .exercise-tabs button[aria-pressed=true]{background:#29351e;border-color:var(--fit-lime);color:var(--fit-lime)}
 .workout-page #exercise-name{font-size:1.625rem;margin-block:10px}
-.workout-page .sets{margin-block:24px}.workout-page .sets legend{font-size:1rem;margin-bottom:14px}
-.workout-page .set-choice{flex:1;justify-content:center;min-height:66px;font-size:1rem;padding:16px;border-radius:16px;background:#0d130f}
+.workout-page .sets{margin-block:12px}.workout-page .sets legend{font-size:1rem;margin-bottom:10px}
+.workout-page .set-choice{flex:1;justify-content:center;min-height:54px;font-size:1rem;padding:10px;border-radius:14px;background:#0d130f}
 .workout-page .set-choice:has(input:checked){background:#26351d;border-color:var(--fit-lime);color:var(--fit-lime)}
-.workout-page .rest-panel{background:#0c120e;border:1px solid var(--fit-line);border-radius:20px;padding:20px;grid-template-columns:minmax(0,1fr);gap:12px}
-.workout-page .rest-panel h3{font-size:1.0625rem}.workout-page #rest-time{grid-row:1;text-align:center;font-size:3.5rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2;direction:ltr;color:var(--fit-lime)}
-.workout-page .rest-panel>div:first-child{text-align:center}.workout-page .rest-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:10px}
+.workout-page .rest-panel{background:#0c120e;border:1px solid var(--fit-line);border-radius:16px;padding:12px;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.workout-page .rest-panel h3{font-size:1rem}.workout-page #rest-time{grid-row:auto;text-align:center;font-size:2.25rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2;direction:ltr;color:var(--fit-lime)}
+.workout-page .rest-panel>div:first-child{text-align:start}.workout-page .rest-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr));gap:8px}
 .workout-page .rest-actions button{min-height:54px;font-size:.9375rem}
 .workout-page .exercise-navigation{flex-wrap:wrap;gap:12px}.workout-page .exercise-navigation button{min-height:58px;font-size:1rem;min-width:110px}
+.workout-page .workout-operations .exercise-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.workout-page .workout-operations .exercise-navigation button{min-width:0;padding:10px;font-size:.9375rem;min-height:54px}
+.workout-page :is(.exercise-guidance,.workout-switcher)>summary{min-height:48px;display:flex;align-items:center;cursor:pointer;color:var(--fit-muted)}
+.workout-page #rest-announcement:empty{display:none}
+.workout-page .exercise-guidance{margin-top:10px;border-top:1px solid var(--fit-line)}
+.training-page .training-launch{margin-block:0 14px}
+.training-page .training-launch h1{font-size:1.625rem;line-height:1.3;margin:8px 0}
+.training-page .training-launch p{font-size:.875rem;color:var(--fit-muted);margin-block:8px 14px}
+.training-shortcuts,.history-destinations{display:flex;flex-wrap:wrap;gap:8px;margin-block:12px 20px}
+.training-shortcuts a,.history-destinations a{display:flex;align-items:center;justify-content:center;min-height:48px;flex:1 1 7rem;padding:10px;border:1px solid var(--fit-line);border-radius:12px;background:var(--fit-panel);color:var(--fit-ink);font-size:.875rem;text-decoration:none}
+.history-destinations a[aria-current]{border-color:var(--fit-lime);color:var(--fit-lime)}
 .workout-page .workout-footer{margin-block:24px}.workout-page #finish{min-height:54px;font-size:1rem}
 .workout-page #summary .stat{background:#0e1411;border:1px solid var(--fit-line)}
 .workout-page #finish-dialog{border-radius:22px;padding:24px;background:var(--fit-panel)}
@@ -218,8 +238,8 @@ body.workout-page{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 .workout-page .stats{grid-template-columns:repeat(auto-fit,minmax(min(100%,100px),1fr))}
 body[data-screen] .home-shortcuts .shortcut-card{font-size:1rem}
 /* Content-driven reflow: at large text the hero wraps instead of squeezing words. */
-body[data-screen=home] #homeView .home-hero{display:flex;flex-wrap:wrap;align-items:center}
-body[data-screen=home] #homeView .home-copy{flex:1 1 8rem}
+body[data-screen=home] #homeView .home-hero{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center}
+body[data-screen=home] #homeView .home-copy{flex:1 1 7rem;margin:0}
 body[data-screen=home] #homeView .home-photo{flex:0 1 110px}
 .workout-page #rest-time{font-size:2.25rem;white-space:nowrap}
 .workout-page .exercise-navigation>*{flex:1 1 10rem;white-space:normal;overflow-wrap:anywhere}
@@ -238,3 +258,16 @@ body[data-screen=catalog] #catalogGrid .anatomy-media img{max-height:110px;width
 /* Reserve the known plan chrome while its local module fills tabs/headings. */
 .training-page .days{min-height:58px}
 .training-page .workout-heading{min-height:3.25rem}
+@media(max-width:600px){
+ body[data-screen=home] #homeView .home-hero{min-height:0;padding:16px 14px}
+ body[data-screen=home] #homeView .home-photo{flex-basis:72px;width:72px;max-width:72px;min-width:0;height:118px}
+ body[data-screen=home] #homeView .home-privacy{margin:8px 0 12px}
+ body[data-screen=home] #homeView .home-shortcuts{gap:10px}
+ body[data-screen=home] #homeView .shortcut-card{min-height:100px;padding:14px}
+ .workout-page:has(#active-workout:not([hidden])) .header{margin-bottom:12px;padding-bottom:12px}
+ .workout-page .workout-top h1{font-size:1.125rem;margin-block:4px}
+ .workout-page .workout-top{gap:8px}
+ .workout-page .panel{padding:16px 12px}
+ .workout-page #exercise-name{font-size:1.375rem;margin-block:6px}
+ .workout-page .prescription{margin-block:8px}
+}

@@ -135,7 +135,7 @@ function render() {
     label.append(input,node("span","סט " + (index+1)));
     sets.append(label);
   });
-  $("rest-note").textContent = "המנוחה המוצעת: " + exercise.rest + " שניות. אפשר לסיים מוקדם או להפעיל מחדש.";
+  $("rest-note").textContent = "מנוחה מוצעת: " + exercise.rest + " שניות";
   $("previous").disabled = workout.currentExercise === 0;
   $("next").textContent = workout.currentExercise === workout.exercises.length-1 ? "לסיכום האימון" : "התרגיל הבא";
   $("finish").disabled = !summary.completedSets;

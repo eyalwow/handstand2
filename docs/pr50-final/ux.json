@@ -1,0 +1,297 @@
+{
+  "cases": [
+    {
+      "width": 320,
+      "height": 640,
+      "scale": 1,
+      "homeCard": {
+        "top": 414.421875,
+        "bottom": 514.421875,
+        "height": 100,
+        "width": 265
+      },
+      "start": {
+        "top": 253.375,
+        "bottom": 309.375,
+        "height": 56,
+        "width": 223
+      },
+      "operations": {
+        "top": 46.296875,
+        "bottom": 460.953125,
+        "height": 414.65625,
+        "width": 239
+      },
+      "review": {
+        "top": 499.171875,
+        "bottom": 556.171875,
+        "height": 57,
+        "width": 243
+      }
+    },
+    {
+      "width": 320,
+      "height": 640,
+      "scale": 2,
+      "homeCard": {
+        "top": 112.46875,
+        "bottom": 250.265625,
+        "height": 137.796875,
+        "width": 265
+      },
+      "start": {
+        "top": 183.546875,
+        "bottom": 317.140625,
+        "height": 133.59375,
+        "width": 223
+      },
+      "operations": {
+        "top": -1479.59375,
+        "bottom": 606.390625,
+        "height": 2085.984375,
+        "width": 239
+      },
+      "review": {
+        "top": 111.828125,
+        "bottom": 249.828125,
+        "height": 138,
+        "width": 243
+      }
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "scale": 1,
+      "homeCard": {
+        "top": 424.421875,
+        "bottom": 542.703125,
+        "height": 118.28125,
+        "width": 147.5
+      },
+      "start": {
+        "top": 253.375,
+        "bottom": 309.375,
+        "height": 56,
+        "width": 263
+      },
+      "operations": {
+        "top": 71.296875,
+        "bottom": 400.765625,
+        "height": 329.46875,
+        "width": 279
+      },
+      "review": {
+        "top": 499.171875,
+        "bottom": 556.171875,
+        "height": 57,
+        "width": 279
+      }
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "scale": 2,
+      "homeCard": {
+        "top": 19.875,
+        "bottom": 341.265625,
+        "height": 321.390625,
+        "width": 147.5
+      },
+      "start": {
+        "top": 210.546875,
+        "bottom": 291.34375,
+        "height": 80.796875,
+        "width": 263
+      },
+      "operations": {
+        "top": -604.78125,
+        "bottom": 524.625,
+        "height": 1129.40625,
+        "width": 279
+      },
+      "review": {
+        "top": 111.640625,
+        "bottom": 249.640625,
+        "height": 138,
+        "width": 279
+      }
+    },
+    {
+      "width": 390,
+      "height": 720,
+      "scale": 1,
+      "homeCard": {
+        "top": 400.625,
+        "bottom": 500.625,
+        "height": 100,
+        "width": 162.5
+      },
+      "start": {
+        "top": 232.71875,
+        "bottom": 288.71875,
+        "height": 56,
+        "width": 293
+      },
+      "operations": {
+        "top": 363.296875,
+        "bottom": 692.765625,
+        "height": 329.46875,
+        "width": 309
+      },
+      "review": {
+        "top": 476.078125,
+        "bottom": 533.078125,
+        "height": 57,
+        "width": 309
+      }
+    },
+    {
+      "width": 390,
+      "height": 720,
+      "scale": 2,
+      "homeCard": {
+        "top": 86.46875,
+        "bottom": 355.0625,
+        "height": 268.59375,
+        "width": 162.5
+      },
+      "start": {
+        "top": 476.328125,
+        "bottom": 557.125,
+        "height": 80.796875,
+        "width": 293
+      },
+      "operations": {
+        "top": -271.359375,
+        "bottom": 564.484375,
+        "height": 835.84375,
+        "width": 309
+      },
+      "review": {
+        "top": 178.953125,
+        "bottom": 262.953125,
+        "height": 84,
+        "width": 309
+      }
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "scale": 1,
+      "homeCard": {
+        "top": 400.625,
+        "bottom": 500.625,
+        "height": 100,
+        "width": 182.5
+      },
+      "start": {
+        "top": 232.71875,
+        "bottom": 288.71875,
+        "height": 56,
+        "width": 333
+      },
+      "operations": {
+        "top": 363.296875,
+        "bottom": 692.765625,
+        "height": 329.46875,
+        "width": 349
+      },
+      "review": {
+        "top": 476.078125,
+        "bottom": 533.078125,
+        "height": 57,
+        "width": 349
+      }
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "scale": 2,
+      "homeCard": {
+        "top": 135.875,
+        "bottom": 365.46875,
+        "height": 229.59375,
+        "width": 182.5
+      },
+      "start": {
+        "top": 451.25,
+        "bottom": 532.046875,
+        "height": 80.796875,
+        "width": 333
+      },
+      "operations": {
+        "top": -145.953125,
+        "bottom": 594.703125,
+        "height": 740.65625,
+        "width": 349
+      },
+      "review": {
+        "top": 209.453125,
+        "bottom": 293.453125,
+        "height": 84,
+        "width": 349
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "scale": 1,
+      "homeCard": {
+        "top": 566.4375,
+        "bottom": 698.4375,
+        "height": 132,
+        "width": 424
+      },
+      "start": {
+        "top": 232.71875,
+        "bottom": 288.71875,
+        "height": 56,
+        "width": 550.65625
+      },
+      "operations": {
+        "top": 415.890625,
+        "bottom": 731.875,
+        "height": 315.984375,
+        "width": 758
+      },
+      "review": {
+        "top": 476.078125,
+        "bottom": 533.078125,
+        "height": 57,
+        "width": 614
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "scale": 2,
+      "homeCard": {
+        "top": 490.28125,
+        "bottom": 636.078125,
+        "height": 145.796875,
+        "width": 424
+      },
+      "start": {
+        "top": 383.65625,
+        "bottom": 464.453125,
+        "height": 80.796875,
+        "width": 550.65625
+      },
+      "operations": {
+        "top": 270.859375,
+        "bottom": 733.4375,
+        "height": 462.578125,
+        "width": 758
+      },
+      "review": {
+        "top": 551.765625,
+        "bottom": 635.765625,
+        "height": 84,
+        "width": 614
+      }
+    }
+  ],
+  "errors": [],
+  "posts": [],
+  "skipped": []
+}

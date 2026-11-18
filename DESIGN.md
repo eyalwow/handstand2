@@ -35,3 +35,7 @@ Rubik Hebrew is hosted locally with swap; system fonts cover fallback/Latin. Use
 `vercel-app/fitness.css` is the shared presentation layer loaded after incumbent styles. `fitness-ui.js` handles navigation clearance/focus only; no measurement, storage or inference hooks. Keep model, formulas, thresholds, core workout/storage and coaching untouched for design work. Packaging only copies the new shared assets and omits web-only links.
 
 See docs/FITNESS_UPGRADE.md for audit evidence, skill sources and actual test scope. A coherent interface does not validate pose accuracy or establish commercial demand.
+
+## Focused mobile refinements — 18 November 2026
+
+Keep the workout launch above the plan; group sets, rest and exercise navigation together, with detailed guidance available on demand. Distinguish the training library from the video-analysis catalog and provide explicit saved-workout navigation. Review capture conditions before dispatching the unchanged engine; uncertain answers remain the default. Replay keeps skeleton/new-attempt actions above the media without changing its aspect ratio. Per-entry browser navigation state is separate from workout and analysis records. See [validation and screenshots](docs/PR50_FINAL_VALIDATION.md).

@@ -103,3 +103,7 @@ See DESIGN.md for tokens and ownership. Preview availability/protection must be 
 ## QA follow-up — 15 November 2026
 
 The original PR #50 snapshot has eight independently reproduced QA findings. Their fixes, measured before/after evidence, regression coverage and platform limits are tracked in [PR50_REGRESSION_FIXES.md](PR50_REGRESSION_FIXES.md). Read that follow-up alongside the historical implementation checks above.
+
+## Navigation and training follow-up — 18 November 2026
+
+[Final navigation/UX validation](PR50_FINAL_VALIDATION.md) records the cross-document Back correction, per-entry catalog state, focused training/review/player improvements, current tests and platform limits. The earlier 15 November Back check covered same-document history only.
