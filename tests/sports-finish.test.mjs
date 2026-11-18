@@ -17,9 +17,9 @@ test("analysis home has a real analysis CTA and the approved corrected illustrat
  assert.match(html, /אינם תוצאות ניתוח של משתמש/);
 
 });
-test("no fake analysis in demo, no training navigation, privacy boundary stays in place", () => {
+test("no fake analysis in demo, web training is reachable, privacy boundary stays in place", () => {
  assert.doesNotMatch(html, /id="aiConsent"/);
- assert.doesNotMatch(html, /href="\.\/training\.html"/);
+ assert.match(html, /data-web-only href="\.\/training\.html"/);
  assert.match(html, /id="cloudRequest"/);
  assert.match(html, /id="revokeCloudConsent"/);
  assert.match(html, /id="cameraFile"[^>]*capture="environment"/);

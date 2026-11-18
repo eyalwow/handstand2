@@ -21,7 +21,7 @@ test("MOVALYT brand is consistent across athlete surfaces", () => {
 
 test("analysis-first home retains the honest video analysis flow", () => {
   assert.match(home, /id="navAnalyze"/);
-  assert.doesNotMatch(home, /href=".\/training.html/);
+  assert.match(home, /data-web-only href=".\/training.html"/);
   assert.match(home, /id="cameraFile"[^>]*capture="environment"/);
   assert.match(home, /href="#analyze"/);
   assert.match(home, /פרונט לבר בבדיקה ניסיונית ללא ציון/);

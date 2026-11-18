@@ -1,3 +1,4 @@
+import {createRouteScroll} from './navigation-scroll.js';
 import {finishUploadReview} from './upload-review.js';
 import './history-report.js';
 import {createAnalysisLibrary} from "./analysis-library-ui.js";
@@ -22,6 +23,19 @@ import {
   statusBadge,
 } from "./ui-elements.js";
 const $ = (id) => document.getElementById(id);
+const routeScroll = createRouteScroll(window, {
+  captureView: () => location.hash === '#catalog' ? {
+    query:$('librarySearch').value, filter:$('libraryFilter').value,
+    sort:$('librarySort').value, optionsOpen:$('catalogOptions').open,
+  } : null,
+  restoreView(view) {
+    if (location.hash !== '#catalog') return;
+    $('librarySearch').value = typeof view?.query === 'string' ? view.query : '';
+    for (const [id,value,fallback] of [['libraryFilter',view?.filter,'skills'],['librarySort',view?.sort,'recommended']])
+      $(id).value = [...$(id).options].some(option => option.value === value) ? value : fallback;
+    $('catalogOptions').open = view?.optionsOpen === true;
+  },
+});
 let busy = false,
   available = false,
   scored = false,
@@ -88,6 +102,7 @@ function route() {
     onboarding.start();
     return;
   }
+  const scrollEntry = routeScroll.begin();
   let screen = location.hash.slice(1) || "home";
   if (
     ![
@@ -121,13 +136,7 @@ function route() {
     "aria-label",
     scored ? "חזרה לתוצאות" : "חזרה להעלאה",
   );
-  $("navAnalyze").href = busy
-    ? "#processing"
-    : available
-      ? scored
-        ? "#results"
-        : "#replay"
-      : "#catalog";
+  $("navAnalyze").href = "#catalog";
   const analyzerBack = document.querySelector(".analyzer-heading .back");
   analyzerBack.href = screen === "analyze" ? "#guide" : "#analyze";
   analyzerBack.setAttribute(
@@ -142,6 +151,7 @@ function route() {
   activate(screen);
   // Keep reliability warnings visible even when an ungraded result hides coaching.
   if(screen==='results')document.querySelector('.report-focus').after($('measurementNotice'));
+  else if(screen==='replay')$('replaySec').append($('measurementNotice'));
   else $('out').insertBefore($('measurementNotice'),$('coachPanel'));
   library?.render(screen);
   $("analyzer-title").textContent =
@@ -155,7 +165,6 @@ function route() {
     setExpanded(false);
   }
   if ($("aboutDialog").open) $("aboutDialog").close();
-  window.scrollTo({ top: 0, behavior: "instant" });
   const heading =
     screen === "home"
       ? $("home-title")
@@ -169,6 +178,7 @@ function route() {
             ? $("playerTitle")
             : $("analyzer-title");
   heading.focus({ preventScroll: true });
+  routeScroll.restore(scrollEntry);
 }
 window.addEventListener("hashchange", route);
 $("watchSkeleton").addEventListener("click", () => {
@@ -224,7 +234,7 @@ for(const exercise of ANALYSIS_CATALOG.filter(x=>analysisFor(x.id,{allowExperime
   const option=document.createElement('option');option.value=exercise.id;
   option.textContent=exercise.name;exerciseSelect.append(option);
 }
-function updateSelection(id){
+function updateSelection(id,{navigate=true}={}){
   if(busy||!selectExercise(id))return;
   exerciseSelect.value=id;library?.sync(id);available=false;scored=false;
   $('out').style.display='none';$('frontLeverReport').hidden=true;$('frontLeverReport').replaceChildren();
@@ -238,10 +248,10 @@ function updateSelection(id){
   $('frontLeverConsent').hidden=!experimental;$('frontLeverSideView').checked=false;
   document.body.dataset.exerciseFamily=exercise.familyId;
   document.querySelector('.upload-intro .eyebrow').textContent=exercise.name+' · '+(experimental?'בדיקה ניסיונית ללא ציון':'ניתוח במכשיר');
-  $('status').textContent='';route();
+  $('status').textContent='';if(navigate)route();
 }
 exerciseSelect.addEventListener('change',()=>updateSelection(exerciseSelect.value));
-updateSelection(selectedExerciseId());
+updateSelection(selectedExerciseId(),{navigate:false});
 library = createAnalysisLibrary({onAnalyze:updateSelection,isBusy:()=>busy});
 for (const [id, showGraph] of [
   ["historyGraphTab", true],
@@ -459,7 +469,7 @@ export const analysisUI = {
     $("scoreArc").style.setProperty("--score-offset", 100 - score);
     document
       .querySelector(".score-ring")
-      ?.setAttribute("aria-label", `ציון טכניקה ${score} מתוך 100`);
+      ?.setAttribute("aria-label", `מדד טכניקה ניסיוני ${score} מתוך 100; אינו ציון מאמן מכויל`);
     $("resultQuality").textContent =
       score >= 85
         ? "עבודה מעולה!"
@@ -553,7 +563,7 @@ function historyChart() {
   }
   if(entries.length===1){
     const title=document.createElement('h2');title.textContent='המדידה הראשונה שלך';
-    const hint=document.createElement('p');hint.textContent='אחרי ניסיון נוסף מאותו סוג ניתוח אפשר יהיה לראות את השינוי לאורך זמן.';
+    const hint=document.createElement('p');hint.textContent='כאן יופיעו המדידות הבאות. תנאי צילום שונים יכולים לשנות את המדד.';
     host.append(title,hint);return;
   }
   // Never connect incompatible scoring models into one trend.
@@ -565,7 +575,7 @@ function historyChart() {
   svg.setAttribute("role", "img");
   svg.setAttribute(
     "aria-label",
-    "התקדמות מדידות באותו סוג ניתוח: " +
+    "מדידות ניסיוניות קודמות באותו סוג ניתוח: " +
       entries.map((e) => Math.round(e.score)).join(", "),
   );
   const make = (tag, attrs, text) => {
@@ -595,37 +605,7 @@ function historyChart() {
     entries.length === 1 ? 280 : 45 + (i * 480) / (entries.length - 1),
     200 - e.score * 1.7,
   ]);
-  if (points.length > 1) {
-    const defs = document.createElementNS(ns, "defs"),
-      gradient = document.createElementNS(ns, "linearGradient");
-    gradient.id = "historyFill";
-    gradient.setAttribute("x2", "0");
-    gradient.setAttribute("y2", "1");
-    for (const [offset, opacity] of [
-      ["0%", ".22"],
-      ["100%", "0"],
-    ]) {
-      const stop = document.createElementNS(ns, "stop");
-      stop.setAttribute("offset", offset);
-      stop.setAttribute("stop-color", "#c4ff64");
-      stop.setAttribute("stop-opacity", opacity);
-      gradient.append(stop);
-    }
-    defs.append(gradient);
-    svg.prepend(defs);
-    make("polygon", {
-      points: [[points[0][0], 200], ...points, [points.at(-1)[0], 200]]
-        .map((p) => p.join(","))
-        .join(" "),
-      fill: "url(#historyFill)",
-    });
-    make("polyline", {
-      points: points.map((p) => p.join(",")).join(" "),
-      fill: "none",
-      stroke: "#c4ff64",
-      "stroke-width": 2.5,
-    });
-  }
+  // Discrete observations only: legacy records cannot establish comparable capture conditions.
   points.forEach(([x, y], i) => {
     make("circle", { cx: x, cy: y, r: 4, fill: "#c4ff64" });
     const date = new Intl.DateTimeFormat("he-IL", {
@@ -675,7 +655,7 @@ function historyChart() {
   const note = document.createElement("p");
   note.className = "note";
   note.textContent =
-    "מדידות מקומיות מאותו סוג ניתוח. תנאי צילום עשויים להשפיע על ההשוואה.";
+    "מדדים קודמים מאותה שיטה. תנאי הצילום לא נשמרו; אין להסיק מההפרש על שיפור בטכניקה.";
   host.append(note);
 }
 historyChart();

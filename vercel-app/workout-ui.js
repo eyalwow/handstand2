@@ -39,7 +39,7 @@ function syncHistory() {
 function withLock(fn) {
   return navigator.locks ? navigator.locks.request("handstand-lab-training-storage",fn) : Promise.resolve().then(fn);
 }
-async function act(action) {
+async function act(action, focused = document.activeElement) {
   await withLock(() => {
     try {
       if (storage.getItem(ACTIVE_KEY) !== savedSnapshot) {
@@ -56,9 +56,21 @@ async function act(action) {
     } catch {
       status("השינוי לא נשמר. בדקו שהאחסון בדפדפן זמין ונסו שוב. ההתקדמות השמורה נשארה ללא שינוי.");
     }
+    const operationalTop = action.type === "exercise" && focused?.closest?.('.exercise-navigation')
+      ? document.querySelector('.rest-panel').getBoundingClientRect().top : null;
     render();
-    if (action.type === "set") $("set-list").children[action.index].children[0].focus();
-    if (action.type === "exercise") $("exercise-name").focus();
+    if (action.type === "set") $("set-list").children[action.index].children[0].focus({preventScroll:true});
+    if (action.type === "exercise") {
+      // Keep next/previous keyboard focus in the operational area. Exercise tabs
+      // are recreated by render(), so restore their selected counterpart instead.
+      const control = focused?.id ? $(focused.id) : $("exercise-tabs").children[workout.currentExercise];
+      control?.focus({preventScroll:true});
+      if (operationalTop !== null) {
+        const delta = document.querySelector('.rest-panel').getBoundingClientRect().top - operationalTop;
+        window.scrollBy({top:delta, behavior:'instant'});
+      }
+      $("workout-announcement").textContent = $("exercise-position").textContent + ': ' + $("exercise-name").textContent;
+    }
     if (action.type === "finish" && workout.finishedAt) $("summary-title").focus();
   });
 }
@@ -104,7 +116,7 @@ function render() {
     button.type = "button";
     button.setAttribute("aria-label",LIBRARY[ex.id].name + (done ? " — הושלם" : ""));
     button.setAttribute("aria-pressed",String(index === workout.currentExercise));
-    button.addEventListener("click",() => act({type:"exercise",index}));
+    button.addEventListener("click",() => act({type:"exercise",index},button));
     tabs.append(button);
   });
   $("exercise-position").textContent = "תרגיל " + (workout.currentExercise+1) + " מתוך " + workout.exercises.length;
@@ -123,7 +135,7 @@ function render() {
     label.append(input,node("span","סט " + (index+1)));
     sets.append(label);
   });
-  $("rest-note").textContent = "המנוחה המוצעת: " + exercise.rest + " שניות. אפשר לסיים מוקדם או להפעיל מחדש.";
+  $("rest-note").textContent = "מנוחה מוצעת: " + exercise.rest + " שניות";
   $("previous").disabled = workout.currentExercise === 0;
   $("next").textContent = workout.currentExercise === workout.exercises.length-1 ? "לסיכום האימון" : "התרגיל הבא";
   $("finish").disabled = !summary.completedSets;
@@ -189,13 +201,13 @@ $("begin").addEventListener("click",() => withLock(() => {
     savedSnapshot = JSON.stringify(next);
     status("");
     render();
-    $("exercise-name").focus();
+    $("exercise-name").focus({preventScroll:true});
   } catch { status("לא הצלחנו להתחיל ולשמור את האימון. בדקו שהאחסון בדפדפן זמין ונסו שוב."); }
 }));
 $("start-rest").addEventListener("click",() => act({type:"rest"}));
 $("skip-rest").addEventListener("click",() => act({type:"skip-rest"}));
-$("previous").addEventListener("click",() => act({type:"exercise",index:workout.currentExercise-1}));
-$("next").addEventListener("click",() => workout.currentExercise === workout.exercises.length-1 ? confirmFinish() : act({type:"exercise",index:workout.currentExercise+1}));
+$("previous").addEventListener("click",() => act({type:"exercise",index:workout.currentExercise-1},$("previous")));
+$("next").addEventListener("click",() => workout.currentExercise === workout.exercises.length-1 ? confirmFinish() : act({type:"exercise",index:workout.currentExercise+1},$("next")));
 $("finish").addEventListener("click",confirmFinish);
 $("continue-workout").addEventListener("click",() => $("finish-dialog").close());
 $("confirm-finish").addEventListener("click",() => {

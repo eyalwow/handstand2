@@ -11,6 +11,10 @@ const $=id=>document.getElementById(id);
 const node=(tag,text,className)=>{const n=document.createElement(tag);if(text)n.textContent=text;if(className)n.className=className;return n;};
 export const availabilityLabel = x => analysisAvailabilityLabel(x.id);
 export const catalogCountLabel = count => count === 1 ? 'תרגיל אחד' : `${count} תרגילים ומשפחות`;
+export const catalogResultsLabel = (count, total, {query='', filter='skills'}={}) =>
+  query || filter !== 'all'
+    ? (count === 1 ? 'התאמה אחת' : `${count} התאמות`)
+    : `${catalogCountLabel(count)} · ${total} אפשרויות בספרייה כולה`;
 export function createAnalysisLibrary({onAnalyze,isBusy}){
   let selected='handstand',family='handstand',assistance='none';
   const notice=$('libraryNotice');
@@ -54,7 +58,7 @@ export function createAnalysisLibrary({onAnalyze,isBusy}){
       const items=matches.filter(x=>analysisAvailability(x.id).status===status);
       if(items.length)$('catalogGrid').append(node('h2',title,'catalog-group-title'),...items.map(x=>card(x)));
     }
-    $('catalogCount').textContent=`${catalogCountLabel(matches.length)} · ${ANALYSIS_CATALOG.length} אפשרויות`;
+    $('catalogCount').textContent=catalogResultsLabel(matches.length,ANALYSIS_CATALOG.length,{query,filter});
     $('catalogEmpty').hidden=matches.length>0;
   }
   function renderVariations(){

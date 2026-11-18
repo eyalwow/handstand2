@@ -1,0 +1,426 @@
+{
+  "records": [
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "home",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "catalog",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "analyze",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "history",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "training",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "workout",
+      "overflow": false,
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "posts": []
+}

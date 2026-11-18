@@ -45,11 +45,13 @@ function renderWorkoutLink() {
   const link = byId("start-workout");
   link.href = "./workout.html?" + new URLSearchParams({start:"1",goal:data.goal,level:data.level,day:data.day}).toString();
   link.textContent = "התחלת אימון";
+  byId("launch-workout-description").textContent = (generatePlan(data.goal,data.level).find(item=>item.id===data.day)?.name || "התוכנית שלך") + " · ההתקדמות נשמרת במכשיר";
   try {
     const active = readWorkout(localStorage);
     if (active && !active.finishedAt) {
       link.href = "./workout.html";
       link.textContent = "המשך האימון השמור";
+      byId("launch-workout-description").textContent = active.name + " · אימון שהתחלת וטרם סיימת";
     }
   } catch { /* The workout page explains storage errors without replacing saved data. */ }
 }
@@ -249,9 +251,9 @@ renderCatalog();
 
 function syncNavigation() {
   const library = location.hash === "#library";
-  byId("nav-library").toggleAttribute("aria-current",library);
-  byId("nav-training").toggleAttribute("aria-current",!library);
-  byId(library ? "nav-library" : "nav-training").setAttribute("aria-current","page");
+  if (library) byId("nav-library").setAttribute("aria-current","location");
+  else byId("nav-library").toggleAttribute("aria-current",false);
+  byId("nav-training").setAttribute("aria-current","page");
 }
 window.addEventListener("hashchange",syncNavigation);
 syncNavigation();

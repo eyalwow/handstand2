@@ -1,0 +1,45 @@
+{
+  "base": "22a6631becf7c42cf47247bd2ca6d199a4dc1820",
+  "browser": "System Chromium, Linux, Playwright",
+  "textScaling": "root font-size 100%/200%; not physical Dynamic Type",
+  "widths": [
+    320,
+    360,
+    390,
+    1440
+  ],
+  "layoutAxeCombinations": 64,
+  "axeViolations": 0,
+  "pageErrors": [],
+  "outboundPosts": [],
+  "pairedIntegration": {
+    "publicSource": "UCF101 HandstandPushups g04 c02, H.264 derivative; not coach ground truth",
+    "before": {
+      "score": 58,
+      "holdSeconds": 2.2
+    },
+    "after": {
+      "score": 58,
+      "holdSeconds": 2.2
+    },
+    "rawMetricsAndTimingIdentical": true
+  },
+  "nodeTests": {
+    "before": 147,
+    "after": 147,
+    "failures": 0
+  },
+  "mobilePackageTests": {
+    "beforeBaselineHandoff": 4,
+    "after": 5,
+    "failures": 0
+  },
+  "nativeModules": 43,
+  "limits": [
+    "No physical device or native compilation",
+    "WebKit missing host libraries",
+    "No accuracy or payment-demand validation",
+    "No provider request",
+    "Known immediate-workout-reload race not changed"
+  ]
+}

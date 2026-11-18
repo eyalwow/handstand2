@@ -1,0 +1,16 @@
+[
+  {
+    "phase": "before",
+    "query": "a",
+    "filter": "all",
+    "sort": "name",
+    "y": 350
+  },
+  {
+    "phase": "after-back",
+    "query": "",
+    "filter": "all",
+    "sort": "name",
+    "y": 0
+  }
+]

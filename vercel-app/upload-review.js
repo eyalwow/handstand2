@@ -28,6 +28,7 @@ function clearReview(preserveInput=null){
   updateStartLabel();
   start.disabled=true;review.hidden=true;$('uploadReviewStatus').textContent='';
   delete review.dataset.state;$('replaceUpload').hidden=true;
+  review.querySelector('.upload-preview').open=false;
 }
 function reviewError(message){
   preview.pause();preview.removeAttribute('src');preview.load();
@@ -62,7 +63,11 @@ for(const id of ['file','cameraFile'])$(id).addEventListener('change',event=>{
     const valid=Number.isFinite(preview.duration)&&preview.duration>0&&preview.duration<=120&&preview.videoWidth>0;
     start.disabled=!valid;
     if(!valid){reviewError('יש לבחור סרטון תקין באורך של עד שתי דקות.');return;}
-    $('uploadReviewStatus').textContent=`הסרטון מוכן · ${preview.duration.toFixed(1)} שנ׳. אפשר לצפות בו לפני הניתוח.`;
+    $('uploadReviewStatus').textContent=`${preview.duration.toFixed(1)} שנ׳ · אפשר למדוד זמן גם כשהתנאים אינם ודאיים.`;
+    if(location.hash==='#analyze'){
+      $('upload-review-title').focus({preventScroll:true});
+      review.scrollIntoView({block:'start',behavior:'instant'});
+    }
   };
   preview.onerror=()=>{if(token===revision&&review.dataset.state!=='error')reviewError('לא ניתן לנגן את הקובץ. נסה לשמור עותק MP4 תואם ולבחור אותו שוב.');};
 },true);
@@ -82,3 +87,6 @@ window.addEventListener('hashchange',()=>{
   if(location.hash==='#analyze'&&pendingInput?.files?.length)start.disabled=!Number.isFinite(preview.duration)||preview.duration<=0||preview.duration>120;
 });
 window.addEventListener('pagehide',clearReview);
+
+// A deliberate new attempt starts with a fresh review, never a previous clip.
+document.addEventListener('click',event=>{if(event.target.closest?.('a.next-attempt'))clearReview();});

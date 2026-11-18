@@ -1,0 +1,154 @@
+{
+  "states": [
+    "corrupt MP4: recoverable error",
+    "no body: no score/history",
+    "cancel: no history",
+    "uncertain capture: timing only, no score/history",
+    "scored history survives refresh byte-for-byte; summary and Escape",
+    "blocked runtime: error, no history"
+  ],
+  "a11y": [
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 1,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "scale": 2,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 1,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 360,
+      "scale": 2,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 1,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "scale": 2,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 1,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 430,
+      "scale": 2,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "results",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "scale": 2,
+      "route": "replay",
+      "overflow": false,
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "posts": []
+}
